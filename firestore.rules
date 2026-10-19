@@ -72,7 +72,9 @@ service cloud.firestore {
     }
 
     match /characters/{ch} {
-      allow read: if signedIn() && me() in resource.data.editors;
+      // resource == null: o app abre a ficha nova antes de o servidor gravar
+      allow read: if signedIn()
+        && (resource == null || me() in resource.data.editors);
       allow create: if signedIn()
         && request.resource.data.ownerUid == me()
         && request.resource.data.editors == [me()];
