@@ -1,0 +1,92 @@
+rules_version = '2';
+
+// Regras de seguranca do C.R.I.S (cole em Firestore Database > Regras).
+// - Cada jogador so edita as proprias fichas.
+// - O mestre da mesa ve e edita as fichas vinculadas a mesa dele.
+// - Ameacas, rolagens secretas e notas do mestre: so o mestre.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function me() { return request.auth.uid; }
+    function camp(cid) {
+      return get(/databases/$(database)/documents/campaigns/$(cid)).data;
+    }
+    function isMember(cid) { return signedIn() && me() in camp(cid).memberUids; }
+    function isMaster(cid) { return signedIn() && camp(cid).masterUid == me(); }
+
+    match /users/{u} {
+      allow read: if signedIn();
+      allow write: if signedIn() && me() == u;
+    }
+
+    // Codigo de mesa -> id da campanha. Pode ler um codigo se souber ele.
+    match /joinCodes/{code} {
+      allow get: if signedIn();
+      allow list: if false;
+      allow create: if signedIn() && isMaster(request.resource.data.campaignId);
+      allow delete: if signedIn() && isMaster(resource.data.campaignId);
+    }
+
+    match /campaigns/{cid} {
+      function joining() {
+        return request.resource.data.diff(resource.data).affectedKeys()
+                 .hasOnly(['memberUids', 'members'])
+          && request.resource.data.memberUids.toSet()
+               == resource.data.memberUids.toSet().union([me()].toSet())
+          && request.resource.data.members.diff(resource.data.members)
+               .affectedKeys().hasOnly([me()]);
+      }
+      function leaving() {
+        return request.resource.data.diff(resource.data).affectedKeys()
+                 .hasOnly(['memberUids', 'members'])
+          && request.resource.data.memberUids.toSet()
+               == resource.data.memberUids.toSet().difference([me()].toSet())
+          && request.resource.data.members.diff(resource.data.members)
+               .affectedKeys().hasOnly([me()])
+          && resource.data.masterUid != me();
+      }
+
+      allow read: if signedIn() && me() in resource.data.memberUids;
+      allow create: if signedIn()
+        && request.resource.data.masterUid == me()
+        && request.resource.data.memberUids == [me()];
+      allow update: if signedIn() && (
+        (resource.data.masterUid == me()
+           && request.resource.data.masterUid == me())
+        || joining() || leaving());
+      allow delete: if signedIn() && resource.data.masterUid == me();
+
+      match /rolls/{r} {
+        allow read: if isMember(cid);
+        allow create: if isMember(cid) && request.resource.data.uid == me();
+        allow delete: if isMaster(cid);
+      }
+      match /gmrolls/{r} { allow read, write: if isMaster(cid); }
+      match /threats/{t} { allow read, write: if isMaster(cid); }
+      match /gm/{d} { allow read, write: if isMaster(cid); }
+      match /homebrew/{h} {
+        allow read: if isMember(cid);
+        allow write: if isMaster(cid);
+      }
+    }
+
+    match /characters/{ch} {
+      allow read: if signedIn() && me() in resource.data.editors;
+      allow create: if signedIn()
+        && request.resource.data.ownerUid == me()
+        && request.resource.data.editors == [me()];
+      allow update: if signedIn()
+        && me() in resource.data.editors
+        && request.resource.data.ownerUid == resource.data.ownerUid
+        && (
+          resource.data.ownerUid == me()
+          // o mestre nao muda quem edita, a nao ser para se retirar da ficha
+          || request.resource.data.editors == resource.data.editors
+          || (request.resource.data.editors == [resource.data.ownerUid]
+              && request.resource.data.campaignId == null)
+        );
+      allow delete: if signedIn() && resource.data.ownerUid == me();
+    }
+  }
+}

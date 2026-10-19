@@ -1,0 +1,4 @@
+* text=auto
+# scripts rodam no bash do runner Windows: CRLF quebraria o prepare.sh
+*.sh text eol=lf
+*.keystore binary
