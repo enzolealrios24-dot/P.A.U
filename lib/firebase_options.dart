@@ -5,12 +5,12 @@ import 'package:firebase_core/firebase_core.dart';
 /// (Essas chaves nao sao secretas: quem protege os dados sao as regras do Firestore.)
 class FirebaseConfig {
   static const options = FirebaseOptions(
-    apiKey: 'COLE_AQUI_apiKey',
-    appId: 'COLE_AQUI_appId',
-    messagingSenderId: 'COLE_AQUI_messagingSenderId',
-    projectId: 'COLE_AQUI_projectId',
-    authDomain: 'COLE_AQUI_authDomain',
-    storageBucket: 'COLE_AQUI_storageBucket',
+    apiKey: 'AIzaSyBB50jb6DYSjXGAmwcvT5urTmw2SYjdCrI',
+    appId: '1:882747273134:web:0e9d17d3bcb0c04323a23f',
+    messagingSenderId: '882747273134',
+    projectId: 'ferramenta-op',
+    authDomain: 'ferramenta-op.firebaseapp.com',
+    storageBucket: 'ferramenta-op.firebasestorage.app',
   );
 
   static bool get configurado => !options.apiKey.startsWith('COLE_AQUI');
