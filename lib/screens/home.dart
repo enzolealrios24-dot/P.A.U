@@ -6,6 +6,7 @@ import '../core/theme.dart';
 import '../data/models.dart';
 import '../data/repo.dart';
 import '../widgets/common.dart';
+import '../widgets/importar_cris.dart';
 import '../widgets/logo.dart';
 import 'campaign/campaign_screen.dart';
 import 'sheet/sheet_screen.dart';
@@ -20,6 +21,14 @@ class _TelaInicioState extends State<TelaInicio> {
   int _aba = 0;
 
   @override
+  void initState() {
+    super.initState();
+    // Agentes do site do CRIS escolhidos na tela de login.
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => gravarPendentesCris(context));
+  }
+
+  @override
   Widget build(BuildContext context) {
     final largo = MediaQuery.sizeOf(context).width >= 800;
     final corpo = _aba == 0 ? const _ListaAgentes() : const _ListaMesas();
@@ -27,11 +36,18 @@ class _TelaInicioState extends State<TelaInicio> {
       appBar: AppBar(
         title: const LogoCris(tamanho: 22),
         actions: [
+          IconButton(
+            tooltip: 'Importar do site do CRIS',
+            icon: const Icon(Icons.download_outlined),
+            onPressed: () => abrirImportarCris(context, logado: true),
+          ),
           PopupMenuButton<String>(
             icon: const Icon(Icons.account_circle_outlined),
             onSelected: (v) async {
               if (v == 'sair') {
                 await FirebaseAuth.instance.signOut();
+              } else if (v == 'cris') {
+                await abrirImportarCris(context, logado: true);
               } else if (v == 'nome') {
                 final n = await pedirTexto(context, 'Seu nome na mesa',
                     inicial: Repo.nomeUsuario);
@@ -48,6 +64,8 @@ class _TelaInicioState extends State<TelaInicio> {
                   child: Text(Repo.nomeUsuario,
                       style: const TextStyle(fontWeight: FontWeight.bold))),
               const PopupMenuItem(value: 'nome', child: Text('Mudar meu nome')),
+              const PopupMenuItem(
+                  value: 'cris', child: Text('Importar do site do CRIS')),
               const PopupMenuItem(value: 'sair', child: Text('Sair da conta')),
             ],
           ),
@@ -111,9 +129,18 @@ class _ListaAgentes extends StatelessWidget {
           }
           final l = snap.data!;
           if (l.isEmpty) {
-            return const Center(
-                child: Text('Nenhum agente ainda.\nCrie o primeiro!',
-                    textAlign: TextAlign.center));
+            return Center(
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                const Text('Nenhum agente ainda.\nCrie o primeiro!',
+                    textAlign: TextAlign.center),
+                const SizedBox(height: 12),
+                OutlinedButton.icon(
+                  onPressed: () => abrirImportarCris(context, logado: true),
+                  icon: const Icon(Icons.download_outlined),
+                  label: const Text('Trazer do site do CRIS'),
+                ),
+              ]),
+            );
           }
           return ListView(
             padding: const EdgeInsets.fromLTRB(12, 12, 12, 90),

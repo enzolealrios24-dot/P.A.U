@@ -57,12 +57,33 @@ class Repo {
     final ref = chars.doc();
     final m = Map<String, dynamic>.from(f.d);
     m['nome'] = '${f.nome} (cópia)';
+    m.remove('crisId'); // a cópia não é mais atualizada pelo site do CRIS
     m['ownerUid'] = uid;
     m['editors'] = [uid];
     m['campaignId'] = null;
     m['criadoEm'] = DateTime.now().millisecondsSinceEpoch;
     _w(ref.set(m));
     return ref.id;
+  }
+
+  /// Grava uma ficha já montada (agente trazido do site do CRIS).
+  static String importarFicha(Json m) {
+    final ref = chars.doc();
+    _w(ref.set(m));
+    return ref.id;
+  }
+
+  /// Atualiza com os dados novos do site uma ficha que já veio de lá,
+  /// mantendo dono, editores, mesa, data de criação e o que só existe no app.
+  static void atualizarFichaImportada(Ficha f, Json m) {
+    final novo = Map<String, dynamic>.from(m);
+    for (final k in const [
+      'ownerUid', 'editors', 'campaignId', 'criadoEm', 'condicoes', 'escolhas',
+      'afinidade', 'modoProgressao', 'estagio',
+    ]) {
+      novo.remove(k);
+    }
+    _w(chars.doc(f.id).update(novo));
   }
 
   static void set(String id, String campo, dynamic valor) =>

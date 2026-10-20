@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../core/theme.dart';
+import '../data/cris_import.dart';
+import '../widgets/importar_cris.dart';
 import '../widgets/logo.dart';
 
 class TelaLogin extends StatefulWidget {
@@ -156,6 +158,29 @@ class _TelaLoginState extends State<TelaLogin> {
                   TextButton(
                       onPressed: _esqueci,
                       child: const Text('Esqueci minha senha')),
+                const SizedBox(height: 16),
+                const Divider(),
+                const SizedBox(height: 12),
+                OutlinedButton.icon(
+                  onPressed: () async {
+                    await abrirImportarCris(context, logado: false);
+                    if (mounted) setState(() {});
+                  },
+                  icon: const Icon(Icons.download_outlined),
+                  label: const Text('Trazer agentes do site do CRIS'),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  CrisImport.pendentes.isEmpty
+                      ? 'Já usa o crisordemparanormal.com? Traga seus agentes: eles entram no app assim que você entrar ou criar a conta.'
+                      : '${CrisImport.pendentes.length == 1 ? '1 agente esperando' : '${CrisImport.pendentes.length} agentes esperando'} o login: ${CrisImport.pendentes.map((a) => a.nome).join(', ')}.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 12,
+                      color: CrisImport.pendentes.isEmpty
+                          ? Cores.textoFraco
+                          : Cores.destaque),
+                ),
               ],
             ),
           ),

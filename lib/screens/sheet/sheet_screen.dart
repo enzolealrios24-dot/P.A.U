@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/theme.dart';
+import '../../data/cris_import.dart';
 import '../../data/models.dart';
 import '../../data/repo.dart';
 import '../../widgets/common.dart';
@@ -78,6 +79,25 @@ class _Ficha extends StatelessWidget {
                         MaterialPageRoute(
                             builder: (_) => TelaFicha(fichaId: id)));
                   }
+                } else if (v == 'cris') {
+                  if (!await confirmar(context,
+                      'Trazer de novo os dados do site do CRIS? Atributos, perícias, listas e anotações desta ficha serão trocados pelos de lá.')) {
+                    return;
+                  }
+                  try {
+                    final a = await CrisImport.ler(asStr(f.d['crisId']));
+                    Repo.atualizarFichaImportada(
+                        f, CrisImport.paraFicha(a, f.ownerUid, f.jogador));
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('Ficha atualizada com o site do CRIS.')));
+                    }
+                  } on CrisErro catch (e) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(SnackBar(content: Text(e.mensagem)));
+                    }
+                  }
                 } else if (v == 'sairMesa') {
                   Repo.desvincularFicha(f);
                 } else if (v == 'apagar') {
@@ -90,6 +110,9 @@ class _Ficha extends StatelessWidget {
               },
               itemBuilder: (_) => [
                 const PopupMenuItem(value: 'dup', child: Text('Duplicar ficha')),
+                if (dono && asStr(f.d['crisId']).isNotEmpty)
+                  const PopupMenuItem(
+                      value: 'cris', child: Text('Atualizar do site do CRIS')),
                 if (dono && f.campaignId != null)
                   const PopupMenuItem(
                       value: 'sairMesa', child: Text('Tirar da mesa')),
