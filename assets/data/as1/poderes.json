@@ -1,0 +1,132 @@
+[
+ {
+  "id": "o.acostumado_maldicao",
+  "nome": "Acostumado à Maldição de Elemento",
+  "tipo": "ocultista",
+  "prereq": "Int 2, conjurar ritual de 2º círculo do elemento",
+  "fonte": "AS1",
+  "pag": 44,
+  "resumo": "Escolha um elemento (exceto Medo): falhar no preço da maldição de itens desse elemento não custa Sanidade."
+ },
+ {
+  "id": "o.reter_ritual_combate",
+  "nome": "Reter Ritual de Combate",
+  "tipo": "ocultista",
+  "prereq": "Int 2, conjurar ritual de 1º círculo; regra opcional Reter Ritual",
+  "fonte": "AS1",
+  "pag": 44,
+  "resumo": "Ritual retido em um alvo vira duração cena quando ele sai da linha de efeito; ao perder o foco, reação e 1 PE por ritual para mantê-los pela cena."
+ },
+ {
+  "id": "o.ritual_intenso",
+  "nome": "Ritual Intenso",
+  "tipo": "ocultista",
+  "prereq": "Pre 2",
+  "fonte": "AS1",
+  "pag": 44,
+  "resumo": "Soma Presença no dano e na cura dos seus rituais.",
+  "efeitos": [
+   {
+    "alvo": "danoRitual",
+    "attr": "pre",
+    "valor": 1
+   }
+  ]
+ },
+ {
+  "id": "o.saude_sobrenatural",
+  "nome": "Saúde Sobrenatural",
+  "tipo": "ocultista",
+  "prereq": "Int 2, Pre 2, conjurar ritual de 1º círculo",
+  "fonte": "AS1",
+  "pag": 44,
+  "resumo": "1x por cena, movimento e 3 PE: PV temporários iguais a Presença × 10 até o fim da cena."
+ },
+ {
+  "id": "g.cicatrizes_expostas",
+  "nome": "Cicatrizes Expostas",
+  "tipo": "geral",
+  "prereq": "Ter cicatrizes",
+  "fonte": "AS1",
+  "pag": 46,
+  "resumo": "Movimento para expor a cicatriz: +1d8 de dano até o fim da cena, mas −1d20 em Vontade e testes que exigem calma."
+ },
+ {
+  "id": "g.curiosidade_oculta",
+  "nome": "Curiosidade Oculta",
+  "tipo": "geral",
+  "prereq": "Int 2",
+  "fonte": "AS1",
+  "pag": 46,
+  "resumo": "Treino em Ocultismo (ou +2); 2 PE para fazer um teste de Vontade com Ocultismo."
+ },
+ {
+  "id": "g.especialista_exoterico",
+  "nome": "Especialista Exotérico",
+  "tipo": "geral",
+  "prereq": "Int 3, conjurar ritual de 2º círculo, Domínio Esotérico",
+  "fonte": "AS1",
+  "pag": 46,
+  "resumo": "Combina até três catalisadores diferentes num ritual."
+ },
+ {
+  "id": "g.habilidade_aprimorada",
+  "nome": "Habilidade Aprimorada",
+  "tipo": "geral",
+  "repetivel": true,
+  "fonte": "AS1",
+  "pag": 46,
+  "resumo": "Uma habilidade ou ritual com DT recebe +2 na DT (escolhendo 2x o mesmo, +5)."
+ },
+ {
+  "id": "g.instintos_urbanos",
+  "nome": "Instintos Urbanos",
+  "tipo": "geral",
+  "prereq": "Agi 2",
+  "fonte": "AS1",
+  "pag": 46,
+  "resumo": "Treino em Crime (ou +2); Crime DT 20 num lugar fechado acha uma rota de fuga (movimento extra e +2 na Defesa ao fugir; sem rota, +2 na Defesa ali)."
+ },
+ {
+  "id": "p.ferro_maculado",
+  "nome": "Ferro Maculado",
+  "tipo": "paranormal",
+  "elemento": "Sangue",
+  "fonte": "AS1",
+  "pag": 47,
+  "resumo": "Movimento e 2 PV para amaldiçoar um projétil: +1d6 de Sangue uma vez.",
+  "afinidade": "+1d8 de Sangue."
+ },
+ {
+  "id": "p.placas_sanguinolentas",
+  "nome": "Placas Sanguinolentas",
+  "tipo": "paranormal",
+  "elemento": "Sangue",
+  "prereq": "Conjurar ritual de Sangue",
+  "fonte": "AS1",
+  "pag": 47,
+  "resumo": "Ao conjurar ritual de Sangue, +Defesa igual ao círculo até seu próximo turno.",
+  "afinidade": "Bônus igual ao círculo +2."
+ },
+ {
+  "id": "p.sangue_corrosivo",
+  "nome": "Sangue Corrosivo",
+  "tipo": "paranormal",
+  "elemento": "Sangue",
+  "fonte": "AS1",
+  "pag": 47,
+  "resumo": "Movimento e 1 PE: até o fim da cena, quem o fere adjacente sofre 1d10 de Sangue.",
+  "afinidade": "2d10 de Sangue."
+ },
+ {
+  "id": "p.sangue_prazeroso",
+  "nome": "Sangue Prazeroso",
+  "tipo": "paranormal",
+  "elemento": "Sangue",
+  "prereq": "Sangue 1",
+  "fonte": "AS1",
+  "pag": 47,
+  "resumo": "Enquanto machucado, RD 5.",
+  "afinidade": "Ao ficar machucado, também +20 PV temporários (1x por cena)."
+ }
+]

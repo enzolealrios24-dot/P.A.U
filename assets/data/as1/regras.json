@@ -1,0 +1,15 @@
+{
+ "fonte": "AS1",
+ "ocultismoBlindarMente": {
+  "pag": 43,
+  "resumo": "Novo uso de Ocultismo (veterano, DT 20): ação completa e 1 PE para +5 no próximo teste de Vontade na cena; num aliado, DT 25 e ele faz Vontade DT 20 ou perde 1d4 SAN."
+ },
+ "transcenderComItens": {
+  "pag": 56,
+  "resumo": "Regra opcional: no interlúdio, num símbolo de Transcender com um item amaldiçoado, responda com sinceridade à pergunta da entidade e ganhe um poder paranormal do elemento do item (que vira mundano). Limite por NEX: 1 (até 25%), 2 (até 50%), 3 (até 75%), 4 (até 99%)."
+ },
+ "reterRitual": {
+  "pag": 58,
+  "resumo": "Regra opcional: rituais de duração cena podem ser retidos; os PE ficam presos (atuais e máximos) e o ritual dura enquanto retido; reter custa 1 SAN. Soltar devolve só os PE máximos (ou ambos com Ocultismo DT 20 + custo). Atordoado, exausto e pasmo fazem perder o foco."
+ }
+}

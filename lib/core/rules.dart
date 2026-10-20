@@ -392,6 +392,8 @@ class Calc {
         return v * nivel;
       case 'nivelImpar':
         return v * ((nivel + 1) ~/ 2);
+      case 'nivelMetade':
+        return v * (nivel ~/ 2);
       default:
         return v;
     }
@@ -528,11 +530,12 @@ class Calc {
   }
 
   int get cargaAtual {
-    var t = 0;
+    num t = 0;
     for (final i in f.inventario) {
-      t += asInt(i['espacos'], 1) * asInt(i['qtd'], 1);
+      final e = i['espacos'];
+      t += (e is num ? e : asInt(e, 1)) * asInt(i['qtd'], 1);
     }
-    return t;
+    return t.ceil();
   }
 
   bool get sobrecarregado => cargaAtual > cargaMax;
@@ -571,6 +574,8 @@ class Calc {
         b += _mult(e);
       } else if (alvo == 'resistencias' && periciasResistencia.contains(nome)) {
         b += _mult(e);
+      } else if (alvo == 'periciaAttr' && asStr(e['pericia']) == nome) {
+        b += attr(asStr(e['attr'])) * asInt(e['valor'], 1);
       } else if (alvo == 'escolhaPenalidade') {
         final escolha = asStr(asMap(f.d['escolhas'])[asStr(e['chave'])]);
         if (escolha == nome) b += _mult(e);

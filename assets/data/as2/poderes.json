@@ -1,0 +1,250 @@
+[
+ {
+  "id": "g.revidar_violento",
+  "nome": "Revidar Violento",
+  "tipo": "geral",
+  "prereq": "For 2 ou Agi 2",
+  "fonte": "AS2",
+  "pag": 41,
+  "resumo": "Pode fazer uma segunda reação especial de defesa na rodada, se for um contra-ataque."
+ },
+ {
+  "id": "c.predador_perfeito",
+  "nome": "Predador Perfeito",
+  "tipo": "combatente",
+  "prereq": "Veterano em Luta ou Pontaria e em Sobrevivência",
+  "fonte": "AS2",
+  "pag": 41,
+  "resumo": "1x por rodada, 5 PE para uma ação padrão extra que tenha intenção de causar dano."
+ },
+ {
+  "id": "p.predador_sangue",
+  "nome": "Predador de Sangue",
+  "tipo": "paranormal",
+  "elemento": "Sangue",
+  "fonte": "AS2",
+  "pag": 41,
+  "resumo": "Ação padrão e 3 PE com uma fonte do odor: +1d20 para rastrear, perceber e atacar essa vítima (uma por vez).",
+  "afinidade": "Memoriza até três vítimas."
+ },
+ {
+  "id": "g.corpo_fechado",
+  "nome": "Corpo Fechado",
+  "tipo": "geral",
+  "prereq": "Vig 2",
+  "fonte": "AS2",
+  "pag": 47,
+  "resumo": "Pode fazer uma segunda reação especial de defesa na rodada, se for um bloqueio."
+ },
+ {
+  "id": "c.golpes_arena",
+  "nome": "Golpes de Arena",
+  "tipo": "combatente",
+  "prereq": "Treinado em Luta",
+  "fonte": "AS2",
+  "pag": 47,
+  "resumo": "Ao acertar corpo a corpo, 2 PE para outro ataque corpo a corpo ou uma manobra contra o mesmo alvo."
+ },
+ {
+  "id": "p.pressao_atmosferica",
+  "nome": "Pressão Atmosférica",
+  "tipo": "paranormal",
+  "elemento": "Energia",
+  "fonte": "AS2",
+  "pag": 47,
+  "resumo": "Ao acertar corpo a corpo um alvo agarrado, 3 PE: +1d10 de Energia e atordoado 1 rodada (Fort DT For evita; 1x por cena por alvo).",
+  "afinidade": "O alvo também fica caído e sangrando."
+ },
+ {
+  "id": "g.esquiva_tatica",
+  "nome": "Esquiva Tática",
+  "tipo": "geral",
+  "prereq": "Agi 2",
+  "fonte": "AS2",
+  "pag": 53,
+  "resumo": "Pode fazer uma segunda reação especial de defesa na rodada, se for uma esquiva."
+ },
+ {
+  "id": "e.assassinato_furtivo",
+  "nome": "Assassinato Furtivo",
+  "tipo": "especialista",
+  "prereq": "Ataque Furtivo",
+  "fonte": "AS2",
+  "pag": 53,
+  "resumo": "Ataque Furtivo causa +1d6; ao acertar um furtivo, 2 PE para os dados furtivos virarem d8."
+ },
+ {
+  "id": "p.zona_sussurros",
+  "nome": "Zona dos Sussurros",
+  "tipo": "paranormal",
+  "elemento": "Conhecimento",
+  "fonte": "AS2",
+  "pag": 53,
+  "resumo": "Ação completa e 3 PE para marcar um cômodo: nele, +5 nos ataques e sem penalidade de Furtividade após atacar (máximo três áreas).",
+  "afinidade": "Contra alvo desprevenido ou flanqueado, rola de novo dados de dano 1 ou 2."
+ },
+ {
+  "id": "g.palpite_confiante",
+  "nome": "Palpite Confiante",
+  "tipo": "geral",
+  "prereq": "Int 2",
+  "fonte": "AS2",
+  "pag": 59,
+  "resumo": "Em testes de perícia de Intelecto ou Presença, 1 PE para somar seu Intelecto."
+ },
+ {
+  "id": "e.especialista_matar",
+  "nome": "Especialista em Matar",
+  "tipo": "especialista",
+  "prereq": "Agi 2 ou For 2, treinado em Luta ou Pontaria",
+  "fonte": "AS2",
+  "pag": 59,
+  "resumo": "Ao atacar, 2 PE para +4 no ataque ou dano; 3 PE/+8 (NEX 25%), 4 PE/+12 (55%), 5 PE/+16 (85%), cada +4 em ataque ou dano."
+ },
+ {
+  "id": "p.disparo_morte",
+  "nome": "Disparo da Morte",
+  "tipo": "paranormal",
+  "elemento": "Morte",
+  "fonte": "AS2",
+  "pag": 59,
+  "resumo": "Antes de atacar com arma de fogo ou de disparo, 3 PE para +2 na margem de ameaça.",
+  "afinidade": "O ataque ignora cobertura e 10 de RD."
+ },
+ {
+  "id": "g.especialista_correntes",
+  "nome": "Especialista em Correntes",
+  "tipo": "geral",
+  "prereq": "Agi 2",
+  "fonte": "AS2",
+  "pag": 70,
+  "resumo": "Ação completa para prender um item numa corrente no corpo (não pode ser desarmado); +2 em manobras com correntes e chicotes; cada item extra preso dá −1 em perícias de carga."
+ },
+ {
+  "id": "g.puxar_briga",
+  "nome": "Puxar pra Briga",
+  "tipo": "geral",
+  "prereq": "For 2 ou Agi 2, treinado em Luta",
+  "fonte": "AS2",
+  "pag": 70,
+  "resumo": "Ao acertar com corrente, chicote ou corda, 2 PE para puxar o alvo para perto; se ele se afastar, −1d20 nos ataques contra outros por 1 rodada. (No livro aparece também como Especialista em Correntes.)"
+ },
+ {
+  "id": "g.pratica_materiais",
+  "nome": "Prática com Materiais Ritualísticos",
+  "tipo": "geral",
+  "prereq": "Int 2, treinado em Ocultismo, conjura rituais",
+  "fonte": "AS2",
+  "pag": 74,
+  "resumo": "Na conjuração complexa, sem −1d20 para usar materiais específicos da Entidade na 1ª etapa."
+ },
+ {
+  "id": "o.dominar_habilidade_ritualistica",
+  "nome": "Dominar Habilidade Ritualística",
+  "tipo": "ocultista",
+  "prereq": "Int 3, treinado em Ocultismo, conjura rituais",
+  "repetivel": true,
+  "fonte": "AS2",
+  "pag": 75,
+  "resumo": "Aprende uma habilidade de trilha de ocultista cujo NEX você já tem (até três vezes)."
+ },
+ {
+  "id": "g.estagio_terminal",
+  "nome": "Estágio Terminal",
+  "tipo": "geral",
+  "prereq": "Agi 2",
+  "fonte": "AS2",
+  "pag": 78,
+  "resumo": "1x por rodada, machucado, 2 PE para uma ação de movimento extra."
+ },
+ {
+  "id": "g.kian_vai_nos_salvar",
+  "nome": "Kian Vai Nos Salvar",
+  "tipo": "geral",
+  "prereq": "Pre 2, conjura rituais",
+  "fonte": "AS2",
+  "pag": 78,
+  "resumo": "Se sua fé em Kian motivar o desafio (a critério do mestre), conjura um ritual de Conhecimento de até 3º círculo até o fim da cena (um por cena)."
+ },
+ {
+  "id": "g.tratamento_emergencia",
+  "nome": "Tratamento de Emergência",
+  "tipo": "geral",
+  "prereq": "Int 2, treinado em Medicina",
+  "fonte": "AS2",
+  "pag": 79,
+  "resumo": "Ação padrão e 2 PE: 2d10+10 PV temporários num ser ao toque; quando acabam, ele fica fraco (1x por cena por alvo)."
+ },
+ {
+  "id": "g.arte_musica_macabra",
+  "nome": "Arte da Música Macabra",
+  "tipo": "geral",
+  "fonte": "AS2",
+  "pag": 83,
+  "resumo": "Ação padrão e 2 PE: um ser em alcance curto que o ouça recebe no próximo uso +5 no dano, +2 na margem, +5 no ataque ou +9m de alcance."
+ },
+ {
+  "id": "g.sintonizacao_arma",
+  "nome": "Sintonização Mental com Arma",
+  "tipo": "geral",
+  "prereq": "Int 2 ou Pre 2, treinado em Ocultismo, conjura rituais",
+  "fonte": "AS2",
+  "pag": 83,
+  "resumo": "Ação de interlúdio e 3 PE: até o próximo interlúdio a arma usa um atributo à sua escolha em ataque e dano."
+ },
+ {
+  "id": "g.sintonizacao_protecao",
+  "nome": "Sintonização Mental com Proteção",
+  "tipo": "geral",
+  "prereq": "Int 2 ou Pre 2, treinado em Ocultismo, conjura rituais",
+  "fonte": "AS2",
+  "pag": 83,
+  "resumo": "Ação de interlúdio e 3 PE: até o próximo interlúdio a Defesa usa um atributo à sua escolha no lugar da Agilidade."
+ },
+ {
+  "id": "g.movimentacao_tatica",
+  "nome": "Movimentação Tática",
+  "tipo": "geral",
+  "prereq": "For 2, treinado em Atletismo e Tática",
+  "fonte": "AS2",
+  "pag": 87,
+  "resumo": "Indo até uma cobertura ou um inimigo, 1 PE para andar o dobro do deslocamento."
+ },
+ {
+  "id": "g.sentido_tatico_militar",
+  "nome": "Sentido Tático (militar)",
+  "tipo": "geral",
+  "prereq": "Pre 2, treinado em Percepção e Tática",
+  "fonte": "AS2",
+  "pag": 87,
+  "resumo": "Imune a desprevenido; ao ferir um alvo, 2 PE para ele falhar em Furtividade contra você por 1 rodada."
+ },
+ {
+  "id": "c.marteladas",
+  "nome": "Marteladas",
+  "tipo": "combatente",
+  "prereq": "For 2, treinado em Luta, Artista Marcial",
+  "fonte": "AS2",
+  "pag": 87,
+  "resumo": "Ação completa e 3 PE: três ataques desarmados somados como uma só fonte de dano (Fortitude DT For reduz à metade)."
+ },
+ {
+  "id": "o.liturgia_fortalecimento",
+  "nome": "Liturgia de Fortalecimento Ritualístico",
+  "tipo": "ocultista",
+  "prereq": "Int 2 e Pre 2",
+  "fonte": "AS2",
+  "pag": 93,
+  "resumo": "Ação de interlúdio e 2 PE: +2 na DT de um ritual seu até o próximo interlúdio."
+ },
+ {
+  "id": "p.engolir_sangue",
+  "nome": "Engolir Sangue",
+  "tipo": "paranormal",
+  "elemento": "Sangue",
+  "fonte": "AS2",
+  "pag": 93,
+  "resumo": "Ação completa comendo uma porção de carne humana: recupera 2d8+2 PV e perde 1d4 SAN.",
+  "afinidade": "Cura vira 4d8+4."
+ }
+]

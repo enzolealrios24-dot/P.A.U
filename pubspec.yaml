@@ -22,3 +22,5 @@ flutter:
   assets:
     - assets/data/oprpg/
     - assets/data/sah/
+    - assets/data/as1/
+    - assets/data/as2/

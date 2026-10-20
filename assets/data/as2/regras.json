@@ -1,0 +1,15 @@
+{
+ "fonte": "AS2",
+ "hexatombe": {
+  "pag": 14,
+  "resumo": "Regras de campanha do Hexatombe: melhorias de base (filtro de água, geladeira, camas, academia, enfermaria…), exploração, recursos (fome e sede) e encontros."
+ },
+ "armaAcoplavel": {
+  "pag": 71,
+  "resumo": "Habilidade de arma: duas armas corpo a corpo de uma mão se unem (ação de movimento) numa arma tática de duas mãos com +1 categoria, +1 dado de dano, +1 na margem ou no multiplicador, espaços dobrados e uso com Combater com Duas Armas."
+ },
+ "formaSuprema": {
+  "pag": 97,
+  "resumo": "As máscaras na sua mesa: ativar a forma suprema custa movimento e 6 SAN (+2 por rodada extra) e dá +20 PV, +10 PE, +10 Defesa, +5 em testes e DT, +2 dados de dano e rituais avançados sem custo extra."
+ }
+}

@@ -269,7 +269,78 @@
     "resumo": "Falhar em Fortitude contra dano massivo causa um ferimento (1d6: 1 Agi, 2 For, 3 Int, 4 Pre, 5 Vig, 6 superficial) em vez de cair a 0 PV: −1d20 em testes do atributo; em Vigor, −1 PV máximo por 5% de NEX. Cura com Medicina DT 20 no interlúdio e uma ação dormir."
   },
   "efeitosMedo": {
-    "pag": 89,
-    "dado": "2d10"
+    "pag": 88,
+    "dado": "2d10",
+    "regra": "Role ao chegar a SAN 0 por dano mental ou sofrer dano mental com SAN 0; +1 na rolagem por efeito extra na cena; efeito repetido vira o seguinte. Dura até recuperar 1 SAN.",
+    "efeitos": {
+      "2": "Encorajamento: recupera 1 SAN por 5% de NEX e +1d20 em um teste até o fim da cena.",
+      "3": "Surto de adrenalina: +5 em ataque e dano na cena, mas para fazer algo além de agredir precisa de Vontade DT 20.",
+      "4": "Hesitação: atordoado por 1 rodada.",
+      "5": "Fraqueza: fica fraco.",
+      "6": "Lapso: fica frustrado.",
+      "7": "Ansiedade: falha automaticamente no próximo teste.",
+      "8": "Desorientação: fica desprevenido.",
+      "9": "Desespero: falha automaticamente em Vontade.",
+      "10": "Histeria: −1d20 em todos os testes por 1d4 rodadas.",
+      "11": "Abalo: fica abalado.",
+      "12": "Alucinação: se o maior d20 de um teste sair ímpar, o teste falha.",
+      "13": "Susto: fica apavorado.",
+      "14": "Confusão: fica confuso.",
+      "15": "Paralisia: paralisado por 1d4 rodadas, depois abalado.",
+      "16": "Pavor: foge da fonte do medo com todas as ações; concentração tem 50% de falhar.",
+      "17": "Desmaio: cai inconsciente.",
+      "18": "Trauma: paralisado e, em 1-5 no 1d6, perde 1 ponto permanente de atributo.",
+      "19": "Loucura: fica enlouquecendo.",
+      "20": "Choque sistêmico: fica morrendo."
+    }
+  },
+  "medo": {
+    "pag": 87,
+    "visoes": [
+      {
+        "nome": "Visão inquietante",
+        "dano": "1d4",
+        "dt": 15,
+        "resistencia": "Vontade anula",
+        "exemplo": "Um cadáver num quarto, restos de ritual."
+      },
+      {
+        "nome": "Visão perturbadora",
+        "dano": "1d6",
+        "dt": 20,
+        "resistencia": "Vontade reduz à metade",
+        "exemplo": "Cadáver preparado para ritual, fotos de crime violento."
+      },
+      {
+        "nome": "Visão assustadora",
+        "dano": "2d6",
+        "dt": 25,
+        "resistencia": "Vontade reduz à metade",
+        "exemplo": "Indícios de uma criatura, algo que pode ou não ser paranormal."
+      },
+      {
+        "nome": "Visão sinistra",
+        "dano": "4d4",
+        "dt": 30,
+        "resistencia": "Vontade reduz à metade",
+        "exemplo": "Sangue brotando da parede, cadáver que se mexe."
+      },
+      {
+        "nome": "Visão macabra",
+        "dano": "4d8",
+        "dt": 35,
+        "resistencia": "Vontade reduz à metade",
+        "exemplo": "Algo indiscutivelmente paranormal, como paredes de carne."
+      },
+      {
+        "nome": "Visão aterrorizante",
+        "dano": "4d12",
+        "dt": 40,
+        "resistencia": "Vontade reduz à metade",
+        "exemplo": "Horrores impossíveis em grande escala."
+      }
+    ],
+    "ambiente": "Ambiente horripilante: 1 de dano mental por rodada (2 ou 5 em lugares pavorosos). Dano de medo sempre causa ao menos 1.",
+    "acoes": "Acalmar: treinado em Diplomacia, Profissão (psicólogo) ou Religião, ação padrão para devolver 1 SAN a alguém com SAN 0 (DT +5 por vez na cena). Se entregar ao medo: com SAN 0, role outro efeito com +5, interprete exagerando e na rodada seguinte recupere 1d4 SAN por nível (1x por sessão)."
   }
 }

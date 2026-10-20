@@ -1,0 +1,42 @@
+[
+ {
+  "id": "passagem_conhecimento",
+  "nome": "Passagem de Conhecimento",
+  "elemento": "Sangue/Conhecimento",
+  "elementos": [
+   "Sangue",
+   "Conhecimento"
+  ],
+  "circulo": 2,
+  "execucao": "Completa",
+  "alcance": "Toque",
+  "alvo": "1 pessoa",
+  "duracao": "Cena",
+  "resistencia": "Vontade evita",
+  "fonte": "AS1",
+  "pag": 48,
+  "resumo": "Toma o corpo do alvo (usa For, Agi e Vig dele; ele tenta retomar a cada turno) ou troca de corpo com ele. Morrer no corpo alheio mata.",
+  "custoDiscente": 3,
+  "discente": "Alcance curto, 1 dia; o alvo tenta retomar 1x por dia ou cena. Requer 2º círculo.",
+  "custoVerdadeiro": 7,
+  "verdadeiro": "Alcance médio e permanente; o alvo tenta retomar 1x por ano. Requer 4º círculo e afinidade."
+ },
+ {
+  "id": "passagem_conhecimento_expandido",
+  "nome": "Passagem de Conhecimento Expandido",
+  "elemento": "Sangue/Conhecimento",
+  "elementos": [
+   "Sangue",
+   "Conhecimento"
+  ],
+  "circulo": 4,
+  "execucao": "1 dia",
+  "alcance": "Curto",
+  "alvo": "Até 10 pessoas (número par)",
+  "duracao": "Permanente",
+  "requisito": "Conhecer Passagem de Conhecimento",
+  "fonte": "AS1",
+  "pag": 50,
+  "resumo": "Dois grupos trocam de corpos, assumindo atributos e habilidades do novo corpo; memórias voltam aos poucos e emoções fortes podem tirar o controle. Só desfaz refazendo o ritual."
+ }
+]

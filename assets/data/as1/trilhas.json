@@ -1,0 +1,31 @@
+[
+ {
+  "id": "maledictologo",
+  "nome": "Maledictólogo",
+  "classe": "ocultista",
+  "fonte": "AS1",
+  "pag": 45,
+  "habilidades": [
+   {
+    "nex": 10,
+    "nome": "Identificação Macabra",
+    "resumo": "1 PE para +1d10 ao identificar itens amaldiçoados ou rituais; identificar item como ação completa só dá −1d20."
+   },
+   {
+    "nex": 40,
+    "nome": "Compreensão de Maldições",
+    "resumo": "Interlúdio e 3 PE com Ocultismo (DT 10 + 5 por categoria): aprende o ritual de um item (consumindo-o) ou transfere suas maldições para outro item ou uma tatuagem; custa SAN."
+   },
+   {
+    "nex": 65,
+    "nome": "Reproduzir Maldição",
+    "resumo": "Memoriza maldições que já conheceu e as aplica a um novo item até o fim da missão (Ocultismo DT 10 + 5 por categoria; custa SAN)."
+   },
+   {
+    "nex": 99,
+    "nome": "Maldição Suprema",
+    "resumo": "Ao reproduzir maldições, o item conta como três categorias a menos."
+   }
+  ]
+ }
+]

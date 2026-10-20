@@ -1,0 +1,73 @@
+[
+ {
+  "id": "agrupador_ritualistico",
+  "nome": "Agrupador Ritualístico",
+  "tipo": "paranormal",
+  "categoria": 2,
+  "espacos": 1,
+  "fonte": "AS1",
+  "pag": 54,
+  "resumo": "Prende até quatro componentes ou catalisadores, que contam como empunhados com uma só mão."
+ },
+ {
+  "id": "amuleto_sinalizador",
+  "nome": "Amuleto Sinalizador de (elemento)",
+  "tipo": "paranormal",
+  "categoria": 2,
+  "espacos": 1,
+  "fonte": "AS1",
+  "pag": 54,
+  "resumo": "Vestido, sinaliza quando uma criatura do elemento escolhido entra em alcance longo, mesmo atrás de paredes."
+ },
+ {
+  "id": "rubra",
+  "nome": "Rubra",
+  "tipo": "paranormal",
+  "categoria": 2,
+  "espacos": 1,
+  "fonte": "AS1",
+  "pag": 54,
+  "resumo": "Droga esfregada numa ferida: +5 em For, Agi e Vig e 10 PV temporários na cena; depois perde 1d3 pontos físicos até dormir; Vontade DT 15 (+2 por uso) ou ataca quem estiver perto."
+ },
+ {
+  "id": "arpao_pescador",
+  "nome": "Arpão do Pescador",
+  "tipo": "amaldicoado",
+  "elemento": "Sangue",
+  "categoria": 3,
+  "espacos": 1,
+  "dano": "1d8+1d12",
+  "critico": "x3",
+  "alcance": "Curto",
+  "ataque": "corpo",
+  "arremesso": true,
+  "fonte": "AS1",
+  "pag": 55,
+  "resumo": "Arma simples de uma mão arremessável: 1d8 de perfuração +1d12 de Sangue; acertando arremessado, o alvo fica lento até arrancar (Atletismo DT For)."
+ },
+ {
+  "id": "combustivel_sangue",
+  "nome": "Combustível de Sangue",
+  "tipo": "amaldicoado",
+  "elemento": "Sangue",
+  "categoria": 3,
+  "espacos": 1,
+  "fonte": "AS1",
+  "pag": 55,
+  "resumo": "Munição de lança-chamas ou galão: o dano vira Sangue e os dados sobem um passo."
+ },
+ {
+  "id": "marreta_transtornada",
+  "nome": "Marreta Transtornada",
+  "tipo": "amaldicoado",
+  "elemento": "Sangue",
+  "categoria": 4,
+  "espacos": 2,
+  "dano": "2d10+2d12",
+  "critico": "x4",
+  "ataque": "corpo",
+  "fonte": "AS1",
+  "pag": 55,
+  "resumo": "Arma tática de duas mãos: 2d10 de impacto +2d12 de Sangue; perde 1d6 PV ao empunhar ou atacar; crítico quebra ossos (Fortitude DT For ou fraco)."
+ }
+]

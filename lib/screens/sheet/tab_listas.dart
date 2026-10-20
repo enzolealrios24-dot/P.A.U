@@ -307,7 +307,7 @@ Future<void> adicionarDoLivro(
       'tipo':
           tipo == 'arma' ? 'arma' : (tipo == 'protecao' ? 'protecao' : 'geral'),
       'categoria': asInt(e['categoria']),
-      'espacos': asInt(e['espacos'], 1),
+      'espacos': e['espacos'] is num ? e['espacos'] : 1,
       'qtd': 1,
       'equipado': true,
       for (final k in const [

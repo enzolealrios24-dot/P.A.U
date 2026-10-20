@@ -1,0 +1,30 @@
+[
+ {
+  "id": "ferido_ritual",
+  "nome": "Ferido por Ritual",
+  "fonte": "AS1",
+  "pag": 43,
+  "pericias": [
+   "Ocultismo"
+  ],
+  "periciasTexto": "Ocultismo e uma pelo elemento: Fortitude (Sangue), Vontade (Morte e Conhecimento) ou Reflexos (Energia)",
+  "poder": {
+   "nome": "Mácula Ritualística",
+   "resumo": "Aprende um ritual de 1º círculo do elemento escolhido (fora do limite) e pode conjurá-lo sem PE 1x por cena; mas sofre −1d20 em resistências contra efeitos desse elemento."
+  }
+ },
+ {
+  "id": "transtornado_arrependido",
+  "nome": "Transtornado Arrependido",
+  "fonte": "AS1",
+  "pag": 43,
+  "pericias": [
+   "Luta",
+   "Ocultismo"
+  ],
+  "poder": {
+   "nome": "Sofrimento de Sangue",
+   "resumo": "RD mental 2, +1 para cada dois rituais ou poderes de Sangue; pesadelos deixam o descanso uma categoria pior."
+  }
+ }
+]
