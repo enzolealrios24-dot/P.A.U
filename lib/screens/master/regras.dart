@@ -233,8 +233,7 @@ String _textoRegra(dynamic v, [String recuo = '']) {
         linhas.add('$recuo${_tituloRegra(asStr(e.key))}: ${asStr(e.value)}');
       }
     }
-    return linhas.join('
-');
+    return linhas.join('\n');
   }
   if (v is List) {
     return [
@@ -243,8 +242,7 @@ String _textoRegra(dynamic v, [String recuo = '']) {
           '$recuo• ${asStr(x['nome']).isEmpty ? '' : '${asStr(x['nome'])}: '}${_textoRegra(x, '$recuo  ').trim()}'
         else
           '$recuo• ${asStr(x)}',
-    ].join('
-');
+    ].join('\n');
   }
   return '$recuo${asStr(v)}';
 }
