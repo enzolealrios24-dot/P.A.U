@@ -91,6 +91,42 @@ class Repo {
 
   static void setVarios(String id, Json m) => _w(chars.doc(id).update(m));
 
+  /// Muda PV, PE, SAN ou PD. Quando o valor cai (dano, custo de ritual),
+  /// os pontos temporários são gastos antes: PV temporário para PV e PE/PD
+  /// temporário para PE ou PD.
+  static void mudarPontos(Ficha f, String campo, int novo) {
+    const temporario = {
+      'pvAtual': 'pvTemp',
+      'peAtual': 'peTemp',
+      'pdAtual': 'peTemp',
+    };
+    final temp = temporario[campo];
+    final atual = asInt(f.d[campo]);
+    final t = temp == null ? 0 : asInt(f.d[temp]);
+    if (temp == null || novo >= atual || t <= 0) {
+      set(f.id, campo, novo);
+      return;
+    }
+    final perda = atual - novo;
+    final doTemp = perda < t ? perda : t;
+    setVarios(f.id, {
+      campo: atual - (perda - doTemp),
+      temp: t - doTemp,
+      if (t - doTemp == 0) '${temp}Max': 0,
+    });
+  }
+
+  /// Ajusta PV ou PE/PD temporários ('pvTemp' ou 'peTemp'). A barra cresce
+  /// até o maior valor ganho e volta a zero quando eles acabam.
+  static void mudarTemporario(Ficha f, String temp, int novo) {
+    final v = novo < 0 ? 0 : novo;
+    final max = asInt(f.d['${temp}Max']);
+    setVarios(f.id, {
+      temp: v,
+      '${temp}Max': v == 0 ? 0 : (v > max ? v : max),
+    });
+  }
+
   static void apagarFicha(String id) => _w(chars.doc(id).delete());
 
   static void vincularFicha(Ficha f, Campanha c) {

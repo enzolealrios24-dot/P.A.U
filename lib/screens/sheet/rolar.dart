@@ -93,10 +93,11 @@ class CtxFicha {
           content: Text(
               'Custo $custo maior que seu limite de ${calc.determinacao ? 'PD' : 'PE'} por turno (${calc.limitePE}).')));
     }
+    // O custo sai primeiro dos PE/PD temporários.
     if (calc.determinacao) {
-      Repo.set(f.id, 'pdAtual', f.pdAtual - custo);
+      Repo.mudarPontos(f, 'pdAtual', f.pdAtual - custo);
     } else {
-      Repo.set(f.id, 'peAtual', f.peAtual - custo);
+      Repo.mudarPontos(f, 'peAtual', f.peAtual - custo);
     }
     final danoExpr = asStr(ritual[forma == 'Padrão'
         ? 'dano'

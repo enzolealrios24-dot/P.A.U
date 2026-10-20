@@ -63,6 +63,13 @@ class Ficha {
   int get sanAtual => asInt(d['sanAtual']);
   int get pdAtual => asInt(d['pdAtual']);
 
+  /// Pontos temporários: PV e PE (ou PD, sem sanidade). Os "Max" guardam
+  /// quanto foi ganho, só para o tamanho da barra.
+  int get pvTemp => asInt(d['pvTemp']);
+  int get peTemp => asInt(d['peTemp']);
+  int get pvTempMax => asInt(d['pvTempMax']);
+  int get peTempMax => asInt(d['peTempMax']);
+
   Map<String, dynamic> get bonus => asMap(d['bonus']);
   int b(String k) => asInt(bonus[k]);
 

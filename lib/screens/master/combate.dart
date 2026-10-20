@@ -254,7 +254,7 @@ class _LinhaIniciativa extends StatelessWidget {
           max: c.pvMax,
           cor: Cores.pv,
           compacta: true,
-          aoMudar: (v) => Repo.set(f.id, 'pvAtual', v));
+          aoMudar: (v) => Repo.mudarPontos(f, 'pvAtual', v));
       conds = f.condicoes;
     } else if (a != null) {
       final id = asStr(entrada['ref']);

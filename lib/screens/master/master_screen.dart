@@ -217,7 +217,7 @@ class PainelAoVivo extends StatelessWidget {
       'PD': 'pdAtual'
     }[stat]!;
     for (final f in fichas) {
-      Repo.set(f.id, campo, asInt(f.d[campo]) + r);
+      Repo.mudarPontos(f, campo, asInt(f.d[campo]) + r);
     }
   }
 }
@@ -356,7 +356,17 @@ class _CartaoPainel extends StatelessWidget {
               atual: f.pvAtual,
               max: c.pvMax,
               cor: Cores.pv,
-              aoMudar: (v) => Repo.set(f.id, 'pvAtual', v)),
+              aoMudar: (v) => Repo.mudarPontos(f, 'pvAtual', v)),
+          if (f.pvTemp > 0) ...[
+            const SizedBox(height: 6),
+            BarraStatus(
+                rotulo: 'PV TEMP',
+                atual: f.pvTemp,
+                max: f.pvTempMax < f.pvTemp ? f.pvTemp : f.pvTempMax,
+                cor: Cores.pvTemp,
+                compacta: true,
+                aoMudar: (v) => Repo.mudarTemporario(f, 'pvTemp', v)),
+          ],
           const SizedBox(height: 6),
           if (c.determinacao)
             BarraStatus(
@@ -364,14 +374,25 @@ class _CartaoPainel extends StatelessWidget {
                 atual: f.pdAtual,
                 max: c.pdMax,
                 cor: Cores.pd,
-                aoMudar: (v) => Repo.set(f.id, 'pdAtual', v))
-          else ...[
+                aoMudar: (v) => Repo.mudarPontos(f, 'pdAtual', v))
+          else
             BarraStatus(
                 rotulo: 'PE',
                 atual: f.peAtual,
                 max: c.peMax,
                 cor: Cores.pe,
-                aoMudar: (v) => Repo.set(f.id, 'peAtual', v)),
+                aoMudar: (v) => Repo.mudarPontos(f, 'peAtual', v)),
+          if (f.peTemp > 0) ...[
+            const SizedBox(height: 6),
+            BarraStatus(
+                rotulo: c.determinacao ? 'PD TEMP' : 'PE TEMP',
+                atual: f.peTemp,
+                max: f.peTempMax < f.peTemp ? f.peTemp : f.peTempMax,
+                cor: c.determinacao ? Cores.pdTemp : Cores.peTemp,
+                compacta: true,
+                aoMudar: (v) => Repo.mudarTemporario(f, 'peTemp', v)),
+          ],
+          if (!c.determinacao) ...[
             const SizedBox(height: 6),
             BarraStatus(
                 rotulo: 'SAN',

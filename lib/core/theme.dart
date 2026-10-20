@@ -13,6 +13,10 @@ class Cores {
   static const pe = Color(0xFFE0A526);
   static const san = Color(0xFF3D7BFF);
   static const pd = Color(0xFF9B59E0);
+  // Pontos temporários: tons mais claros das barras de origem.
+  static const pvTemp = Color(0xFFF2788A);
+  static const peTemp = Color(0xFFF2CF6B);
+  static const pdTemp = Color(0xFFC79BF2);
   static const ok = Color(0xFF3DBE7A);
 
   static Color elemento(String? e) {

@@ -164,6 +164,7 @@ class BarrasTopo extends StatelessWidget {
   Widget build(BuildContext context) {
     final f = ctx.f;
     final c = ctx.calc;
+    final pd = c.determinacao;
     final barras = <Widget>[
       BarraStatus(
           rotulo: 'PV',
@@ -171,23 +172,29 @@ class BarrasTopo extends StatelessWidget {
           max: c.pvMax,
           cor: Cores.pv,
           compacta: true,
-          aoMudar: (v) => Repo.set(f.id, 'pvAtual', v)),
-      if (c.determinacao)
-        BarraStatus(
-            rotulo: 'PD',
-            atual: f.pdAtual,
-            max: c.pdMax,
-            cor: Cores.pd,
-            compacta: true,
-            aoMudar: (v) => Repo.set(f.id, 'pdAtual', v))
-      else ...[
-        BarraStatus(
-            rotulo: 'PE',
-            atual: f.peAtual,
-            max: c.peMax,
-            cor: Cores.pe,
-            compacta: true,
-            aoMudar: (v) => Repo.set(f.id, 'peAtual', v)),
+          aoMudar: (v) => Repo.mudarPontos(f, 'pvAtual', v)),
+      BarraStatus(
+          rotulo: 'PV TEMP',
+          atual: f.pvTemp,
+          max: f.pvTempMax < f.pvTemp ? f.pvTemp : f.pvTempMax,
+          cor: Cores.pvTemp,
+          compacta: true,
+          aoMudar: (v) => Repo.mudarTemporario(f, 'pvTemp', v)),
+      BarraStatus(
+          rotulo: pd ? 'PD' : 'PE',
+          atual: pd ? f.pdAtual : f.peAtual,
+          max: pd ? c.pdMax : c.peMax,
+          cor: pd ? Cores.pd : Cores.pe,
+          compacta: true,
+          aoMudar: (v) => Repo.mudarPontos(f, pd ? 'pdAtual' : 'peAtual', v)),
+      BarraStatus(
+          rotulo: pd ? 'PD TEMP' : 'PE TEMP',
+          atual: f.peTemp,
+          max: f.peTempMax < f.peTemp ? f.peTemp : f.peTempMax,
+          cor: pd ? Cores.pdTemp : Cores.peTemp,
+          compacta: true,
+          aoMudar: (v) => Repo.mudarTemporario(f, 'peTemp', v)),
+      if (!pd)
         BarraStatus(
             rotulo: 'SAN',
             atual: f.sanAtual,
@@ -195,25 +202,17 @@ class BarrasTopo extends StatelessWidget {
             cor: Cores.san,
             compacta: true,
             aoMudar: (v) => Repo.set(f.id, 'sanAtual', v)),
-      ],
     ];
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
       child: Column(
         children: [
           LayoutBuilder(builder: (context, cons) {
-            if (cons.maxWidth < 560) {
-              return Column(children: [
-                for (final b in barras)
-                  Padding(
-                      padding: const EdgeInsets.only(bottom: 4), child: b),
-              ]);
-            }
-            return Row(children: [
-              for (var i = 0; i < barras.length; i++) ...[
-                if (i > 0) const SizedBox(width: 12),
-                Expanded(child: barras[i]),
-              ]
+            // Quantas barras cabem lado a lado (cada uma precisa de ~190px).
+            final colunas = (cons.maxWidth / 190).floor().clamp(1, barras.length);
+            final largura = (cons.maxWidth - 12 * (colunas - 1)) / colunas;
+            return Wrap(spacing: 12, runSpacing: 4, children: [
+              for (final b in barras) SizedBox(width: largura, child: b),
             ]);
           }),
           if (f.condicoes.isNotEmpty)

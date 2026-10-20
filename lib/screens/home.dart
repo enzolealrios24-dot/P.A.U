@@ -191,11 +191,11 @@ class CartaoAgente extends StatelessWidget {
                       style: TextStyle(color: Cores.roxo, fontSize: 12)),
                 ),
               const SizedBox(height: 8),
-              _mini('PV', ficha.pvAtual, c.pvMax, Cores.pv),
+              _mini('PV', ficha.pvAtual, c.pvMax, Cores.pv, temp: ficha.pvTemp),
               if (c.determinacao)
-                _mini('PD', ficha.pdAtual, c.pdMax, Cores.pd)
+                _mini('PD', ficha.pdAtual, c.pdMax, Cores.pd, temp: ficha.peTemp)
               else ...[
-                _mini('PE', ficha.peAtual, c.peMax, Cores.pe),
+                _mini('PE', ficha.peAtual, c.peMax, Cores.pe, temp: ficha.peTemp),
                 _mini('SAN', ficha.sanAtual, c.sanMax, Cores.san),
               ],
             ],
@@ -205,7 +205,7 @@ class CartaoAgente extends StatelessWidget {
     );
   }
 
-  Widget _mini(String r, int a, int m, Color cor) => Padding(
+  Widget _mini(String r, int a, int m, Color cor, {int temp = 0}) => Padding(
         padding: const EdgeInsets.only(top: 3),
         child: Row(children: [
           SizedBox(
@@ -225,8 +225,8 @@ class CartaoAgente extends StatelessWidget {
             ),
           ),
           SizedBox(
-              width: 60,
-              child: Text('$a/$m',
+              width: 80,
+              child: Text(temp > 0 ? '$a/$m +$temp' : '$a/$m',
                   textAlign: TextAlign.right,
                   style: const TextStyle(fontSize: 12))),
         ]),
