@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/rules.dart';
 import '../../core/theme.dart';
+import '../../data/catalogo.dart';
 import '../../data/models.dart';
 import '../../data/repo.dart';
 import '../../widgets/common.dart';
@@ -133,6 +134,7 @@ class AbaRegras extends StatelessWidget {
         ]),
       ),
       _Biblioteca(camp: camp),
+      const _ConsultaLivros(),
     ]);
   }
 }
@@ -206,6 +208,100 @@ class _Biblioteca extends StatelessWidget {
               ]);
         },
       ),
+    );
+  }
+}
+
+/// "efeitosMedo" -> "Efeitos medo".
+String _tituloRegra(String chave) {
+  final t = chave.replaceAllMapped(RegExp(r'[A-Z]'), (m) => ' ${m[0]!.toLowerCase()}');
+  return t.isEmpty ? t : t[0].toUpperCase() + t.substring(1);
+}
+
+/// Texto legível de uma regra dos livros, qualquer que seja o formato.
+String _textoRegra(dynamic v, [String recuo = '']) {
+  if (v is Map) {
+    final linhas = <String>[
+      if (v['resumo'] != null) '$recuo${asStr(v['resumo'])}',
+    ];
+    for (final e in v.entries) {
+      if (const {'resumo', 'pag', 'id', 'nome', 'fonte'}.contains(e.key)) continue;
+      if (e.value is Map || e.value is List) {
+        linhas.add('$recuo${_tituloRegra(asStr(e.key))}:');
+        linhas.add(_textoRegra(e.value, '$recuo  '));
+      } else {
+        linhas.add('$recuo${_tituloRegra(asStr(e.key))}: ${asStr(e.value)}');
+      }
+    }
+    return linhas.join('
+');
+  }
+  if (v is List) {
+    return [
+      for (final x in v)
+        if (x is Map)
+          '$recuo• ${asStr(x['nome']).isEmpty ? '' : '${asStr(x['nome'])}: '}${_textoRegra(x, '$recuo  ').trim()}'
+        else
+          '$recuo• ${asStr(x)}',
+    ].join('
+');
+  }
+  return '$recuo${asStr(v)}';
+}
+
+/// Regras, tabelas, doenças e perigos dos livros, só para consulta.
+class _ConsultaLivros extends StatelessWidget {
+  const _ConsultaLivros();
+
+  @override
+  Widget build(BuildContext context) {
+    final regras = Catalogo.instance.regras;
+    final fontes = regras.keys.toList()
+      ..sort((a, b) {
+        int peso(String f) => f == 'oprpg' ? 0 : (f == 'sah' ? 1 : 2);
+        final p = peso(a).compareTo(peso(b));
+        return p != 0 ? p : a.compareTo(b);
+      });
+    return Secao(
+      titulo: 'Consulta dos livros',
+      child: Column(children: [
+        const Padding(
+          padding: EdgeInsets.only(bottom: 6),
+          child: Text(
+              'Resumos das regras, tabelas, doenças, venenos e perigos de cada livro, com a página para conferir.',
+              style: TextStyle(fontSize: 12, color: Cores.textoFraco)),
+        ),
+        for (final f in fontes)
+          ExpansionTile(
+            tilePadding: EdgeInsets.zero,
+            title: Text(
+                Catalogo.nomesFontes[asStr(regras[f]!['fonte'])] ??
+                    asStr(regras[f]!['fonte'], f),
+                style: const TextStyle(fontWeight: FontWeight.bold)),
+            children: [
+              for (final e in regras[f]!.entries)
+                if (e.key != 'fonte')
+                  ExpansionTile(
+                    tilePadding: const EdgeInsets.only(left: 12),
+                    childrenPadding: const EdgeInsets.fromLTRB(12, 0, 8, 12),
+                    title: Text(e.value is Map && asStr(e.value['nome']).isNotEmpty
+                        ? asStr(e.value['nome'])
+                        : _tituloRegra(e.key)),
+                    subtitle: e.value is Map && e.value['pag'] != null
+                        ? Text('p. ${asStr(e.value['pag'])}',
+                            style: const TextStyle(fontSize: 11))
+                        : null,
+                    children: [
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: SelectableText(_textoRegra(e.value),
+                            style: const TextStyle(fontSize: 13)),
+                      ),
+                    ],
+                  ),
+            ],
+          ),
+      ]),
     );
   }
 }

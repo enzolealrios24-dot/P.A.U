@@ -1,0 +1,568 @@
+[
+ {
+  "id": "transtornado_assecla",
+  "nome": "Transtornado Assecla",
+  "fonte": "AS1",
+  "pag": 28,
+  "elemento": "Sangue",
+  "vd": 40,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20+5",
+  "iniciativa": "1d20+5",
+  "defesa": 18,
+  "fortitude": "2d20+5",
+  "reflexos": "1d20+5",
+  "vontade": "1d20+5",
+  "pv": 30,
+  "atributos": {
+   "agi": 1,
+   "for": 2,
+   "int": 2,
+   "pre": 1,
+   "vig": 2
+  },
+  "pericias": "Atletismo 2d20+5, Intimidação 1d20+5, Ocultismo 2d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Corrente farpada",
+    "alcance": "Corpo a corpo (3m)",
+    "teste": "2d20+5",
+    "dano": "1d8+10 corte",
+    "critico": "19"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Corrente Farpada",
+    "resumo": "Alcança 3m e dá +2 para desarmar e derrubar."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Rituais (DT 15)",
+    "resumo": "Conjura sem gastar PE, até 3 PE por conjuração: Armadura de Sangue (+5 na Defesa na cena) e Esfolar discente (explosão de 6m em alcance médio, 5d4+5 de corte e sangrando; Reflexos metade e evita)."
+   }
+  ]
+ },
+ {
+  "id": "transtornado_investido",
+  "nome": "Transtornado Investido",
+  "fonte": "AS1",
+  "pag": 29,
+  "elemento": "Sangue",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+10",
+  "iniciativa": "3d20+5",
+  "defesa": 23,
+  "fortitude": "2d20+10",
+  "reflexos": "1d20+5",
+  "vontade": "2d20+10",
+  "pv": 90,
+  "atributos": {
+   "agi": 1,
+   "for": 3,
+   "int": 2,
+   "pre": 2,
+   "vig": 2
+  },
+  "pericias": "Atletismo 3d20+10, Intimidação 2d20+10, Ocultismo 2d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Cutelo",
+    "alcance": "Corpo a corpo x2",
+    "teste": "4d20+15",
+    "dano": "1d6+15 corte",
+    "critico": "x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Rituais (DT 20)",
+    "resumo": "Conjura sem gastar PE, até 6 PE por conjuração: Armadura de Sangue discente (+10 Defesa e RD 5 física), Descarnar discente (toque, 10d8 metade corte e metade Sangue e hemorragia de 4d8 por turno; Fortitude metade e evita), Esfolar discente e Transfusão Vital (passa até 50 dos seus PV a um aliado)."
+   }
+  ]
+ },
+ {
+  "id": "apostolo_do_sangue",
+  "nome": "Apóstolo do Sangue",
+  "fonte": "AS1",
+  "pag": 30,
+  "elemento": "Sangue",
+  "vd": 200,
+  "tipo": "Pessoa Média",
+  "percepcao": "3d20+15",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "2d20+10",
+  "defesa": 30,
+  "fortitude": "3d20+15",
+  "reflexos": "2d20+10",
+  "vontade": "3d20+15",
+  "pv": 300,
+  "atributos": {
+   "agi": 2,
+   "for": 4,
+   "int": 2,
+   "pre": 3,
+   "vig": 3
+  },
+  "pericias": "Atletismo 4d20+15, Intimidação 3d20+15, Ocultismo 2d20+15",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Marreta sanguinária",
+    "alcance": "Corpo a corpo x2",
+    "teste": "4d20+20",
+    "dano": "4d10+30 impacto, perfuração ou Sangue",
+    "critico": "x4"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Marreta Transtornada",
+    "resumo": "No crítico, quebra um osso: fraco até cuidados num interlúdio (Fortitude DT 29 evita); se já estava fraco por ela, debilitado."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Rituais Acelerados",
+    "resumo": "1x por rodada, um ritual de até ação completa vira ação livre."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Rituais (DT 29)",
+    "resumo": "Conjura sem gastar PE, até 10 PE por conjuração: Armadura de Sangue discente, Descarnar discente, Esfolar verdadeiro (alcance longo, 10d4+10), Hemofagia discente (ataque com a marreta +6d6 de Sangue e cura metade do dano), Transfusão Vital e Vomitar Pestes discente (enxame de 3m que causa 5d12 de Sangue e agarra quem está nele; Reflexos metade e evita; move 12m com movimento)."
+   }
+  ]
+ },
+ {
+  "id": "giovanni_opspor",
+  "nome": "Giovanni Opspor",
+  "fonte": "AS1",
+  "pag": 33,
+  "elemento": "Sangue",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "3d20+10",
+  "iniciativa": "2d20+5",
+  "defesa": 23,
+  "fortitude": "1d20+5",
+  "reflexos": "2d20+5",
+  "vontade": "3d20+10",
+  "pv": 70,
+  "atributos": {
+   "agi": 2,
+   "for": 1,
+   "int": 4,
+   "pre": 3,
+   "vig": 1
+  },
+  "pericias": "Crime 2d20+10, Enganação 3d20+10, Furtividade 2d20+10, Ocultismo 2d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Revólver",
+    "alcance": "Distância x2, curto",
+    "teste": "2d20+5",
+    "dano": "2d6+10 balístico",
+    "critico": "19"
+   },
+   {
+    "nome": "Faca",
+    "alcance": "Corpo a corpo",
+    "teste": "2d20+5",
+    "dano": "1d4+10 perfuração",
+    "critico": "19"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Rituais (DT 20)",
+    "resumo": "Conjura sem gastar PE, até 6 PE por conjuração: Distorcer Aparência, Esconder dos Olhos (invisível até atacar), Espelho (cópia de carne que ele controla, ficando atordoado), Fortalecimento Sensorial discente (+1d20 em Investigação, Luta, Percepção e Pontaria e −1d20 nos ataques contra ele) e Terceiro Olho."
+   }
+  ],
+  "nota": "Líder dos Transtornados no Hexatombe."
+ },
+ {
+  "id": "mosto",
+  "nome": "Mosto",
+  "fonte": "AS1",
+  "pag": 35,
+  "elemento": "Sangue",
+  "vd": 60,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20",
+  "iniciativa": "2d20+5",
+  "defesa": 20,
+  "fortitude": "3d20+10",
+  "reflexos": "1d20+5",
+  "vontade": "1d20",
+  "pv": 100,
+  "atributos": {
+   "agi": 1,
+   "for": 4,
+   "int": 1,
+   "pre": 1,
+   "vig": 3
+  },
+  "pericias": "Atletismo 4d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Cutelo",
+    "alcance": "Corpo a corpo",
+    "teste": "4d20+10",
+    "dano": "1d6+10 corte",
+    "critico": "19/x3"
+   },
+   {
+    "nome": "Desarmado",
+    "alcance": "Corpo a corpo",
+    "teste": "4d20+10",
+    "dano": "1d4+10 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Rosto Desfigurado",
+    "resumo": "Sem o saco no rosto, fica furioso: +1d8 de dano e pode usar Trocação Justa."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Surra Brutal",
+    "resumo": "Um ataque de cutelo e um desarmado; não pode bloquear até o próximo turno."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Trocação Justa",
+    "resumo": "O alvo escolhe: trocar golpes (cada um rola dano alternadamente, sem bloqueio, até alguém cair ou parar) ou se defender (Fortitude DT 20: 1d6+10, ou 1d6+1d4+20 se falhar)."
+   }
+  ]
+ },
+ {
+  "id": "tarrafa",
+  "nome": "Tarrafa",
+  "fonte": "AS1",
+  "pag": 37,
+  "elemento": "Sangue",
+  "vd": 60,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20+5",
+  "iniciativa": "3d20+10",
+  "defesa": 21,
+  "fortitude": "2d20+5",
+  "reflexos": "3d20+10",
+  "vontade": "1d20",
+  "pv": 80,
+  "atributos": {
+   "agi": 3,
+   "for": 2,
+   "int": 1,
+   "pre": 1,
+   "vig": 2
+  },
+  "pericias": "Acrobacia 3d20+10, Atletismo 2d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Arpão do pescador",
+    "alcance": "Distância, curto",
+    "teste": "3d20+10",
+    "dano": "1d6+10 perfuração + 1d6 Sangue",
+    "critico": "x3"
+   },
+   {
+    "nome": "Faca",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+10",
+    "dano": "1d4+10 perfuração",
+    "critico": "19"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Perfuração Permanente",
+    "resumo": "Quem leva o arpão fica lento até tirá-lo (ação padrão, Atletismo ou Luta DT 20)."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Prazer na Dor",
+    "resumo": "Machucado, RD 5."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Engolir Metal",
+    "resumo": "Engole um objeto de metal Pequeno: perde 1d6 PV e ganha +2 em testes de For e Agi (até três itens)."
+   }
+  ]
+ },
+ {
+  "id": "carrara",
+  "nome": "Carrara",
+  "fonte": "AS1",
+  "pag": 38,
+  "elemento": "Sangue",
+  "vd": 60,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+5",
+  "iniciativa": "2d20+10",
+  "defesa": 18,
+  "fortitude": "1d20",
+  "reflexos": "2d20+10",
+  "vontade": "2d20+5",
+  "pv": 70,
+  "atributos": {
+   "agi": 2,
+   "for": 1,
+   "int": 2,
+   "pre": 2,
+   "vig": 1
+  },
+  "pericias": "Atletismo 1d20+10, Enganação 2d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Soco com pregos",
+    "alcance": "Corpo a corpo x2",
+    "teste": "1d20+10",
+    "dano": "1d4+10 impacto"
+   },
+   {
+    "nome": "Pregador pneumático",
+    "alcance": "Distância x2, curto",
+    "teste": "2d20+10",
+    "dano": "3d4+10 perfuração + 1d6 Sangue",
+    "critico": "x4"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Sangue Maldito",
+    "resumo": "Munição banhada no sangue dele causa +1d6 de Sangue uma vez."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Pregos de Sangue",
+    "resumo": "Arranca pregos do corpo e recarrega o pregador com eles."
+   }
+  ]
+ },
+ {
+  "id": "nando_salles",
+  "nome": "Nando Salles",
+  "fonte": "AS1",
+  "pag": 39,
+  "elemento": "Sangue",
+  "vd": 20,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+5",
+  "iniciativa": "2d20+5",
+  "defesa": 16,
+  "fortitude": "2d20+5",
+  "reflexos": "2d20+5",
+  "vontade": "2d20+5",
+  "pv": 35,
+  "atributos": {
+   "agi": 2,
+   "for": 1,
+   "int": 2,
+   "pre": 2,
+   "vig": 2
+  },
+  "pericias": "Enganação 2d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pistola",
+    "alcance": "Distância, curto",
+    "teste": "2d20+5",
+    "dano": "1d12+5 balístico",
+    "critico": "18"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Completa",
+    "nome": "Arrogância Diabólica",
+    "resumo": "Uma pessoa em alcance longo faz Vontade DT 25; falhando, precisa fazer algo muito imprudente no próximo turno, ou sofre 2d6 mental sem resistência."
+   }
+  ]
+ },
+ {
+  "id": "anulado",
+  "nome": "Anulado",
+  "fonte": "AS1",
+  "pag": 53,
+  "elemento": "Sangue",
+  "vd": 100,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 20, 4d6 mental (NEX 45%+ imune)",
+  "percepcao": "3d20+10",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "2d20+10",
+  "defesa": 25,
+  "fortitude": "3d20+10",
+  "reflexos": "2d20+5",
+  "vontade": "1d20+10",
+  "pv": 190,
+  "atributos": {
+   "agi": 2,
+   "for": 3,
+   "int": 1,
+   "pre": 1,
+   "vig": 3
+  },
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Braços grotescos",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+15",
+    "dano": "1d8+10 impacto"
+   },
+   {
+    "nome": "Mordida asquerosa",
+    "alcance": "Corpo a corpo",
+    "teste": "3d20+15",
+    "dano": "1d10+10 Sangue"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Corpo Oscilante",
+    "resumo": "Quem age contra ele olhando sofre 2d6 mental na primeira vez; agir sem olhar dá −1d20 nos testes."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Golpes Anulados",
+    "resumo": "Divide os ataques entre até três alvos."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Quero o Seu Corpo",
+    "resumo": "Quem o ataca e erra faz Reflexos DT 25 ou fica agarrado; no início do turno dele, o agarrado sofre 4d10 de Sangue e ele cura metade."
+   }
+  ],
+  "nota": "Pode surgir quando a Passagem de Conhecimento deixa um corpo abandonado por tempo demais."
+ },
+ {
+  "id": "cleo_brisa",
+  "nome": "Cleo Brisa",
+  "fonte": "AS1",
+  "pag": 69,
+  "elemento": "Nenhum",
+  "vd": 60,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+5",
+  "iniciativa": "2d20+10",
+  "defesa": 20,
+  "fortitude": "2d20+5",
+  "reflexos": "2d20+5",
+  "vontade": "2d20+10",
+  "pv": 80,
+  "atributos": {
+   "agi": 2,
+   "for": 2,
+   "int": 2,
+   "pre": 2,
+   "vig": 2
+  },
+  "pericias": "Atletismo 2d20+5, Crime 2d20+5, Intuição 2d20+10, Investigação 2d20+10, Tática 2d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pistola",
+    "alcance": "Distância x2, curto",
+    "teste": "2d20+10",
+    "dano": "1d12+10 balístico",
+    "critico": "18"
+   },
+   {
+    "nome": "Pé de cabra",
+    "alcance": "Corpo a corpo x2",
+    "teste": "2d20+10",
+    "dano": "1d8+10 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Completa",
+    "nome": "Empurrar e Atirar",
+    "resumo": "Empurra o alvo 3m (Fortitude DT 20 evita) e atira; se empurrou, +1d20 no ataque e +1d12 de dano."
+   }
+  ]
+ },
+ {
+  "id": "cristino",
+  "nome": "Cristino",
+  "fonte": "AS1",
+  "pag": 71,
+  "elemento": "Nenhum",
+  "vd": 180,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+5",
+  "iniciativa": "2d20+15",
+  "defesa": 36,
+  "fortitude": "3d20+15",
+  "reflexos": "3d20+15",
+  "vontade": "2d20+10",
+  "pv": 240,
+  "atributos": {
+   "agi": 3,
+   "for": 3,
+   "int": 2,
+   "pre": 2,
+   "vig": 3
+  },
+  "pericias": "Atletismo 3d20+15, Furtividade 3d20+15, Medicina 2d20+15, Sobrevivência 2d20+15",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Peixeira",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+20",
+    "dano": "3d8+30 corte",
+    "critico": "19"
+   },
+   {
+    "nome": "Coronha da espingarda",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+20",
+    "dano": "3d6+30 perfuração",
+    "critico": "x3"
+   },
+   {
+    "nome": "Espingarda",
+    "alcance": "Distância x2, curto",
+    "teste": "3d20+20",
+    "dano": "4d6+30 balístico",
+    "critico": "x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Combinação Cruel",
+    "resumo": "Pode misturar tipos de ataque nos seus dois ataques."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Luzernas",
+    "resumo": "Põe uma lamparina que ilumina alcance curto e revela a ele quem estiver na luz; atirando nela, explode: 6d6 de fogo e em chamas (Reflexos DT 28 metade e evita)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Emboscada do Cangaço",
+    "resumo": "Escondido, se ninguém passar em Percepção DT 30, faz dois disparos e um golpe de coronha; os alvos ficam desprevenidos e sem reações."
+   }
+  ]
+ }
+]

@@ -1,0 +1,689 @@
+[
+ {
+  "id": "alice_cruzes",
+  "nome": "Alice Cruzes",
+  "fonte": "AS6",
+  "pag": 28,
+  "elemento": "Nenhum",
+  "vd": 40,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+5",
+  "iniciativa": "2d20",
+  "defesa": 18,
+  "fortitude": "1d20",
+  "reflexos": "2d20+5",
+  "vontade": "2d20+10",
+  "pv": 30,
+  "atributos": {
+   "agi": 2,
+   "for": 1,
+   "int": 4,
+   "pre": 2,
+   "vig": 1
+  },
+  "pericias": "Diplomacia 2d20+10, Enganação 2d20+10, Intimidação 2d20+5, Intuição 2d20+5, Medicina 4d20+5, Tática 4d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pistola",
+    "alcance": "Distância, curto",
+    "teste": "2d20+5",
+    "dano": "1d12+5 balístico",
+    "critico": "18"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Diretora",
+    "resumo": "Sempre acompanhada por dois seguranças da Panacea."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Reencontro",
+    "resumo": "Ao chegar a 0 PV, explode um dispositivo: 8d6 de perfuração num raio de 6m (Reflexos DT 15 metade)."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Coordenar Equipe",
+    "resumo": "Um aliado em alcance curto que seguir as ordens dela ganha +5 no teste resultante."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Recursos Humanos",
+    "resumo": "Detona o implante de um segurança aliado em alcance longo: ele morre e todos a 6m sofrem 6d6 de perfuração (Reflexos DT 15 metade)."
+   }
+  ],
+  "nota": "Como aliada (AS6 p. 28): +O em Diplomacia e Tática; 1x por cena, morrendo, 3 PE para estabilizar."
+ },
+ {
+  "id": "ketan_arjuna",
+  "nome": "Ketan Arjuna",
+  "fonte": "AS6",
+  "pag": 33,
+  "elemento": "Nenhum",
+  "vd": 100,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+5",
+  "iniciativa": "4d20+10",
+  "defesa": 20,
+  "fortitude": "1d20+5",
+  "reflexos": "4d20+10",
+  "vontade": "2d20+5",
+  "pv": 90,
+  "atributos": {
+   "agi": 4,
+   "for": 3,
+   "int": 2,
+   "pre": 2,
+   "vig": 1
+  },
+  "pericias": "Atletismo 3d20+10, Intimidação 2d20+10, Tática 2d20+10, Tecnologia 2d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Revólver",
+    "alcance": "Distância, curto",
+    "teste": "4d20+10",
+    "dano": "3d6+10 balístico",
+    "critico": "x3"
+   },
+   {
+    "nome": "Machadinha",
+    "alcance": "Corpo a corpo",
+    "teste": "3d20+10",
+    "dano": "2d6+10 corte",
+    "critico": "x3"
+   },
+   {
+    "nome": "Punhalada",
+    "alcance": "Corpo a corpo",
+    "teste": "3d20+10",
+    "dano": "2d4+10 perfuração",
+    "critico": "x3"
+   },
+   {
+    "nome": "Punho de aço",
+    "alcance": "Corpo a corpo",
+    "teste": "3d20+10",
+    "dano": "2d10+10 impacto + 2d4 eletricidade",
+    "critico": "18"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Armado e Preparado",
+    "resumo": "Uma ação padrão extra por rodada e +1 dado de dano com armas."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Prótese Robótica",
+    "resumo": "Pode ser atacada à parte (Defesa 25, RD 5, 45 PV); destruída, ele perde a ação extra, o Punho de Aço, Reparo na Hora, Atirar e Fatiar e Defesa Improvisada."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Atirar e Fatiar",
+    "resumo": "Acertando corpo a corpo um alvo que já levou tiro dele na rodada, +1 dado de dano."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Coice",
+    "resumo": "O Punho de Aço causa à prótese metade do dano que fez."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Defesa Improvisada",
+    "resumo": "1x por rodada, a prótese recebe um ataque no lugar dele (se for destruída assim, ele sofre 2d10 de eletricidade)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Reparo na Hora",
+    "resumo": "Recupera 10 PV da prótese."
+   }
+  ],
+  "nota": "Como aliado (AS6 p. 33): +2d4 de dano físico; 1x por missão, 3 PE no interlúdio para uma arma de até categoria II."
+ },
+ {
+  "id": "laila_verdante",
+  "nome": "Laila Verdante",
+  "fonte": "AS6",
+  "pag": 37,
+  "elemento": "Conhecimento",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "4d20+10",
+  "iniciativa": "2d20+5",
+  "defesa": 19,
+  "fortitude": "1d20",
+  "reflexos": "2d20+5",
+  "vontade": "4d20+10",
+  "pv": 70,
+  "atributos": {
+   "agi": 2,
+   "for": 1,
+   "int": 3,
+   "pre": 4,
+   "vig": 1
+  },
+  "pericias": "Enganação 4d20+10, Furtividade 2d20+10, Intuição 4d20+10, Ocultismo 3d20+10, Tecnologia 3d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Arremesso de agulha",
+    "alcance": "Distância x2, curto",
+    "teste": "2d20+10",
+    "dano": "1d4+5 perfuração"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Arruinar Mentes",
+    "resumo": "Quem está sob condição mental é vulnerável ao dano de Conhecimento dos rituais dela."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Sedar",
+    "resumo": "Quem leva a agulha fica esmorecido na cena (Fortitude DT 22 deixa só frustrado)."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Rituais (DT 22)",
+    "resumo": "Sem gastar PE, até 6 por conjuração: Aurora da Verdade (raio de 3m sem camuflagem, invisibilidade ou mentiras), Enfeitiçar discente, Invadir Mente (6d6 de Conhecimento e atordoado) e Hesitação Forçada discente."
+   }
+  ],
+  "nota": "Como aliada (AS6 p. 37): RD mental 2; 1x por dia, 3 PE para usar o Ocultismo dela (4d20+10) num teste de Vontade."
+ },
+ {
+  "id": "dr_neruda",
+  "nome": "Dr. Neruda",
+  "fonte": "AS6",
+  "pag": 41,
+  "elemento": "Nenhum",
+  "vd": 20,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+5",
+  "iniciativa": "2d20+5",
+  "defesa": 14,
+  "fortitude": "1d20",
+  "reflexos": "2d20+5",
+  "vontade": "2d20+5",
+  "pv": 15,
+  "atributos": {
+   "agi": 2,
+   "for": 0,
+   "int": 3,
+   "pre": 2,
+   "vig": 1
+  },
+  "pericias": "Ciências 3d20+10, Intuição 2d20+5, Medicina 3d20+10, Tecnologia 3d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Seringa",
+    "alcance": "Corpo a corpo",
+    "teste": "2d20+5",
+    "dano": "1d4+5 perfuração"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Veneno Sádico",
+    "resumo": "Em quem está machucado, o veneno causa também 1d4 mental que ignora RD."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Veneno na Seringa",
+    "resumo": "Quem leva a seringa perde 2d4 PV por rodada por 3 rodadas (Fortitude DT 15 reduz a 1). Ele carrega o antídoto e pode ser convencido a entregá-lo."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Dose Experimental",
+    "resumo": "Frasco em alcance curto, raio de 6m: enjoado 1 rodada e fraco na cena (Fortitude DT 15 evita)."
+   }
+  ],
+  "nota": "Como aliado (AS6 p. 41): ataques fazem o alvo perder +1d4 PV; 3 PE no interlúdio reduzem um estágio de doença."
+ },
+ {
+  "id": "cientista_da_panacea",
+  "nome": "Cientista da Panacea",
+  "fonte": "AS6",
+  "pag": 56,
+  "elemento": "Nenhum",
+  "vd": 40,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20+5",
+  "iniciativa": "2d20+5",
+  "defesa": 16,
+  "fortitude": "1d20+5",
+  "reflexos": "2d20+5",
+  "vontade": "1d20+5",
+  "pv": 20,
+  "resistencias": "Químico e perfuração 10",
+  "atributos": {
+   "agi": 2,
+   "for": 1,
+   "int": 4,
+   "pre": 1,
+   "vig": 1
+  },
+  "pericias": "Ciências 4d20+10, Investigação 4d20+5, Medicina 4d20+5, Sobrevivência 4d20+5, Tecnologia 4d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancada",
+    "alcance": "Corpo a corpo",
+    "teste": "1d20+5",
+    "dano": "1d4+5 impacto"
+   },
+   {
+    "nome": "Injetar",
+    "alcance": "Corpo a corpo",
+    "teste": "1d20+5",
+    "dano": "Veneno escolhido"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Seringas com Venenos",
+    "resumo": "Acertando a injeção, aplica um veneno do livro básico (p. 293) ou do AS6 (p. 77)."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Submissão",
+    "resumo": "+5 nos testes enquanto houver um manda-chuva da Panacea no ambiente."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Traje de Proteção",
+    "resumo": "+10 contra efeitos ambientais e infecções; RD 10 a químico e perfuração."
+   }
+  ]
+ },
+ {
+  "id": "manda_chuva_da_panacea",
+  "nome": "Manda-Chuva da Panacea",
+  "fonte": "AS6",
+  "pag": 57,
+  "elemento": "Nenhum",
+  "vd": 120,
+  "tipo": "Pessoa Média",
+  "percepcao": "3d20+10",
+  "iniciativa": "2d20",
+  "defesa": 23,
+  "fortitude": "2d20+5",
+  "reflexos": "2d20",
+  "vontade": "3d20+10",
+  "pv": 120,
+  "atributos": {
+   "agi": 2,
+   "for": 1,
+   "int": 3,
+   "pre": 3,
+   "vig": 3
+  },
+  "pericias": "Atualidades 3d20+5, Diplomacia 3d20+10, Enganação 3d20+10, Intimidação 3d20+10, Intuição 3d20+10, Ocultismo 3d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancada",
+    "alcance": "Corpo a corpo",
+    "teste": "1d20+10",
+    "dano": "1d6+5 impacto"
+   },
+   {
+    "nome": "Pistola",
+    "alcance": "Distância x2, curto",
+    "teste": "2d20+10",
+    "dano": "2d12+10 balístico",
+    "critico": "18"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Negociador",
+    "resumo": "Rola de novo testes de Presença e fica com o melhor."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Objeto de Pesquisa",
+    "resumo": "Carrega e sabe usar um item amaldiçoado escolhido pelo mestre."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Sou Mais Importante",
+    "resumo": "1x por rodada, desvia para um subalterno em alcance médio um efeito negativo que o atingiria."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Chamar Reforços",
+    "resumo": "1x por cena, chegam 1d4+1 seguranças da Panacea, que agem logo depois dele."
+   }
+  ]
+ },
+ {
+  "id": "seguranca_da_panacea",
+  "nome": "Segurança da Panacea",
+  "fonte": "AS6",
+  "pag": 58,
+  "elemento": "Nenhum",
+  "vd": 48,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20",
+  "iniciativa": "3d20+10",
+  "defesa": 21,
+  "fortitude": "2d20+5",
+  "reflexos": "3d20+5",
+  "vontade": "2d20+5",
+  "pv": 80,
+  "resistencias": "RD 5",
+  "atributos": {
+   "agi": 3,
+   "for": 3,
+   "int": 1,
+   "pre": 2,
+   "vig": 2
+  },
+  "pericias": "Atletismo 3d20+10, Intimidação 2d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancada",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+10",
+    "dano": "2d6+10 impacto"
+   },
+   {
+    "nome": "Pistola",
+    "alcance": "Distância x2, curto",
+    "teste": "3d20+10",
+    "dano": "1d12+10 balístico",
+    "critico": "18"
+   },
+   {
+    "nome": "Submetralhadora",
+    "alcance": "Distância x2, curto",
+    "teste": "3d20+10",
+    "dano": "3d6+10 balístico",
+    "critico": "19/x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Bem Pago",
+    "resumo": "+5 nos testes enquanto houver um manda-chuva da Panacea no ambiente."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Munição Não Letal",
+    "resumo": "Usa balas de borracha ou tranquilizantes até receber ordem de matar."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Ossos do Ofício",
+    "resumo": "+5 em resistências contra efeitos paranormais."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Traje de Campo",
+    "resumo": "RD 5 e máscara de gás (+10 em Fortitude contra efeitos de respiração)."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Agarrar",
+    "resumo": "Ao acertar a pancada, tenta agarrar (3d20+10); depois pode derrubar e imobilizar (paralisado enquanto preso; o segurança fica indefeso)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Granadas",
+    "resumo": "1x por cena cada, raio de 6m em alcance curto: flashbang (atordoado 1 rodada; Fortitude DT 20 só ofuscado e surdo), fragmentação (8d6 de perfuração; Reflexos DT 20), gás lacrimogêneo (4d6 químico, enjoado e asfixiado; Fortitude DT 20) ou incendiária (6d6 de fogo e em chamas; Reflexos DT 20)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Rajadas",
+    "resumo": "Dois ataques de submetralhadora com −1d20 (2d20+10), cada um com +1 dado de dano."
+   }
+  ]
+ },
+ {
+  "id": "hikikomori",
+  "nome": "Hikikomori",
+  "fonte": "AS6",
+  "pag": 60,
+  "elemento": "Energia",
+  "vd": 20,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 14, 2d6 mental (NEX 25%+ imune)",
+  "percepcao": "1d20",
+  "iniciativa": "2d20+5",
+  "defesa": 16,
+  "fortitude": "1d20",
+  "reflexos": "2d20+5",
+  "vontade": "1d20",
+  "pv": 35,
+  "resistencias": "Energia 5",
+  "vulnerabilidades": "Conhecimento",
+  "atributos": {
+   "agi": 2,
+   "for": 1,
+   "int": 1,
+   "pre": 1,
+   "vig": 1
+  },
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Disparo infectado",
+    "alcance": "Distância, curto",
+    "teste": "2d20+5",
+    "dano": "2d12 eletricidade"
+   },
+   {
+    "nome": "Esbarrão infectado",
+    "alcance": "Corpo a corpo",
+    "teste": "2d20+5",
+    "dano": "2d12 eletricidade"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Casulo Voltáico",
+    "resumo": "Sem estar machucado, Cura Acelerada 5 e quem o ataca corpo a corpo sofre 2d4 de Energia."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Infecção",
+    "resumo": "Quem sofre dano contrai o vírus do infecticídio (Fortitude DT 14 evita e dá imunidade na cena)."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Ricochete",
+    "resumo": "Ao acertar o esbarrão, faz uma ação de movimento."
+   }
+  ]
+ },
+ {
+  "id": "marca_passo",
+  "nome": "Marca-Passo",
+  "fonte": "AS6",
+  "pag": 61,
+  "elemento": "Energia",
+  "vd": 80,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 20, 3d8 mental (NEX 40%+ imune)",
+  "percepcao": "2d20",
+  "iniciativa": "3d20+10",
+  "defesa": 23,
+  "fortitude": "2d20+5",
+  "reflexos": "3d20+10",
+  "vontade": "2d20",
+  "pv": 140,
+  "resistencias": "Balístico, corte e perfuração 10; Energia 20",
+  "vulnerabilidades": "Conhecimento",
+  "atributos": {
+   "agi": 3,
+   "for": 3,
+   "int": 1,
+   "pre": 2,
+   "vig": 2
+  },
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Golpe infectado",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+10",
+    "dano": "2d12+5 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Trilha Digital",
+    "resumo": "Sente aparelhos eletrônicos e itens de Energia em alcance extremo; quem os carrega não o pega desprevenido e fica vulnerável a ele até se livrar deles."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Frenesi Eletrônico",
+    "resumo": "Quando alguém em alcance curto usa poder, ritual ou item de Energia ou um eletrônico, corre até ele e explode: 4d6+5 de Energia num raio de 6m (Reflexos DT 20 metade)."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Infecção de Equipamento",
+    "resumo": "Quem sofre o golpe rola 1d100: 51+ um item vira amaldiçoado de Energia; 50 ou menos um item fica infectado pelo vírus (Fortitude DT 20 para quem tocar)."
+   }
+  ]
+ },
+ {
+  "id": "estimulo",
+  "nome": "Estímulo",
+  "fonte": "AS6",
+  "pag": 62,
+  "elemento": "Energia",
+  "vd": 320,
+  "tipo": "Criatura Grande",
+  "presencaPerturbadora": "DT 8d10, 9d6 mental (NEX 95%+ imune)",
+  "percepcao": "5d20+20",
+  "iniciativa": "5d20+20",
+  "defesa": 50,
+  "fortitude": "4d20+15",
+  "reflexos": "5d20+25",
+  "vontade": "5d20+20",
+  "pv": 800,
+  "vulnerabilidades": "Conhecimento",
+  "imunidades": "Dano (exceto Conhecimento) e todas as condições",
+  "atributos": {
+   "agi": 5,
+   "for": 0,
+   "int": 5,
+   "pre": 5,
+   "vig": 4
+  },
+  "deslocamento": "12m",
+  "ataques": [],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Cogito Ergo Sum",
+    "resumo": "Quem falha contra a presença perturbadora ou o toca contrai o vírus do infecticídio."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Sequestrar Sinal",
+    "resumo": "Teleporta em alcance médio para junto de um aparelho eletrônico."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Glitch",
+    "resumo": "Some e reaparece: todos a 9m testam de novo contra a presença perturbadora."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Rodar Simulação",
+    "resumo": "Troca o maior e o menor atributo de alguém em alcance curto para testes até o fim da cena (Vontade DT 8d10 evita)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Imergir",
+    "resumo": "Num infectado em alcance curto: a doença avança um estágio e 10d12 de Energia (Fortitude DT 8d10 metade e evita o avanço); quem morre assim vira o início de uma horda de infecticídio."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Sequestro de Atenção",
+    "resumo": "Infectados a até 30m fazem Vontade DT 35 ou gastam o próximo turno indo tocá-lo."
+   }
+  ]
+ },
+ {
+  "id": "experimento_ssabaka",
+  "nome": "Experimento Ssabáka",
+  "fonte": "AS6",
+  "pag": 63,
+  "elemento": "Morte",
+  "elementosSecundarios": [
+   "Sangue"
+  ],
+  "vd": 180,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 28, 6d6 mental (NEX 60%+ imune)",
+  "percepcao": "2d20+10",
+  "iniciativa": "3d20+15",
+  "defesa": 36,
+  "fortitude": "4d20+15",
+  "reflexos": "3d20+15",
+  "vontade": "2d20+10",
+  "pv": 360,
+  "resistencias": "Balístico, impacto e perfuração 10; Sangue 20",
+  "vulnerabilidades": "Energia",
+  "atributos": {
+   "agi": 3,
+   "for": 3,
+   "int": 0,
+   "pre": 2,
+   "vig": 4
+  },
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Mordida",
+    "alcance": "Corpo a corpo",
+    "teste": "3d20+20",
+    "dano": "4d12+20 perfuração"
+   },
+   {
+    "nome": "Garras",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+20",
+    "dano": "4d12+10 corte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Fugitivo do Tempo",
+    "resumo": "Imune a efeitos negativos ligados ao tempo (envelhecimento, Decadência, Paradoxo)."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Mastigar",
+    "resumo": "Ao morder um alvo Grande ou menor, tenta agarrar (3d20+20) e o carrega junto; solta se morder outro."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Sofrimento Duradouro",
+    "resumo": "Despeja Lodo no agarrado: ele cura 3d8+3 PV mas perde 1d8+1 PV máximos para sempre."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Giro de Cauda",
+    "resumo": "Adjacentes sofrem 4d10+10 de impacto e caem (Reflexos DT 28 metade e evita)."
+   }
+  ]
+ }
+]

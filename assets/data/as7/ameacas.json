@@ -1,0 +1,727 @@
+[
+ {
+  "id": "raziel",
+  "nome": "Raziel",
+  "fonte": "AS7",
+  "pag": 40,
+  "elemento": "Sangue",
+  "vd": 120,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+5",
+  "sentidos": "Faro, percepção às cegas",
+  "iniciativa": "4d20+10",
+  "defesa": 28,
+  "fortitude": "3d20+10",
+  "reflexos": "4d20+10",
+  "vontade": "2d20+5",
+  "pv": 240,
+  "resistencias": "Balístico, impacto e perfuração 10; Sangue 20",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 4,
+   "for": 3,
+   "int": 3,
+   "pre": 2,
+   "vig": 3
+  },
+  "pericias": "Atletismo 3d20+10, Intimidação 2d20+10, Ocultismo 3d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Garras",
+    "alcance": "Corpo a corpo x2",
+    "teste": "4d20+15",
+    "dano": "2d10+20 perfuração",
+    "critico": "18"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Ignorar Dor",
+    "resumo": "Parece imune a dano; Intuição ou Percepção DT 30 revela que não é."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Monstruosidade",
+    "resumo": "Séculos de rituais o deixaram quase uma criatura: faro, percepção às cegas, resistências e vulnerabilidade a Morte (já na ficha)."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Vingança",
+    "resumo": "Se matarem um familiar dele, caça o responsável e quem estiver ligado a ele; se for na frente dele, entra em Fúria Sanguinária."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Fúria Sanguinária",
+    "resumo": "Machucado ou enfurecido, vira O Verdadeiro Raziel."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Revidar e Estripar",
+    "resumo": "1x por rodada, revida um ataque corpo a corpo, perdendo as RD por 1 rodada."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Abraço Sanguinolento",
+    "resumo": "Ao acertar as garras, tenta agarrar; 1x por rodada morde o agarrado: 6d6 de Sangue (Fortitude DT 23 metade) e cura metade."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Perseguir",
+    "resumo": "1x por rodada, anda o dobro na direção de quem quer matar."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Endurecer Sangue",
+    "resumo": "RD 5 até o fim da cena."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Fazer Sangrar",
+    "resumo": "Um ser em alcance curto sofre 6d6 de Sangue e sangra 2d6 por turno (Fortitude DT 23 metade e evita)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Maldição Sanguínea",
+    "resumo": "Um ser em alcance curto sofre −1d20 em todos os testes na cena (Fortitude DT 23 reduz a 1 rodada)."
+   }
+  ],
+  "nota": "Líder dos Vampiros no Hexatombe."
+ },
+ {
+  "id": "verdadeiro_raziel",
+  "nome": "O Verdadeiro Raziel",
+  "fonte": "AS7",
+  "pag": 41,
+  "elemento": "Sangue",
+  "vd": 200,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+10",
+  "sentidos": "Faro, percepção às cegas",
+  "iniciativa": "4d20+15",
+  "defesa": 38,
+  "fortitude": "3d20+15",
+  "reflexos": "4d20+15",
+  "vontade": "2d20+10",
+  "pv": 400,
+  "resistencias": "Balístico, impacto e perfuração 10; Sangue 20",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 4,
+   "for": 3,
+   "int": 3,
+   "pre": 2,
+   "vig": 3
+  },
+  "pericias": "Atletismo 3d20+15, Intimidação 2d20+15, Ocultismo 3d20+15",
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Garras",
+    "alcance": "Corpo a corpo x2",
+    "teste": "4d20+25",
+    "dano": "5d10+30 perfuração",
+    "critico": "18"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Monstruosidade",
+    "resumo": "Séculos de rituais o deixaram quase uma criatura: faro, percepção às cegas, resistências e vulnerabilidade a Morte (já na ficha)."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Fúria Sanguinária",
+    "resumo": "Ao assumir esta forma com menos de 200 PV, fica com 200."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Sede Incontrolável",
+    "resumo": "Se Alvira estiver ameaçada, gasta tudo para matar quem a ameaça; senão, foca o alvo com menos PV."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Revidar e Estripar",
+    "resumo": "1x por rodada, revida um ataque corpo a corpo, perdendo as RD por 1 rodada."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Abraço Sanguinolento",
+    "resumo": "Ao acertar as garras, tenta agarrar; 1x por rodada morde o agarrado: 10d6 de Sangue (Fortitude DT 29 metade) e cura metade."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Perseguir",
+    "resumo": "1x por rodada, anda o dobro na direção de quem quer matar."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Bote Retalhador",
+    "resumo": "Salta sobre alguém a até 3m: o alvo ataca uma vez como reação ou faz Reflexos DT 29; falhando, 10d10+30 de perfuração, caído e sangrando (acertando ou passando, metade e sem condições)."
+   }
+  ],
+  "nota": "Forma de fúria de Raziel."
+ },
+ {
+  "id": "alvira",
+  "nome": "Alvira",
+  "fonte": "AS7",
+  "pag": 42,
+  "elemento": "Sangue",
+  "vd": 120,
+  "tipo": "Pessoa Média",
+  "percepcao": "4d20+10",
+  "sentidos": "Faro, percepção às cegas",
+  "iniciativa": "3d20+10",
+  "defesa": 26,
+  "fortitude": "2d20+5",
+  "reflexos": "3d20+10",
+  "vontade": "4d20+10",
+  "pv": 210,
+  "resistencias": "Balístico, impacto e perfuração 10; Sangue 20",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 3,
+   "for": 1,
+   "int": 2,
+   "pre": 4,
+   "vig": 2
+  },
+  "pericias": "Enganação 4d20+10, Medicina 2d20+10, Ocultismo 2d20+10, Religião 4d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Cruz de sangue",
+    "alcance": "Corpo a corpo x2",
+    "teste": "1d20+15",
+    "dano": "2d12+10 corte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Monstruosidade",
+    "resumo": "Séculos de rituais o deixaram quase uma criatura: faro, percepção às cegas, resistências e vulnerabilidade a Morte (já na ficha)."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Madre Superior",
+    "resumo": "Um aliado adjacente pode sugar o sangue dela (movimento): ela sofre 3d8+3 e ele cura isso (metade se ela estiver machucada); não funciona com ela morrendo."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Clamor do Sangue Divino",
+    "resumo": "1x por cena, quem ela escolher em alcance longo ganha +1d20 em Agi, For ou Vig na cena."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Bolsa de Sangue",
+    "resumo": "Alguém em alcance longo recebe 3d8+3 PV (o excesso vira temporário)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Sussurro Horripilante",
+    "resumo": "A voz dela age como presença perturbadora em alcance longo (DT 23, 4d6 mental, NEX 50%+ imune)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Vampirismo",
+    "resumo": "Conjura o ritual Vampirismo (DT 23, até 10 PE)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Titereira de Sangue",
+    "resumo": "Quem bebeu ou foi curado pelo sangue dela, em alcance longo, obedece suas ordens na cena (Fortitude DT 23 evita e repete a cada turno)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Transferir Sangue",
+    "resumo": "1x por rodada, cura um adjacente em 3d8+3 sofrendo o mesmo (Reflexos DT 23 recusa)."
+   }
+  ]
+ },
+ {
+  "id": "sabara",
+  "nome": "Sabara",
+  "fonte": "AS7",
+  "pag": 43,
+  "elemento": "Sangue",
+  "vd": 100,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+5",
+  "sentidos": "Faro, percepção às cegas",
+  "iniciativa": "3d20+10",
+  "defesa": 25,
+  "fortitude": "2d20+5",
+  "reflexos": "3d20+10",
+  "vontade": "2d20",
+  "pv": 200,
+  "resistencias": "Balístico, impacto e perfuração 10; Sangue 20",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 3,
+   "for": 3,
+   "int": 2,
+   "pre": 2,
+   "vig": 2
+  },
+  "pericias": "Acrobacia 3d20+10, Atletismo 3d20+10, Sobrevivência 2d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Espada e adaga",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+15",
+    "dano": "2d6+10 corte + 2d4 Sangue",
+    "critico": "18/x3"
+   },
+   {
+    "nome": "Arremessar faca",
+    "alcance": "Distância x2, curto",
+    "teste": "3d20+15",
+    "dano": "4d4+10 perfuração",
+    "critico": "19"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Monstruosidade",
+    "resumo": "Séculos de rituais o deixaram quase uma criatura: faro, percepção às cegas, resistências e vulnerabilidade a Morte (já na ficha)."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Esquiva",
+    "resumo": "1x por rodada, +10 na Defesa contra um ataque."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Mil Perfurações",
+    "resumo": "Acertando os dois golpes no mesmo alvo, sangramento de 2d6 por turno (Fortitude DT 21 evita)."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Ripostar e Revidar",
+    "resumo": "1x por rodada, contra um ataque corpo a corpo, ataca em oposição; vencendo, não sofre dano e fere o atacante."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Ringen am Schwert",
+    "resumo": "Ao acertar, tenta agarrar; 1x por rodada morde o agarrado: 6d6 de Sangue (Fortitude DT 21 metade) e cura metade."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Perseguir",
+    "resumo": "1x por rodada, anda o dobro na direção de quem quer matar."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Dança Armada",
+    "resumo": "Golpeia os adjacentes que escolher: 2d6+10 de corte e 2d4 de Sangue (Reflexos DT 21 metade)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Golpe Derrubante",
+    "resumo": "Derruba um adjacente com o mesmo dano (Reflexos DT 21 metade e evita) e o mantém sob a espada: se ele agir ou levantar, ela ataca; para rolar longe, Iniciativa DT 23."
+   }
+  ]
+ },
+ {
+  "id": "velisar",
+  "nome": "Velisar",
+  "fonte": "AS7",
+  "pag": 44,
+  "elemento": "Sangue",
+  "vd": 100,
+  "tipo": "Pessoa Média",
+  "percepcao": "3d20+10",
+  "sentidos": "Faro, percepção às cegas",
+  "iniciativa": "2d20+5",
+  "defesa": 25,
+  "fortitude": "2d20",
+  "reflexos": "2d20+5",
+  "vontade": "3d20+10",
+  "pv": 180,
+  "resistencias": "Balístico, impacto e perfuração 10; Sangue 20",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 2,
+   "for": 1,
+   "int": 4,
+   "pre": 3,
+   "vig": 2
+  },
+  "pericias": "Artes 3d20+10, Atletismo 1d20+10, Ciências 4d20+10, Ocultismo 4d20+10, Tecnologia 4d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Garras",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+15",
+    "dano": "2d10+10 perfuração",
+    "critico": "19"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Monstruosidade",
+    "resumo": "Séculos de rituais o deixaram quase uma criatura: faro, percepção às cegas, resistências e vulnerabilidade a Morte (já na ficha)."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Velisar Sabe",
+    "resumo": "Percebe auras paranormais e invisíveis em alcance médio e ameaças e armadilhas a 18m."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Esquiva",
+    "resumo": "1x por rodada, +5 na Defesa contra um ataque."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Abraço Sanguinolento",
+    "resumo": "Ao acertar as garras, tenta agarrar; 1x por rodada morde o agarrado: 6d6 de Sangue (Fortitude DT 21 metade) e cura metade."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Perseguir",
+    "resumo": "1x por rodada, anda o dobro na direção de quem quer matar."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Armadilha Sanguinária",
+    "resumo": "Cria uma armadilha em alcance médio, ativada a 3m (Investigação DT 21 acha, Ocultismo DT 21 desarma): caixão de sangue (agarrado, caído e enredado, e pode ser teleportado para a base dele), explosão de carne (6d6 de perfuração e sangrando) ou gás paralisante (paralisado 1d4+1 rodadas); DT 21."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Comandar Experimento",
+    "resumo": "1x por rodada, um experimento dele em alcance longo ganha +1d20 no teste da ordem."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Olhar da Curiosidade Mórbida",
+    "resumo": "Um ser em alcance médio faz Reflexos ou Vontade DT 21; falhando, fica fascinado e só pode ser prestativo com ele."
+   }
+  ]
+ },
+ {
+  "id": "zefero",
+  "nome": "Zéfero",
+  "fonte": "AS7",
+  "pag": 45,
+  "elemento": "Sangue",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+5",
+  "sentidos": "Faro, percepção às cegas",
+  "iniciativa": "2d20+10",
+  "defesa": 23,
+  "fortitude": "3d20+10",
+  "reflexos": "2d20+5",
+  "vontade": "2d20",
+  "pv": 140,
+  "resistencias": "Balístico, impacto e perfuração 5; Sangue 10",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 2,
+   "for": 3,
+   "int": 0,
+   "pre": 2,
+   "vig": 2
+  },
+  "pericias": "Atletismo 3d20+10",
+  "deslocamento": "12m, escalada 12m",
+  "ataques": [
+   {
+    "nome": "Garras",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+10",
+    "dano": "1d10+10 perfuração",
+    "critico": "19"
+   },
+   {
+    "nome": "Mordida furiosa",
+    "alcance": "Corpo a corpo",
+    "teste": "3d20+10",
+    "dano": "3d12+20 Sangue",
+    "critico": "19"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Demônio de Coleira",
+    "resumo": "Obedece Velisar por carne ou sangue; sem ele, pode ser domesticado (Adestramento DT 20 e uma oferta)."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Fome Bestial",
+    "resumo": "Se Velisar estiver ameaçado, ataca quem o ameaça; senão, foca o alvo com menos PV."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Monstruosidade",
+    "resumo": "Séculos de rituais o deixaram quase uma criatura: faro, percepção às cegas, resistências e vulnerabilidade a Morte (já na ficha)."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Bloqueio",
+    "resumo": "1x por rodada, RD 10 contra um ataque."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Agarrão Lacerador",
+    "resumo": "Ao acertar a mordida, tenta agarrar; 1x por rodada morde o agarrado: 4d6 de Sangue (Fortitude DT 20 metade) e cura metade."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Dilacerar",
+    "resumo": "As duas garras no mesmo alvo causam +1d10 de perfuração."
+   }
+  ]
+ },
+ {
+  "id": "incinerado",
+  "nome": "Incinerado",
+  "fonte": "AS7",
+  "pag": 65,
+  "elemento": "Energia",
+  "elementosSecundarios": [
+   "Sangue"
+  ],
+  "vd": 60,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 19, 3d6 mental (NEX 35%+ imune)",
+  "percepcao": "−2d20",
+  "iniciativa": "3d20+10",
+  "defesa": 21,
+  "fortitude": "2d20+5",
+  "reflexos": "3d20+10",
+  "vontade": "−2d20",
+  "pv": 100,
+  "resistencias": "Balístico, corte e perfuração 5; Sangue 10; Energia 20",
+  "vulnerabilidades": "Balístico, fogo e Morte",
+  "imunidades": "Fogo",
+  "atributos": {
+   "agi": 3,
+   "for": 3,
+   "int": 0,
+   "pre": 0,
+   "vig": 2
+  },
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Disparo de labaredas",
+    "alcance": "Distância x2, curto",
+    "teste": "3d20+10",
+    "dano": "2d8+5 fogo e em chamas"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Combustão Caótica",
+    "resumo": "Perde 10 PV no início de cada turno; machucado, tem duas ações padrão."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Consumido pelo Caos",
+    "resumo": "Quem chega a SAN 0 ou 0 PV em chamas perto dele morre e vira outro incinerado na rodada seguinte."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Natureza Incendiária",
+    "resumo": "Prefere mirar o que pega fogo ou explode."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Instabilidade Ígnea",
+    "resumo": "Ao chegar a 0 PV, explode: 5d10 (metade mental, metade Energia) e em chamas num raio de 6m (Reflexos DT 19 metade e evita)."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Alimentar as Chamas",
+    "resumo": "Quando alguém perto sofre dano de estar em chamas, ele cura metade."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Agonia Incandescente",
+    "resumo": "Pessoas a até 18m sofrem 3d6 mental (Vontade DT 19 metade, −5 para quem está em chamas)."
+   }
+  ]
+ },
+ {
+  "id": "stryzga",
+  "nome": "Stryzga",
+  "fonte": "AS7",
+  "pag": 67,
+  "elemento": "Sangue",
+  "elementosSecundarios": [
+   "Morte"
+  ],
+  "vd": 120,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 23, 4d6 mental (NEX 50%+ imune)",
+  "percepcao": "4d20+10",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "3d20+10",
+  "defesa": 28,
+  "fortitude": "2d20+5",
+  "reflexos": "3d20+10",
+  "vontade": "4d20+10",
+  "pv": 240,
+  "resistencias": "Balístico, impacto e perfuração 10; químico e Sangue 20",
+  "vulnerabilidades": "Balístico, fogo e Morte",
+  "atributos": {
+   "agi": 3,
+   "for": 2,
+   "int": 3,
+   "pre": 4,
+   "vig": 2
+  },
+  "pericias": "Acrobacia 3d20+10, Furtividade 3d20+20",
+  "deslocamento": "9m, escalada 12m, voo 12m",
+  "ataques": [
+   {
+    "nome": "Mordida e garras",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+15",
+    "dano": "4d10+10 corte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Absorver Essência",
+    "resumo": "Depois de se alimentar de um alvo três vezes, +1d20 contra ele."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Dois Corações",
+    "resumo": "Quem ela mata faz surgir uma nova stryzga na sepultura mais próxima em 1d4+3 dias, se ela não for morta e queimada antes."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Ecos de Essência",
+    "resumo": "+1d20 contra seres ligados a alguém cujo sangue ela já bebeu."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Imitar Voz",
+    "resumo": "Imita a voz de uma vítima para abalar alguém em alcance curto: 4d6 mental (Vontade DT 23 metade)."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Constrição",
+    "resumo": "Ao acertar, tenta agarrar (3d20+15); voando com alguém agarrado, 1x por rodada aperta: 4d10+10 de corte (Fortitude DT 23 metade)."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Quebra-Ossos",
+    "resumo": "Voando com alguém agarrado, 1x por rodada o solta da altura que quiser: dano de queda +4d6 (não na mesma rodada da constrição)."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Rasante Silencioso",
+    "resumo": "Contra desprevenido ligado a uma vítima dela, +4d6 mental e apavorado na cena (Vontade DT 23 metade e só abalado)."
+   }
+  ],
+  "nota": "Precisa ser morta e queimada."
+ },
+ {
+  "id": "apostata",
+  "nome": "Apóstata",
+  "fonte": "AS7",
+  "pag": 70,
+  "elemento": "Conhecimento",
+  "elementosSecundarios": [
+   "Morte"
+  ],
+  "vd": 80,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 20, 3d8 mental (NEX 40%+ imune)",
+  "percepcao": "3d20+10",
+  "iniciativa": "2d20",
+  "defesa": 23,
+  "fortitude": "2d20+5",
+  "reflexos": "2d20",
+  "vontade": "3d20+10",
+  "pv": 111,
+  "resistencias": "Balístico, corte, impacto e Morte 5; Conhecimento 20",
+  "vulnerabilidades": "Sangue",
+  "imunidades": "Dano e todas as condições",
+  "atributos": {
+   "agi": 2,
+   "for": 2,
+   "int": 3,
+   "pre": 4,
+   "vig": 2
+  },
+  "deslocamento": "0m",
+  "ataques": [
+   {
+    "nome": "Flagellum",
+    "alcance": "Distância, curto",
+    "teste": "3d20+10",
+    "dano": "6d10 mental"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Mentem Corrumpere",
+    "resumo": "Quem falha contra a presença perturbadora pode, em vez do dano, receber uma fé esquecida como doença (só cura com a morte dela). Vontade diária (DT 20 +1 por dia) ou não consegue se afastar mais de 90m. Estágios: I treino ou +2 em Religião; II +5 em Religião, alquebrado e desprevenido no início das cenas; III não consegue atacá-la até ser atacado; IV esmorecido e abalado. Falhas seguidas obrigam a fazer os ritos."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Murus Idolorum",
+    "resumo": "Esconde-se atrás de uma parede de ídolos; atravessá-la causa 20d12 de Conhecimento e quem zera inexiste."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Ritus",
+    "resumo": "Os infectados fazem ritos (teste estendido de Religião, complexidade baixa). 1º (DT 25): estágio II, VD 160, presença DT 25 e 4d8, Defesa 34, 333 PV e +10 em testes, dano e RD. 2º (DT 30): estágio III, VD 240, presença DT 31 e 6d8, Defesa 42, 555 PV, +15 e um flagellum extra. 3º (DT 35, resistido com Vontade): estágio IV, VD 320, presença DT 40 e 9d6, Defesa 50, 777 PV, voo 12m, +20 e dois flagellums extras."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Idololatria (VD 160+)",
+    "resumo": "Cura metade do dano de cada flagellum que acerta."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Gnosis Absoluta (VD 320+)",
+    "resumo": "Cada tipo de dano que sofre dá +5 de RD contra ele, para sempre."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Funes Ligantes",
+    "resumo": "1x por rodada, ao acertar o flagellum, agarra com fios (3d20+15), até dois; cada fio tem 22 PV e, destruído, solta a vítima e tira esses PV dela."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Gnosis Implicata (VD 320+)",
+    "resumo": "Quem leva o flagellum fica vulnerável a dano mental na cena."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Potentiam Absorbere",
+    "resumo": "Cada agarrado sofre 2d8 mental e dá a ela um flagellum extra."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Visio Vetita (VD 240+)",
+    "resumo": "Quem a vê a até 18m sofre 6d8 mental (Vontade DT 35 metade); falha crítica cega para sempre."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Vacuitatem Observa (VD 240+)",
+    "resumo": "Abre um contorno para alguém em alcance médio, que fica fascinado tentando atravessar (Vontade DT 30, +5 se agarrado)."
+   }
+  ],
+  "enigma": "Interromper um rito antes do fim a expõe por 3 rodadas (sem imunidades, deslocamento 9m); depois ela volta a se esconder e se cura. Se o último rito se completa, ela sai sozinha para matar os fiéis e, conseguindo, volta ao VD 80."
+ }
+]

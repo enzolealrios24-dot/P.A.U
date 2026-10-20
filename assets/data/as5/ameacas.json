@@ -1,0 +1,680 @@
+[
+ {
+  "id": "hospedeiro_parasitado",
+  "nome": "Hospedeiro Parasitado",
+  "fonte": "AS5",
+  "pag": 36,
+  "elemento": "Nenhum",
+  "vd": 20,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20+5",
+  "iniciativa": "1d20+5",
+  "defesa": 15,
+  "fortitude": "1d20+5",
+  "reflexos": "1d20+5",
+  "vontade": "1d20+5",
+  "pv": 10,
+  "atributos": {
+   "agi": 1,
+   "for": 1,
+   "int": 1,
+   "pre": 1,
+   "vig": 1
+  },
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancada",
+    "alcance": "Corpo a corpo",
+    "teste": "1d20+5",
+    "dano": "1d4+5 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Parasitado",
+    "resumo": "Tem um interflorado no sistema nervoso: sangue verde e ácido, dificuldade com cores e pisca um olho de cada vez. Um choque térmico (aquecer e mergulhar em água gelada) expele o parasita sem dano; se o parasita se sentir ameaçado, aflora e mata o hospedeiro."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Variações",
+    "resumo": "Acólito (Int e Pre 2, Ocultismo, Percepção, Religião e Vontade 2d20+5, dois rituais de 1º círculo até 3 PE, DT 15), Faz-Tudo (+1 em dois atributos, +5 em quatro perícias e rola duas vezes numa delas), Guerrilheiro (Agi, For e Vig 2, 20 PV, pancada e pistola 2d20+10) ou Socorrista (Int e Pre 2, Medicina 2d20+5, cura 1d8+1 1x por cena)."
+   }
+  ]
+ },
+ {
+  "id": "hospedeiro_aflorado",
+  "nome": "Hospedeiro Aflorado",
+  "fonte": "AS5",
+  "pag": 38,
+  "elemento": "Conhecimento",
+  "elementosSecundarios": [
+   "Energia"
+  ],
+  "vd": 60,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 19, 3d6 mental (NEX 35%+ imune)",
+  "percepcao": "2d20",
+  "sentidos": "Percepção às cegas, visão no escuro",
+  "iniciativa": "2d20+5",
+  "defesa": 25,
+  "fortitude": "3d20+10",
+  "reflexos": "2d20+5",
+  "vontade": "2d20",
+  "pv": 100,
+  "resistencias": "Balístico, corte, impacto e perfuração 5; Conhecimento, Energia e químico 10",
+  "vulnerabilidades": "Fogo, frio e Sangue",
+  "atributos": {
+   "agi": 2,
+   "for": 2,
+   "int": 1,
+   "pre": 2,
+   "vig": 3
+  },
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancada",
+    "alcance": "Corpo a corpo x2",
+    "teste": "2d20+10",
+    "dano": "1d6+5 impacto + 2d6 químico"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Aflorado",
+    "resumo": "O hospedeiro está morto; matar o corpo mata o interflorado e vice-versa."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Disparada Errante",
+    "resumo": "Anda o dobro, mas Acrobacia DT 20 ou fica caído no fim."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Guincho Gutural",
+    "resumo": "Raio de 9m: 5d10 (metade Conhecimento, metade Energia), exceto Alheios e hospedeiros. Cada alvo escolhe tapar os ouvidos (larga tudo, metade do dano, surdo 1 rodada) ou não (dano inteiro, surdo 1d4+1 rodadas)."
+   }
+  ],
+  "nota": "Alheio, criatura de Transmissão (Conhecimento e Energia)."
+ },
+ {
+  "id": "interflorado",
+  "nome": "Interflorado",
+  "fonte": "AS5",
+  "pag": 39,
+  "elemento": "Conhecimento",
+  "elementosSecundarios": [
+   "Energia"
+  ],
+  "vd": 40,
+  "tipo": "Criatura Pequena",
+  "presencaPerturbadora": "DT 15, 2d8 mental (NEX 30%+ imune)",
+  "percepcao": "1d20+5",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "2d20+5",
+  "defesa": 19,
+  "fortitude": "1d20",
+  "reflexos": "2d20+5",
+  "vontade": "1d20+5",
+  "pv": 70,
+  "resistencias": "Balístico, corte, impacto e perfuração 5; Conhecimento, Energia e químico 10",
+  "vulnerabilidades": "Fogo, frio e Sangue",
+  "atributos": {
+   "agi": 2,
+   "for": 2,
+   "int": 1,
+   "pre": 1,
+   "vig": 1
+  },
+  "pericias": "Acrobacia 2d20+5, Atletismo 2d20+5, Furtividade 2d20+10",
+  "deslocamento": "9m",
+  "ataques": [],
+  "habilidades": [
+   {
+    "acao": "Movimento",
+    "nome": "Contorcer Perturbador",
+    "resumo": "Avança se debatendo sobre alguém: 2d8 mental, apavorado e trêmulo na cena (Vontade DT 15 metade, só abalado, e imune por 1 dia)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Guincho Gutural",
+    "resumo": "Raio de 9m: 5d10 (metade Conhecimento, metade Energia), exceto Alheios e hospedeiros. Cada alvo escolhe tapar os ouvidos (larga tudo, metade do dano, surdo 1 rodada) ou não (dano inteiro, surdo 1d4+1 rodadas)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Incubar",
+    "resumo": "Após 1 dia num hospedeiro, 1x por dia incuba um ovo (máximo 2d4); cada ovo tira 1d6 de SAN máxima. No limite ou com SAN 0, eclodem e matam o hospedeiro."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Investida Sufocante",
+    "resumo": "Corre o dobro e salta na cabeça de alguém (agarrar 2d20+10): agarrado, cego, surdo e asfixiado; se a vítima desmaiar, ele entra e a parasita. Também parasita quem já está inconsciente sem acordá-lo."
+   }
+  ],
+  "nota": "Alheio, criatura de Transmissão (Conhecimento e Energia)."
+ },
+ {
+  "id": "fummu",
+  "nome": "Fummu",
+  "fonte": "AS5",
+  "pag": 41,
+  "elemento": "Conhecimento",
+  "elementosSecundarios": [
+   "Energia"
+  ],
+  "vd": 100,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 21, 4d6 mental (NEX 45%+ imune)",
+  "percepcao": "2d20+5",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "3d20+10",
+  "defesa": 25,
+  "fortitude": "2d20",
+  "reflexos": "3d20+10",
+  "vontade": "2d20+5",
+  "pv": 200,
+  "resistencias": "Balístico, corte, impacto e perfuração 10; Conhecimento, Energia e químico 20",
+  "vulnerabilidades": "Sangue",
+  "imunidades": "Fogo",
+  "atributos": {
+   "agi": 3,
+   "for": 2,
+   "int": 2,
+   "pre": 2,
+   "vig": 2
+  },
+  "pericias": "Atletismo 2d20+10, Furtividade 3d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Toque ácido",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+15",
+    "dano": "2d10+10 químico"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Camuflagem Alheia",
+    "resumo": "Invisível: camuflagem total, +15 em Furtividade, desprevenidos contra ele e +2d20 nos ataques (alvos cegos sofrem −5 na Defesa). Em ambiente com gás ou fumaça, fica visível, mas com camuflagem leve."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Chamas Ferventes",
+    "resumo": "Quem o agarra sofre 2d10 de fogo, 1x por rodada."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Estudo de Terráqueos",
+    "resumo": "Observando alguém por uma semana, aprende algo novo (perícia, habilidade ou equipamento)."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Cintilação Estelar",
+    "resumo": "1x por rodada, se não estiver agarrado, teleporta até 9m."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Acionar Explosão",
+    "resumo": "Faz um objeto inflamável em alcance médio explodir: Minúsculo causa 2d6 de fogo e em chamas em 3m (Reflexos DT 4d10), +2d6 e +1,5m por tamanho acima."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Chama Viridente",
+    "resumo": "Um ser em alcance médio sofre 4d10+20 de fogo e em chamas (Reflexos DT 21 metade e evita)."
+   }
+  ],
+  "nota": "Alheio, criatura de Transmissão (Conhecimento e Energia)."
+ },
+ {
+  "id": "doppelganger_civil",
+  "nome": "Doppelganger Civil",
+  "fonte": "AS5",
+  "pag": 42,
+  "elemento": "Conhecimento",
+  "elementosSecundarios": [
+   "Energia"
+  ],
+  "vd": 20,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 15, 1d6 mental (NEX 20%+ imune)",
+  "percepcao": "2d20+5",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "1d20",
+  "defesa": 14,
+  "fortitude": "1d20",
+  "reflexos": "1d20",
+  "vontade": "2d20+5",
+  "pv": 14,
+  "resistencias": "Balístico, corte, impacto e perfuração 5; Conhecimento e Energia 10",
+  "vulnerabilidades": "Sangue",
+  "atributos": {
+   "agi": 1,
+   "for": 1,
+   "int": 3,
+   "pre": 2,
+   "vig": 1
+  },
+  "pericias": "Atualidades 3d20+5, Ciências 3d20+5, Enganação 2d20+5, Profissão 3d20+5, Sobrevivência 3d20+5, Tecnologia 3d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancada",
+    "alcance": "Corpo a corpo",
+    "teste": "1d20+5",
+    "dano": "1d4+2 impacto"
+   },
+   {
+    "nome": "Pistola de plasma",
+    "alcance": "Distância, curto",
+    "teste": "1d20+5",
+    "dano": "2d6+2 Energia",
+    "critico": "18"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Disfarce Alheio",
+    "resumo": "Rola Enganação duas vezes e fica com o melhor."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Somos Todos Um",
+    "resumo": "Sabe onde estão os outros doppelgangers e age pelo mesmo objetivo, mesmo se sacrificando."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Assumir Forma Monstruosa",
+    "resumo": "Revela a forma real: +10 PV, +2 na Defesa, +5 em testes, +5 no dano e +2 nas DTs."
+   }
+  ],
+  "nota": "Alheio, criatura de Transmissão (Conhecimento e Energia)."
+ },
+ {
+  "id": "doppelganger_combatente",
+  "nome": "Doppelganger Combatente",
+  "fonte": "AS5",
+  "pag": 43,
+  "elemento": "Conhecimento",
+  "elementosSecundarios": [
+   "Energia"
+  ],
+  "vd": 60,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 20, 3d6 mental (NEX 35%+ imune)",
+  "percepcao": "2d20+5",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "2d20+5",
+  "defesa": 19,
+  "fortitude": "1d20+5",
+  "reflexos": "2d20+5",
+  "vontade": "2d20+5",
+  "pv": 70,
+  "resistencias": "Balístico, corte, impacto e perfuração 10; Conhecimento e Energia 20",
+  "vulnerabilidades": "Sangue",
+  "atributos": {
+   "agi": 2,
+   "for": 2,
+   "int": 3,
+   "pre": 2,
+   "vig": 1
+  },
+  "pericias": "Atletismo 2d20+5, Ciências 3d20+5, Crime 2d20+5, Enganação 2d20+5, Furtividade 2d20+5, Sobrevivência 3d20+5, Tecnologia 3d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancada",
+    "alcance": "Corpo a corpo x2",
+    "teste": "2d20+10",
+    "dano": "1d10+5 impacto"
+   },
+   {
+    "nome": "Pistola de plasma",
+    "alcance": "Distância x2, curto",
+    "teste": "2d20+10",
+    "dano": "2d6+5 Energia",
+    "critico": "18"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Close Quarter Combat",
+    "resumo": "+1d20 em ataques corpo a corpo e manobras; mira, recarrega, saca e guarda como ação livre (já na ficha)."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Proteger",
+    "resumo": "1x por rodada, recebe no lugar de um aliado adjacente um dano ou efeito negativo."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Especialista em Manobras",
+    "resumo": "1x por rodada, ao acertar desarmado, tenta agarrar, derrubar ou desarmar (teste 2d20+12)."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Disfarce Alheio",
+    "resumo": "Rola Enganação duas vezes e fica com o melhor."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Somos Todos Um",
+    "resumo": "Sabe onde estão os outros doppelgangers e age pelo mesmo objetivo, mesmo se sacrificando."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Assumir Forma Monstruosa",
+    "resumo": "Revela a forma real: +10 PV, +2 na Defesa, +5 em testes, +5 no dano e +2 nas DTs."
+   }
+  ],
+  "nota": "Alheio, criatura de Transmissão (Conhecimento e Energia)."
+ },
+ {
+  "id": "doppelganger_cultista",
+  "nome": "Doppelganger Cultista",
+  "fonte": "AS5",
+  "pag": 44,
+  "elemento": "Conhecimento",
+  "elementosSecundarios": [
+   "Energia"
+  ],
+  "vd": 160,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 25, 4d8 mental (NEX 55%+ imune)",
+  "percepcao": "4d20+10",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "3d20+10",
+  "defesa": 28,
+  "fortitude": "2d20+5",
+  "reflexos": "3d20+10",
+  "vontade": "4d20+10",
+  "pv": 240,
+  "resistencias": "Balístico, corte, impacto e perfuração 10; Conhecimento e Energia 20",
+  "vulnerabilidades": "Sangue",
+  "atributos": {
+   "agi": 3,
+   "for": 2,
+   "int": 3,
+   "pre": 4,
+   "vig": 2
+  },
+  "pericias": "Artes 4d20+10, Diplomacia 4d20+10, Enganação 4d20+10, Intimidação 4d20+10, Ocultismo 3d20+10, Religião 4d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancada",
+    "alcance": "Corpo a corpo x2",
+    "teste": "2d20+10",
+    "dano": "1d4+5 impacto"
+   },
+   {
+    "nome": "Pistola de plasma",
+    "alcance": "Distância x2, curto",
+    "teste": "3d20+10",
+    "dano": "2d6+10 Energia",
+    "critico": "18"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Rituais (DT 23)",
+    "resumo": "Sem gastar PE, até 6 por conjuração: Enfeitiçar (ou discente: sugere uma ação), Invadir Mente discente (rajada de 10d6 de Conhecimento e atordoado, ou ligação telepática), Perturbação discente e Tela de Ruído discente."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Disfarce Alheio",
+    "resumo": "Rola Enganação duas vezes e fica com o melhor."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Somos Todos Um",
+    "resumo": "Sabe onde estão os outros doppelgangers e age pelo mesmo objetivo, mesmo se sacrificando."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Assumir Forma Monstruosa",
+    "resumo": "Revela a forma real: +10 PV, +2 na Defesa, +5 em testes, +5 no dano e +2 nas DTs."
+   }
+  ],
+  "nota": "Alheio, criatura de Transmissão (Conhecimento e Energia)."
+ },
+ {
+  "id": "bilu",
+  "nome": "Bilu",
+  "fonte": "AS5",
+  "pag": 47,
+  "elemento": "Conhecimento",
+  "elementosSecundarios": [
+   "Energia"
+  ],
+  "vd": 42,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 15, 1d4 mental (NEX 30%+ imune)",
+  "percepcao": "3d20+10",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "3d20+10",
+  "defesa": 12,
+  "fortitude": "1d20",
+  "reflexos": "3d20+10",
+  "vontade": "3d20+10",
+  "pv": 42,
+  "resistencias": "Balístico, corte, impacto e perfuração 5; Conhecimento, Energia e químico 10",
+  "vulnerabilidades": "Sangue",
+  "atributos": {
+   "agi": 3,
+   "for": 2,
+   "int": 3,
+   "pre": 4,
+   "vig": 2
+  },
+  "pericias": "Artes 3d20+10, Ciências 3d20+10, Furtividade 3d20+10, Ocultismo 3d20+10, Religião 3d20+10, Tecnologia 3d20+10",
+  "deslocamento": "9m",
+  "ataques": [],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Amistoso",
+    "resumo": "Só se aproxima com aparelhos (sobretudo rádios) desligados; gosta de enigmas e perguntas sobre a vida."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Até Breve",
+    "resumo": "Machucado, some para um espaço extradimensional até o mestre decidir."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Embaralhamento Mental",
+    "resumo": "Ameaçado por alguém, revida: 4d10 mental e esmorecido na cena (Vontade DT 20 metade e só frustrado)."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Comer Cimento",
+    "resumo": "Come cimento adjacente e cura 10 PV."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Salto para a Frente",
+    "resumo": "Salta até 12m; se for a primeira aparição para alguém, 4d4 mental e abalado na cena (Vontade DT 15 metade e evita)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Fala Enigmática",
+    "resumo": "Alguém em alcance curto sofre 3d6 mental e frustrado na cena (Vontade DT 15 metade e evita)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Luz Própria",
+    "resumo": "Liga ou desliga aparelhos num raio de 9m, ou emite luz verde nessa área."
+   }
+  ],
+  "nota": "Alheio, criatura de Transmissão (Conhecimento e Energia)."
+ },
+ {
+  "id": "rastropoda",
+  "nome": "Rastropoda",
+  "fonte": "AS5",
+  "pag": 49,
+  "elemento": "Conhecimento",
+  "elementosSecundarios": [
+   "Energia"
+  ],
+  "vd": 140,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 24, 4d8 mental (NEX 50%+ imune)",
+  "percepcao": "3d20+10",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "2d20+5",
+  "defesa": 31,
+  "fortitude": "4d20+10",
+  "reflexos": "2d20+5",
+  "vontade": "3d20+10",
+  "pv": 200,
+  "resistencias": "Balístico, corte, impacto e perfuração 10; Conhecimento, Energia, fogo e químico 20",
+  "vulnerabilidades": "Sangue",
+  "atributos": {
+   "agi": 2,
+   "for": 2,
+   "int": 1,
+   "pre": 3,
+   "vig": 4
+  },
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Toque ácido",
+    "alcance": "Corpo a corpo x2",
+    "teste": "2d20+15",
+    "dano": "5d8+15 químico"
+   },
+   {
+    "nome": "Gosma plasmática",
+    "alcance": "Distância x2, curto",
+    "teste": "2d20+15",
+    "dano": "4d10+15 Energia"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Camuflagem Alheia",
+    "resumo": "Invisível: camuflagem total, +15 em Furtividade, desprevenidos contra ele e +2d20 nos ataques (alvos cegos sofrem −5 na Defesa). Fica visível em câmeras e tenta destruir qualquer registro."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Ácidos Ferventes",
+    "resumo": "Quem o agarra sofre 2d10 químico, 1x por rodada."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Imune a Gases",
+    "resumo": "Fumaça e gases não o afetam."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Agarrão Corrosivo",
+    "resumo": "1x por rodada, ao acertar o toque, tenta agarrar (2d20+17); o agarrado sofre 2d10 químico por rodada."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Rastro Pestilento",
+    "resumo": "Ao se mover, deixa rastro por 1 rodada: 2d10 químico a quem tocar (Reflexos DT 24 metade)."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Rastro Deslizante",
+    "resumo": "Anda o dobro em linha reta."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Fumocinese",
+    "resumo": "Absorve gás e fumaça num raio de 9m e solta gás alucinógeno: −4d8 SAN e confusos (Fortitude DT 24 metade e evita)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Telecinese de Plasma",
+    "resumo": "Move um ser Médio ou objeto de até 10 espaços em alcance médio até 6m por rodada (Vontade DT 24 anula), mantendo com ação padrão."
+   }
+  ],
+  "nota": "Alheio, criatura de Transmissão (Conhecimento e Energia)."
+ },
+ {
+  "id": "memofligico",
+  "nome": "Memoflígico",
+  "fonte": "AS5",
+  "pag": 51,
+  "elemento": "Conhecimento",
+  "elementosSecundarios": [
+   "Energia"
+  ],
+  "vd": 200,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 29, 6d6 mental (NEX 65%+ imune)",
+  "percepcao": "4d20+15",
+  "sentidos": "Percepção às cegas, visão no escuro",
+  "iniciativa": "3d20+15",
+  "defesa": 38,
+  "fortitude": "2d20+10",
+  "reflexos": "3d20+15",
+  "vontade": "4d20+15",
+  "pv": 400,
+  "resistencias": "Balístico, corte, impacto e perfuração 10; Conhecimento e Energia 20",
+  "vulnerabilidades": "Sangue",
+  "atributos": {
+   "agi": 3,
+   "for": "—",
+   "int": 3,
+   "pre": 4,
+   "vig": 2
+  },
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Toque psicônico",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+25",
+    "dano": "6d6 mental"
+   },
+   {
+    "nome": "Raio psicônico",
+    "alcance": "Distância x2, curto",
+    "teste": "3d20+25",
+    "dano": "6d6 mental"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Camuflagem Alheia",
+    "resumo": "Invisível: camuflagem total, +15 em Furtividade, desprevenidos contra ele e +2d20 nos ataques (alvos cegos sofrem −5 na Defesa). Pode ficar visível com uma ação livre."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Incorporeidade Alheia",
+    "resumo": "Só é afetado por itens amaldiçoados, rituais e outros incorpóreos; atravessa objetos e usa Agi nos ataques."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Círculo de Transmissão",
+    "resumo": "Preso num círculo de aparelhos funcionando de 10m de raio, perde invisibilidade e incorporeidade; um aparelho parado devolve a invisibilidade, metade deles devolve a incorporeidade; todos quebrados o deixam fugir."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Teletransporte Psicônico",
+    "resumo": "Invisível e incorpóreo, teleporta até 18m."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Manipulação Psicônica",
+    "resumo": "Alguém em alcance médio sofre 6d6 mental e um efeito na cena (Vontade DT 29 metade e abranda): alquebrado, cego e surdo, apavorado, confuso, esmorecido, pasmo, −5 em Vontade contra ele, ou só 1d6 para conversar pelos aparelhos."
+   }
+  ],
+  "nota": "Alheio, criatura de Transmissão (Conhecimento e Energia)."
+ }
+]

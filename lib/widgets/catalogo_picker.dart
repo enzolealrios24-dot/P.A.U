@@ -248,7 +248,7 @@ String metaItem(Map<String, dynamic> i) {
   final cat = asInt(i['categoria']);
   final partes = <String>[
     if (i['categoria'] != null) 'Cat. ${cats[cat.clamp(0, 6)]}',
-    if (i['espacos'] != null) '${asInt(i['espacos'])} esp.',
+    if (i['espacos'] is num) '${_espacos(i['espacos'] as num)} esp.',
     if (asStr(i['dano']).isNotEmpty && asStr(i['tipo']) == 'arma')
       '${asStr(i['dano'])} ${asStr(i['critico'])}',
     if (asStr(i['alcance']).isNotEmpty) asStr(i['alcance']),
@@ -257,3 +257,6 @@ String metaItem(Map<String, dynamic> i) {
   ];
   return partes.join(' • ');
 }
+
+/// 0.5 vira "0,5"; inteiros ficam sem casa decimal.
+String _espacos(num v) => v % 1 == 0 ? '${v.toInt()}' : '$v'.replaceAll('.', ',');

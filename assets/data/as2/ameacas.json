@@ -1,0 +1,1325 @@
+[
+ {
+  "id": "arara_vermelha",
+  "nome": "Arara-Vermelha",
+  "fonte": "AS2",
+  "pag": 26,
+  "elemento": "Nenhum",
+  "vd": 10,
+  "tipo": "Animal Pequeno",
+  "percepcao": "2d20+5",
+  "iniciativa": "2d20+5",
+  "defesa": 12,
+  "fortitude": "1d20",
+  "reflexos": "2d20+5",
+  "vontade": "2d20",
+  "pv": 8,
+  "atributos": {
+   "agi": 2,
+   "for": 1,
+   "int": 0,
+   "pre": 2,
+   "vig": 1
+  },
+  "deslocamento": "3m, voo 9m",
+  "ataques": [
+   {
+    "nome": "Bicada",
+    "alcance": "Corpo a corpo",
+    "teste": "2d20+5",
+    "dano": "1d6+2 perfuração"
+   },
+   {
+    "nome": "Arranhão",
+    "alcance": "Corpo a corpo x2",
+    "teste": "2d20+5",
+    "dano": "1d4+2 corte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "E do Nada",
+    "resumo": "Durante a primeira rodada, quem age depois dela na iniciativa fica desprevenido contra ela."
+   }
+  ]
+ },
+ {
+  "id": "arara_devorada",
+  "nome": "Arara-Devorada",
+  "fonte": "AS2",
+  "pag": 27,
+  "elemento": "Sangue",
+  "vd": 80,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 20, 3d8 mental (NEX 40%+ imune)",
+  "percepcao": "2d20+5",
+  "iniciativa": "3d20+10",
+  "defesa": 21,
+  "fortitude": "2d20+5",
+  "reflexos": "3d20+10",
+  "vontade": "2d20",
+  "pv": 120,
+  "resistencias": "Balístico, impacto e perfuração 5; Sangue 10",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 3,
+   "for": 2,
+   "int": 0,
+   "pre": 2,
+   "vig": 2
+  },
+  "deslocamento": "9m, voo 12m",
+  "ataques": [
+   {
+    "nome": "Bicada",
+    "alcance": "Corpo a corpo",
+    "teste": "3d20+5",
+    "dano": "1d8+5 perfuração + 1d8 Sangue"
+   },
+   {
+    "nome": "Garras",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+5",
+    "dano": "1d6+5 corte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "E do Nada",
+    "resumo": "Durante a primeira rodada, quem age depois dela na iniciativa fica desprevenido contra ela."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Agarrão",
+    "resumo": "Ao acertar as garras, tenta agarrar (teste 3d20+7)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Penas Afiadas",
+    "resumo": "Raio de 9m (Reflexos DT 20 evita), 1d6 por alvo: 1–2 sangrando; 3–4 lento até recuperar PV; 5–6 fraco até o fim da cena ou remover veneno."
+   }
+  ]
+ },
+ {
+  "id": "arara_infernal",
+  "nome": "Arara-Infernal",
+  "fonte": "AS2",
+  "pag": 28,
+  "elemento": "Sangue",
+  "vd": 120,
+  "tipo": "Criatura Grande",
+  "presencaPerturbadora": "DT 23, 4d6 mental (NEX 50%+ imune)",
+  "percepcao": "2d20+5",
+  "iniciativa": "4d20+10",
+  "defesa": 26,
+  "fortitude": "3d20+10",
+  "reflexos": "4d20+10",
+  "vontade": "2d20+5",
+  "pv": 220,
+  "resistencias": "Balístico, impacto e perfuração 10; Sangue 20",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 4,
+   "for": 2,
+   "int": 0,
+   "pre": 2,
+   "vig": 3
+  },
+  "deslocamento": "12m, voo 15m",
+  "ataques": [
+   {
+    "nome": "Bicada",
+    "alcance": "Corpo a corpo",
+    "teste": "4d20+10",
+    "dano": "1d10+10 perfuração + 1d10 Sangue"
+   },
+   {
+    "nome": "Garras",
+    "alcance": "Corpo a corpo x4",
+    "teste": "4d20+10",
+    "dano": "1d8+10 corte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "E do Nada",
+    "resumo": "Durante a primeira rodada, quem age depois dela na iniciativa fica desprevenido contra ela."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Agarrão",
+    "resumo": "Ao acertar as garras, tenta agarrar (teste 4d20+12)."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Mastigar",
+    "resumo": "O agarrado sofre 6d10 de Sangue (Fortitude DT 23 metade); quem fica morrendo é engolido e ela cura 2d10 PV."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Penas Afiadas",
+    "resumo": "Raio de 9m (Reflexos DT 23 evita): perde 2d6 PV e, por 1d6, sangrando (1–2), lento (3–4) ou fraco (5–6)."
+   }
+  ]
+ },
+ {
+  "id": "jaguatirica",
+  "nome": "Jaguatirica",
+  "fonte": "AS2",
+  "pag": 30,
+  "elemento": "Nenhum",
+  "vd": 10,
+  "tipo": "Animal Pequeno",
+  "percepcao": "1d20+5",
+  "iniciativa": "2d20+5",
+  "defesa": 13,
+  "fortitude": "1d20",
+  "reflexos": "2d20+5",
+  "vontade": "1d20",
+  "pv": 16,
+  "atributos": {
+   "agi": 2,
+   "for": 1,
+   "int": 0,
+   "pre": 1,
+   "vig": 1
+  },
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Mordida",
+    "alcance": "Corpo a corpo",
+    "teste": "2d20+5",
+    "dano": "1d6+2 corte"
+   },
+   {
+    "nome": "Arranhar",
+    "alcance": "Corpo a corpo x2",
+    "teste": "2d20+5",
+    "dano": "1d4+2 corte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Movimento",
+    "nome": "Pulo do Gato",
+    "resumo": "Salta até alguém em alcance curto; atacando no mesmo turno, +1d4 de dano. Contra desprevenido, vira ação livre 1x por rodada."
+   }
+  ]
+ },
+ {
+  "id": "felino_devorado",
+  "nome": "Felino-Devorado",
+  "fonte": "AS2",
+  "pag": 31,
+  "elemento": "Sangue",
+  "vd": 80,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 20, 3d8 mental (NEX 40%+ imune)",
+  "percepcao": "2d20+10",
+  "iniciativa": "3d20+10",
+  "defesa": 23,
+  "fortitude": "2d20+5",
+  "reflexos": "3d20+10",
+  "vontade": "2d20",
+  "pv": 140,
+  "resistencias": "Balístico, impacto e perfuração 5; Sangue 10",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 3,
+   "for": 2,
+   "int": 0,
+   "pre": 2,
+   "vig": 2
+  },
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Mordidas",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+10",
+    "dano": "1d8+5 corte + 1d8 Sangue"
+   },
+   {
+    "nome": "Garras",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+10",
+    "dano": "1d6+5 corte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Camuflagem Perversa",
+    "resumo": "Sempre com camuflagem leve; 1x por cena trata um crítico como acerto comum; −1d20 para percebê-lo ou rastreá-lo."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Pulo do Felino",
+    "resumo": "Salta até alguém em alcance curto; atacando no mesmo turno, +1d8. Contra desprevenido, ação livre 1x por rodada."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Chicotada Perfurante",
+    "resumo": "Cauda num ser em alcance curto: 4d8 de Sangue, caído e puxado para onde quiser no alcance (Reflexos DT 20 metade e evita)."
+   }
+  ]
+ },
+ {
+  "id": "felino_infernal",
+  "nome": "Felino-Infernal",
+  "fonte": "AS2",
+  "pag": 32,
+  "elemento": "Sangue",
+  "vd": 120,
+  "tipo": "Criatura Grande",
+  "presencaPerturbadora": "DT 23, 4d6 mental (NEX 50%+ imune)",
+  "percepcao": "2d20+10",
+  "iniciativa": "4d20+10",
+  "defesa": 28,
+  "fortitude": "3d20+10",
+  "reflexos": "4d20+10",
+  "vontade": "2d20+5",
+  "pv": 230,
+  "resistencias": "Balístico, impacto e perfuração 10; Sangue 20",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 4,
+   "for": 2,
+   "int": 0,
+   "pre": 2,
+   "vig": 3
+  },
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Mordidas",
+    "alcance": "Corpo a corpo x2",
+    "teste": "4d20+10",
+    "dano": "2d8+5 corte + 2d8 Sangue"
+   },
+   {
+    "nome": "Garras",
+    "alcance": "Corpo a corpo x2",
+    "teste": "4d20+10",
+    "dano": "2d6+5 corte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Camuflagem Perversa",
+    "resumo": "Sempre com camuflagem leve; 1x por cena trata um crítico como acerto comum; −2d20 para percebê-lo ou rastreá-lo."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Pulo do Felino",
+    "resumo": "Como o devorado, mas +2d8 de dano."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Boca da Loucura",
+    "resumo": "Um adjacente faz Reflexos DT 23 ou fica agarrado, sofrendo 4d6 de Sangue e 4d6 mental agora e no início de cada turno do felino (soltar: Acrobacia, Atletismo ou Luta DT 23). Sem mordidas enquanto agarra."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Chicotada Perfurante",
+    "resumo": "6d8 de Sangue, caído, sangrando e puxado (Reflexos DT 23 metade e evita)."
+   }
+  ]
+ },
+ {
+  "id": "jonas_aguiar",
+  "nome": "Jonas Aguiar",
+  "fonte": "AS2",
+  "pag": 39,
+  "elemento": "Sangue",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20+5",
+  "iniciativa": "2d20+5",
+  "defesa": 21,
+  "fortitude": "2d20+5",
+  "reflexos": "2d20+5",
+  "vontade": "1d20+5",
+  "pv": 120,
+  "pericias": "Adestramento 2d20+5, Atletismo 3d20+10, Crime 2d20+5, Enganação 2d20+5, Furtividade 2d20+5, Investigação 1d20+5, Pilotagem 2d20+5, Sobrevivência 1d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Machado",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+10",
+    "dano": "1d8+10 corte + 1d8 Sangue e sangrando",
+    "critico": "x3"
+   },
+   {
+    "nome": "Revólver",
+    "alcance": "Distância x2, curto",
+    "teste": "2d20+10",
+    "dano": "2d6+10 balístico",
+    "critico": "19/x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Reação",
+    "nome": "Revidar",
+    "resumo": "1x por rodada, quando erram um ataque contra ele, ataca corpo a corpo o atacante."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Golpe Cruel",
+    "resumo": "1x por rodada, +5 no ataque e no dano."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Predador de Sangue",
+    "resumo": "Com algo que tenha o cheiro da vítima, ganha +1d20 para rastreá-la, percebê-la e atacá-la (uma vítima por vez)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Intenção Assassina",
+    "resumo": "Alterna para a ficha Mutilador Noturno (p. 40); ao voltar à forma normal, só pode despertá-la de novo depois de dormir."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Poder de Intenção",
+    "resumo": "Depois de ser ferido três vezes (5+ de dano cada), ganha RD 25, mas perde 5 PV no início de cada turno."
+   }
+  ]
+ },
+ {
+  "id": "mutilador_noturno",
+  "nome": "Mutilador Noturno",
+  "fonte": "AS2",
+  "pag": 40,
+  "elemento": "Sangue",
+  "vd": 140,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20+10",
+  "iniciativa": "2d20+10",
+  "defesa": 29,
+  "fortitude": "2d20+10",
+  "reflexos": "2d20+10",
+  "vontade": "1d20+10",
+  "pv": 260,
+  "pericias": "Adestramento 2d20+10, Atletismo 3d20+15, Crime 2d20+10, Enganação 2d20+10, Furtividade 2d20+10, Investigação 1d20+10, Pilotagem 2d20+10, Sobrevivência 1d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Machado",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+15",
+    "dano": "1d8+20 corte + 2d8 Sangue e sangrando",
+    "critico": "x3"
+   },
+   {
+    "nome": "Revólver",
+    "alcance": "Distância x2, curto",
+    "teste": "2d20+15",
+    "dano": "3d6+20 balístico",
+    "critico": "19/x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Predador Perfeito",
+    "resumo": "Uma ação padrão extra por rodada."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Revidar Violento",
+    "resumo": "2x por rodada, quando erram um ataque corpo a corpo contra ele, contra-ataca."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Golpe Mutilador",
+    "resumo": "1x por rodada, +5 no ataque e +10 no dano."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Predador Sanguinário",
+    "resumo": "Como Predador de Sangue: +1d20 contra a vítima marcada pelo cheiro."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Intenção Assassina",
+    "resumo": "Alterna para a ficha Jonas Aguiar (p. 39); ao voltar à forma normal, só pode despertá-la de novo depois de dormir."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Poder de Intenção",
+    "resumo": "Depois de ser ferido três vezes (5+ de dano cada), ganha RD 25, mas perde 5 PV no início de cada turno."
+   }
+  ],
+  "nota": "Forma de intenção assassina de Jonas Aguiar."
+ },
+ {
+  "id": "dalmo_magno",
+  "nome": "Dalmo Magno",
+  "fonte": "AS2",
+  "pag": 45,
+  "elemento": "Energia",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20+5",
+  "iniciativa": "1d20+5",
+  "defesa": 23,
+  "fortitude": "3d20+10",
+  "reflexos": "1d20+5",
+  "vontade": "1d20+5",
+  "pv": 140,
+  "pericias": "Atletismo 4d20+10, Intimidação 1d20+10, Pilotagem 1d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancada",
+    "alcance": "Corpo a corpo x2",
+    "teste": "4d20+10",
+    "dano": "2d6+10 impacto + 1d10 Energia"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Lutador de Arena",
+    "resumo": "+5 em manobras de combate e para resistir a elas."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Corpo Fechado",
+    "resumo": "1x por rodada, RD 10 contra um dano."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Pressão Atmosférica",
+    "resumo": "1x por rodada, ao acertar um agarrado, +1d10 de Energia e atordoado 1 rodada (Fortitude DT 20 evita; 1x por cena por alvo)."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Golpes de Arena",
+    "resumo": "1x por rodada, ao acertar corpo a corpo, uma pancada extra ou manobra no mesmo alvo."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Intenção Assassina",
+    "resumo": "Alterna para a ficha Colosso (p. 46); ao voltar à forma normal, só pode despertá-la de novo depois de dormir."
+   }
+  ]
+ },
+ {
+  "id": "colosso",
+  "nome": "Colosso",
+  "fonte": "AS2",
+  "pag": 46,
+  "elemento": "Energia",
+  "vd": 140,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20+10",
+  "iniciativa": "1d20+10",
+  "defesa": 31,
+  "fortitude": "3d20+15",
+  "reflexos": "1d20+10",
+  "vontade": "1d20+10",
+  "pv": 280,
+  "pericias": "Atletismo 4d20+15, Intimidação 1d20+15, Pilotagem 1d20+15",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancada",
+    "alcance": "Corpo a corpo x2",
+    "teste": "4d20+15",
+    "dano": "4d6+20 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Campeão de Arena",
+    "resumo": "+10 em manobras de combate e para resistir a elas."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Campo de Pressão",
+    "resumo": "1x por rodada, RD 15 contra um dano."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Implosão Atmosférica",
+    "resumo": "1x por rodada, ao acertar um agarrado, +1d10 de Energia, atordoado 1 rodada, caído e sangrando (Fortitude DT 24 evita; 1x por cena por alvo)."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Golpes de Jaula",
+    "resumo": "1x por rodada, ao acertar corpo a corpo, pancada extra ou manobra no mesmo alvo, que causa +1d10 de impacto se acertar."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Intenção Assassina",
+    "resumo": "Alterna para a ficha Dalmo Magno (p. 45); ao voltar à forma normal, só pode despertá-la de novo depois de dormir."
+   }
+  ],
+  "nota": "Forma de intenção assassina de Dalmo Magno."
+ },
+ {
+  "id": "jae_yoon",
+  "nome": "Jae-Yoon",
+  "fonte": "AS2",
+  "pag": 51,
+  "elemento": "Conhecimento",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20+5",
+  "iniciativa": "3d20+10",
+  "defesa": 22,
+  "fortitude": "1d20+5",
+  "reflexos": "3d20+10",
+  "vontade": "1d20+5",
+  "pv": 100,
+  "pericias": "Acrobacia 3d20+5, Atletismo 2d20+5, Crime 3d20+10, Enganação 1d20+10, Investigação 3d20+10, Furtividade 3d20+10, Tecnologia 3d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Punhal",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+10",
+    "dano": "2d4+10 perfuração + 1d6 Conhecimento",
+    "critico": "19"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Reação",
+    "nome": "Esquiva Tática",
+    "resumo": "1x por rodada, +10 na Defesa contra um ataque."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Perito",
+    "resumo": "1x por rodada, +1d8 num teste de perícia treinada."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Assassinato Furtivo",
+    "resumo": "1x por rodada, +3d8 contra desprevenido ou flanqueado."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Punhal X",
+    "resumo": "1x por rodada, deixa o alvo desprevenido; se ferir, cego 1 rodada (1x por cena por alvo)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Zona dos Sussurros",
+    "resumo": "Marca um cômodo com X (até três áreas): +5 nos ataques e sem penalidade em Furtividade após agir ali."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Intenção Assassina",
+    "resumo": "Alterna para a ficha X (p. 52); ao voltar à forma normal, só pode despertá-la de novo depois de dormir."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Poder de Intenção",
+    "resumo": "Prova o sangue de um adjacente machucado: +1d8 de dano e +2 na margem de ameaça na cena; num crítico, corta a boca do alvo em X, que não fala nem usa poderes ou rituais por 1d4 rodadas."
+   }
+  ]
+ },
+ {
+  "id": "x_jae_yoon",
+  "nome": "X",
+  "fonte": "AS2",
+  "pag": 52,
+  "elemento": "Conhecimento",
+  "vd": 140,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20+10",
+  "iniciativa": "3d20+15",
+  "defesa": 30,
+  "fortitude": "1d20+10",
+  "reflexos": "3d20+15",
+  "vontade": "1d20+10",
+  "pv": 200,
+  "pericias": "Acrobacia 3d20+10, Atletismo 2d20+10, Crime 3d20+15, Enganação 1d20+15, Furtividade 3d20+15, Investigação 3d20+15, Tecnologia 3d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Punhal",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+15",
+    "dano": "4d4+20 perfuração + 2d6 Conhecimento",
+    "critico": "19"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Reação",
+    "nome": "Analítico",
+    "resumo": "1x por rodada, +1d12 num teste de perícia treinada."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Esquiva Sombria",
+    "resumo": "2x por rodada, +10 na Defesa contra um ataque."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Assassinato Cruel",
+    "resumo": "1x por rodada, +6d8 contra desprevenido ou flanqueado."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Punhal X",
+    "resumo": "1x por rodada, deixa o alvo desprevenido; se ferir, cego 2 rodadas (1x por cena por alvo)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Zona das Sombras",
+    "resumo": "Como a Zona dos Sussurros; nela, o Assassinato Cruel rola de novo os 7 e 8 e soma."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Intenção Assassina",
+    "resumo": "Alterna para a ficha Jae-Yoon (p. 51); ao voltar à forma normal, só pode despertá-la de novo depois de dormir."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Poder de Intenção",
+    "resumo": "Prova o sangue de um adjacente machucado: +1d8 de dano e +2 na margem de ameaça na cena; num crítico, corta a boca do alvo em X, que não fala nem usa poderes ou rituais por 1d4 rodadas."
+   }
+  ],
+  "nota": "Forma de intenção assassina de Jae-Yoon."
+ },
+ {
+  "id": "kemi",
+  "nome": "Kemi",
+  "fonte": "AS2",
+  "pag": 57,
+  "elemento": "Morte",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+5",
+  "iniciativa": "3d20+10",
+  "defesa": 23,
+  "fortitude": "1d20+5",
+  "reflexos": "3d20+10",
+  "vontade": "2d20+5",
+  "pv": 90,
+  "pericias": "Acrobacia 3d20+10, Atletismo 1d20+5, Crime 3d20+10, Furtividade 3d20+10, Investigação 3d20+10, Medicina 3d20+5, Ocultismo 3d20+5, Sobrevivência 2d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Facada",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+10",
+    "dano": "2d4+10 perfuração",
+    "critico": "19"
+   },
+   {
+    "nome": "Fuzil de precisão",
+    "alcance": "Distância, longo",
+    "teste": "3d20+10",
+    "dano": "2d10+20 balístico + 2d4 Morte",
+    "critico": "17/x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Sniper da Morte",
+    "resumo": "Quem cai a 0 PV pelo fuzil morre após 2 turnos morrendo (em vez de 3)."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Esquiva Tática",
+    "resumo": "1x por rodada, +10 na Defesa contra um ataque."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Perito",
+    "resumo": "1x por rodada, +1d8 num teste de perícia treinada."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Disparo da Morte",
+    "resumo": "1x por rodada, +2 na margem de ameaça de um ataque com arma de fogo."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Intenção Assassina",
+    "resumo": "Alterna para a ficha Fantasma (p. 58); ao voltar à forma normal, só pode despertá-la de novo depois de dormir."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Poder de Intenção",
+    "resumo": "1x por rodada, ao ouvir o grito de morte de alguém que tentou proteger, ataca quem o derrubou (ou quem a derrubou)."
+   }
+  ]
+ },
+ {
+  "id": "fantasma_kemi",
+  "nome": "Fantasma",
+  "fonte": "AS2",
+  "pag": 58,
+  "elemento": "Morte",
+  "vd": 140,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+10",
+  "iniciativa": "3d20+15",
+  "defesa": 30,
+  "fortitude": "1d20+10",
+  "reflexos": "3d20+15",
+  "vontade": "2d20+10",
+  "pv": 180,
+  "pericias": "Acrobacia 3d20+15, Atletismo 1d20+10, Crime 3d20+15, Furtividade 3d20+15, Investigação 3d20+15, Medicina 3d20+10, Ocultismo 3d20+10, Sobrevivência 2d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Facada",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+15",
+    "dano": "4d4+20 perfuração",
+    "critico": "19"
+   },
+   {
+    "nome": "Fuzil de precisão",
+    "alcance": "Distância, longo",
+    "teste": "3d20+15",
+    "dano": "4d10+40 balístico + 4d4 Morte",
+    "critico": "17/x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Sniper da Morte",
+    "resumo": "Quem cai a 0 PV pelo fuzil morre após 2 turnos morrendo."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Esquiva Fantasma",
+    "resumo": "2x por rodada, +10 na Defesa contra um ataque."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Analítica",
+    "resumo": "1x por rodada, +1d12 num teste de perícia treinada."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Disparo Espiral",
+    "resumo": "1x por rodada, +2 na margem de ameaça; o tiro ignora cobertura e 10 de RD."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Intenção Assassina",
+    "resumo": "Alterna para a ficha Kemi (p. 57); ao voltar à forma normal, só pode despertá-la de novo depois de dormir."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Poder de Intenção",
+    "resumo": "1x por rodada, ao ouvir o grito de morte de alguém que tentou proteger, ataca quem o derrubou (ou quem a derrubou)."
+   }
+  ],
+  "nota": "Forma de intenção assassina de Kemi."
+ },
+ {
+  "id": "labirinto",
+  "nome": "Labirinto",
+  "fonte": "AS2",
+  "pag": 62,
+  "elemento": "Conhecimento",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "3d20+5",
+  "iniciativa": "1d20+5",
+  "defesa": 20,
+  "fortitude": "1d20+5",
+  "reflexos": "1d20+5",
+  "vontade": "3d20+10",
+  "pv": 120,
+  "pericias": "Ciências 3d20+10, Intuição 3d20+5, Investigação 3d20+10, Medicina 3d20+10, Ocultismo 3d20+15, Sobrevivência 3d20+5, Tecnologia 3d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancada com antena",
+    "alcance": "Corpo a corpo x2",
+    "teste": "1d20+5",
+    "dano": "1d8+10 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Antena do Medo",
+    "resumo": "Guarda um ritual conjurado na antena e o solta depois com uma ação padrão, sem outro custo (um por vez)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Novo Caminho",
+    "resumo": "Após ver alguém morrer em alcance curto, cura um ser em alcance curto em metade dos PV máximos do morto."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Rituais",
+    "resumo": "Capturar Momento (até três símbolos que veem e ouvem por ele), Labirinto Mental (1d4 rodadas andando a esmo; Vontade DT 20 por turno), Mapa Sanguíneo (localiza todos num raio de 1km; Vontade DT 20 evita) e Rajada Caótica (8d8 de Energia em alcance médio; Reflexos DT 20 metade)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Intenção Assassina",
+    "resumo": "Alterna para a ficha Labirinto (intenção assassina) (p. 64); ao voltar à forma normal, só pode despertá-la de novo depois de dormir."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Poder de Intenção",
+    "resumo": "Ao ver alguém morrer em alcance curto, absorve suas intenções e cura um ser em alcance curto em metade dos PV máximos do morto."
+   }
+  ]
+ },
+ {
+  "id": "labirinto_intencao",
+  "nome": "Labirinto (intenção assassina)",
+  "fonte": "AS2",
+  "pag": 64,
+  "elemento": "Conhecimento",
+  "vd": 140,
+  "tipo": "Pessoa Média",
+  "percepcao": "3d20+10",
+  "iniciativa": "1d20+10",
+  "defesa": 28,
+  "fortitude": "1d20+10",
+  "reflexos": "1d20+10",
+  "vontade": "3d20+15",
+  "pv": 240,
+  "pericias": "Ciências 3d20+15, Intuição 3d20+10, Investigação 3d20+15, Medicina 3d20+15, Ocultismo 3d20+20, Sobrevivência 3d20+10, Tecnologia 3d20+15",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancada com antena",
+    "alcance": "Corpo a corpo x2",
+    "teste": "1d20+10",
+    "dano": "2d8+20 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Antena do Medo",
+    "resumo": "Guarda um ritual na antena e o solta com uma ação padrão."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Rituais",
+    "resumo": "Consumir Momento (como Capturar Momento, mas pode explodir o símbolo: 8d8 de Morte em quem ele capta; Fortitude DT 25 metade), Labirinto Abissal (anda a esmo até o fim da cena; Vontade DT 25 por turno), Revelação Sanguínea (mapa de 1km com localização e estado de saúde; Vontade DT 25) e Tempestade Caótica (8d10 de Energia e pode repetir o raio a cada rodada na cena; Reflexos DT 25 metade)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Intenção Assassina",
+    "resumo": "Alterna para a ficha Labirinto (p. 62); ao voltar à forma normal, só pode despertá-la de novo depois de dormir."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Poder de Intenção",
+    "resumo": "Ao ver alguém morrer em alcance curto, absorve suas intenções e cura um ser em alcance curto em metade dos PV máximos do morto."
+   }
+  ]
+ },
+ {
+  "id": "jasper",
+  "nome": "Jasper",
+  "fonte": "AS2",
+  "pag": 70,
+  "elemento": "Nenhum",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20",
+  "iniciativa": "3d20+5",
+  "defesa": 23,
+  "fortitude": "2d20+5",
+  "reflexos": "3d20+10",
+  "vontade": "2d20",
+  "pv": 90,
+  "atributos": {
+   "agi": 3,
+   "for": 3,
+   "int": 1,
+   "pre": 1,
+   "vig": 2
+  },
+  "pericias": "Atletismo 3d20+10, Religião 1d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Foices acorrentadas",
+    "alcance": "Corpo a corpo x2 (4,5m)",
+    "teste": "3d20+10",
+    "dano": "3d4+10 corte",
+    "critico": "19"
+   },
+   {
+    "nome": "Foices acopladas",
+    "alcance": "Corpo a corpo (4,5m)",
+    "teste": "3d20+10",
+    "dano": "6d4+10 corte",
+    "critico": "x4"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Conduíte Paranormal",
+    "resumo": "RD paranormal 5 e +5 em resistências contra rituais e habilidades de criaturas."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Correntes Acopladas",
+    "resumo": "Não pode ser desarmado das foices; alcançam 4,5m e dão +5 em manobras."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Puxar pra Briga",
+    "resumo": "Ao acertar as foices, puxa o alvo para junto dele; se o alvo se afastar, −1d20 nos ataques contra outros por 1 rodada."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Acoplar Foices",
+    "resumo": "Junta as foices numa arma só (mais dano, um ataque)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Ceifar",
+    "resumo": "Ataque com as foices acopladas contra todos os adjacentes que escolher (um teste): +4d4 de corte e sangrando."
+   }
+  ]
+ },
+ {
+  "id": "lena_viegas",
+  "nome": "Lena Viegas",
+  "fonte": "AS2",
+  "pag": 74,
+  "elemento": "Nenhum",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "3d20",
+  "iniciativa": "2d20+5",
+  "defesa": 22,
+  "fortitude": "1d20",
+  "reflexos": "2d20+5",
+  "vontade": "3d20+10",
+  "pv": 80,
+  "atributos": {
+   "agi": 2,
+   "for": 1,
+   "int": 3,
+   "pre": 3,
+   "vig": 1
+  },
+  "pericias": "Diplomacia 3d20+5, Investigação 3d20+5, Ocultismo 3d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pistola",
+    "alcance": "Distância x2, curto",
+    "teste": "2d20+10",
+    "dano": "1d12+10 balístico",
+    "critico": "18"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Catalisadores Sofisticados",
+    "resumo": "1x por cena recebe 3d6; gasta 1d6 por ritual (livre, ao conjurar) para somar ao dano, à cura ou à DT."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Rituais (DT 20)",
+    "resumo": "Conjura sem gastar PE, até 6 PE por conjuração: Cicatrização discente (cura 5d8+5 e envelhece 1 ano), Eletrocussão discente (linha de 30m, 6d6 de Energia), Esconder dos Olhos e Flagelo de Sangue (marca com uma ordem; cada rodada de desobediência causa 10d6 de Sangue e enjoo)."
+   }
+  ]
+ },
+ {
+  "id": "maria",
+  "nome": "Maria",
+  "fonte": "AS2",
+  "pag": 78,
+  "elemento": "Nenhum",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+5",
+  "iniciativa": "3d20+5",
+  "defesa": 21,
+  "fortitude": "1d20+5",
+  "reflexos": "3d20+10",
+  "vontade": "2d20+5",
+  "pv": 80,
+  "atributos": {
+   "agi": 3,
+   "for": 1,
+   "int": 3,
+   "pre": 2,
+   "vig": 1
+  },
+  "pericias": "Enganação 2d20+10, Medicina 3d20+5, Ocultismo 3d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pistola",
+    "alcance": "Distância x2, curto",
+    "teste": "2d20+10",
+    "dano": "1d12+10 balístico",
+    "critico": "18"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Estágio Terminal",
+    "resumo": "Machucada, ganha uma ação de movimento extra até o fim da cena."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Fim Precoce",
+    "resumo": "Ao matar alguém, +1d20 em todos os testes na cena."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Kian Vai Nos Salvar",
+    "resumo": "Motivada pela fé em Kian, conjura um ritual de Conhecimento de até 3º círculo à escolha do mestre na cena."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Rituais (DT 20)",
+    "resumo": "Conjura sem gastar PE, até 6 PE por conjuração: Hemofagia (toque, 6d6 de Sangue e cura metade)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Tratamento de Emergência",
+    "resumo": "Dá 2d10+10 PV temporários a quem toca; acabando, ele fica fraco na cena (1x por cena por alvo)."
+   }
+  ]
+ },
+ {
+  "id": "remi",
+  "nome": "Remi",
+  "fonte": "AS2",
+  "pag": 82,
+  "elemento": "Nenhum",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+5",
+  "iniciativa": "3d20+5",
+  "defesa": 21,
+  "fortitude": "2d20",
+  "reflexos": "2d20+5",
+  "vontade": "2d20+10",
+  "pv": 90,
+  "atributos": {
+   "agi": 2,
+   "for": 1,
+   "int": 3,
+   "pre": 2,
+   "vig": 2
+  },
+  "pericias": "Artes 2d20+10, Ocultismo 3d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Espada enferrujada",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+10",
+    "dano": "2d8+10 corte",
+    "critico": "19"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Sem Espaço para Erro",
+    "resumo": "1x por rodada, rola de novo um ataque de espada que errou; se acertar, +1 dado de dano. Usa Int no ataque e dano com ela."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Dedilhar Harpa",
+    "resumo": "Até o próximo turno, a espada ganha +5 no ataque, +5 no dano, +2 na margem ou alcance de 9m."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Rituais (DT 20)",
+    "resumo": "Conjura sem gastar PE, até 6 PE por conjuração: Amaldiçoar Arma discente (+2d6 de Sangue ou Conhecimento), Distorcer Aparência e Desfazer Sinapses discente (até 5 seres em alcance longo, 3d6+3 de Conhecimento e frustrados)."
+   }
+  ]
+ },
+ {
+  "id": "tuco",
+  "nome": "Tuco",
+  "fonte": "AS2",
+  "pag": 86,
+  "elemento": "Nenhum",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20+5",
+  "iniciativa": "1d20+10",
+  "defesa": 24,
+  "fortitude": "3d20+5",
+  "reflexos": "1d20+10",
+  "vontade": "2d20+5",
+  "pv": 90,
+  "atributos": {
+   "agi": 1,
+   "for": 3,
+   "int": 1,
+   "pre": 2,
+   "vig": 3
+  },
+  "pericias": "Atletismo 3d20+10, Furtividade 1d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Porrada",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+10",
+    "dano": "2d6+10 impacto",
+    "critico": "19"
+   },
+   {
+    "nome": "Pistola",
+    "alcance": "Distância x2, curto",
+    "teste": "1d20+10",
+    "dano": "1d12+10 balístico",
+    "critico": "18"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Aí Sim, Neném",
+    "resumo": "+1d20 nos ataques contra quem não está engajado em combate."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Sentido Tático",
+    "resumo": "Imune a desprevenido; quem ele fere falha em Furtividade contra ele por 1 rodada."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Imobilização Militar",
+    "resumo": "1x por rodada, ao acertar uma porrada, tenta agarrar (+12)."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Movimentação Tática",
+    "resumo": "Indo para uma cobertura ou um inimigo, anda o dobro."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Marteladas",
+    "resumo": "Um adjacente sofre 6d6+20 de impacto (Fortitude DT 20 metade)."
+   }
+  ]
+ },
+ {
+  "id": "juan",
+  "nome": "Juan",
+  "fonte": "AS2",
+  "pag": 91,
+  "elemento": "Sangue",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "3d20+5",
+  "iniciativa": "3d20+10",
+  "defesa": 20,
+  "fortitude": "1d20+5",
+  "reflexos": "2d20+10",
+  "vontade": "3d20+10",
+  "pv": 100,
+  "pericias": "Atletismo 2d20+5, Enganação 3d20+5, Intimidação 3d20+10, Ocultismo 2d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Facada",
+    "alcance": "Corpo a corpo x2",
+    "teste": "2d20+10",
+    "dano": "2d4+10 perfuração + 2d10 Sangue",
+    "critico": "19"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Reação",
+    "nome": "Faca Predadora",
+    "resumo": "1x por rodada, ao acertar, cura 2d10 PV (o excesso vira PV temporário)."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Rituais (DT 20)",
+    "resumo": "Perturbação discente (fuja, largue, senta, venha ou sofra 3d8 de Conhecimento), Vínculo de Sangue (divide dano com o alvo) e Descarnar discente (toque, 10d8 e hemorragia)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Armadura de Sangue Diabólica",
+    "resumo": "Vira Juan Diabólico (p. 92); se não matar ninguém até o fim da cena, a forma adormece até ele dormir."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Poder de Intenção",
+    "resumo": "Se obedeceu a Ele na cena, transforma um teste em sucesso automático (como 20 natural), 1x por cena."
+   }
+  ]
+ },
+ {
+  "id": "juan_diabolico",
+  "nome": "Juan Diabólico",
+  "fonte": "AS2",
+  "pag": 92,
+  "elemento": "Sangue",
+  "vd": 140,
+  "tipo": "Pessoa Média",
+  "percepcao": "3d20+10",
+  "iniciativa": "3d20+15",
+  "defesa": 31,
+  "fortitude": "1d20+10",
+  "reflexos": "2d20+15",
+  "vontade": "3d20+15",
+  "pv": 280,
+  "pericias": "Atletismo 2d20+10, Enganação 3d20+10, Intimidação 3d20+15, Ocultismo 2d20+15",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Facada",
+    "alcance": "Corpo a corpo x2",
+    "teste": "2d20+15",
+    "dano": "4d4+20 perfuração + 4d10 Sangue",
+    "critico": "19"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Reação",
+    "nome": "Faca Predadora",
+    "resumo": "1x por rodada, ao acertar, cura 4d10 PV (excesso vira temporário)."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Rituais (DT 25)",
+    "resumo": "Perturbação diabólica (alcance médio, sofra causa 5d8), Vínculo de Sangue diabólico (alcance médio) e Descarnar diabólico (alcance curto, 12d8 e hemorragia de 5d8)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Armadura de Sangue Diabólica",
+    "resumo": "Volta a ser Juan e só pode se transformar de novo depois de dormir."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Poder de Intenção",
+    "resumo": "Se obedeceu a Ele na cena, transforma um teste em sucesso automático (como 20 natural), 1x por cena."
+   }
+  ],
+  "nota": "Forma diabólica de Juan."
+ }
+]

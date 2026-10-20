@@ -1,0 +1,912 @@
+[
+ {
+  "id": "ale_psikolera",
+  "nome": "Alê (PSIKOLERA)",
+  "fonte": "AS3",
+  "pag": 11,
+  "elemento": "Nenhum",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "3d20+10",
+  "iniciativa": "3d20+5",
+  "defesa": 18,
+  "fortitude": "1d20",
+  "reflexos": "3d20+5",
+  "vontade": "3d20+10",
+  "pv": 45,
+  "atributos": {
+   "agi": 3,
+   "for": 1,
+   "int": 3,
+   "pre": 3,
+   "vig": 1
+  },
+  "pericias": "Artes 3d20+10, Ocultismo 3d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Cortar com teclado",
+    "alcance": "Corpo a corpo x2",
+    "teste": "1d20+10",
+    "dano": "2d6+10 corte",
+    "critico": "19"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Livre",
+    "nome": "Música do Diabo",
+    "resumo": "Mascarado, toca sua parte: cada membro do PSIKOLERA causa +1d4 de dano com 1 tocando, +1d6 com 2, +1d8 com 3, +1d10 com 4 e +1d12 com os 5 (ordem: Franco, Cindy, Alê, Eloy, Caio)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Desfazer Sinapses",
+    "resumo": "Um ser em alcance médio sofre 3d10+10 de Conhecimento e fica confuso 1 rodada (Vontade DT 20 metade e evita)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Hora do Show",
+    "resumo": "Põe a máscara: +5 nos ataques, Defesa 26, PV 90, +5 nas DTs, +2 dados de dano e libera Música do Diabo. Perde tudo se a máscara for arrancada (desarmar contra 1d20+10) ou quebrada (quebrar contra 1d20+10; RD 10, 5 PV)."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Rituais (DT 20)",
+    "resumo": "Conjura sem gastar PE, até 6 PE por conjuração: Cicatrização discente (5d8+5 PV e envelhece 1 ano) e Proteção Sigilosa (raio de 3m, +5 na Defesa, resistências e Furtividade dos aliados na área)."
+   }
+  ]
+ },
+ {
+  "id": "caio_psikolera",
+  "nome": "Caio (PSIKOLERA)",
+  "fonte": "AS3",
+  "pag": 17,
+  "elemento": "Nenhum",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20",
+  "iniciativa": "2d20+5",
+  "defesa": 17,
+  "fortitude": "2d20+10",
+  "reflexos": "2d20+5",
+  "vontade": "2d20",
+  "pv": 60,
+  "atributos": {
+   "agi": 2,
+   "for": 2,
+   "int": 1,
+   "pre": 2,
+   "vig": 2
+  },
+  "pericias": "Artes 2d20+10, Atletismo 2d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Espada-microfone",
+    "alcance": "Corpo a corpo x2",
+    "teste": "2d20+10",
+    "dano": "2d8+10 corte",
+    "critico": "19"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Livre",
+    "nome": "Música do Diabo",
+    "resumo": "Mascarado, toca sua parte: cada membro do PSIKOLERA causa +1d4 de dano com 1 tocando, +1d6 com 2, +1d8 com 3, +1d10 com 4 e +1d12 com os 5 (ordem: Franco, Cindy, Alê, Eloy, Caio)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Berrão",
+    "resumo": "Grita no ouvido de um adjacente: 4d8 de impacto, surdo 1 rodada e solta o que segura; largando tudo para tapar os ouvidos, sofre metade e evita a surdez."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Corte na Jugular",
+    "resumo": "Um adjacente sofre 2d8+10 de corte e sangra (Reflexos DT 20 metade e evita)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Hora do Show",
+    "resumo": "Põe a máscara: +5 nos ataques, Defesa 27, PV 80, +5 nas DTs, +2 dados de dano e libera Música do Diabo. Perde tudo se a máscara for arrancada (desarmar contra 2d20+10) ou quebrada (quebrar contra 2d20+10; RD 10, 5 PV)."
+   }
+  ]
+ },
+ {
+  "id": "eloy_psikolera",
+  "nome": "Eloy (PSIKOLERA)",
+  "fonte": "AS3",
+  "pag": 23,
+  "elemento": "Nenhum",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20",
+  "iniciativa": "2d20+5",
+  "defesa": 16,
+  "fortitude": "3d20+10",
+  "reflexos": "2d20+5",
+  "vontade": "1d20",
+  "pv": 70,
+  "atributos": {
+   "agi": 1,
+   "for": 3,
+   "int": 1,
+   "pre": 1,
+   "vig": 3
+  },
+  "pericias": "Artes 1d20+10, Atletismo 3d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancada",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+10",
+    "dano": "4d4+10 impacto",
+    "critico": "19"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Livre",
+    "nome": "Música do Diabo",
+    "resumo": "Mascarado, toca sua parte: cada membro do PSIKOLERA causa +1d4 de dano com 1 tocando, +1d6 com 2, +1d8 com 3, +1d10 com 4 e +1d12 com os 5 (ordem: Franco, Cindy, Alê, Eloy, Caio)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Hora do Show",
+    "resumo": "Põe a máscara: +5 nos ataques, Defesa 26, PV 90, +5 nas DTs, +2 dados de dano e libera Música do Diabo. Perde tudo se a máscara for arrancada (desarmar contra 3d20+10) ou quebrada (quebrar contra 3d20+10; RD 10, 5 PV)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Moeller Method",
+    "resumo": "Espanca um adjacente: Fortitude DT 20 ou 4d4+10 de impacto e novo teste (passar: 2d4+5 e para). Repete até passar ou falhar três vezes seguidas."
+   }
+  ]
+ },
+ {
+  "id": "franco_psikolera",
+  "nome": "Franco (PSIKOLERA)",
+  "fonte": "AS3",
+  "pag": 29,
+  "elemento": "Nenhum",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20",
+  "iniciativa": "2d20+5",
+  "defesa": 16,
+  "fortitude": "2d20+5",
+  "reflexos": "2d20+10",
+  "vontade": "1d20",
+  "pv": 55,
+  "atributos": {
+   "agi": 2,
+   "for": 2,
+   "int": 1,
+   "pre": 1,
+   "vig": 2
+  },
+  "pericias": "Acrobacia 2d20+10, Artes 1d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Bater com guitarra",
+    "alcance": "Corpo a corpo x2",
+    "teste": "2d20+5",
+    "dano": "1d10+5 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Livre",
+    "nome": "Música do Diabo",
+    "resumo": "Mascarado, toca sua parte: cada membro do PSIKOLERA causa +1d4 de dano com 1 tocando, +1d6 com 2, +1d8 com 3, +1d10 com 4 e +1d12 com os 5 (ordem: Franco, Cindy, Alê, Eloy, Caio)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Hora do Show",
+    "resumo": "Põe a máscara: +5 nos ataques, Defesa 26, PV 75, +5 nas DTs, +2 dados de dano e libera Música do Diabo. Perde tudo se a máscara for arrancada (desarmar contra 2d20+5) ou quebrada (quebrar contra 2d20+5; RD 10, 5 PV)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Imolar",
+    "resumo": "Lança-chamas num ser em alcance curto; rola 1d20: 10+ causa 8d6+10 de fogo e em chamas (Reflexos DT 20 metade e evita); 9 ou menos queima o próprio Franco (4d6 e em chamas)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Incinerar",
+    "resumo": "Chamas da guitarra num ser em alcance curto: 6d6+5 de fogo e em chamas (Reflexos DT 20 metade e evita)."
+   }
+  ]
+ },
+ {
+  "id": "cindy_psikolera",
+  "nome": "Cindy (PSIKOLERA)",
+  "fonte": "AS3",
+  "pag": 37,
+  "elemento": "Nenhum",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "3d20+5",
+  "iniciativa": "3d20+10",
+  "defesa": 17,
+  "fortitude": "1d20",
+  "reflexos": "3d20+10",
+  "vontade": "3d20+5",
+  "pv": 50,
+  "atributos": {
+   "agi": 3,
+   "for": 1,
+   "int": 2,
+   "pre": 3,
+   "vig": 1
+  },
+  "pericias": "Artes 3d20+10, Enganação 3d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancada com baixo",
+    "alcance": "Corpo a corpo x2",
+    "teste": "1d20+10",
+    "dano": "1d6+10 impacto"
+   },
+   {
+    "nome": "Disparo com baixo",
+    "alcance": "Distância x2, médio",
+    "teste": "3d20+10",
+    "dano": "2d8+10 balístico",
+    "critico": "19/x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Livre",
+    "nome": "Música do Diabo",
+    "resumo": "Mascarado, toca sua parte: cada membro do PSIKOLERA causa +1d4 de dano com 1 tocando, +1d6 com 2, +1d8 com 3, +1d10 com 4 e +1d12 com os 5 (ordem: Franco, Cindy, Alê, Eloy, Caio)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Hora do Show",
+    "resumo": "Põe a máscara: +5 nos ataques, Defesa 27, PV 70, +5 nas DTs, +2 dados de dano e libera Música do Diabo. Perde tudo se a máscara for arrancada (desarmar contra 1d20+10) ou quebrada (quebrar contra 1d20+10; RD 10, 5 PV)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Silenciar",
+    "resumo": "Um ser em alcance médio sofre 2d6 mental e fica trêmulo 3 rodadas (Vontade DT 20 metade e só 1 rodada)."
+   }
+  ]
+ },
+ {
+  "id": "caito",
+  "nome": "Caíto",
+  "fonte": "AS3",
+  "pag": 41,
+  "elemento": "Sangue",
+  "vd": 20,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20+5",
+  "iniciativa": "2d20+5",
+  "defesa": 17,
+  "fortitude": "1d20",
+  "reflexos": "2d20+5",
+  "vontade": "1d20+5",
+  "pv": 20,
+  "atributos": {
+   "agi": 2,
+   "for": 1,
+   "int": 2,
+   "pre": 1,
+   "vig": 1
+  },
+  "pericias": "Furtividade 2d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pistola",
+    "alcance": "Distância x2, curto",
+    "teste": "2d20+5",
+    "dano": "1d12+5 balístico",
+    "critico": "18"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Completa",
+    "nome": "Ódio Suprimido",
+    "resumo": "Explode de raiva: quem está em alcance curto faz Fortitude e Reflexos DT 20; falhar em Fortitude: caído e 1d4+6 de impacto; falhar em Reflexos: 1d12+5 balístico. Depois fica exausto na cena."
+   }
+  ],
+  "nota": "Sacrifício do PSIKOLERA no Hexatombe."
+ },
+ {
+  "id": "ana_couracas",
+  "nome": "Ana (Couraças)",
+  "fonte": "AS3",
+  "pag": 47,
+  "elemento": "Sangue",
+  "vd": 100,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20+5",
+  "iniciativa": "2d20+5",
+  "defesa": 27,
+  "fortitude": "3d20+10",
+  "reflexos": "2d20+5",
+  "vontade": "1d20+5",
+  "pv": 90,
+  "resistencias": "Balístico, impacto e perfuração 5; Sangue 10",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 2,
+   "for": 3,
+   "int": 1,
+   "pre": 1,
+   "vig": 3
+  },
+  "pericias": "Atletismo 3d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Maça",
+    "alcance": "Corpo a corpo",
+    "teste": "3d20+15",
+    "dano": "6d4+10 perfuração",
+    "critico": "x3"
+   },
+   {
+    "nome": "Espada",
+    "alcance": "Corpo a corpo",
+    "teste": "3d20+15",
+    "dano": "4d6+10 corte",
+    "critico": "19"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Fúria Apaixonada",
+    "resumo": "Se Escarlata morrer, 1x por cena, ação padrão para três ataques (duas maças e uma espada) contra quem a matou, +1d10 cada."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Paixão Servil",
+    "resumo": "A até alcance curto de Escarlata, +1d6 em testes e rolagens (+1d10 se Escarlata foi atacada desde a última rodada)."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Rituais (DT 20)",
+    "resumo": "Conjura sem gastar PE, até 6 PE por conjuração: Hemofagia (toque, 6d6 de Sangue e cura metade)."
+   }
+  ]
+ },
+ {
+  "id": "argano",
+  "nome": "Argano",
+  "fonte": "AS3",
+  "pag": 51,
+  "elemento": "Sangue",
+  "vd": 100,
+  "tipo": "Pessoa Média",
+  "percepcao": "−2d20",
+  "iniciativa": "1d20+5",
+  "defesa": 26,
+  "fortitude": "4d20+10",
+  "reflexos": "1d20+5",
+  "vontade": "−2d20",
+  "pv": 120,
+  "resistencias": "Balístico, impacto e perfuração 5; Sangue 10",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 1,
+   "for": 4,
+   "int": 1,
+   "pre": 0,
+   "vig": 4
+  },
+  "pericias": "Atletismo 4d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Maça pesada",
+    "alcance": "Corpo a corpo",
+    "teste": "4d20+15",
+    "dano": "4d8+20 perfuração",
+    "critico": "x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Reação",
+    "nome": "Guardião",
+    "resumo": "1x por rodada, em alcance curto de Escarlata, recebe um dano dirigido a ela."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Erguer Maça",
+    "resumo": "Prepara o Golpe Arrasador."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Golpe Arrasador",
+    "resumo": "Com a maça erguida, um adjacente sofre 4d12+20 de perfuração (Fortitude DT 21 metade)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Esmagar Ossos",
+    "resumo": "Passa por cima de um ser caído ou atordoado em alcance curto: 4d10+20 de perfuração e fraco por um dia (Reflexos DT 21 metade e evita)."
+   }
+  ]
+ },
+ {
+  "id": "chispa",
+  "nome": "Chispa",
+  "fonte": "AS3",
+  "pag": 57,
+  "elemento": "Sangue",
+  "vd": 100,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20+10",
+  "iniciativa": "3d20+5",
+  "defesa": 26,
+  "fortitude": "1d20+5",
+  "reflexos": "3d20+10",
+  "vontade": "1d20+10",
+  "pv": 90,
+  "resistencias": "Balístico, impacto e perfuração 5; Sangue 10",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 3,
+   "for": 1,
+   "int": 4,
+   "pre": 1,
+   "vig": 1
+  },
+  "pericias": "Pilotagem 3d20+10, Tecnologia 4d20+10",
+  "deslocamento": "15m (triciclo)",
+  "ataques": [
+   {
+    "nome": "Tiro de escopeta",
+    "alcance": "Distância, curto",
+    "teste": "3d20+15",
+    "dano": "6d6+20 balístico",
+    "critico": "x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Motor Frágil",
+    "resumo": "O motor do triciclo (Defesa 26, RD 5, 20 PV; −1d20 para acertar) explode se destruído: 4d6 em Chispa, que fica imóvel, desprevenido e sem Acelerar e Investida com Lança até consertar (1d4+1 horas)."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Acelerar",
+    "resumo": "1x por rodada, +5 na Defesa e resistências contra um ataque ou efeito."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Granada Flamejante",
+    "resumo": "Explosão de 3m em alcance curto: 6d6 de fogo e em chamas (Reflexos DT 21 metade e evita)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Investida com Lança",
+    "resumo": "Avança até um ser em alcance médio: ele salta (Reflexos DT 21) ou resiste agindo primeiro; quem falha ou fica é trespassado por 6d8+20 de perfuração."
+   }
+  ]
+ },
+ {
+  "id": "torvo",
+  "nome": "Torvo",
+  "fonte": "AS3",
+  "pag": 63,
+  "elemento": "Sangue",
+  "vd": 20,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20",
+  "iniciativa": "1d20",
+  "defesa": 21,
+  "fortitude": "2d20+5",
+  "reflexos": "1d20",
+  "vontade": "1d20+10",
+  "pv": 30,
+  "resistencias": "Balístico, impacto e perfuração 5; Sangue 10",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 1,
+   "for": 1,
+   "int": 1,
+   "pre": 1,
+   "vig": 2
+  },
+  "deslocamento": "0m",
+  "ataques": [
+   {
+    "nome": "Manopla espinhenta",
+    "alcance": "Corpo a corpo",
+    "teste": "1d20+10",
+    "dano": "1d6+5 perfuração"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Fonte de Rituais",
+    "resumo": "Em alcance curto de Escarlata, ela pode drená-lo ao ferir com um ritual: +2d6 de dano e Torvo perde 2d6 PV."
+   }
+  ]
+ },
+ {
+  "id": "escarlata",
+  "nome": "Escarlata",
+  "fonte": "AS3",
+  "pag": 69,
+  "elemento": "Sangue",
+  "vd": 120,
+  "tipo": "Pessoa Média",
+  "percepcao": "4d20+10",
+  "iniciativa": "3d20+10",
+  "defesa": 28,
+  "fortitude": "2d20+5",
+  "reflexos": "3d20+5",
+  "vontade": "4d20+10",
+  "pv": 100,
+  "resistencias": "Balístico, impacto e perfuração 5; Sangue 10",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 3,
+   "for": 2,
+   "int": 3,
+   "pre": 4,
+   "vig": 2
+  },
+  "pericias": "Atletismo 2d20+5, Enganação 4d20+10, Ocultismo 3d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Rasgar com garras",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+15",
+    "dano": "4d10+10 corte",
+    "critico": "19"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Padrão",
+    "nome": "Sedução",
+    "resumo": "Flerta com alguém, que decide como se sente: indiferente (nada), um pouco a fim (+1d8 PE temporários e fica sujeito a Dominação) ou muito a fim (+2d8 PE temporários e sujeito a Dominação)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Dominação",
+    "resumo": "Ordem a um seduzido: Vontade DT 23 (menos 1d8 ou 2d8 conforme o quanto ficou a fim) ou obedece; ordens longas permitem novo teste por rodada com +1 cumulativo."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Dar o Fora",
+    "resumo": "O seduzido pode tentar terminar (Vontade DT 23 + a penalidade): passando, perde os PE temporários e se livra; falhando, sofre 1d6 mental."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Rituais (DT 23)",
+    "resumo": "Conjura sem gastar PE, até 7 PE por conjuração: Descarnar discente, Flagelo de Sangue discente e Hemofagia discente (ataque com garras +6d6 de Sangue e cura metade)."
+   }
+  ]
+ },
+ {
+  "id": "miasma",
+  "nome": "Miasma",
+  "fonte": "AS3",
+  "pag": 73,
+  "elemento": "Sangue",
+  "vd": 40,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20",
+  "iniciativa": "2d20+5",
+  "defesa": 18,
+  "fortitude": "2d20+5",
+  "reflexos": "2d20",
+  "vontade": "1d20",
+  "pv": 30,
+  "atributos": {
+   "agi": 2,
+   "for": 2,
+   "int": 1,
+   "pre": 1,
+   "vig": 2
+  },
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Golpe com correntes",
+    "alcance": "Corpo a corpo",
+    "teste": "2d20+5",
+    "dano": "2d8+5 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Padrão",
+    "nome": "Despertar Obsessão",
+    "resumo": "Encara alguém em alcance curto: se desviar o olhar, leva uma correntada à distância (2d8+5); se encarar, Vontade DT 25 ou gasta a rodada indo adorar Escarlata, ou se fere com um ataque."
+   }
+  ]
+ },
+ {
+  "id": "coruja",
+  "nome": "Coruja",
+  "fonte": "AS3",
+  "pag": 81,
+  "elemento": "Nenhum",
+  "vd": 40,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+10",
+  "iniciativa": "3d20+10",
+  "defesa": 19,
+  "fortitude": "1d20",
+  "reflexos": "3d20+10",
+  "vontade": "2d20+5",
+  "pv": 50,
+  "atributos": {
+   "agi": 3,
+   "for": 1,
+   "int": 3,
+   "pre": 2,
+   "vig": 1
+  },
+  "pericias": "Adestramento 2d20+10, Atualidades 3d20+10, Ciências 3d20+10, Furtividade 3d20+10, Sobrevivência 3d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Tiro de zarabatana",
+    "alcance": "Distância, curto",
+    "teste": "3d20+10",
+    "dano": "1d4+1 perfuração + sedativo",
+    "critico": "19"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Dardos Sedativos",
+    "resumo": "Quem é atingido fica inconsciente até ser acordado ou o fim da cena (Fortitude DT 20 evita)."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Validação de Hipótese",
+    "resumo": "Depois de um crítico, +1d20 em testes contra o mesmo alvo."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Rituais (DT 20)",
+    "resumo": "Conjura sem gastar PE, até 4 PE por conjuração: Aprimorar Físico (+1 em Agi ou For na cena) e Aprimorar Mente (+1 em Int ou Pre na cena)."
+   }
+  ]
+ },
+ {
+  "id": "corvo",
+  "nome": "Corvo",
+  "fonte": "AS3",
+  "pag": 88,
+  "elemento": "Nenhum",
+  "vd": 40,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+10",
+  "iniciativa": "3d20+10",
+  "defesa": 18,
+  "fortitude": "1d20+5",
+  "reflexos": "2d20+5",
+  "vontade": "3d20+10",
+  "pv": 60,
+  "atributos": {
+   "agi": 2,
+   "for": 1,
+   "int": 3,
+   "pre": 3,
+   "vig": 1
+  },
+  "pericias": "Adestramento 3d20+10, Atualidades 3d20+10, Furtividade 3d20+10, Ocultismo 3d20+10, Sobrevivência 3d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancada",
+    "alcance": "Corpo a corpo",
+    "teste": "1d20+5",
+    "dano": "1d4+5 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Silêncio Fúnebre",
+    "resumo": "Morto, o corpo ganha 30 PV temporários e testes contra aliados dele a até 30m sofrem −2d20, até o fim da cena ou acabarem os PV."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Rituais (DT 20)",
+    "resumo": "Conjura sem gastar PE, até 4 PE por conjuração: Esconder dos Olhos (como ação livre), Cicatrização discente, Definhar discente (exausto na cena; Fortitude DT 15 deixa fatigado) e Tecer Ilusão discente."
+   }
+  ]
+ },
+ {
+  "id": "papagaio",
+  "nome": "Papagaio",
+  "fonte": "AS3",
+  "pag": 92,
+  "elemento": "Nenhum",
+  "vd": 40,
+  "tipo": "Pessoa Média",
+  "percepcao": "3d20+10",
+  "iniciativa": "2d20+10",
+  "defesa": 21,
+  "fortitude": "1d20+5",
+  "reflexos": "2d20+5",
+  "vontade": "3d20+10",
+  "pv": 60,
+  "atributos": {
+   "agi": 2,
+   "for": 2,
+   "int": 1,
+   "pre": 3,
+   "vig": 2
+  },
+  "pericias": "Adestramento 3d20+10, Artes 3d20+5, Crime 2d20+10, Diplomacia 3d20+10, Enganação 3d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Garrafada",
+    "alcance": "Corpo a corpo x2",
+    "teste": "2d20+10",
+    "dano": "1d4+10 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Padrão",
+    "nome": "Cachimbo do Capeta",
+    "resumo": "Sopra fumaça num adjacente, que fica asfixiado até gastar uma ação padrão para recuperar o fôlego (Fortitude DT 20 evita)."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Desarmar",
+    "resumo": "Ao acertar a garrafada, tenta desarmar (teste 2d20+15)."
+   }
+  ]
+ },
+ {
+  "id": "pomba",
+  "nome": "Pomba",
+  "fonte": "AS3",
+  "pag": 95,
+  "elemento": "Nenhum",
+  "vd": 40,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+10",
+  "iniciativa": "2d20+5",
+  "defesa": 20,
+  "fortitude": "2d20+5",
+  "reflexos": "2d20+5",
+  "vontade": "2d20+10",
+  "pv": 50,
+  "atributos": {
+   "agi": 2,
+   "for": 1,
+   "int": 3,
+   "pre": 3,
+   "vig": 1
+  },
+  "pericias": "Atletismo 1d20+15, Ciências 2d20+10, Furtividade 2d20+5, Intuição 2d20+10, Investigação 2d20+10, Percepção 2d20+10, Pilotagem 2d20+5, Sobrevivência 2d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Canivete",
+    "alcance": "Corpo a corpo x2",
+    "teste": "2d20+10",
+    "dano": "1d4+5 corte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Ensinamentos do Ninho",
+    "resumo": "Depois de ver um aliado morrer, usa uma vez na cena uma habilidade dele."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Voe para Longe",
+    "resumo": "Na primeira rodada, anda o dobro com uma ação de movimento."
+   }
+  ]
+ },
+ {
+  "id": "harpia",
+  "nome": "Harpia",
+  "fonte": "AS3",
+  "pag": 101,
+  "elemento": "Nenhum",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+10",
+  "iniciativa": "3d20+10",
+  "defesa": 22,
+  "fortitude": "3d20+10",
+  "reflexos": "3d20+10",
+  "vontade": "2d20+5",
+  "pv": 100,
+  "atributos": {
+   "agi": 3,
+   "for": 3,
+   "int": 2,
+   "pre": 2,
+   "vig": 3
+  },
+  "pericias": "Adestramento 2d20+10, Atletismo 3d20+10, Furtividade 3d20+10, Sobrevivência 2d20+10, Tática 2d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Garra do Harpia",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+10",
+    "dano": "2d8+10 corte",
+    "critico": "19"
+   },
+   {
+    "nome": "Pistola",
+    "alcance": "Distância x2, curto",
+    "teste": "3d20+10",
+    "dano": "1d12+10 balístico",
+    "critico": "18"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Livre",
+    "nome": "Agarrar",
+    "resumo": "Ao acertar a garra, tenta agarrar (teste 3d20+15)."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Assobio do Harpia",
+    "resumo": "1x por rodada, suas aves atacam um alvo em alcance longo: cegar (3d6 de perfuração e cego 1 rodada; Reflexos DT 20), distrair (pasmo 1 rodada, 1x por cena; Vontade DT 20) ou sangrar (5d6 de perfuração e sangrando; Fortitude DT 20)."
+   }
+  ]
+ },
+ {
+  "id": "suellen",
+  "nome": "Suellen",
+  "fonte": "AS3",
+  "pag": 105,
+  "elemento": "Nenhum",
+  "vd": 20,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+5",
+  "iniciativa": "1d20+5",
+  "defesa": 15,
+  "fortitude": "2d20+5",
+  "reflexos": "2d20+5",
+  "vontade": "2d20+5",
+  "pv": 30,
+  "atributos": {
+   "agi": 1,
+   "for": 2,
+   "int": 2,
+   "pre": 2,
+   "vig": 2
+  },
+  "pericias": "Adestramento 2d20+10, Atualidades 2d20+10, Enganação 2d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Golpe com cutelo",
+    "alcance": "Corpo a corpo",
+    "teste": "2d20+5",
+    "dano": "1d8+5 corte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Padrão",
+    "nome": "Estimular Hedonismo",
+    "resumo": "Uma pessoa em alcance curto só sente prazer e perde a autopreservação, ficando indefesa 1 rodada (Vontade DT 20 evita)."
+   }
+  ]
+ }
+]

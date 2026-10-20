@@ -1,0 +1,568 @@
+[
+ {
+  "id": "jason_bloom",
+  "nome": "Jason Bloom",
+  "fonte": "AS9",
+  "pag": 21,
+  "elemento": "Nenhum",
+  "vd": 140,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20",
+  "iniciativa": "2d20+5",
+  "defesa": 30,
+  "fortitude": "3d20+15",
+  "reflexos": "2d20+10",
+  "vontade": "2d20+5",
+  "pv": 200,
+  "resistencias": "RD 10",
+  "atributos": {
+   "agi": 2,
+   "for": 3,
+   "int": 1,
+   "pre": 2,
+   "vig": 3
+  },
+  "pericias": "Atletismo 3d20+10, Intimidação 2d20+5, Pilotagem 2d20+10, Tática 1d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Escudada",
+    "alcance": "Corpo a corpo",
+    "teste": "3d20+20",
+    "dano": "2d8+15 impacto"
+   },
+   {
+    "nome": "Pistola modificada",
+    "alcance": "Distância, curto",
+    "teste": "2d20+20",
+    "dano": "2d10+17 balístico",
+    "critico": "16"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Blindado",
+    "resumo": "RD 10 pelo equipamento e escudo, sem penalidade de deslocamento."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Treinamento Tático",
+    "resumo": "+5 em ataques, resistências, dano e Defesa (já na ficha) e faz duas ações agredir pelo custo de uma ação padrão."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Proteger",
+    "resumo": "1x por rodada, puxa para si um dano ou efeito negativo dirigido a um aliado adjacente."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Luta Tática",
+    "resumo": "1x por rodada, uma manobra de combate como ação livre."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Atrás de Mim!",
+    "resumo": "Até o próximo turno, aliados adjacentes ganham RD 10 e podem usá-lo como cobertura (+5 na Defesa)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Empurrar e Atirar",
+    "resumo": "Avança empurrando um adjacente com o escudo e atirando: ele é empurrado o deslocamento de Jason e sofre 4d12+24 balístico (Fortitude ou Reflexos DT 22 reduz e evita o empurrão)."
+   }
+  ],
+  "nota": "Hell Hunter. Como aliado (AS9 p. 21): +O em Fortitude; reação e 2 PE para reduzir um dano em 10."
+ },
+ {
+  "id": "karen_brown",
+  "nome": "Karen Brown",
+  "fonte": "AS9",
+  "pag": 23,
+  "elemento": "Nenhum",
+  "vd": 160,
+  "tipo": "Pessoa Média",
+  "percepcao": "3d20+15",
+  "iniciativa": "4d20+10",
+  "defesa": 33,
+  "fortitude": "2d20+10",
+  "reflexos": "4d20+15",
+  "vontade": "3d20+15",
+  "pv": 240,
+  "atributos": {
+   "agi": 4,
+   "for": 2,
+   "int": 2,
+   "pre": 3,
+   "vig": 2
+  },
+  "pericias": "Acrobacia 4d20+10, Atletismo 2d20+10, Furtividade 4d20+10, Intimidação 3d20+15, Pilotagem 4d20+10, Tática 2d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pistola modificada",
+    "alcance": "Distância, curto",
+    "teste": "4d20+20",
+    "dano": "2d12+17 balístico",
+    "critico": "14"
+   },
+   {
+    "nome": "Fuzil de precisão modificado",
+    "alcance": "Distância, longo",
+    "teste": "4d20+20",
+    "dano": "3d12+17 balístico",
+    "critico": "15/x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Olhos de Águia",
+    "resumo": "+5 em Percepção e +2 na margem de ameaça à distância (já na ficha)."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Treinamento Tático",
+    "resumo": "+5 em ataques, resistências, dano e Defesa (já na ficha) e faz duas ações agredir pelo custo de uma ação padrão."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Luta Tática",
+    "resumo": "1x por rodada, uma manobra de combate como ação livre."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Buscar Cobertura",
+    "resumo": "Anda o dobro rumo a uma cobertura à vista."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Fogo de Supressão",
+    "resumo": "Cobre um cone e atira como reação em quem agir ali (até Agi tiros, um por alvo); cada um faz Vontade DT 25 (30 se atingido) ou perde a ação."
+   }
+  ],
+  "nota": "Hell Hunter. Como aliada (AS9 p. 23): +O em Pontaria; 2 PE para +3d6 de dano."
+ },
+ {
+  "id": "troy_walker",
+  "nome": "Troy Walker",
+  "fonte": "AS9",
+  "pag": 25,
+  "elemento": "Nenhum",
+  "vd": 140,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20",
+  "iniciativa": "2d20+5",
+  "defesa": 29,
+  "fortitude": "3d20+15",
+  "reflexos": "2d20+10",
+  "vontade": "2d20+5",
+  "pv": 180,
+  "atributos": {
+   "agi": 2,
+   "for": 3,
+   "int": 1,
+   "pre": 2,
+   "vig": 3
+  },
+  "pericias": "Atletismo 3d20+10, Intimidação 2d20+10, Pilotagem 2d20+10, Tática 1d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Coronhada",
+    "alcance": "Corpo a corpo",
+    "teste": "3d20+20",
+    "dano": "3d6+15 impacto"
+   },
+   {
+    "nome": "Espingarda modificada",
+    "alcance": "Distância, curto",
+    "teste": "2d20+20",
+    "dano": "4d6+17 balístico",
+    "critico": "18/x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Adrenalina de Pancadaria",
+    "resumo": "Quanto menos PV, mais forte: até 135 PV, RD 5 e +5 de dano; até 90, RD 10 e +10; até 45, RD 15 e +15."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Pé na Porta",
+    "resumo": "+4d8 de dano contra objetos."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Treinamento Tático",
+    "resumo": "+5 em ataques, resistências, dano e Defesa (já na ficha) e faz duas ações agredir pelo custo de uma ação padrão."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Revidar",
+    "resumo": "1x por rodada, alvo de ataque corpo a corpo, ataca em oposição; vencendo, evita o golpe e causa seu dano."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Luta Tática",
+    "resumo": "1x por rodada, uma manobra de combate como ação livre."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Pra Cima Deles!",
+    "resumo": "Ataque ousado: se acertar, dano máximo; se errar, −10 na Defesa por 1 rodada."
+   }
+  ],
+  "nota": "Hell Hunter. Como aliado (AS9 p. 25): +O em Luta; 5 PE como reação para um ataque extra."
+ },
+ {
+  "id": "roy_stevens",
+  "nome": "Roy Stevens",
+  "fonte": "AS9",
+  "pag": 27,
+  "elemento": "Nenhum",
+  "vd": 160,
+  "tipo": "Pessoa Média",
+  "percepcao": "4d20+10",
+  "iniciativa": "2d20+10",
+  "defesa": 32,
+  "fortitude": "3d20+15",
+  "reflexos": "2d20+10",
+  "vontade": "4d20+15",
+  "pv": 250,
+  "atributos": {
+   "agi": 2,
+   "for": 3,
+   "int": 3,
+   "pre": 4,
+   "vig": 3
+  },
+  "pericias": "Atletismo 2d20+10, Diplomacia 4d20+10, Intimidação 4d20+10, Medicina 3d20+15, Pilotagem 2d20+10, Tática 3d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pistola modificada",
+    "alcance": "Distância, curto",
+    "teste": "2d20+20",
+    "dano": "2d8+17 balístico",
+    "critico": "14"
+   },
+   {
+    "nome": "Submetralhadora modificada",
+    "alcance": "Distância, curto",
+    "teste": "2d20+20",
+    "dano": "3d6+17 balístico",
+    "critico": "17/x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Técnicas de Resgate",
+    "resumo": "Carrega até dois corpos sem penalidade, com as mãos livres."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Treinamento Tático",
+    "resumo": "+5 em ataques, resistências, dano e Defesa (já na ficha) e faz duas ações agredir pelo custo de uma ação padrão."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Luta Tática",
+    "resumo": "1x por rodada, uma manobra de combate como ação livre."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Ao Resgate",
+    "resumo": "Anda o dobro rumo a um aliado ferido à vista."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Prestar Socorro",
+    "resumo": "Cura 3d10 PV ou remove uma condição (exceto morrendo) de si ou de um adjacente."
+   }
+  ],
+  "nota": "Hell Hunter. Como aliado (AS9 p. 27): treino em Medicina (ou +O); cura 3d10 ou remove uma condição."
+ },
+ {
+  "id": "stella_green",
+  "nome": "Stella Green",
+  "fonte": "AS9",
+  "pag": 29,
+  "elemento": "Nenhum",
+  "vd": 140,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+5",
+  "iniciativa": "3d20+10",
+  "defesa": 29,
+  "fortitude": "2d20+5",
+  "reflexos": "3d20+15",
+  "vontade": "2d20+10",
+  "pv": 190,
+  "atributos": {
+   "agi": 3,
+   "for": 2,
+   "int": 3,
+   "pre": 2,
+   "vig": 2
+  },
+  "pericias": "Atletismo 2d20+10, Intimidação 2d20+10, Pilotagem 3d20+15, Profissão (engenheira mecânica) 3d20+15, Tática 3d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pistola modificada",
+    "alcance": "Distância, curto",
+    "teste": "3d20+20",
+    "dano": "2d10+17 balístico",
+    "critico": "16"
+   },
+   {
+    "nome": "Fuzil de assalto modificado",
+    "alcance": "Distância, médio",
+    "teste": "3d20+20",
+    "dano": "2d12+17 balístico",
+    "critico": "17/x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Por Água, Céu e Terra",
+    "resumo": "Pilota qualquer veículo, salvo os muito exóticos."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Treinamento Tático",
+    "resumo": "+5 em ataques, resistências, dano e Defesa (já na ficha) e faz duas ações agredir pelo custo de uma ação padrão."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Direção Defensiva",
+    "resumo": "1x por rodada, +1d20+5 num teste para proteger o veículo ou os ocupantes."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Direção Ofensiva",
+    "resumo": "1x por rodada, +1d20+5 num teste para atacar com o veículo."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Luta Tática",
+    "resumo": "1x por rodada, uma manobra de combate como ação livre."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Conserto de Campo",
+    "resumo": "Faz um objeto adjacente danificado funcionar até o fim da cena (uma vez por objeto)."
+   }
+  ],
+  "nota": "Hell Hunter. Como aliada (AS9 p. 29): +O em Pilotagem; 2 PE para repetir um teste de Pilotagem."
+ },
+ {
+  "id": "arnold_strolley",
+  "nome": "Arnold Strolley",
+  "fonte": "AS9",
+  "pag": 31,
+  "elemento": "Nenhum",
+  "vd": 140,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+5",
+  "iniciativa": "2d20",
+  "defesa": 30,
+  "fortitude": "3d20+15",
+  "reflexos": "2d20+5",
+  "vontade": "2d20+10",
+  "pv": 200,
+  "resistencias": "Eletricidade, fogo, frio e químico 5",
+  "atributos": {
+   "agi": 2,
+   "for": 2,
+   "int": 4,
+   "pre": 2,
+   "vig": 3
+  },
+  "pericias": "Atletismo 2d20+10, Intimidação 2d20+10, Pilotagem 2d20+10, Profissão (engenheiro químico) 4d20+15, Tática 4d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pistola modificada",
+    "alcance": "Distância, curto",
+    "teste": "2d20+20",
+    "dano": "2d10+17 balístico",
+    "critico": "16"
+   },
+   {
+    "nome": "Metralhadora modificada",
+    "alcance": "Distância, médio",
+    "teste": "2d20+20",
+    "dano": "3d12+17 balístico",
+    "critico": "17/x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Quimicamente Alterado",
+    "resumo": "RD 5 contra eletricidade, fogo, frio e químico."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Treinamento Tático",
+    "resumo": "+5 em ataques, resistências, dano e Defesa (já na ficha) e faz duas ações agredir pelo custo de uma ação padrão."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Luta Tática",
+    "resumo": "1x por rodada, uma manobra de combate como ação livre."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Granadas",
+    "resumo": "1x por cena cada, raio de 6m em alcance curto: flashbang (atordoado 1 rodada; Fortitude DT 23 só ofuscado e surdo), fragmentação (8d6 de perfuração; Reflexos DT 23), gás lacrimogêneo (4d6 químico, enjoado e asfixiado; Fortitude DT 23) ou incendiária (6d6 de fogo e em chamas; Reflexos DT 23)."
+   }
+  ],
+  "nota": "Hell Hunter. Como aliado (AS9 p. 31): +O em testes com explosivos; 1x por cena, 2 PE para receber um explosivo."
+ },
+ {
+  "id": "chloe_grey",
+  "nome": "Chloe Grey",
+  "fonte": "AS9",
+  "pag": 33,
+  "elemento": "Morte",
+  "vd": 140,
+  "tipo": "Pessoa Média",
+  "percepcao": "3d20+5",
+  "iniciativa": "3d20+10",
+  "defesa": 29,
+  "fortitude": "2d20+5",
+  "reflexos": "3d20+15",
+  "vontade": "3d20+10",
+  "pv": 170,
+  "atributos": {
+   "agi": 3,
+   "for": 2,
+   "int": 3,
+   "pre": 3,
+   "vig": 2
+  },
+  "pericias": "Atletismo 2d20+10, Diplomacia 3d20+10, Enganação 3d20+10, Furtividade 3d20+10, Intuição 3d20+10, Investigação 3d20+15, Pilotagem 3d20+10, Tática 3d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Combate desarmado",
+    "alcance": "Corpo a corpo",
+    "teste": "3d20+20",
+    "dano": "2d6+15 impacto"
+   },
+   {
+    "nome": "Pistola modificada",
+    "alcance": "Distância, curto",
+    "teste": "3d20+20",
+    "dano": "2d10+17 balístico",
+    "critico": "16"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Braço Amputado",
+    "resumo": "−1d20 em testes que dependam do braço que falta, exceto ataques e resistências (Esforço e Superação)."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Tocada pela Morte",
+    "resumo": "Conjura Nuvem de Cinzas sem gastar PE (até 6 PE, DT 21): nuvem de 6m de raio que dá camuflagem a quem está dentro."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Treinamento Tático",
+    "resumo": "+5 em ataques, resistências, dano e Defesa (já na ficha) e faz duas ações agredir pelo custo de uma ação padrão."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Olhos para Documentos",
+    "resumo": "1x por rodada, rola duas vezes para achar pistas em documentos."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Luta Tática",
+    "resumo": "1x por rodada, uma manobra de combate como ação livre."
+   }
+  ],
+  "nota": "Hell Hunter. Como aliada (AS9 p. 33): +O em Investigação; conjura Nuvem de Cinzas (ou −1 PE se já conhece)."
+ },
+ {
+  "id": "ryder_staten",
+  "nome": "Ryder Staten",
+  "fonte": "AS9",
+  "pag": 34,
+  "elemento": "Nenhum",
+  "vd": 200,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+10",
+  "iniciativa": "4d20+10",
+  "defesa": 34,
+  "fortitude": "3d20+15",
+  "reflexos": "4d20+15",
+  "vontade": "2d20+10",
+  "pv": 320,
+  "atributos": {
+   "agi": 4,
+   "for": 3,
+   "int": 2,
+   "pre": 2,
+   "vig": 3
+  },
+  "pericias": "Atletismo 3d20+15, Furtividade 4d20+10, Intimidação 2d20+15, Intuição 2d20+10, Pilotagem 4d20+10, Tática 2d20+15",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pistola modificada",
+    "alcance": "Distância, curto",
+    "teste": "4d20+25",
+    "dano": "2d10+22 balístico",
+    "critico": "14"
+   },
+   {
+    "nome": "Fuzil de assalto modificado",
+    "alcance": "Distância, médio",
+    "teste": "4d20+25",
+    "dano": "3d10+22 balístico",
+    "critico": "17/x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Treinamento Tático",
+    "resumo": "+5 em ataques, resistências, dano e Defesa (já na ficha) e faz três ações agredir pelo custo de uma ação padrão."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Cuidado!",
+    "resumo": "1x por rodada, quando um aliado em alcance médio falha num teste, faz o mesmo teste; passando, a falha vira sucesso."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Luta Tática",
+    "resumo": "1x por rodada, uma manobra de combate como ação livre."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Formação!",
+    "resumo": "Ele e aliados em alcance médio, até o próximo turno: cunha (+5 em ataque e Defesa), coluna (+3m e +5 em Furtividade) ou linha (+5 em ataque e dano)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Fragmentação",
+    "resumo": "1x por cena, granada: 8d6 de perfuração em 6m (Reflexos DT 23 metade)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Vai, Vai, Vai!",
+    "resumo": "Ele e aliados em alcance médio andam 9m na direção que ele indicar."
+   }
+  ],
+  "nota": "Líder dos Hell Hunters. Como aliado (AS9 p. 34): +O em duas perícias; movimento e 2 PE para usar Formação!."
+ }
+]

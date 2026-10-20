@@ -342,5 +342,6 @@
     ],
     "ambiente": "Ambiente horripilante: 1 de dano mental por rodada (2 ou 5 em lugares pavorosos). Dano de medo sempre causa ao menos 1.",
     "acoes": "Acalmar: treinado em Diplomacia, Profissão (psicólogo) ou Religião, ação padrão para devolver 1 SAN a alguém com SAN 0 (DT +5 por vez na cena). Se entregar ao medo: com SAN 0, role outro efeito com +5, interprete exagerando e na rodada seguinte recupere 1d4 SAN por nível (1x por sessão)."
-  }
+  },
+  "regrasAmeacas": {"pag":125,"resumo":"Invisibilidade: camuflagem total, +15 em Furtividade contra ouvir, quem não vê fica desprevenido e o invisível ganha +2d20 nos ataques (contra alvo cego, este sofre −5 na Defesa). Recarga: depois de usar a habilidade, a ameaça precisa gastar a ação indicada ou cumprir a condição antes de usá-la de novo."}
 }

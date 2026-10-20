@@ -1,0 +1,3871 @@
+[
+ {
+  "id": "aberracao_de_carne",
+  "nome": "Aberração de Carne",
+  "fonte": "OPRPG",
+  "pag": 182,
+  "elemento": "Sangue",
+  "vd": 40,
+  "tipo": "Criatura Grande",
+  "presencaPerturbadora": "DT 15, 3d6 mental (NEX 30%+ imune)",
+  "percepcao": "1d20+5",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "1d20",
+  "defesa": 19,
+  "fortitude": "3d20+10",
+  "reflexos": "1d20",
+  "vontade": "1d20",
+  "pv": 70,
+  "resistencias": "Balístico, impacto e perfuração 5; Sangue 10",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 1,
+   "for": 3,
+   "int": 0,
+   "pre": 1,
+   "vig": 3
+  },
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancada",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+10",
+    "dano": "2d6+6 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Reação",
+    "nome": "Agarrão",
+    "resumo": "Ao acertar uma pancada, tenta agarrar (teste 3d20+12); segura até dois alvos."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Abocanhar",
+    "resumo": "Leva até dois agarrados para a boca: 3d6 de perfuração agora e no início de cada turno dela (Fortitude DT 15 reduz à metade). Um adjacente pode tirar alguém com ação padrão e Atletismo DT 20."
+   }
+  ]
+ },
+ {
+  "id": "aniquilacao",
+  "nome": "Aniquilação",
+  "fonte": "OPRPG",
+  "pag": 186,
+  "elemento": "Sangue",
+  "vd": 380,
+  "tipo": "Criatura Colossal",
+  "presencaPerturbadora": "DT 45, 9d8 mental",
+  "percepcao": "4d20+20",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "4d20+20",
+  "defesa": 58,
+  "fortitude": "5d20+30",
+  "reflexos": "4d20+25",
+  "vontade": "4d20+20",
+  "pv": 1200,
+  "resistencias": "Dano 50",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 4,
+   "for": 5,
+   "int": 3,
+   "pre": 4,
+   "vig": 5
+  },
+  "pericias": "Atletismo 5d20+20",
+  "deslocamento": "15m",
+  "ataques": [
+   {
+    "nome": "Garras",
+    "alcance": "Corpo a corpo x2",
+    "teste": "5d20+40",
+    "dano": "4d10+30 Sangue"
+   },
+   {
+    "nome": "Tentáculos espinhentos",
+    "alcance": "Corpo a corpo x2",
+    "teste": "5d20+40",
+    "dano": "2d12+30 Sangue"
+   },
+   {
+    "nome": "Disparo de espinhos",
+    "alcance": "Distância x3, médio",
+    "teste": "4d20+40",
+    "dano": "2d10+20 Sangue"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Reação",
+    "nome": "Agarrão",
+    "resumo": "Ao acertar tentáculos, tenta agarrar (teste 5d20+50); segura até quatro alvos."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Instinto Aniquilador",
+    "resumo": "Quem se move mais de 3m em alcance curto leva um ataque de tentáculos."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Apertar e Destruir",
+    "resumo": "No início do turno, cada agarrado sofre 40 de Sangue."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Bater as Asas",
+    "resumo": "Alcance longo: 8d6 mental, empurra 6m e atordoa 1 rodada (Fortitude DT 40 reduz à metade e evita os efeitos)."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Estrangulamento Final",
+    "resumo": "Anda 15m; quem fica adjacente no caminho é agarrado e asfixiado (Reflexos DT 30 evita; escapar: ação padrão e Reflexos DT 30)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Tempestade de Espinhos",
+    "resumo": "1x por cena: 20d6+20 de Sangue em alcance médio (Reflexos DT 40 reduz à metade); perde o disparo de espinhos até o fim da cena."
+   }
+  ],
+  "enigma": "Desconhecido. Resolvido, ela perde a resistência a dano e a Tempestade de Espinhos."
+ },
+ {
+  "id": "carente",
+  "nome": "Carente",
+  "fonte": "OPRPG",
+  "pag": 188,
+  "elemento": "Sangue",
+  "elementosSecundarios": [
+   "Morte"
+  ],
+  "vd": 300,
+  "tipo": "Criatura Grande",
+  "presencaPerturbadora": "DT 35, 7d8 mental (NEX 90%+ imune)",
+  "percepcao": "3d20+10",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "4d20+15",
+  "defesa": 40,
+  "fortitude": "4d20+25",
+  "reflexos": "4d20+25",
+  "vontade": "3d20+15",
+  "pv": 700,
+  "resistencias": "Balístico, impacto, perfuração e Sangue 20",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 4,
+   "for": 4,
+   "int": 2,
+   "pre": 3,
+   "vig": 4
+  },
+  "pericias": "Atletismo 4d20+20, Enganação 3d20+15",
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Garras de sangue",
+    "alcance": "Corpo a corpo x2",
+    "teste": "4d20+35",
+    "dano": "2d8+20 Sangue"
+   },
+   {
+    "nome": "Ferrão de sangue",
+    "alcance": "Corpo a corpo",
+    "teste": "4d20+35",
+    "dano": "2d12+20 Sangue"
+   },
+   {
+    "nome": "Tentáculo",
+    "alcance": "Corpo a corpo",
+    "teste": "4d20+35",
+    "dano": "2d8+20 Sangue"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Carência",
+    "resumo": "Quem já gestou outro ser ganha +1d20 nos ataques contra ele, e ele ganha +1d20 contra essa pessoa."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Regeneração de Sangue",
+    "resumo": "Cura Acelerada 20; para até o fim da cena se ficar inconsciente ou sofrer dano de Energia."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Forma Infantil",
+    "resumo": "Volta à forma de criança para passar por espaços pequenos. Não consegue abrir a primeira porta de um lugar sozinho."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Rasteira de Tentáculo",
+    "resumo": "1x por rodada, adjacente a dois ou mais seres, ataca um com o tentáculo; se acertar, derruba e empurra 6m."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Sugada Mortal",
+    "resumo": "Quem leva o ferrão fica debilitado e enjoado até o fim da cena (Fortitude DT 35 evita)."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Você É Minha Mamãe?",
+    "resumo": "Abraça um adjacente, que fica paralisado até ser solto (Reflexos DT 25 evita); solta se sofrer dano de Energia."
+   }
+  ]
+ },
+ {
+  "id": "dama_de_sangue",
+  "nome": "Dama de Sangue",
+  "fonte": "OPRPG",
+  "pag": 190,
+  "elemento": "Sangue",
+  "elementosSecundarios": [
+   "Morte"
+  ],
+  "vd": 60,
+  "tipo": "Criatura Enorme",
+  "presencaPerturbadora": "DT 20, 3d6 mental (NEX 35%+ imune)",
+  "percepcao": "2d20+10",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "2d20",
+  "defesa": 20,
+  "fortitude": "2d20+10",
+  "reflexos": "2d20+5",
+  "vontade": "2d20",
+  "pv": 105,
+  "resistencias": "Balístico, impacto e perfuração 10; Sangue 20",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 2,
+   "for": 3,
+   "int": 1,
+   "pre": 2,
+   "vig": 2
+  },
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Tentáculo",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+10",
+    "dano": "2d6+5 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Consumir",
+    "resumo": "Começa sem as habilidades de flor; cada corpo consumido (adjacente, ação padrão) libera a próxima, na ordem. Até consumir sete, gasta o turno buscando corpos."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Arremessar (flor rosa)",
+    "resumo": "Arremessa alguém em alcance curto: 2d6 de impacto e caído (Reflexos DT 15 evita). Murcha com fertilizante: perde a habilidade e −1d20 em Luta."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Chuva de Ácido (flor vermelha)",
+    "resumo": "4d4 químico em alcance curto (Fortitude DT 15 reduz à metade). Murcha com agrotóxico: perde a habilidade e −5 nas resistências."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Espinhos (flor amarela)",
+    "resumo": "Até três alvos em alcance médio sofrem 2d8 de perfuração (Reflexos DT 15 reduz à metade). Murcha com 10 de fogo num efeito: −1d20 em Reflexos."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Grito Devastador (flor roxa)",
+    "resumo": "Confunde quem está em alcance curto (Vontade DT 15 evita, repete no fim do turno). Murcha com o bulbo de bravo purpulis: −1d20 em Vontade."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Miasma Fétido (flor azul)",
+    "resumo": "Enjoa quem está em alcance curto por 1d4+1 rodadas (Fortitude DT 15 reduz a 1). Murcha com eletricidade ou Energia: −6m de deslocamento."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Prisão de Tentáculos (flor verde)",
+    "resumo": "Agarra alguém em alcance curto até os tentáculos (20 PV, acerto automático) serem destruídos. Murcha com água corrente: −5 na Defesa."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Visão Macabra (flor laranja)",
+    "resumo": "1d6 mental em alcance médio (Vontade DT 15 reduz à metade). Murcha com 10 de corte num efeito: −20 PV totais."
+   }
+  ],
+  "enigma": "Cada uma das sete flores tem uma fraqueza própria, descrita na habilidade dela."
+ },
+ {
+  "id": "enpap_x",
+  "nome": "Enpap-X",
+  "fonte": "OPRPG",
+  "pag": 193,
+  "elemento": "Sangue",
+  "elementosSecundarios": [
+   "Conhecimento"
+  ],
+  "vd": 180,
+  "tipo": "Criatura Grande",
+  "presencaPerturbadora": "DT 25, 6d6 mental (NEX 60%+ imune)",
+  "percepcao": "2d20+10",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "2d20+10",
+  "defesa": 36,
+  "fortitude": "3d20+15",
+  "reflexos": "2d20+15",
+  "vontade": "2d20+10",
+  "pv": 360,
+  "resistencias": "Balístico, impacto e perfuração 10; Sangue 20",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 2,
+   "for": 4,
+   "int": 1,
+   "pre": 2,
+   "vig": 3
+  },
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Socão",
+    "alcance": "Corpo a corpo x4",
+    "teste": "4d20+20",
+    "dano": "2d10+10 impacto"
+   },
+   {
+    "nome": "Correntes",
+    "alcance": "Distância x3, curto",
+    "teste": "2d20+15",
+    "dano": "2d8+10 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Transformação",
+    "resumo": "Começa como um existido comum (p. 240); ao chegar a 0 PV, vira esta ficha, ativa a presença perturbadora e volta com 360 PV."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Acorrentar",
+    "resumo": "Ao acertar as correntes num alvo Médio ou menor, tenta agarrar à distância (teste 2d20+17); estrangula os agarrados no início do turno (4d6 de impacto). Até dois alvos."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Forma Desencadeada",
+    "resumo": "Num crítico com socão ou corrente, derruba o alvo ou o empurra 3m."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Crescer",
+    "resumo": "Cada socão que acerta dá +1d6 cumulativo no dano dos próximos até o fim do turno."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Marcas do Terror",
+    "resumo": "4d6 mental em alcance curto (Vontade DT 25 reduz à metade; quem passa fica imune na cena)."
+   }
+  ]
+ },
+ {
+  "id": "kerberos",
+  "nome": "Kerberos",
+  "fonte": "OPRPG",
+  "pag": 194,
+  "elemento": "Sangue",
+  "vd": 340,
+  "tipo": "Criatura Enorme",
+  "presencaPerturbadora": "DT 35, 10d6 mental (NEX 99%+ imune)",
+  "percepcao": "3d20+20",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "4d20+15",
+  "defesa": 46,
+  "fortitude": "5d20+25",
+  "reflexos": "4d20+20",
+  "vontade": "3d20+15",
+  "pv": 1150,
+  "resistencias": "Balístico, impacto, perfuração e Sangue 20",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 4,
+   "for": 5,
+   "int": 0,
+   "pre": 3,
+   "vig": 5
+  },
+  "pericias": "Atletismo 5d20+25",
+  "deslocamento": "18m",
+  "ataques": [
+   {
+    "nome": "Mordida",
+    "alcance": "Corpo a corpo",
+    "teste": "5d20+40",
+    "dano": "4d12+30 Sangue"
+   },
+   {
+    "nome": "Disparo de espinhos",
+    "alcance": "Distância, médio",
+    "teste": "4d20+35",
+    "dano": "4d8+20 Sangue"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Ataque Flexível",
+    "resumo": "Até quatro ataques por rodada, misturando os tipos, mas nunca o mesmo mais de três vezes."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Devorar",
+    "resumo": "1x por cena, ao zerar alguém com a mordida, devora e mata (Fortitude DT 40 evita) e cura metade dos PV totais da vítima."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Derrubar e Devorar",
+    "resumo": "Manobra derrubar a até 3m (teste 5d20+45); se vencer, três mordidas com dano 4d12+40."
+   }
+  ]
+ },
+ {
+  "id": "minotauro",
+  "nome": "Minotauro",
+  "fonte": "OPRPG",
+  "pag": 197,
+  "elemento": "Sangue",
+  "vd": 280,
+  "tipo": "Criatura Grande",
+  "presencaPerturbadora": "DT 35, 8d6 mental (NEX 80%+ imune)",
+  "percepcao": "3d20+20",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "4d20+15",
+  "defesa": 44,
+  "fortitude": "5d20+20",
+  "reflexos": "4d20+15",
+  "vontade": "3d20+10",
+  "pv": 750,
+  "resistencias": "Balístico, impacto, perfuração e Sangue 20",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 4,
+   "for": 5,
+   "int": 1,
+   "pre": 3,
+   "vig": 5
+  },
+  "pericias": "Atletismo 5d20+20",
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Chifres",
+    "alcance": "Corpo a corpo",
+    "teste": "5d20+30",
+    "dano": "6d12+20 perfuração"
+   },
+   {
+    "nome": "Machado",
+    "alcance": "Corpo a corpo x2",
+    "teste": "5d20+32",
+    "dano": "4d12+20 corte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Livre",
+    "nome": "Cravar Chifres",
+    "resumo": "Se acertar uma investida com os chifres, o alvo fica agarrado neles (sem novos ataques de chifre) e sofre 4d12+20 de Sangue no fim de cada turno dele preso."
+   }
+  ]
+ },
+ {
+  "id": "mulher_afogada",
+  "nome": "Mulher Afogada",
+  "fonte": "OPRPG",
+  "pag": 199,
+  "elemento": "Sangue",
+  "elementosSecundarios": [
+   "Energia"
+  ],
+  "vd": 140,
+  "tipo": "Criatura Grande",
+  "presencaPerturbadora": "DT 25, 4d8 mental (NEX 50%+ imune)",
+  "percepcao": "2d20+5",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "4d20+10",
+  "defesa": 28,
+  "fortitude": "3d20+10",
+  "reflexos": "4d20+10",
+  "vontade": "2d20+5",
+  "pv": 240,
+  "resistencias": "Balístico, Energia, impacto e perfuração 10; Sangue 20",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 4,
+   "for": 3,
+   "int": 2,
+   "pre": 2,
+   "vig": 3
+  },
+  "deslocamento": "9m (forma líquida 36m)",
+  "ataques": [
+   {
+    "nome": "Mordida",
+    "alcance": "Corpo a corpo",
+    "teste": "3d20+15",
+    "dano": "4d8+8 perfuração"
+   },
+   {
+    "nome": "Garras",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+15",
+    "dano": "4d6+6 corte"
+   },
+   {
+    "nome": "Jato de sangue",
+    "alcance": "Distância, curto",
+    "teste": "4d20+10",
+    "dano": "4d8+8 Sangue"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Forma de Sangue",
+    "resumo": "Começa líquida: RD 20 a balístico, corte, impacto, perfuração e Sangue, 36m de deslocamento, passa por canos e frestas e usa as ações de forma de Sangue. Perde isso quando o enigma é resolvido."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Sugar Sangue",
+    "resumo": "Devora um adjacente morto nesta cena e cura 40 PV."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Afogar em Sangue (forma de Sangue)",
+    "resumo": "Entra pelo nariz e boca de alguém em alcance curto, que fica asfixiado; Fortitude DT 24 no início de cada turno dele a expele."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Arrancar Sangue (forma de Sangue)",
+    "resumo": "Ao ser expelida de uma vítima, causa 6d6 de Sangue e a deixa fraca."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Invadir Órgãos (forma de Sangue)",
+    "resumo": "Na vítima que está afogando: 6d6 de Sangue e enjoado."
+   }
+  ],
+  "enigma": "Toda fonte de água do local vira armadilha. Para forçá-la à forma física: fechar o registro geral e abrir todas as torneiras, sem lugar para ela fugir."
+ },
+ {
+  "id": "tita_de_sangue",
+  "nome": "Titã de Sangue",
+  "fonte": "OPRPG",
+  "pag": 201,
+  "elemento": "Sangue",
+  "vd": 220,
+  "tipo": "Criatura Enorme",
+  "presencaPerturbadora": "DT 30, 7d6 mental (NEX 70%+ imune)",
+  "percepcao": "1d20+15",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "2d20+10",
+  "defesa": 35,
+  "fortitude": "4d20+15",
+  "reflexos": "2d20+10",
+  "vontade": "1d20+10",
+  "pv": 550,
+  "resistencias": "Balístico, impacto, perfuração e Sangue 20",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 2,
+   "for": 5,
+   "int": 1,
+   "pre": 1,
+   "vig": 4
+  },
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Mordida",
+    "alcance": "Corpo a corpo",
+    "teste": "5d20+25",
+    "dano": "4d12+10 perfuração"
+   },
+   {
+    "nome": "Garras",
+    "alcance": "Corpo a corpo x2",
+    "teste": "5d20+25",
+    "dano": "4d8+10 corte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Sede de Sangue",
+    "resumo": "+4d6 de Sangue nos ataques contra quem está machucado ou sangrando."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Estraçalhar",
+    "resumo": "Ao acertar a mordida: mais 4d12+10 de perfuração e sangrando até o fim da cena (Reflexos DT 30 reduz à metade e evita)."
+   }
+  ]
+ },
+ {
+  "id": "zumbi_de_sangue",
+  "nome": "Zumbi de Sangue",
+  "fonte": "OPRPG",
+  "pag": 202,
+  "elemento": "Sangue",
+  "vd": 20,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 15, 2d6 mental (NEX 25%+ imune)",
+  "percepcao": "1d20+10",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "2d20+5",
+  "defesa": 17,
+  "fortitude": "2d20+5",
+  "reflexos": "2d20+5",
+  "vontade": "1d20+5",
+  "pv": 45,
+  "resistencias": "Balístico, impacto e perfuração 5; Sangue 10",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 2,
+   "for": 2,
+   "int": 0,
+   "pre": 1,
+   "vig": 2
+  },
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Garras",
+    "alcance": "Corpo a corpo x2",
+    "teste": "2d20+5",
+    "dano": "1d6+5 corte"
+   }
+  ],
+  "habilidades": []
+ },
+ {
+  "id": "zumbi_de_sangue_bestial",
+  "nome": "Zumbi de Sangue Bestial",
+  "fonte": "OPRPG",
+  "pag": 203,
+  "elemento": "Sangue",
+  "vd": 100,
+  "tipo": "Criatura Grande",
+  "presencaPerturbadora": "DT 20, 4d6 mental (NEX 45%+ imune)",
+  "percepcao": "2d20+10",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "2d20+15",
+  "defesa": 23,
+  "fortitude": "3d20+10",
+  "reflexos": "2d20+5",
+  "vontade": "2d20+5",
+  "pv": 200,
+  "resistencias": "Balístico, impacto e perfuração 5; Sangue 10",
+  "vulnerabilidades": "Morte",
+  "atributos": {
+   "agi": 2,
+   "for": 3,
+   "int": 0,
+   "pre": 2,
+   "vig": 3
+  },
+  "pericias": "Furtividade 2d20+13",
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Mordida de sangue",
+    "alcance": "Corpo a corpo",
+    "teste": "3d20+15",
+    "dano": "2d10+5 perfuração"
+   },
+   {
+    "nome": "Garras de sangue",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+15",
+    "dano": "2d6+5 corte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Furtivo e Letal",
+    "resumo": "Contra alvo desprevenido, +1d20 no ataque e +2 dados de dano por acerto."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Instinto Predatório",
+    "resumo": "Sem penalidade em Furtividade ao andar o deslocamento normal."
+   }
+  ]
+ },
+ {
+  "id": "diabo",
+  "nome": "O Diabo",
+  "fonte": "OPRPG",
+  "pag": 206,
+  "elemento": "Sangue",
+  "elementosSecundarios": [
+   "Conhecimento"
+  ],
+  "vd": 400,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 45, 10d8 mental",
+  "percepcao": "6d20+25",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "6d20+35",
+  "defesa": 66,
+  "fortitude": "6d20+35",
+  "reflexos": "6d20+35",
+  "vontade": "6d20+35",
+  "pv": 1666,
+  "resistencias": "Balístico, impacto e perfuração 20",
+  "vulnerabilidades": "Morte",
+  "imunidades": "Atordoado, paralisias, dano e efeitos de Sangue",
+  "atributos": {
+   "agi": 6,
+   "for": 6,
+   "int": 6,
+   "pre": 6,
+   "vig": 6
+  },
+  "deslocamento": "18m",
+  "ataques": [
+   {
+    "nome": "Arma sangrenta",
+    "alcance": "Corpo a corpo x2",
+    "teste": "6d20+45",
+    "dano": "2d10+50 Sangue",
+    "critico": "x3"
+   },
+   {
+    "nome": "Chifre do Diabo",
+    "alcance": "Corpo a corpo",
+    "teste": "6d20+45",
+    "dano": "2d8+50 Sangue",
+    "critico": "x3"
+   },
+   {
+    "nome": "Arma sangrenta",
+    "alcance": "Distância x2, médio",
+    "teste": "6d20+45",
+    "dano": "2d10+50 Sangue",
+    "critico": "x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Ardiloso",
+    "resumo": "Pode não ativar a presença perturbadora ao aparecer para alguém."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Decepar Máscara",
+    "resumo": "Seus sentimentos são o que resolve o Enigma de Medo da Máscara do Desespero."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Potência de Sangue",
+    "resumo": "Cura 50 PV no início de cada turno; perícias de For, Vig e Pre +35 e as demais +25."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Explodir em Sangue",
+    "resumo": "Até 2x por turno, ao ferir com a arma sangrenta ou tocar uma ferida: 10d6 de Sangue."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Sangrar",
+    "resumo": "Ao acertar o chifre, pode deixá-lo cravado: vulnerabilidade a Sangue até remover (ação padrão, 8d8 de Sangue). O chifre cresce de novo."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Transportar pelo Sangue",
+    "resumo": "Move-se para qualquer espaço com muito sangue exposto ou adjacente a alguém machucado ou morrendo."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Senhor do Sangue",
+    "resumo": "1x por cena, invoca criaturas de Sangue somando VD até 400, em alcance médio, que agem no turno dele."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Pacto",
+    "resumo": "Oferece um pacto, cumprido ao pé da letra; quem aceita sofre 10d6 mental e, se enlouquecer, vira servo dele."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Desejos de Sangue",
+    "resumo": "Alcance médio entra em fúria e ataca alguém escolhido por ele com a ação mais danosa, sem rituais (Vontade DT 45 evita e dá imunidade na cena)."
+   }
+  ],
+  "enigma": "Ninguém sabe; símbolos sagrados não funcionam e a pista é uma manifestação de Morte tão forte quanto ele. Resolvido, perde a imunidade a dano e as resistências caem para +25."
+ },
+ {
+  "id": "aracnasita",
+  "nome": "Aracnasita",
+  "fonte": "OPRPG",
+  "pag": 209,
+  "elemento": "Morte",
+  "vd": 80,
+  "tipo": "Criatura Grande",
+  "presencaPerturbadora": "DT 20, 4d6 mental (NEX 40%+ imune)",
+  "percepcao": "1d20+10",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "3d20+10",
+  "defesa": 23,
+  "fortitude": "2d20+5",
+  "reflexos": "3d20+10",
+  "vontade": "1d20+5",
+  "pv": 140,
+  "vulnerabilidades": "Energia",
+  "imunidades": "Dano (exceto fogo)",
+  "atributos": {
+   "agi": 3,
+   "for": 2,
+   "int": 1,
+   "pre": 1,
+   "vig": 2
+  },
+  "pericias": "Furtividade 3d20+8",
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Mordida",
+    "alcance": "Corpo a corpo",
+    "teste": "2d20+15",
+    "dano": "2d10+10 perfuração"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Percepção Tátil",
+    "resumo": "Percebe tudo que toca sua teia, ignorando penalidades de visão e sentidos para isso."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Estacar",
+    "resumo": "Ao ferir com a mordida: +1d10 de Morte e o alvo fica agarrado (soltar: ação padrão e Atletismo DT 20, inclusive por um adjacente)."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Desovar Aranhas",
+    "resumo": "1x por cena, ao ficar machucada, solta filhotes. A cada turno seguinte, em ordem: 2d6 mental a quem começa o turno em alcance curto (Vontade DT 15 metade); depois também 2d8 de Morte (Fortitude DT 15 metade); depois a área vira alcance médio; por fim quem morre nesse alcance vira nova aracnasita com 70 PV."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Disparar Teia",
+    "resumo": "Quadrado de 3m em alcance curto: agarrado (Reflexos DT 20 evita) e 2d8+10 de Morte no início de cada turno preso. Escapar: 15 de corte na teia ou ação padrão e Atletismo DT 20. Dura a cena."
+   }
+  ],
+  "enigma": "O Lodo da vítima parasitada a torna imune, mas foge do calor: dano de fogo tira a imunidade a dano até o início do próximo turno dela."
+ },
+ {
+  "id": "carnical_preto",
+  "nome": "Carniçal Preto da Morte",
+  "fonte": "OPRPG",
+  "pag": 211,
+  "elemento": "Morte",
+  "elementosSecundarios": [
+   "Conhecimento"
+  ],
+  "vd": 200,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 30, 6d6 mental (NEX 65%+ imune)",
+  "percepcao": "3d20+15",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "4d20+15",
+  "defesa": 38,
+  "fortitude": "3d20+15",
+  "reflexos": "4d20+15",
+  "vontade": "3d20+15",
+  "pv": 400,
+  "resistencias": "Corte, impacto e perfuração 10; Morte 20",
+  "vulnerabilidades": "Energia",
+  "imunidades": "Dano balístico",
+  "atributos": {
+   "agi": 4,
+   "for": 4,
+   "int": 3,
+   "pre": 3,
+   "vig": 3
+  },
+  "pericias": "Atletismo 4d20+15",
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Garra da morte",
+    "alcance": "Corpo a corpo x2",
+    "teste": "4d20+25",
+    "dano": "4d10+20 Morte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Físico Paranormal",
+    "resumo": "Salta o dobro do deslocamento normal."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Instinto Mortal",
+    "resumo": "Machucado (200 PV ou menos): usa Hipnose como ação livre no início do turno e ganha uma garra extra se atacar o mesmo alvo com as duas."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Corpo Fechado",
+    "resumo": "Quem mira para atirar na cabeça ignora a imunidade a balístico."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Pancada Poderosa",
+    "resumo": "Num crítico, empurra 6m; colisão com algo sólido causa 4d6 de impacto (nos dois, se for outro ser)."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Comando",
+    "resumo": "Um ser em alcance curto obedece a uma ordem, como um efeito básico de Perturbação (Vontade DT 29 evita)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Hipnose",
+    "resumo": "Controle total de um ser em alcance curto, exceto suicídio (Vontade DT 29 evita; repete no fim de cada turno com +1 cumulativo). Até três ao mesmo tempo; quem está enlouquecendo falha e fica preso para sempre."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Reanimar Corpos",
+    "resumo": "1x por cena, reanima 2d4+2 corpos em alcance médio como esqueletos de Lodo que atacam o mais próximo."
+   }
+  ]
+ },
+ {
+  "id": "ceifador_espiral",
+  "nome": "Ceifador Espiral",
+  "fonte": "OPRPG",
+  "pag": 213,
+  "elemento": "Morte",
+  "vd": 380,
+  "tipo": "Criatura Grande",
+  "presencaPerturbadora": "DT 45, 9d8 mental",
+  "percepcao": "5d20+20",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "5d20+20",
+  "defesa": 58,
+  "fortitude": "5d20+25",
+  "reflexos": "5d20+25",
+  "vontade": "5d20+25",
+  "pv": 999,
+  "resistencias": "Dano 50",
+  "vulnerabilidades": "Energia",
+  "imunidades": "Paralisias, efeitos e dano de Morte",
+  "atributos": {
+   "agi": 5,
+   "for": 5,
+   "int": 5,
+   "pre": 5,
+   "vig": 5
+  },
+  "deslocamento": "15m",
+  "ataques": [
+   {
+    "nome": "Foice da morte",
+    "alcance": "Corpo a corpo x2",
+    "teste": "5d20+40",
+    "dano": "5d10+20 Morte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Decepar",
+    "resumo": "No crítico com a foice, o alvo cai para 25 PV (ou morre se já tiver isso ou menos) e perde 1 de For, Agi ou Vig para sempre. Cada morte dá 50 PV temporários e +1d10 na foice até o fim da cena."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Transporte pelo Pó",
+    "resumo": "Dentro das Terras Desoladas, teleporta para outro ponto da área e ataca com a foice como ação livre."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Contemplar a Espiral",
+    "resumo": "Quem o vê em alcance médio sofre 10d10+30 mental (Vontade DT 43 metade); depois fica imune na cena."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Cinzas das Terras Desoladas",
+    "resumo": "Alcance longo vira terra desolada: 10d10+20 de Morte e enjoado (Fortitude DT 43 metade e evita); quem termina o turno ali sofre 20 de Morte."
+   }
+  ],
+  "enigma": "Transformar a espiral em linha, algo que exige esforço e energia enormes. Resolvido, perde a resistência a dano e as Terras Desoladas viram terreno normal."
+ },
+ {
+  "id": "enraizado",
+  "nome": "Enraizado",
+  "fonte": "OPRPG",
+  "pag": 214,
+  "elemento": "Morte",
+  "vd": 120,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 20, 4d6 mental (NEX 50%+ imune)",
+  "percepcao": "1d20+10",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "3d20+10",
+  "defesa": 28,
+  "fortitude": "3d20+10",
+  "reflexos": "3d20+10",
+  "vontade": "1d20+5",
+  "pv": 140,
+  "resistencias": "Corte, impacto e perfuração 10; Morte 20",
+  "vulnerabilidades": "Energia",
+  "atributos": {
+   "agi": 3,
+   "for": 3,
+   "int": 1,
+   "pre": 1,
+   "vig": 3
+  },
+  "pericias": "Atletismo 3d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Punho espinhento",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+15",
+    "dano": "2d8+8 impacto + 2d12 Morte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Imortalidade",
+    "resumo": "Ao morrer vira uma poça e volta em 1d2 rodadas com 70 PV; 20 de fogo ou Energia somados na poça o destroem de vez."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Veneno Pútrido",
+    "resumo": "O primeiro dano de punho na cena envenena: Fortitude DT 23 no início de cada turno ou 4d12 de Morte (passar cura)."
+   }
+  ]
+ },
+ {
+  "id": "escutado",
+  "nome": "Escutado",
+  "fonte": "OPRPG",
+  "pag": 216,
+  "elemento": "Morte",
+  "elementosSecundarios": [
+   "Energia"
+  ],
+  "vd": 160,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 25, 4d8 mental (NEX 55%+ imune)",
+  "percepcao": "2d20+10",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "4d20+10",
+  "defesa": 29,
+  "fortitude": "3d20+10",
+  "reflexos": "4d20+10",
+  "vontade": "2d20+5",
+  "pv": 290,
+  "imunidades": "Dano",
+  "atributos": {
+   "agi": 4,
+   "for": 3,
+   "int": 1,
+   "pre": 2,
+   "vig": 3
+  },
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Mordida",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+20",
+    "dano": "3d6+10 perfuração"
+   },
+   {
+    "nome": "Cabeça arremessada",
+    "alcance": "Distância x2, curto",
+    "teste": "4d20+15",
+    "dano": "1d10+10 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Multiplicação Melódica",
+    "resumo": "Ouvindo sua melodia, cria no início do turno uma cópia em alcance curto (145 PV, sem imunidade, também se multiplica). Todos caçam quem toca a música."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Vomitar Lodo",
+    "resumo": "Cada cópia, na primeira rodada, cospe Lodo num ser em alcance curto: 4d10+10 de Morte e lento na cena (Reflexos DT 25 metade e evita)."
+   }
+  ],
+  "enigma": "Tocar a melodia (ação padrão e Artes DT 25, ou gravação). Ouvindo por 4 rodadas seguidas, perde a imunidade a dano na cena, mas se multiplica enquanto isso."
+ },
+ {
+  "id": "esqueleto_de_lodo",
+  "nome": "Esqueleto de Lodo",
+  "fonte": "OPRPG",
+  "pag": 217,
+  "elemento": "Morte",
+  "vd": 20,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 14, 2d4 mental (NEX 25%+ imune)",
+  "percepcao": "1d20",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "2d20",
+  "defesa": 14,
+  "fortitude": "1d20",
+  "reflexos": "2d20+5",
+  "vontade": "1d20",
+  "pv": 40,
+  "resistencias": "Corte, impacto e perfuração 5; Morte 10",
+  "vulnerabilidades": "Energia",
+  "atributos": {
+   "agi": 2,
+   "for": 2,
+   "int": 0,
+   "pre": 1,
+   "vig": 1
+  },
+  "deslocamento": "6m",
+  "ataques": [
+   {
+    "nome": "Garras",
+    "alcance": "Corpo a corpo x2",
+    "teste": "2d20+5",
+    "dano": "2d6+2 corte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Imortalidade",
+    "resumo": "Ao morrer vira poça e volta em 1d3 rodadas com 20 PV; fogo ou Energia na poça o destroem de vez."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Espiral de Lodo",
+    "resumo": "Vira poça e avança 9m em linha: 2d10 de Morte em quem estiver no caminho (Reflexos DT 14 metade)."
+   }
+  ]
+ },
+ {
+  "id": "marionete",
+  "nome": "Marionete",
+  "fonte": "OPRPG",
+  "pag": 219,
+  "elemento": "Morte",
+  "vd": 280,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 35, 8d6 mental (NEX 85%+ imune)",
+  "percepcao": "5d20+15",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "3d20+15",
+  "defesa": 40,
+  "fortitude": "2d20+10",
+  "reflexos": "3d20+15",
+  "vontade": "5d20+20",
+  "pv": 700,
+  "resistencias": "Corte, impacto, perfuração e Morte 20",
+  "vulnerabilidades": "Energia",
+  "atributos": {
+   "agi": 3,
+   "for": 5,
+   "int": 1,
+   "pre": 5,
+   "vig": 2
+  },
+  "deslocamento": "6m",
+  "ataques": [
+   {
+    "nome": "Foice óssea",
+    "alcance": "Corpo a corpo x2",
+    "teste": "5d20+30",
+    "dano": "10d8+10 Morte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Momento Passivo",
+    "resumo": "Deslocamento não pode ser reduzido, ignora terreno difícil e efeitos que dependem de tocar o chão."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Reflexos Guiados por Corda",
+    "resumo": "1x por rodada, ataca com a foice quem fica adjacente a ela."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Ironia do Destino",
+    "resumo": "Dois ataques de foice num adjacente; se o segundo acertar, agarra e pode andar 6m carregando. Enquanto agarra, divide com a vítima todo dano que sofre."
+   }
+  ]
+ },
+ {
+  "id": "mumia_xipofaga",
+  "nome": "Múmia Xipófaga",
+  "fonte": "OPRPG",
+  "pag": 221,
+  "elemento": "Morte",
+  "vd": 240,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 30, 6d8 mental (NEX 75%+ imune)",
+  "percepcao": "3d20+10",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "5d20+15",
+  "defesa": 35,
+  "fortitude": "4d20+15",
+  "reflexos": "5d20+15",
+  "vontade": "3d20+10",
+  "pv": 400,
+  "resistencias": "Corte, impacto e perfuração 10; Morte 20",
+  "vulnerabilidades": "Energia, fogo",
+  "atributos": {
+   "agi": 5,
+   "for": 4,
+   "int": 2,
+   "pre": 3,
+   "vig": 4
+  },
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Garra enfaixada",
+    "alcance": "Corpo a corpo x2",
+    "teste": "4d20+30",
+    "dano": "4d8+30 corte"
+   },
+   {
+    "nome": "Vomitar lodo",
+    "alcance": "Distância x2, curto",
+    "teste": "5d20+25",
+    "dano": "3d6+30 Morte + 3d8 mental"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Faixas da Permanência",
+    "resumo": "Com 0 PV continua agindo até o fim do próximo turno; morre se não terminar esse turno com 1 PV ou mais."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Agarrada Mumificadora",
+    "resumo": "Ao acertar a garra, tenta agarrar (teste 4d20+30): a vítima sofre 4d8+30 de Morte no início de cada turno dela e a múmia cura o mesmo. Quem zera assim vira esqueleto de Lodo."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Amalgamar",
+    "resumo": "Com 0 PV, funde-se a um morto ou criatura de Morte adjacente: cura 200 PV, ataca 3 vezes com as garras e +5 de dano. Uma segunda fusão: mais 200 PV, 4 ataques e +10 de dano."
+   }
+  ]
+ },
+ {
+  "id": "nidere",
+  "nome": "Nidere",
+  "fonte": "OPRPG",
+  "pag": 224,
+  "elemento": "Morte",
+  "elementosSecundarios": [
+   "Sangue"
+  ],
+  "vd": 320,
+  "tipo": "Criatura Grande",
+  "presencaPerturbadora": "DT 35, 8d6 mental (NEX 95%+ imune)",
+  "percepcao": "6d20+25",
+  "sentidos": "Faro",
+  "iniciativa": "5d20+25",
+  "defesa": 50,
+  "fortitude": "5d20+25",
+  "reflexos": "5d20+25",
+  "vontade": "4d20+15",
+  "pv": 800,
+  "resistencias": "Corte, impacto, perfuração e Morte 20",
+  "vulnerabilidades": "Energia",
+  "atributos": {
+   "agi": 5,
+   "for": 5,
+   "int": 3,
+   "pre": 4,
+   "vig": 5
+  },
+  "pericias": "Furtividade 5d20+23, Sobrevivência 5d20+20",
+  "deslocamento": "24m",
+  "ataques": [
+   {
+    "nome": "Garra invertida",
+    "alcance": "Corpo a corpo x2",
+    "teste": "5d20+35",
+    "dano": "4d10+40 Morte"
+   },
+   {
+    "nome": "Mordida invertida",
+    "alcance": "Corpo a corpo",
+    "teste": "5d20+35",
+    "dano": "4d12+40 Morte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Caçador Veloz",
+    "resumo": "Anda o deslocamento normal sem penalidade em Furtividade."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Regeneração Acelerada",
+    "resumo": "Cura Acelerada 50; perde ao resolverem o enigma."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Senso de Direção Perfeito",
+    "resumo": "Nunca se perde e tem +2d20 em Percepção e Sobrevivência (já na ficha); perde ao resolverem o enigma."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Reverter",
+    "resumo": "Quem sofre dano das garras fica enjoado até o fim do próprio próximo turno."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Rastrear e Abater",
+    "resumo": "+6d6 de dano contra desprevenidos."
+   }
+  ],
+  "enigma": "Achar o covil labiríntico e entender o padrão dos ossos das vítimas pendurados ali para destruir a origem. Então ele entra em fúria: −10 na Defesa, −1d20 nas resistências e perde Regeneração e Senso de Direção, caindo em armadilhas."
+ },
+ {
+  "id": "sempiternal",
+  "nome": "Sempiternal",
+  "fonte": "OPRPG",
+  "pag": 226,
+  "elemento": "Morte",
+  "vd": 360,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 40, 8d8 mental",
+  "percepcao": "5d20+20",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "5d20+25",
+  "defesa": 53,
+  "fortitude": "4d20+20",
+  "reflexos": "5d20+30",
+  "vontade": "5d20+25",
+  "pv": 990,
+  "resistencias": "Corte, impacto e perfuração 20",
+  "vulnerabilidades": "Energia",
+  "imunidades": "Paralisias, dano e efeitos de Morte",
+  "atributos": {
+   "agi": 5,
+   "for": 5,
+   "int": 4,
+   "pre": 5,
+   "vig": 4
+  },
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Dedos alongados",
+    "alcance": "Corpo a corpo x4",
+    "teste": "5d20+40",
+    "dano": "4d10 Morte + envelhecimento"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Toque Acelerador",
+    "resumo": "Cada dano dos dedos envelhece 1d10 anos: 20+ anos deixa fraco, 40+ debilitado (até o fim da cena) e 60+ mata. Quem tem afinidade com Morte é imune."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Correntes de Lodo",
+    "resumo": "Todo o alcance médio sofre 20d6 de Morte (Fortitude DT 40 metade); quem fica machucado ganha vulnerabilidade a Morte na cena e quem zera vira enraizado."
+   }
+  ]
+ },
+ {
+  "id": "succ",
+  "nome": "Succ",
+  "fonte": "OPRPG",
+  "pag": 227,
+  "elemento": "Morte",
+  "elementosSecundarios": [
+   "Energia"
+  ],
+  "vd": 40,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 15, 3d6 mental (NEX 30%+ imune)",
+  "percepcao": "1d20+5",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "4d20+5",
+  "defesa": 20,
+  "fortitude": "1d20",
+  "reflexos": "4d20+10",
+  "vontade": "1d20+5",
+  "pv": 65,
+  "resistencias": "Corte, impacto e perfuração 5; Morte 10",
+  "vulnerabilidades": "Energia",
+  "atributos": {
+   "agi": 4,
+   "for": 2,
+   "int": 0,
+   "pre": 1,
+   "vig": 1
+  },
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Mordida",
+    "alcance": "Corpo a corpo",
+    "teste": "4d20+10",
+    "dano": "2d8+2 perfuração"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Livre",
+    "nome": "Sucção",
+    "resumo": "Ao morder, prende no rosto: Fortitude DT 17 solta; se falhar, inconsciente e no próximo turno do succ cai a 0 PV morrendo. Preso, o succ só reage e anda 3m; 10 de dano numa rodada o faz soltar."
+   }
+  ]
+ },
+ {
+  "id": "deus_da_morte",
+  "nome": "O Deus da Morte",
+  "fonte": "OPRPG",
+  "pag": 230,
+  "elemento": "Morte",
+  "elementosSecundarios": [
+   "Conhecimento"
+  ],
+  "vd": 400,
+  "tipo": "Relíquia Grande",
+  "presencaPerturbadora": "DT 45, 10d8 mental",
+  "percepcao": "5d20+30",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "6d20+30",
+  "defesa": 60,
+  "fortitude": "7d20+35",
+  "reflexos": "6d20+35",
+  "vontade": "5d20+35",
+  "pv": 2000,
+  "resistencias": "Corte, impacto e perfuração 20",
+  "vulnerabilidades": "Energia",
+  "imunidades": "Atordoado, paralisias, dano e efeitos de Morte",
+  "atributos": {
+   "agi": 6,
+   "for": 6,
+   "int": 5,
+   "pre": 5,
+   "vig": 7
+  },
+  "deslocamento": "15m",
+  "ataques": [
+   {
+    "nome": "Soco espiral",
+    "alcance": "Corpo a corpo x2",
+    "teste": "6d20+45",
+    "dano": "5d10+50 Morte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Ciclo Infinito",
+    "resumo": "Cura 50 PV no início de cada turno. Com 0 PV vira poça e, no próximo turno, renasce no cadáver mais próximo (ou no de maior NEX ao alcance) com todos os PV e sem condições."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Destruir o Diabo",
+    "resumo": "É a única coisa capaz de resolver o Enigma de Medo do Diabo."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Potência de Morte",
+    "resumo": "Perícias de For, Vig e Pre +35; as demais +25."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Senhor do Tempo",
+    "resumo": "No início de cada rodada, rola 1d20 e ganha um turno extra nessa contagem de iniciativa."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Agarrão",
+    "resumo": "Ao acertar o soco num ser Médio ou menor, tenta agarrar (teste 6d20+47)."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Controlar Relógio Interno",
+    "resumo": "No início de cada turno, encerra até duas condições em si."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Controlar Mortos",
+    "resumo": "Cada criatura de Morte em alcance longo anda e ataca."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Espiral Descendente",
+    "resumo": "O agarrado envelhece 3d20 anos, sofrendo 1 de dano mental por ano."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Espiral Destrutiva",
+    "resumo": "Raio de 12m em alcance longo: 10d10+50 de Morte (Fortitude DT 45 metade)."
+   }
+  ],
+  "enigma": "Desconhecido; ninguém que o enfrentou voltou para contar. Resolvido, ele perde Ciclo Infinito e Senhor do Tempo."
+ },
+ {
+  "id": "anjo",
+  "nome": "Anjo",
+  "fonte": "OPRPG",
+  "pag": 234,
+  "elemento": "Conhecimento",
+  "vd": 380,
+  "tipo": "Criatura Enorme",
+  "presencaPerturbadora": "DT 40, 10d6 mental",
+  "percepcao": "5d20+25",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "4d20+25",
+  "defesa": 57,
+  "fortitude": "5d20+25",
+  "reflexos": "4d20+25",
+  "vontade": "5d20+30",
+  "pv": 1111,
+  "resistencias": "Dano 50",
+  "vulnerabilidades": "Sangue",
+  "imunidades": "Paralisias, dano e efeitos de Conhecimento",
+  "atributos": {
+   "agi": 4,
+   "for": 5,
+   "int": 5,
+   "pre": 5,
+   "vig": 5
+  },
+  "deslocamento": "Voo 24m",
+  "ataques": [
+   {
+    "nome": "Asas do conhecimento",
+    "alcance": "Corpo a corpo x2",
+    "teste": "5d20+40",
+    "dano": "4d10+40 Conhecimento"
+   },
+   {
+    "nome": "Olhares do saber",
+    "alcance": "Distância x2, longo",
+    "teste": "4d20+40",
+    "dano": "6d8+20 Conhecimento"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Julgamento",
+    "resumo": "Quem sofre dano de Conhecimento das asas ou dos olhares sofre também metade disso em dano mental; quem chega a 0 de Sanidade assim inexiste e morre."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Faixas Detentoras",
+    "resumo": "Ao acertar as asas num ser Médio ou menor, tenta agarrar (teste 5d20+45) e o deixa fascinado; um por vez, sem perder as asas."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Chamas Reveladoras",
+    "resumo": "Alcance médio: 10d8 de Conhecimento (Vontade DT 43 metade). Quem é ferido ganha uma auréola e o anjo sabe onde está até o fim da cena, ignorando furtividade, invisibilidade e ilusões."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Raio Dourado",
+    "resumo": "1x por cena, linha de 3m em alcance longo: 15d8+50 de Conhecimento (Reflexos DT 43 metade)."
+   }
+  ],
+  "enigma": "Anjos julgam pela Justiça Perfeita e podem ser enganados; um julgamento errado o faz cair. Resolvido, perde a resistência a dano, o voo e o Julgamento."
+ },
+ {
+  "id": "bicho_papao",
+  "nome": "Bicho-Papão",
+  "fonte": "OPRPG",
+  "pag": 237,
+  "elemento": "Conhecimento",
+  "vd": 300,
+  "tipo": "Criatura Grande",
+  "presencaPerturbadora": "DT 35, 7d8 mental (NEX 90%+ imune)",
+  "percepcao": "5d20+20",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "5d20+20",
+  "defesa": 41,
+  "fortitude": "4d20+15",
+  "reflexos": "5d20+25",
+  "vontade": "5d20+20",
+  "pv": 750,
+  "resistencias": "Balístico, corte, impacto e Conhecimento 20",
+  "vulnerabilidades": "Sangue",
+  "atributos": {
+   "agi": 5,
+   "for": 4,
+   "int": 3,
+   "pre": 5,
+   "vig": 4
+  },
+  "pericias": "Atletismo 4d20+15, Furtividade 5d20+18",
+  "deslocamento": "15m",
+  "ataques": [
+   {
+    "nome": "Garras atormentadoras",
+    "alcance": "Corpo a corpo x3",
+    "teste": "5d20+35",
+    "dano": "4d10+10 Conhecimento"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Tamanho Adaptável",
+    "resumo": "Encolhe para se esconder em lugares menores; furtividade e escalada não reduzem o deslocamento."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Tormento Infantil",
+    "resumo": "Fica desprevenido ouvindo cantiga infantil; choro de criança o faz gastar tudo para achar e calar a fonte."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Destruir Mente",
+    "resumo": "Cada garra que acerta alvo perturbado causa +1d8 mental."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Atormentar",
+    "resumo": "Sussurros num ser em alcance curto: 3d8 mental (Vontade DT 30 metade), +3d8 se estiver escondido dele."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Saltar e Assustar",
+    "resumo": "Escondido de alguém em alcance curto, salta sobre ele em forma horrenda: 10d8 mental (Vontade DT 35 metade)."
+   }
+  ]
+ },
+ {
+  "id": "espreitador",
+  "nome": "Espreitador",
+  "fonte": "OPRPG",
+  "pag": 238,
+  "elemento": "Conhecimento",
+  "vd": 220,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 30, 7d6 mental (NEX 70%+ imune)",
+  "percepcao": "3d20+15",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "4d20+15",
+  "defesa": 34,
+  "fortitude": "2d20+10",
+  "reflexos": "4d20+15",
+  "vontade": "3d20+15",
+  "pv": 500,
+  "vulnerabilidades": "Sangue",
+  "imunidades": "Dano",
+  "atributos": {
+   "agi": 4,
+   "for": 2,
+   "int": 3,
+   "pre": 3,
+   "vig": 2
+  },
+  "pericias": "Furtividade 4d20+20",
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Pancada",
+    "alcance": "Corpo a corpo x2",
+    "teste": "2d20+10",
+    "dano": "1d6+2 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Movimento",
+    "nome": "Correr pelas Frestas",
+    "resumo": "Teleporta para qualquer ponto em alcance longo, desde que haja uma fresta (espaço Pequeno ou menor) no caminho."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Espreitar",
+    "resumo": "1x por cena, adjacente a alguém dormindo: 10d6 mental (Vontade DT 30 metade); se a vítima ficar enlouquecendo, pode criar uma cópia dela."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Cópia Observada",
+    "resumo": "Cria uma cópia de quem enlouqueceu com Espreitar: mesma ficha, dano de Conhecimento, sem rituais ou poderes paranormais, até o fim da cena."
+   }
+  ],
+  "enigma": "A vítima finge dormir no escuro para atraí-lo às 2h11; fechar a porta do esconderijo de onde saiu o encurrala e tira sua imunidade a dano."
+ },
+ {
+  "id": "estrangeiro",
+  "nome": "Estrangeiro",
+  "fonte": "OPRPG",
+  "pag": 241,
+  "elemento": "Conhecimento",
+  "elementosSecundarios": [
+   "Energia"
+  ],
+  "vd": 340,
+  "tipo": "Criatura Grande",
+  "presencaPerturbadora": "DT 40, 10d6 mental (NEX 99%+ imune)",
+  "percepcao": "5d20+25",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "3d20+20",
+  "defesa": 50,
+  "fortitude": "3d20+15",
+  "reflexos": "3d20+20",
+  "vontade": "5d20+25",
+  "pv": 750,
+  "vulnerabilidades": "Sangue",
+  "imunidades": "Dano",
+  "atributos": {
+   "agi": 3,
+   "for": 5,
+   "int": 5,
+   "pre": 5,
+   "vig": 3
+  },
+  "pericias": "Ciências 5d20+20, Ocultismo 5d20+20, Furtividade 3d20+20",
+  "deslocamento": "Voo 15m",
+  "ataques": [
+   {
+    "nome": "Toque sutil",
+    "alcance": "Corpo a corpo x3",
+    "teste": "5d20+35",
+    "dano": "4d8+10 Conhecimento"
+   },
+   {
+    "nome": "Rajada psíquica",
+    "alcance": "Distância x2, extremo",
+    "teste": "5d20+35",
+    "dano": "4d10+20 Conhecimento"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Livre",
+    "nome": "Comandar",
+    "resumo": "Ao ferir com a rajada, Vontade DT 35 ou o alvo cumpre no próximo turno uma ordem: atacar um aliado (sem gastar PE), render-se jogando as armas ou fugir. Int 5+ é imune."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Apagar Memória",
+    "resumo": "Quem enlouquece por ele passa a ser controlado, ou tem a memória apagada e recupera 1d4 SAN, duvidando do encontro."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Oblívio",
+    "resumo": "Quem sofre o toque esquece que ele existe e o considera invisível (Vontade DT 30 evita; repete no fim de cada turno e, ao passar, sofre 6d6 mental). Quem incuba uma larva não repete."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Incubar",
+    "resumo": "Põe uma larva num adjacente que o esqueceu: lê a mente dele à distância e causa 1d6 mental a cada cena; com SAN 0, um novo Estrangeiro nasce e mata o hospedeiro."
+   }
+  ],
+  "enigma": "Decifrar suas mensagens e linguagem para entender as intenções e usar a tecnologia dele. Resolvido, perde a imunidade a dano (exceto Conhecimento) e não pode Incubar."
+ },
+ {
+  "id": "existido",
+  "nome": "Existido",
+  "fonte": "OPRPG",
+  "pag": 242,
+  "elemento": "Conhecimento",
+  "vd": 20,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 14, 1d6 mental (NEX 25%+ imune)",
+  "percepcao": "2d20+5",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "1d20+5",
+  "defesa": 13,
+  "fortitude": "2d20",
+  "reflexos": "1d20",
+  "vontade": "2d20+10",
+  "pv": 36,
+  "resistencias": "Balístico, corte e impacto 5; Conhecimento 10",
+  "vulnerabilidades": "Sangue",
+  "atributos": {
+   "agi": 1,
+   "for": 1,
+   "int": 4,
+   "pre": 2,
+   "vig": 2
+  },
+  "pericias": "Ciências 4d20+10, Ocultismo 4d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancada",
+    "alcance": "Corpo a corpo",
+    "teste": "1d20+5",
+    "dano": "1d4+1 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Livre",
+    "nome": "Brilho Enlouquecedor",
+    "resumo": "1x por rodada, quem o vê em alcance médio sofre 1d6 mental (Vontade DT 14 metade)."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Fortalecimento Paranormal",
+    "resumo": "Se já causou dano mental com o brilho na cena: +1d20 em testes de Agi, For e Vig e +2d4 de Conhecimento nas pancadas até o fim da cena."
+   }
+  ]
+ },
+ {
+  "id": "lembrado",
+  "nome": "Lembrado",
+  "fonte": "OPRPG",
+  "pag": 243,
+  "elemento": "Conhecimento",
+  "vd": 100,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 20, 4d6 mental (NEX 45%+ imune)",
+  "percepcao": "2d20+10",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "2d20+10",
+  "defesa": 22,
+  "fortitude": "2d20+5",
+  "reflexos": "2d20",
+  "vontade": "2d20+10",
+  "pv": 180,
+  "resistencias": "Balístico, corte e impacto 10; Conhecimento 20",
+  "vulnerabilidades": "Sangue",
+  "atributos": {
+   "agi": 2,
+   "for": 2,
+   "int": 4,
+   "pre": 2,
+   "vig": 2
+  },
+  "pericias": "Ciências 4d20+10, Ocultismo 4d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancada",
+    "alcance": "Corpo a corpo x2",
+    "teste": "2d20+5",
+    "dano": "2d4+7 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Aura Manifestada",
+    "resumo": "Quem está em alcance curto sofre −2d20 em todos os testes."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Expandir Aura",
+    "resumo": "6d6 mental em alcance curto (Vontade DT 20 metade)."
+   }
+  ]
+ },
+ {
+  "id": "ocioso",
+  "nome": "Ocioso",
+  "fonte": "OPRPG",
+  "pag": 244,
+  "elemento": "Conhecimento",
+  "vd": 260,
+  "tipo": "Criatura Grande",
+  "presencaPerturbadora": "DT 35, 8d6 mental (NEX 80%+ imune)",
+  "percepcao": "5d20+15",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "1d20",
+  "defesa": 37,
+  "fortitude": "3d20+15",
+  "reflexos": "1d20",
+  "vontade": "5d20+20",
+  "pv": 390,
+  "resistencias": "Balístico, corte, impacto e Conhecimento 20",
+  "vulnerabilidades": "Sangue",
+  "atributos": {
+   "agi": 1,
+   "for": 5,
+   "int": 1,
+   "pre": 5,
+   "vig": 3
+  },
+  "deslocamento": "Voo 0m",
+  "ataques": [],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Sempre Presente",
+    "resumo": "No início da cena escolhe um alvo que possa ver; só ele o enxerga, para os outros é invisível."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Retaliação",
+    "resumo": "Ao ser atacado ou alvo de habilidade, teleporta para junto do atacante e o golpeia (teste 5d20+30, 4d10+20 de impacto não letal)."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Permanecer Próximo",
+    "resumo": "1x por rodada, teleporta para qualquer ponto no campo de visão do alvo."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Aterrorizar",
+    "resumo": "Fica parado encarando; se adjacente ao alvo, causa 4d10+10 mental."
+   }
+  ],
+  "nota": "Some quando o alvo fecha os olhos."
+ },
+ {
+  "id": "parasita_de_culpa",
+  "nome": "Parasita de Culpa",
+  "fonte": "OPRPG",
+  "pag": 246,
+  "elemento": "Conhecimento",
+  "elementosSecundarios": [
+   "Sangue",
+   "Morte"
+  ],
+  "vd": 60,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 20, 2d6 mental (NEX 35%+ imune)",
+  "percepcao": "4d20",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "2d20",
+  "defesa": 15,
+  "fortitude": "1d20+10",
+  "reflexos": "2d20+10",
+  "vontade": "4d20+10",
+  "pv": 90,
+  "imunidades": "Dano (exceto do hospedeiro)",
+  "atributos": {
+   "agi": 2,
+   "for": 0,
+   "int": 4,
+   "pre": 4,
+   "vig": 1
+  },
+  "pericias": "Furtividade 2d20+15",
+  "deslocamento": "6m",
+  "ataques": [
+   {
+    "nome": "Pancada",
+    "alcance": "Corpo a corpo",
+    "teste": "1d20",
+    "dano": "1d4 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Devorar Culpa",
+    "resumo": "Fixado em alguém dormindo, prende todos que dormem em alcance médio num sonho compartilhado até ser derrotado ou o hospedeiro morrer ou enlouquecer."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Fixar",
+    "resumo": "Aproxima-se de alguém dormindo: Percepção (−2d20) contra a Furtividade dele; se falhar, vira hospedeiro."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Atormentar",
+    "resumo": "No início de cada cena do sonho, todos dentro dele sofrem 2d6 mental (Vontade DT 20 metade)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Cópias do Hospedeiro",
+    "resumo": "Cria até quatro cópias do hospedeiro com 20 PV e dano de Conhecimento; no sonho usam a Presença do parasita e causam dano mental."
+   }
+  ],
+  "enigma": "Perceber que é um sonho compartilhado e descobrir quem é o hospedeiro, que precisa enfrentar sozinho as manifestações dentro do sonho."
+ },
+ {
+  "id": "rastejador_sombrio",
+  "nome": "Rastejador Sombrio",
+  "fonte": "OPRPG",
+  "pag": 248,
+  "elemento": "Conhecimento",
+  "elementosSecundarios": [
+   "Sangue"
+  ],
+  "vd": 180,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 25, 6d6 mental (NEX 60%+ imune)",
+  "percepcao": "3d20+15",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "4d20+15",
+  "defesa": 41,
+  "fortitude": "3d20+15",
+  "reflexos": "4d20+15",
+  "vontade": "3d20+10",
+  "pv": 330,
+  "resistencias": "Balístico, corte e impacto 10; Conhecimento 20",
+  "vulnerabilidades": "Sangue",
+  "atributos": {
+   "agi": 4,
+   "for": 3,
+   "int": 3,
+   "pre": 3,
+   "vig": 3
+  },
+  "pericias": "Furtividade 4d20+15, Ocultismo 3d20+15",
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Toque da dor",
+    "alcance": "Corpo a corpo x3",
+    "teste": "4d20+20",
+    "dano": "4d8+5 Conhecimento"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Vulnerabilidade a Luz",
+    "resumo": "Sob luz forte que o ilumine todo: −10 na Defesa e perde Desespero, Rastejar e Tentáculos das Sombras."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Desespero",
+    "resumo": "Quem sofre o toque sofre o mesmo valor em dano mental (Vontade DT 25 metade)."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Rastejar",
+    "resumo": "Com cobertura ou camuflagem, +10 em Furtividade e sem redução de deslocamento até o próximo turno."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Tentáculos das Sombras",
+    "resumo": "Até três seres em alcance médio ficam agarrados (Reflexos DT 28 evita); pode arrastá-los com movimento; 4d6 mental no fim de cada turno deles presos."
+   }
+  ]
+ },
+ {
+  "id": "silhueta",
+  "nome": "Silhueta",
+  "fonte": "OPRPG",
+  "pag": 250,
+  "elemento": "Conhecimento",
+  "vd": 360,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 40, 8d8 mental",
+  "percepcao": "5d20+25",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "4d20+20",
+  "defesa": 55,
+  "fortitude": "4d20+20",
+  "reflexos": "4d20+20",
+  "vontade": "5d20+25",
+  "pv": 500,
+  "resistencias": "Dano 30",
+  "vulnerabilidades": "Sangue",
+  "imunidades": "Paralisias, efeitos e dano de Conhecimento, manobras de combate",
+  "atributos": {
+   "agi": 4,
+   "for": 4,
+   "int": 5,
+   "pre": 5,
+   "vig": 4
+  },
+  "deslocamento": "12m",
+  "ataques": [],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Aura Tangível",
+    "resumo": "Quem ou o que a toca sofre 20d12 de Conhecimento (Fortitude DT 42 metade), uma vez por turno; zerado, é desintegrado."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Conhecimento Verdadeiro",
+    "resumo": "Testes de Int e Pre com +25; de Agi, For e Vig com +20."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Reescrever a Realidade",
+    "resumo": "Enquanto anda, transforma objetos em alcance curto em outros do mesmo tamanho (não afeta seres nem o que eles carregam)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Toque Devastador",
+    "resumo": "Toca até dois seres ou objetos, causando o dano da Aura Tangível."
+   }
+  ]
+ },
+ {
+  "id": "vulto",
+  "nome": "Vulto",
+  "fonte": "OPRPG",
+  "pag": 251,
+  "elemento": "Conhecimento",
+  "vd": 40,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 15, 3d6 mental (NEX 30%+ imune)",
+  "percepcao": "2d20+5",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "4d20+5",
+  "defesa": 19,
+  "fortitude": "1d20",
+  "reflexos": "4d20+5",
+  "vontade": "2d20+5",
+  "pv": 60,
+  "resistencias": "Balístico, corte e perfuração 5; Conhecimento 10",
+  "vulnerabilidades": "Sangue",
+  "atributos": {
+   "agi": 4,
+   "for": 2,
+   "int": 2,
+   "pre": 2,
+   "vig": 1
+  },
+  "pericias": "Furtividade 4d20+10",
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Toque macabro",
+    "alcance": "Corpo a corpo x2",
+    "teste": "4d20+10",
+    "dano": "2d6 Conhecimento"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Aura Tangível",
+    "resumo": "+2d6 de Conhecimento nos ataques contra quem está sob condição de medo."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Plantar Paranoia",
+    "resumo": "Alcance médio fica abalado, ou apavorado se já estava (Vontade DT 15 evita; −1d20 se ele estiver escondido)."
+   }
+  ]
+ },
+ {
+  "id": "mascara_do_desespero",
+  "nome": "Máscara do Desespero",
+  "fonte": "OPRPG",
+  "pag": 254,
+  "elemento": "Conhecimento",
+  "vd": 400,
+  "tipo": "Relíquia Minúscula",
+  "presencaPerturbadora": "DT 45, 10d8 mental",
+  "percepcao": "6d20+35",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "4d20+25",
+  "defesa": 55,
+  "fortitude": "5d20+35",
+  "reflexos": "4d20+25",
+  "vontade": "6d20+35",
+  "pv": 1200,
+  "vulnerabilidades": "Sangue",
+  "imunidades": "Condições, dano",
+  "atributos": {
+   "agi": 4,
+   "for": 4,
+   "int": 6,
+   "pre": 6,
+   "vig": 5
+  },
+  "pericias": "Ciências 6d20+35, Ocultismo 6d20+35, Religião 6d20+35",
+  "deslocamento": "Voo 12m",
+  "ataques": [],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Destronar o Anfitrião",
+    "resumo": "É a única capaz de resolver o Enigma de Medo do Anfitrião."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Potência do Conhecimento",
+    "resumo": "Perícias de Int, Pre e Vig +35; as demais +25."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Conjuração Verdadeira",
+    "resumo": "1x por turno, conjura qualquer ritual de Conhecimento de até ação completa e 20 PE, com DT 45."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Onipresença",
+    "resumo": "Vai a qualquer lugar com sombra ou escuridão e sabe tudo o que acontece; ninguém se esconde dela e não precisa ver ou ouvir."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Reescrever Realidade",
+    "resumo": "Em alcance médio, altera um objeto de até 1 tonelada (Reflexos DT 45 do portador protege o que está empunhado) ou causa 10d6 de Conhecimento, 10d6 mental e uma condição num ser (Vontade DT 45 reduz e evita)."
+   }
+  ],
+  "enigma": "Abalar o Equilíbrio com o Medo, de forma inexplicável, ou a brutalidade do Diabo. Resolvido, perde a imunidade a dano e a Onipresença."
+ },
+ {
+  "id": "anarquico",
+  "nome": "Anárquico",
+  "fonte": "OPRPG",
+  "pag": 257,
+  "elemento": "Energia",
+  "vd": 20,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 14, 2d6 mental (NEX 25%+ imune)",
+  "percepcao": "−2d20",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "3d20+5",
+  "defesa": 21,
+  "fortitude": "1d20",
+  "reflexos": "3d20+10",
+  "vontade": "−2d20",
+  "pv": 30,
+  "resistencias": "Energia 5",
+  "vulnerabilidades": "Conhecimento",
+  "atributos": {
+   "agi": 3,
+   "for": 2,
+   "int": 0,
+   "pre": 0,
+   "vig": 1
+  },
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancada errática",
+    "alcance": "Corpo a corpo",
+    "teste": "2d20+5",
+    "dano": "2d12 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Comportamento Errático",
+    "resumo": "No início do turno rola 1d6: 1–2 investe no mais próximo; 3–4 luz em alguém em alcance médio (2d8 de Energia e atordoado 1 rodada, Fortitude DT 14 metade e evita); 5 explosão em alcance curto (2d6 de Energia, +1d6 adjacentes, Reflexos DT 14 metade); 6 ataca rindo, fica desprevenido mas não pode ser esquivado. Se não puder agir, ganha RD 5 até o próximo turno."
+   }
+  ]
+ },
+ {
+  "id": "anarquico_descontrolado",
+  "nome": "Anárquico Descontrolado",
+  "fonte": "OPRPG",
+  "pag": 259,
+  "elemento": "Energia",
+  "vd": 120,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 21, 4d6 mental (NEX 50%+ imune)",
+  "percepcao": "2d20+5",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "4d20+10",
+  "defesa": 28,
+  "fortitude": "3d20+10",
+  "reflexos": "4d20+10",
+  "vontade": "2d20+5",
+  "pv": 120,
+  "resistencias": "Balístico, corte e perfuração 10; Energia 20",
+  "vulnerabilidades": "Conhecimento",
+  "atributos": {
+   "agi": 4,
+   "for": 3,
+   "int": 2,
+   "pre": 2,
+   "vig": 3
+  },
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Pancada energética",
+    "alcance": "Corpo a corpo x2",
+    "teste": "4d20+15",
+    "dano": "4d12 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Livre",
+    "nome": "Aceleração",
+    "resumo": "Quem sofre a pancada fica acelerado: se no próximo turno usar movimento e padrão (ou uma completa), sofre 4d12 de Energia."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Autodestruição",
+    "resumo": "Explode e morre: 8d12 de Energia em alcance curto (Reflexos DT 25 metade, −2d20 para adjacentes)."
+   }
+  ]
+ },
+ {
+  "id": "anomalia",
+  "nome": "Anomalia",
+  "fonte": "OPRPG",
+  "pag": 261,
+  "elemento": "Energia",
+  "vd": 380,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 45, 9d8 mental",
+  "percepcao": "—",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "—",
+  "defesa": "—",
+  "fortitude": "5d20+15",
+  "reflexos": "5d20+15",
+  "vontade": "5d20+15",
+  "pv": 1000,
+  "vulnerabilidades": "Conhecimento",
+  "imunidades": "Dano e todas as condições",
+  "atributos": {
+   "agi": "—",
+   "for": "—",
+   "int": 5,
+   "pre": 5,
+   "vig": "—"
+  },
+  "deslocamento": "0m",
+  "ataques": [],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Existência Impossível",
+    "resumo": "Existe só atrás de algo que se abre por uma porta; com a porta aberta, se manifesta e passa a perseguir quem a abriu, surgindo a cada porta ou compartimento."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Imaterial",
+    "resumo": "Imune a dano e condições, não faz testes; só cai resolvendo o enigma."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Romper Consciência",
+    "resumo": "No início do turno, sorteia alguém à vista: 10d6 mental (Vontade DT 41 metade); quem fica insano é absorvido."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Manipular Ondas da Existência",
+    "resumo": "No fim do turno, liga, desliga ou opera até seis aparelhos em alcance médio, ou os sobrecarrega: 2d12 de Energia por aparelho em todos na área (Reflexos DT 30 metade)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Manifestar o Impossível",
+    "resumo": "Invoca criaturas de Energia somando VD até 240 em alcance curto."
+   }
+  ],
+  "enigma": "Mergulhar nela para entendê-la no Outro Lado. Resolvido, vira um ser ou objeto aleatório por 2d4 rodadas, sem imunidades e com as estatísticas dele (exceto PV)."
+ },
+ {
+  "id": "anomiatico",
+  "nome": "Anomiático",
+  "fonte": "OPRPG",
+  "pag": 263,
+  "elemento": "Energia",
+  "vd": 240,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 30, 6d8 mental (NEX 75%+ imune)",
+  "percepcao": "4d20+10",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "5d20+15",
+  "defesa": 41,
+  "fortitude": "3d20+10",
+  "reflexos": "5d20+20",
+  "vontade": "4d20+15",
+  "pv": 600,
+  "resistencias": "Balístico, corte e perfuração 10; Energia 20",
+  "vulnerabilidades": "Conhecimento",
+  "atributos": {
+   "agi": 5,
+   "for": 3,
+   "int": 1,
+   "pre": 4,
+   "vig": 3
+  },
+  "deslocamento": "18m",
+  "ataques": [
+   {
+    "nome": "Garra desintegradora",
+    "alcance": "Corpo a corpo x2",
+    "teste": "5d20+30",
+    "dano": "4d12+20 Energia"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Livre",
+    "nome": "Comportamento Errático",
+    "resumo": "No início do turno rola 1d6 três vezes e faz tudo na ordem: 1–2 salta 18m e ataca o mais próximo; 3 vira facho e vai até um oponente aleatório; 4 explode parte do corpo (8d12+20 adjacentes, 6d12+20 curto, 4d12+20 médio; Reflexos DT 30 metade fora do adjacente) e perde 50 PV; 5 ri, fica desprevenido e seus ataques não podem ser esquivados; 6 toca um adjacente, 10d12+20 de Energia (Fortitude DT 30 metade). Cada ação perdida dá +10 de RD até o próximo turno."
+   }
+  ]
+ },
+ {
+  "id": "ciborgue",
+  "nome": "Ciborgue",
+  "fonte": "OPRPG",
+  "pag": 265,
+  "elemento": "Energia",
+  "elementosSecundarios": [
+   "Sangue"
+  ],
+  "vd": 80,
+  "tipo": "Criatura Grande",
+  "presencaPerturbadora": "DT 15, 2d6 mental (NEX 40%+ imune)",
+  "percepcao": "2d20+5",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "3d20+10",
+  "defesa": 25,
+  "fortitude": "3d20+10",
+  "reflexos": "3d20+5",
+  "vontade": "2d20",
+  "pv": 160,
+  "resistencias": "Balístico, corte e perfuração 10; Energia 20",
+  "vulnerabilidades": "Conhecimento",
+  "imunidades": "Paralisias",
+  "atributos": {
+   "agi": 3,
+   "for": 3,
+   "int": 2,
+   "pre": 2,
+   "vig": 3
+  },
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Braço laminado (Alpha)",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+10",
+    "dano": "1d12+10 corte",
+    "critico": "18"
+   },
+   {
+    "nome": "Punho energizado (Beta)",
+    "alcance": "Corpo a corpo",
+    "teste": "3d20+10",
+    "dano": "2d8+10 impacto"
+   },
+   {
+    "nome": "Canhão (Gama)",
+    "alcance": "Distância, longo",
+    "teste": "3d20+10",
+    "dano": "4d12+5 Energia"
+   },
+   {
+    "nome": "Raio energético (Delta)",
+    "alcance": "Distância, médio",
+    "teste": "3d20+10",
+    "dano": "1d12+5 Energia"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Estado de Combate",
+    "resumo": "No início do turno escolhe um estado disponível, que define suas ações: Alpha (corpo a corpo), Beta (perseguição), Gama (distância) ou Delta (tático e defensivo)."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Regeneração Energética",
+    "resumo": "Cura 20 PV no início do turno; perde isso ao perder três estados."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Investida Energética (Beta)",
+    "resumo": "Avança até 24m e ataca com o punho com +1d20; se acertar, +2d8 de dano e derruba (Fortitude DT 20 evita a queda)."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Criar Barreira (Delta)",
+    "resumo": "+5 na Defesa até o próximo turno."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Reiniciar (Delta)",
+    "resumo": "Encerra uma condição em si."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Desorientar (Delta)",
+    "resumo": "Quem sofre o raio fica alquebrado, ou atordoado 1 rodada se já estava (Vontade DT 20 evita)."
+   }
+  ],
+  "enigma": "Cada estado tem uma fraqueza definida pelo mestre (como 15 de um tipo de dano num ataque ou uma substância), que só funciona naquele estado e o elimina. Sem estados, desativa: Defesa 10 e deslocamento 0."
+ },
+ {
+  "id": "infecticidio",
+  "nome": "Infecticídio",
+  "fonte": "OPRPG",
+  "pag": 267,
+  "elemento": "Energia",
+  "elementosSecundarios": [
+   "Sangue"
+  ],
+  "vd": 280,
+  "tipo": "Criatura Enorme",
+  "presencaPerturbadora": "DT 35, 8d6 mental (NEX 85%+ imune)",
+  "percepcao": "1d20+10",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "3d20+15",
+  "defesa": 25,
+  "fortitude": "5d20+20",
+  "reflexos": "3d20+15",
+  "vontade": "1d20+15",
+  "pv": 600,
+  "resistencias": "Balístico, corte, perfuração e Energia 20",
+  "vulnerabilidades": "Conhecimento",
+  "atributos": {
+   "agi": 3,
+   "for": 5,
+   "int": 1,
+   "pre": 1,
+   "vig": 5
+  },
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancadas infectadas",
+    "alcance": "Corpo a corpo x3",
+    "teste": "5d20+30",
+    "dano": "4d12+20 Energia"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Horda",
+    "resumo": "Metade do dano de efeitos de alvo único e o dobro de efeitos de área; quando erra, causa metade do dano (salvo se o alvo se esquivou com reação)."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Infecção",
+    "resumo": "Quem sofre as pancadas contrai o vírus do infecticídio (Fortitude DT 30 evita e dá imunidade na cena)."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Consumação Insidiosa",
+    "resumo": "Ao zerar alguém com as pancadas, o consome e cura 50 PV."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Atropelar",
+    "resumo": "Anda até o dobro do deslocamento atravessando seres e faz uma pancada contra cada um no caminho."
+   }
+  ],
+  "nota": "Só some de vez eliminando todos os infectados e congelando os corpos."
+ },
+ {
+  "id": "perturbado_de_energia",
+  "nome": "Perturbado de Energia",
+  "fonte": "OPRPG",
+  "pag": 268,
+  "elemento": "Energia",
+  "vd": 40,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 15, 2d8 mental (NEX 30%+ imune)",
+  "percepcao": "−2d20",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "4d20+10",
+  "defesa": 19,
+  "fortitude": "−2d20",
+  "reflexos": "4d20+10",
+  "vontade": "−2d20",
+  "pv": 60,
+  "resistencias": "Balístico, corte e perfuração 5; Energia 10",
+  "vulnerabilidades": "Conhecimento",
+  "atributos": {
+   "agi": 4,
+   "for": 1,
+   "int": 0,
+   "pre": 0,
+   "vig": 0
+  },
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Toque plasmático",
+    "alcance": "Corpo a corpo x2",
+    "teste": "4d20+10",
+    "dano": "2d12 Energia"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Livre",
+    "nome": "Implantar Confusão",
+    "resumo": "1x por rodada, tenta agarrar quem acabou de ferir (teste 4d20+10): 2d8 mental (Vontade DT 15 metade) e vulnerabilidade a Energia até o fim da cena."
+   }
+  ]
+ },
+ {
+  "id": "sukkalgir",
+  "nome": "Sukkalgir",
+  "fonte": "OPRPG",
+  "pag": 269,
+  "elemento": "Energia",
+  "elementosSecundarios": [
+   "Conhecimento"
+  ],
+  "vd": 160,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 25, 4d8 mental (NEX 55%+ imune)",
+  "percepcao": "3d20+10",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "3d20+10",
+  "defesa": 34,
+  "fortitude": "2d20+5",
+  "reflexos": "3d20+10",
+  "vontade": "3d20+15",
+  "pv": 220,
+  "resistencias": "Impacto e Energia 10",
+  "vulnerabilidades": "Conhecimento",
+  "imunidades": "Dano balístico, corte e perfuração",
+  "atributos": {
+   "agi": 3,
+   "for": 2,
+   "int": 3,
+   "pre": 3,
+   "vig": 2
+  },
+  "deslocamento": "Voo 18m",
+  "ataques": [
+   {
+    "nome": "Mordida do Outro Lado",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+15",
+    "dano": "2d12 mental"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Aura Desesperada",
+    "resumo": "Quem começa o turno em alcance curto sofre 2d12 mental (Vontade DT 25 metade)."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Espírito Plasmático",
+    "resumo": "Parcialmente intangível; atravessa paredes e obstáculos."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Agarrão",
+    "resumo": "Ao morder um ser Médio ou menor, pode agarrar (teste 3d20+15)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Grito de Desespero",
+    "resumo": "3d12 mental em alcance médio (Vontade DT 20 metade; cobertura dá +5)."
+   }
+  ]
+ },
+ {
+  "id": "telopsia",
+  "nome": "Telopsia",
+  "fonte": "OPRPG",
+  "pag": 271,
+  "elemento": "Energia",
+  "elementosSecundarios": [
+   "Morte"
+  ],
+  "vd": 340,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 40, 10d6 mental (NEX 99%+ imune)",
+  "percepcao": "5d20+25",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "4d20+20",
+  "defesa": 48,
+  "fortitude": "2d20+15",
+  "reflexos": "4d20+20",
+  "vontade": "5d20+25",
+  "pv": 560,
+  "resistencias": "Balístico, corte, perfuração e Energia 20",
+  "vulnerabilidades": "Conhecimento",
+  "imunidades": "Paralisias",
+  "atributos": {
+   "agi": 4,
+   "for": 2,
+   "int": 3,
+   "pre": 5,
+   "vig": 2
+  },
+  "pericias": "Furtividade 4d20+20",
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Toque desintegrador",
+    "alcance": "Corpo a corpo x3",
+    "teste": "4d20+35",
+    "dano": "6d12+30 Energia"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Movimento",
+    "nome": "Viajar pela Tela",
+    "resumo": "Some e reaparece em outra tela ou visor em alcance longo, depois anda 9m."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Tela Zumbificadora",
+    "resumo": "Alcance médio: 6d6 mental e confuso na cena (Vontade DT 30 metade e evita); quem já estava confuso e falha fica fascinado."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Prender na Tela",
+    "resumo": "Desintegra alguém em alcance curto para dentro da tela (Fortitude DT 30 evita): paralisado e 2d12 mental por turno. Cada turno em que ele sofre 50+ de dano, o preso repete o teste para sair."
+   }
+  ],
+  "enigma": "Achar e destruir a fita amaldiçoada, investigando as vítimas (que não lembram onde a deixaram). Destruída, ele vai a 0 PV e some; sem isso, sempre volta."
+ },
+ {
+  "id": "tempestuoso",
+  "nome": "Tempestuoso",
+  "fonte": "OPRPG",
+  "pag": 273,
+  "elemento": "Energia",
+  "vd": 360,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 40, 8d8 mental",
+  "percepcao": "5d20+20",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "5d20+25",
+  "defesa": 56,
+  "fortitude": "4d20+20",
+  "reflexos": "5d20+30",
+  "vontade": "5d20+25",
+  "pv": 950,
+  "resistencias": "Balístico, corte, perfuração e Energia 20",
+  "vulnerabilidades": "Conhecimento",
+  "imunidades": "Paralisias",
+  "atributos": {
+   "agi": 5,
+   "for": 4,
+   "int": 2,
+   "pre": 5,
+   "vig": 4
+  },
+  "deslocamento": "24m",
+  "ataques": [
+   {
+    "nome": "Garras radioativas",
+    "alcance": "Corpo a corpo x2 (alcance curto)",
+    "teste": "5d20+40",
+    "dano": "4d20+20 Energia"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Aura Radioativa",
+    "resumo": "Quem começa o turno em alcance curto sofre 2d20+20 de Energia (Fortitude DT 40 metade)."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Espectro Radioativo",
+    "resumo": "Ataques e habilidades corpo a corpo alcançam até alcance curto."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Raio de Energia Radioativa",
+    "resumo": "Ao acertar as duas garras no mesmo ser, um raio salta para outro alvo em alcance médio: 4d20+20 de Energia (Reflexos DT 40 metade)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Expandir em Radiação",
+    "resumo": "Alcance longo sofre 10d20+20 de Energia (Reflexos DT 40 metade); ele perde 100 PV."
+   }
+  ]
+ },
+ {
+  "id": "viajante",
+  "nome": "Viajante",
+  "fonte": "OPRPG",
+  "pag": 274,
+  "elemento": "Energia",
+  "elementosSecundarios": [
+   "Conhecimento"
+  ],
+  "vd": 200,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 20, 6d6 mental (NEX 60%+ imune)",
+  "percepcao": "4d20+15",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "4d20+15",
+  "defesa": 34,
+  "fortitude": "2d20+10",
+  "reflexos": "4d20+15",
+  "vontade": "4d20+15",
+  "pv": 360,
+  "resistencias": "Balístico, corte e perfuração 10; Energia 20",
+  "vulnerabilidades": "Conhecimento",
+  "atributos": {
+   "agi": 4,
+   "for": 2,
+   "int": 3,
+   "pre": 4,
+   "vig": 2
+  },
+  "deslocamento": "9m, escalada 9m",
+  "ataques": [
+   {
+    "nome": "Pancada",
+    "alcance": "Corpo a corpo x2",
+    "teste": "4d20+15",
+    "dano": "2d12+10 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Invisibilidade Permanente",
+    "resumo": "Invisível: camuflagem total, +15 em Furtividade e quem não o vê fica desprevenido contra ele."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Agarrão",
+    "resumo": "Ao acertar a pancada num ser Médio ou menor, tenta agarrar (teste 2d20+15)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Devorar Memória",
+    "resumo": "No agarrado: 4d12 mental e esquece uma pessoa por completo (Vontade DT 29 metade e evita). Cada vítima que fica perturbada assim dá +1d12 na pancada até o fim da cena."
+   }
+  ],
+  "enigma": "Fotografá-lo (sem que esteja viajando pela foto) o torna visível: perde a invisibilidade até o início do próximo turno de quem tirou a foto."
+ },
+ {
+  "id": "anfitriao",
+  "nome": "O Anfitrião",
+  "fonte": "OPRPG",
+  "pag": 278,
+  "elemento": "Energia",
+  "elementosSecundarios": [
+   "Conhecimento"
+  ],
+  "vd": 400,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 45, 10d8 mental",
+  "percepcao": "6d20+25",
+  "sentidos": "Visão no escuro",
+  "iniciativa": "7d20+35",
+  "defesa": 59,
+  "fortitude": "5d20+25",
+  "reflexos": "7d20+35",
+  "vontade": "6d20+25",
+  "pv": 1413,
+  "vulnerabilidades": "Conhecimento",
+  "imunidades": "Paralisias, dano e efeitos de Energia",
+  "atributos": {
+   "agi": 7,
+   "for": 5,
+   "int": 6,
+   "pre": 6,
+   "vig": 5
+  },
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Corte caótico (Liber)",
+    "alcance": "Corpo a corpo",
+    "teste": "7d20+45",
+    "dano": "3d12+20 Energia"
+   },
+   {
+    "nome": "Lança e adaga (Plautus)",
+    "alcance": "Corpo a corpo x2",
+    "teste": "7d20+45",
+    "dano": "2d12+20 Energia"
+   },
+   {
+    "nome": "Corte de água (Silenus)",
+    "alcance": "Corpo a corpo",
+    "teste": "7d20+45",
+    "dano": "5d12+20 Energia"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Transformar a Morte",
+    "resumo": "É o único capaz de resolver o Enigma de Medo do Deus da Morte."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Potência de Energia",
+    "resumo": "Perícias de Agi e Int +35; as demais +25."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Ato 1",
+    "resumo": "Começa dividido em cinco facetas (Amphitruo, Aeneas, Liber, Silenus e Plautus), cada uma com a mesma ficha, 250 PV, RD 20 e só as ações com seu nome. Destruídas todas, começa o Ato 2."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Ato 2",
+    "resumo": "Volta inteiro com todos os PV, usa todas as ações e faz três ações padrão diferentes por rodada."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Trilha Sonora (Ato 2)",
+    "resumo": "No início do turno dele, alcance longo sofre 2d10 mental."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Roleta Maluca (Ato 2)",
+    "resumo": "No início do turno, 1d6 para cada ser em alcance longo: 1 −5 na Defesa; 2 gasta uma ação completa com bobagens ou 4d10 mental; 3 sofre 4d20 de Energia; 4 −1d20 em Pontaria; 5 −1d20 em Luta; 6 nada (cumulativo, até o fim da cena)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Teatro (Amphitruo)",
+    "resumo": "O alvo precisa decorar e recitar um texto absurdo: Artes DT 35 ou Vontade DT 45, senão 10d6 mental."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Queimar (Aeneas)",
+    "resumo": "Cone em alcance médio: 10d6+20 de Energia (Reflexos DT 45 metade)."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Romance Forçado (Liber)",
+    "resumo": "Ao acertar o corte caótico, escolhe outro ser à vista; os dois decidem quem leva o dano."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Eu Sou o Caos (Plautus)",
+    "resumo": "+4d12 de Energia contra desprevenido ou flanqueado."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Afogamento (Silenus)",
+    "resumo": "Quem sofre o corte de água fica asfixiado (Fortitude DT 35 evita e repete no fim de cada turno)."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Teletransporte",
+    "resumo": "Vai a outro ponto em alcance médio."
+   }
+  ],
+  "enigma": "Só a proteção do Equilíbrio, que apenas a Máscara do Desespero oferece, permite enfrentá-lo. Resolvido, perde a imunidade a dano."
+ },
+ {
+  "id": "degolificada",
+  "nome": "Degolificada",
+  "fonte": "OPRPG",
+  "pag": 282,
+  "elemento": "Medo",
+  "elementosSecundarios": [
+   "Energia",
+   "Conhecimento",
+   "Sangue",
+   "Morte"
+  ],
+  "vd": 320,
+  "tipo": "Criatura Média",
+  "presencaPerturbadora": "DT 40, 9d6 mental (NEX 95%+ imune)",
+  "percepcao": "4d20+15",
+  "sentidos": "Percepção às cegas",
+  "iniciativa": "3d20",
+  "defesa": 45,
+  "fortitude": "4d20+20",
+  "reflexos": "3d20+15",
+  "vontade": "4d20+25",
+  "pv": 850,
+  "imunidades": "Dano (até resolver o enigma)",
+  "atributos": {
+   "agi": 3,
+   "for": 5,
+   "int": 3,
+   "pre": 4,
+   "vig": 4
+  },
+  "deslocamento": "6m",
+  "ataques": [
+   {
+    "nome": "Pancada",
+    "alcance": "Corpo a corpo x2",
+    "teste": "5d20+35",
+    "dano": "8d8+20 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Livre",
+    "nome": "Agarrar e Estrangular",
+    "resumo": "Ao acertar a pancada num ser Médio ou menor, tenta agarrar (teste 5d20+35) e o asfixia; até dois por vez."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Grito Rasgado",
+    "resumo": "1x por cena: 4d10+10 mental em alcance médio e surdez aleatória (1d4: dois ouvidos para sempre, um para sempre, dois na cena, um na cena); Vontade DT 35 metade e evita."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Desfiguramento Capilar",
+    "resumo": "Cada agarrado sofre 10d6+20 de perfuração (Fortitude DT 35 metade) e 6d10 mental (Vontade DT 35 metade)."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Metamorfose",
+    "resumo": "Sangue: se mantiver um morto agarrado até o próximo turno, vira devoradora (mordida 5d20+35, 10d10+20 Sangue; RD Sangue 20). Morte: após 3 erros seguidos contra ela, vira decrépita (12m, RD Morte 20, agarra em alcance curto com movimento, Reflexos DT 35). Energia: se enlouquecer alguém, vira conturbada (atravessa paredes, ignora cobertura, dano de Energia, RD Energia 20). Conhecimento: resposta errada ao enigma a torna gnóstica (fim do turno, alvo mais próximo sofre 4d6 mental e atordoado; Vontade DT 35)."
+   }
+  ],
+  "enigma": "Confrontá-la com a causa de sua morte, sem chance de fuga. Resolvido, perde a imunidade a dano."
+ },
+ {
+  "id": "bandido",
+  "nome": "Bandido",
+  "fonte": "OPRPG",
+  "pag": 284,
+  "elemento": "Nenhum",
+  "vd": 10,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20",
+  "iniciativa": "2d20+5",
+  "defesa": 14,
+  "fortitude": "1d20",
+  "reflexos": "2d20+5",
+  "vontade": "1d20",
+  "pv": 8,
+  "atributos": {
+   "agi": 2,
+   "for": 2,
+   "int": 1,
+   "pre": 1,
+   "vig": 1
+  },
+  "pericias": "Crime 2d20+5, Furtividade 2d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Faca",
+    "alcance": "Corpo a corpo",
+    "teste": "2d20+5",
+    "dano": "1d4+2 perfuração"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Livre",
+    "nome": "Ataque Furtivo",
+    "resumo": "1x por rodada, +1d6 em ataques corpo a corpo ou em alcance curto contra desprevenido ou flanqueado."
+   }
+  ]
+ },
+ {
+  "id": "capanga",
+  "nome": "Capanga",
+  "fonte": "OPRPG",
+  "pag": 284,
+  "elemento": "Nenhum",
+  "vd": 20,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20+5",
+  "iniciativa": "1d20+5",
+  "defesa": 13,
+  "fortitude": "2d20+5",
+  "reflexos": "1d20+5",
+  "vontade": "1d20",
+  "pv": 17,
+  "atributos": {
+   "agi": 1,
+   "for": 2,
+   "int": 1,
+   "pre": 1,
+   "vig": 2
+  },
+  "pericias": "Intimidação 1d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Bastão",
+    "alcance": "Corpo a corpo",
+    "teste": "2d20+5",
+    "dano": "1d8+7 impacto"
+   },
+   {
+    "nome": "Revólver",
+    "alcance": "Distância, curto",
+    "teste": "1d20+5",
+    "dano": "2d6+5 balístico",
+    "critico": "19/x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Livre",
+    "nome": "Ataque Furtivo",
+    "resumo": "1x por rodada, +2d6 em ataques corpo a corpo ou em alcance curto contra desprevenido ou flanqueado."
+   }
+  ]
+ },
+ {
+  "id": "soldado_de_aluguel",
+  "nome": "Soldado de Aluguel",
+  "fonte": "OPRPG",
+  "pag": 284,
+  "elemento": "Nenhum",
+  "vd": 40,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20+5",
+  "iniciativa": "2d20+10",
+  "defesa": 18,
+  "fortitude": "2d20+5",
+  "reflexos": "2d20+5",
+  "vontade": "1d20",
+  "pv": 25,
+  "atributos": {
+   "agi": 2,
+   "for": 2,
+   "int": 1,
+   "pre": 1,
+   "vig": 2
+  },
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Machete",
+    "alcance": "Corpo a corpo",
+    "teste": "2d20+10",
+    "dano": "1d6+9 corte",
+    "critico": "19"
+   },
+   {
+    "nome": "Fuzil de assalto",
+    "alcance": "Distância, médio",
+    "teste": "2d20+10",
+    "dano": "2d8+9 balístico",
+    "critico": "19/x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Completa",
+    "nome": "Ataque em Movimento",
+    "resumo": "Anda o deslocamento e ataca em qualquer ponto do trajeto."
+   }
+  ]
+ },
+ {
+  "id": "assassino",
+  "nome": "Assassino",
+  "fonte": "OPRPG",
+  "pag": 285,
+  "elemento": "Nenhum",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "3d20+10",
+  "iniciativa": "4d20+15",
+  "defesa": 26,
+  "fortitude": "2d20+5",
+  "reflexos": "4d20+10",
+  "vontade": "3d20+10",
+  "pv": 90,
+  "atributos": {
+   "agi": 4,
+   "for": 2,
+   "int": 3,
+   "pre": 3,
+   "vig": 2
+  },
+  "pericias": "Crime 4d20+10, Enganação 3d20+10, Furtividade 4d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Faca",
+    "alcance": "Corpo a corpo x2",
+    "teste": "4d20+17",
+    "dano": "1d4+11 corte",
+    "critico": "19"
+   },
+   {
+    "nome": "Pistola",
+    "alcance": "Distância x2, curto",
+    "teste": "4d20+15",
+    "dano": "1d12+14 balístico",
+    "critico": "16/x4"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Evasão",
+    "resumo": "Passando em Reflexos contra efeito que reduz à metade, não sofre dano."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Ataque Furtivo",
+    "resumo": "1x por rodada, +4d6 em ataques corpo a corpo ou em alcance curto contra desprevenido ou flanqueado."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Mão na Boca",
+    "resumo": "No ataque furtivo corpo a corpo contra desprevenido, tenta agarrar (teste 2d20+15); agarrada, a vítima não fala."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Assassinar",
+    "resumo": "Analisa um ser em alcance curto: o primeiro Ataque Furtivo contra ele até o fim do próximo turno dobra os dados extras."
+   }
+  ]
+ },
+ {
+  "id": "comandante_mercenario",
+  "nome": "Comandante Mercenário",
+  "fonte": "OPRPG",
+  "pag": 285,
+  "elemento": "Nenhum",
+  "vd": 120,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+10",
+  "iniciativa": "3d20+15",
+  "defesa": 29,
+  "fortitude": "3d20+10",
+  "reflexos": "3d20+10",
+  "vontade": "2d20+5",
+  "pv": 145,
+  "resistencias": "Balístico, corte, impacto e perfuração 5",
+  "atributos": {
+   "agi": 3,
+   "for": 3,
+   "int": 2,
+   "pre": 2,
+   "vig": 3
+  },
+  "pericias": "Intimidação 2d20+10, Tática 2d20+10",
+  "deslocamento": "6m",
+  "ataques": [
+   {
+    "nome": "Machete",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+17",
+    "dano": "1d6+15 corte",
+    "critico": "19"
+   },
+   {
+    "nome": "Metralhadora",
+    "alcance": "Distância x2, médio",
+    "teste": "2d20+17",
+    "dano": "3d12+15 balístico",
+    "critico": "19/x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Sadismo",
+    "resumo": "Depois de ferir um inimigo, o próximo ataque tem +1d20 e +1 dado de dano."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Ataque em Movimento",
+    "resumo": "Anda e faz seus dois ataques em qualquer ponto do trajeto."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Ordens",
+    "resumo": "Aliados em alcance médio ganham +1d20 em perícias e +1 dado de dano até o fim da cena."
+   }
+  ]
+ },
+ {
+  "id": "cultista_iniciado",
+  "nome": "Cultista Iniciado",
+  "fonte": "OPRPG",
+  "pag": 286,
+  "elemento": "Nenhum",
+  "vd": 20,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+5",
+  "iniciativa": "1d20",
+  "defesa": 16,
+  "fortitude": "1d20",
+  "reflexos": "1d20",
+  "vontade": "2d20+5",
+  "pv": 15,
+  "atributos": {
+   "agi": 1,
+   "for": 1,
+   "int": 2,
+   "pre": 2,
+   "vig": 1
+  },
+  "pericias": "Enganação 2d20+5, Ocultismo 2d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Faca",
+    "alcance": "Corpo a corpo",
+    "teste": "1d20",
+    "dano": "1d4+1 corte",
+    "critico": "19"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Conjurador",
+    "resumo": "Conhece dois rituais de 1º círculo de um elemento; conjura sem gastar PE até 3 PE por conjuração, DT 15."
+   }
+  ]
+ },
+ {
+  "id": "cultista_investido",
+  "nome": "Cultista Investido",
+  "fonte": "OPRPG",
+  "pag": 286,
+  "elemento": "Nenhum",
+  "vd": 40,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+5",
+  "iniciativa": "2d20+5",
+  "defesa": 17,
+  "fortitude": "1d20",
+  "reflexos": "2d20",
+  "vontade": "2d20+5",
+  "pv": 35,
+  "atributos": {
+   "agi": 2,
+   "for": 1,
+   "int": 2,
+   "pre": 2,
+   "vig": 1
+  },
+  "pericias": "Enganação 2d20+10, Ocultismo 2d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Faca",
+    "alcance": "Corpo a corpo",
+    "teste": "2d20+5",
+    "dano": "1d4+1 corte",
+    "critico": "19"
+   },
+   {
+    "nome": "Revólver",
+    "alcance": "Distância, curto",
+    "teste": "2d20",
+    "dano": "2d6 balístico",
+    "critico": "19/x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Conjurador",
+    "resumo": "Conhece dois rituais de 1º e dois de 2º círculo de até dois elementos; conjura sem gastar PE até 5 PE por conjuração, DT 17."
+   }
+  ]
+ },
+ {
+  "id": "lider_de_culto",
+  "nome": "Líder de Culto",
+  "fonte": "OPRPG",
+  "pag": 286,
+  "elemento": "Nenhum",
+  "vd": 140,
+  "tipo": "Pessoa Média",
+  "percepcao": "3d20+10",
+  "iniciativa": "2d20+10",
+  "defesa": 27,
+  "fortitude": "2d20+10",
+  "reflexos": "2d20+5",
+  "vontade": "3d20+15",
+  "pv": 150,
+  "atributos": {
+   "agi": 2,
+   "for": 1,
+   "int": 3,
+   "pre": 3,
+   "vig": 2
+  },
+  "pericias": "Enganação 3d20+15, Ocultismo 3d20+15",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Faca",
+    "alcance": "Corpo a corpo",
+    "teste": "2d20+10",
+    "dano": "1d4+1 corte",
+    "critico": "19"
+   },
+   {
+    "nome": "Revólver",
+    "alcance": "Distância, curto",
+    "teste": "2d20+5",
+    "dano": "2d6 balístico",
+    "critico": "19/x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Conjurador",
+    "resumo": "Conhece dois rituais de 1º, dois de 2º e dois de 3º círculo de até dois elementos; conjura sem gastar PE até 10 PE por conjuração, DT 25."
+   }
+  ]
+ },
+ {
+  "id": "policial",
+  "nome": "Policial",
+  "fonte": "OPRPG",
+  "pag": 287,
+  "elemento": "Nenhum",
+  "vd": 20,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20+5",
+  "iniciativa": "2d20+5",
+  "defesa": 19,
+  "fortitude": "2d20+5",
+  "reflexos": "2d20+5",
+  "vontade": "1d20",
+  "pv": 15,
+  "atributos": {
+   "agi": 2,
+   "for": 2,
+   "int": 1,
+   "pre": 1,
+   "vig": 2
+  },
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Bastão",
+    "alcance": "Corpo a corpo",
+    "teste": "2d20+5",
+    "dano": "1d8+7 impacto"
+   },
+   {
+    "nome": "Pistola",
+    "alcance": "Distância, curto",
+    "teste": "2d20+5",
+    "dano": "1d12+5 balístico",
+    "critico": "18"
+   }
+  ],
+  "habilidades": [],
+  "nota": "Serve também para vigias e seguranças."
+ },
+ {
+  "id": "policial_de_elite",
+  "nome": "Policial de Elite",
+  "fonte": "OPRPG",
+  "pag": 287,
+  "elemento": "Nenhum",
+  "vd": 60,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20+10",
+  "iniciativa": "3d20+15",
+  "defesa": 27,
+  "fortitude": "3d20+10",
+  "reflexos": "3d20+10",
+  "vontade": "1d20+10",
+  "pv": 40,
+  "resistencias": "Balístico, corte, impacto e perfuração 5",
+  "atributos": {
+   "agi": 3,
+   "for": 3,
+   "int": 1,
+   "pre": 1,
+   "vig": 3
+  },
+  "deslocamento": "6m",
+  "ataques": [
+   {
+    "nome": "Bastão",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+10",
+    "dano": "1d8+13 impacto"
+   },
+   {
+    "nome": "Fuzil de assalto",
+    "alcance": "Distância, médio",
+    "teste": "3d20+10",
+    "dano": "2d8+13 balístico",
+    "critico": "17/x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Fortificação",
+    "resumo": "50% de chance de ignorar o dano extra de crítico ou ataque furtivo."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Lança-granadas",
+    "resumo": "1x por cena, granada em alcance médio: 8d6 de impacto num raio de 6m (Reflexos DT 19 metade)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Empurrar e Atirar",
+    "resumo": "Empurra um adjacente 3m (Fortitude DT 19 evita) e atira com o fuzil; se empurrou, +1d20 no ataque e +2d8 de dano."
+   }
+  ]
+ },
+ {
+  "id": "chefe_de_policia",
+  "nome": "Chefe de Polícia",
+  "fonte": "OPRPG",
+  "pag": 287,
+  "elemento": "Nenhum",
+  "vd": 100,
+  "tipo": "Pessoa Média",
+  "percepcao": "3d20+15",
+  "iniciativa": "2d20+10",
+  "defesa": 25,
+  "fortitude": "3d20+10",
+  "reflexos": "2d20+10",
+  "vontade": "3d20+15",
+  "pv": 105,
+  "atributos": {
+   "agi": 2,
+   "for": 3,
+   "int": 2,
+   "pre": 3,
+   "vig": 3
+  },
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Bastão",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+15",
+    "dano": "1d8+8 impacto"
+   },
+   {
+    "nome": "Espingarda",
+    "alcance": "Distância x2, curto",
+    "teste": "2d20+17",
+    "dano": "4d6+12 balístico",
+    "critico": "x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Reação",
+    "nome": "Teimoso",
+    "resumo": "1x por cena, ignora um efeito com teste de resistência ou reduz à metade um dano que acabou de sofrer."
+   }
+  ]
+ },
+ {
+  "id": "cao_de_guarda",
+  "nome": "Cão de Guarda",
+  "fonte": "OPRPG",
+  "pag": 288,
+  "elemento": "Nenhum",
+  "vd": 10,
+  "tipo": "Animal Médio",
+  "percepcao": "1d20+10",
+  "sentidos": "Faro, visão na penumbra",
+  "iniciativa": "2d20+5",
+  "defesa": 14,
+  "fortitude": "2d20+5",
+  "reflexos": "2d20+5",
+  "vontade": "1d20",
+  "pv": 12,
+  "atributos": {
+   "agi": 2,
+   "for": 2,
+   "int": 0,
+   "pre": 1,
+   "vig": 2
+  },
+  "pericias": "Sobrevivência 1d20+10",
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Mordida",
+    "alcance": "Corpo a corpo",
+    "teste": "2d20+5",
+    "dano": "1d6+2 corte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Livre",
+    "nome": "Derrubar",
+    "resumo": "Ao acertar a mordida, tenta derrubar (bônus 2d20+5)."
+   }
+  ],
+  "nota": "Serve para cães policiais e lobos."
+ },
+ {
+  "id": "enxame_de_abelhas",
+  "nome": "Enxame de Abelhas",
+  "fonte": "OPRPG",
+  "pag": 288,
+  "elemento": "Nenhum",
+  "vd": 10,
+  "tipo": "Animal (enxame) Médio",
+  "percepcao": "1d20+5",
+  "sentidos": "Visão na penumbra",
+  "iniciativa": "1d20+5",
+  "defesa": 15,
+  "fortitude": "−2d20",
+  "reflexos": "1d20+5",
+  "vontade": "1d20",
+  "pv": 10,
+  "atributos": {
+   "agi": 1,
+   "for": 0,
+   "int": 0,
+   "pre": 1,
+   "vig": 0
+  },
+  "deslocamento": "3m, voo 9m",
+  "ataques": [],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Enxame",
+    "resumo": "Entra no espaço de outros seres e causa 2d6 de perfuração automático a quem estiver nele no fim do turno. Imune a manobras e efeitos de alvo único sem dano; metade do dano de armas e +50% de efeitos de área."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Zumbido Nauseante",
+    "resumo": "Quem sofre dano do enxame fica enjoado 1 rodada (Fortitude DT 15 evita)."
+   }
+  ]
+ },
+ {
+  "id": "enxame_de_ratos",
+  "nome": "Enxame de Ratos",
+  "fonte": "OPRPG",
+  "pag": 288,
+  "elemento": "Nenhum",
+  "vd": 10,
+  "tipo": "Animal (enxame) Médio",
+  "percepcao": "1d20+5",
+  "sentidos": "Faro, visão na penumbra",
+  "iniciativa": "1d20+5",
+  "defesa": 13,
+  "fortitude": "1d20+5",
+  "reflexos": "1d20+5",
+  "vontade": "1d20",
+  "pv": 15,
+  "atributos": {
+   "agi": 1,
+   "for": 0,
+   "int": 0,
+   "pre": 1,
+   "vig": 1
+  },
+  "deslocamento": "9m, escalar e nadar 6m",
+  "ataques": [],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Enxame",
+    "resumo": "Entra no espaço de outros seres e causa 2d6 de perfuração automático a quem estiver nele no fim do turno. Imune a manobras e efeitos de alvo único sem dano; metade do dano de armas e +50% de efeitos de área."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Doença",
+    "resumo": "Quem sofre dano contrai febre hemorrágica (Fortitude DT 15 evita)."
+   }
+  ]
+ },
+ {
+  "id": "jacare",
+  "nome": "Jacaré",
+  "fonte": "OPRPG",
+  "pag": 288,
+  "elemento": "Nenhum",
+  "vd": 40,
+  "tipo": "Animal Grande",
+  "percepcao": "1d20+5",
+  "sentidos": "Visão na penumbra",
+  "iniciativa": "1d20+5",
+  "defesa": 16,
+  "fortitude": "2d20+5",
+  "reflexos": "1d20+5",
+  "vontade": "1d20",
+  "pv": 40,
+  "atributos": {
+   "agi": 1,
+   "for": 3,
+   "int": 0,
+   "pre": 1,
+   "vig": 2
+  },
+  "pericias": "Furtividade 1d20+8",
+  "deslocamento": "6m, nadar 9m",
+  "ataques": [
+   {
+    "nome": "Mordida",
+    "alcance": "Corpo a corpo",
+    "teste": "3d20+5",
+    "dano": "1d8+8 corte"
+   },
+   {
+    "nome": "Cauda",
+    "alcance": "Corpo a corpo",
+    "teste": "3d20+5",
+    "dano": "1d12 impacto"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Giro da Morte",
+    "resumo": "Agarrando alguém na água, ao repetir a manobra para causar dano, +2d8."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Agarrão",
+    "resumo": "Ao acertar a mordida num ser Médio ou menor, tenta agarrar (teste 3d20+7)."
+   }
+  ]
+ },
+ {
+  "id": "javaporco",
+  "nome": "Javaporco",
+  "fonte": "OPRPG",
+  "pag": 289,
+  "elemento": "Nenhum",
+  "vd": 20,
+  "tipo": "Animal Médio",
+  "percepcao": "1d20+5",
+  "sentidos": "Faro, visão na penumbra",
+  "iniciativa": "1d20+5",
+  "defesa": 14,
+  "fortitude": "3d20+5",
+  "reflexos": "1d20+5",
+  "vontade": "1d20",
+  "pv": 35,
+  "atributos": {
+   "agi": 1,
+   "for": 2,
+   "int": 0,
+   "pre": 1,
+   "vig": 3
+  },
+  "deslocamento": "12m",
+  "ataques": [
+   {
+    "nome": "Mordida",
+    "alcance": "Corpo a corpo",
+    "teste": "2d20+5",
+    "dano": "1d8+4 corte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Ferocidade",
+    "resumo": "Depois de sofrer dano, +1d20 nos ataques e +1 dado de dano até o fim da cena."
+   },
+   {
+    "acao": "Reação",
+    "nome": "Mordida Final",
+    "resumo": "Ao cair a 0 PV, morde um oponente aleatório ao alcance antes de morrer."
+   }
+  ]
+ },
+ {
+  "id": "onca_pintada",
+  "nome": "Onça-Pintada",
+  "fonte": "OPRPG",
+  "pag": 289,
+  "elemento": "Nenhum",
+  "vd": 40,
+  "tipo": "Animal Grande",
+  "percepcao": "1d20+10",
+  "sentidos": "Faro, visão na penumbra",
+  "iniciativa": "3d20+10",
+  "defesa": 16,
+  "fortitude": "2d20+5",
+  "reflexos": "3d20+5",
+  "vontade": "1d20+5",
+  "pv": 55,
+  "atributos": {
+   "agi": 3,
+   "for": 3,
+   "int": 0,
+   "pre": 1,
+   "vig": 2
+  },
+  "pericias": "Furtividade 3d20+13",
+  "deslocamento": "12m, escalar e nadar 6m",
+  "ataques": [
+   {
+    "nome": "Mordida",
+    "alcance": "Corpo a corpo",
+    "teste": "3d20+10",
+    "dano": "1d8+5 corte"
+   },
+   {
+    "nome": "Garras",
+    "alcance": "Corpo a corpo x2",
+    "teste": "3d20+10",
+    "dano": "1d6+5 corte",
+    "critico": "19"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Livre",
+    "nome": "Agarrão",
+    "resumo": "Ao acertar a mordida num ser Médio ou menor, tenta agarrar (teste 3d20+7)."
+   },
+   {
+    "acao": "Completa",
+    "nome": "Bote",
+    "resumo": "Investida com mordida e as duas garras no mesmo alvo, todas com o +1d20 da investida."
+   }
+  ]
+ },
+ {
+  "id": "sucuri",
+  "nome": "Sucuri",
+  "fonte": "OPRPG",
+  "pag": 289,
+  "elemento": "Nenhum",
+  "vd": 40,
+  "tipo": "Animal Grande",
+  "percepcao": "1d20+5",
+  "sentidos": "Faro, visão na penumbra",
+  "iniciativa": "2d20+5",
+  "defesa": 16,
+  "fortitude": "3d20+5",
+  "reflexos": "2d20+5",
+  "vontade": "1d20",
+  "pv": 68,
+  "atributos": {
+   "agi": 2,
+   "for": 3,
+   "int": 0,
+   "pre": 1,
+   "vig": 3
+  },
+  "pericias": "Furtividade 2d20+8",
+  "deslocamento": "6m, escalar e nadar 9m",
+  "ataques": [
+   {
+    "nome": "Mordida",
+    "alcance": "Corpo a corpo",
+    "teste": "3d20+10",
+    "dano": "1d6+8 corte"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Livre",
+    "nome": "Agarrão",
+    "resumo": "Ao acertar a mordida num ser Médio ou menor, tenta agarrar (teste 3d20+12)."
+   },
+   {
+    "acao": "Livre",
+    "nome": "Constrição",
+    "resumo": "No início de cada turno, 2d6+8 de impacto em quem estiver agarrando."
+   }
+  ]
+ }
+]

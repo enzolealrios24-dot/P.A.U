@@ -1,0 +1,215 @@
+[
+ {
+  "id": "assistente_de_producao",
+  "nome": "Assistente de Produção",
+  "fonte": "AS4",
+  "pag": 55,
+  "elemento": "Energia",
+  "vd": 40,
+  "tipo": "Pessoa Média",
+  "percepcao": "2d20+5",
+  "iniciativa": "1d20+5",
+  "defesa": 14,
+  "fortitude": "1d20+5",
+  "reflexos": "1d20+5",
+  "vontade": "2d20+5",
+  "pv": 20,
+  "atributos": {
+   "agi": 1,
+   "for": 1,
+   "int": 3,
+   "pre": 2,
+   "vig": 1
+  },
+  "pericias": "Ciências 3d20+5, Investigação 3d20+5, Ocultismo 3d20+5, Profissão 3d20+5, Tecnologia 3d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Pancada",
+    "alcance": "Corpo a corpo",
+    "teste": "1d20+5",
+    "dano": "1d4+5 impacto"
+   },
+   {
+    "nome": "Pistola",
+    "alcance": "Distância, curto",
+    "teste": "1d20+5",
+    "dano": "1d12+5 balístico",
+    "critico": "18"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Máscara de Gás",
+    "resumo": "+10 em Fortitude contra efeitos que dependem de respiração."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Rituais (DT 15)",
+    "resumo": "Conjura sem gastar PE, até 3 PE por conjuração: Amaldiçoar Tecnologia (uma modificação num item até o fim da cena), Coincidência Forçada (+2 em perícias) e Eletrocussão (3d6 de eletricidade e vulnerável 1 rodada; dobro contra eletrônicos)."
+   }
+  ],
+  "nota": "Membro da Produção do Anfitrião."
+ },
+ {
+  "id": "produtor",
+  "nome": "Produtor",
+  "fonte": "AS4",
+  "pag": 56,
+  "elemento": "Energia",
+  "vd": 80,
+  "tipo": "Pessoa Média",
+  "percepcao": "1d20+5",
+  "iniciativa": "2d20+10",
+  "defesa": 20,
+  "fortitude": "3d20+10",
+  "reflexos": "2d20+10",
+  "vontade": "1d20+5",
+  "pv": 100,
+  "atributos": {
+   "agi": 2,
+   "for": 2,
+   "int": 2,
+   "pre": 1,
+   "vig": 3
+  },
+  "pericias": "Atletismo 2d20+10, Crime 2d20+10, Ocultismo 2d20+5",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Martelo meteoro USB",
+    "alcance": "Corpo a corpo x2 (6m)",
+    "teste": "2d20+10",
+    "dano": "1d12+10 impacto ou Energia",
+    "critico": "x3"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Martelo Meteoro USB",
+    "resumo": "Celular e cabo viram arma de alcance 6m, +2 em manobras."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Máscara de Gás",
+    "resumo": "+10 em Fortitude contra efeitos que dependem de respiração."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Rituais (DT 20)",
+    "resumo": "Conjura sem gastar PE, até 6 PE por conjuração: Chamas do Caos (normalmente Chamejar, +1d6 de fogo na arma), Eletrocussão discente (linha de 30m, 6d6 de Energia) e Tela de Ruído discente (60 PV temporários contra dano físico, ou RD 30 como reação; 3x por cena)."
+   }
+  ]
+ },
+ {
+  "id": "diretor",
+  "nome": "Diretor",
+  "fonte": "AS4",
+  "pag": 57,
+  "elemento": "Energia",
+  "vd": 200,
+  "tipo": "Pessoa Média",
+  "percepcao": "4d20+15",
+  "iniciativa": "3d20+10",
+  "defesa": 28,
+  "fortitude": "3d20+15",
+  "reflexos": "3d20+10",
+  "vontade": "4d20+15",
+  "pv": 280,
+  "atributos": {
+   "agi": 3,
+   "for": 3,
+   "int": 3,
+   "pre": 4,
+   "vig": 3
+  },
+  "pericias": "Atletismo 3d20+15, Crime 3d20+10, Enganação 4d20+15, Intimidação 4d20+15, Ocultismo 3d20+10, Tecnologia 3d20+10",
+  "deslocamento": "9m",
+  "ataques": [
+   {
+    "nome": "Murro eletrificado",
+    "alcance": "Corpo a corpo x3",
+    "teste": "3d20+20",
+    "dano": "4d8+20 eletricidade"
+   },
+   {
+    "nome": "Carga eletrificada",
+    "alcance": "Distância x3, curto",
+    "teste": "3d20+20",
+    "dano": "4d8+20 eletricidade"
+   }
+  ],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Máscara de Gás",
+    "resumo": "+10 em Fortitude contra efeitos que dependem de respiração."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Rituais (DT 29)",
+    "resumo": "Conjura sem gastar PE, até 10 PE por conjuração: Coincidência Forçada verdadeiro (aliados em alcance curto +5 em perícias), Dissonância Acústica (esfera de 6m: surdos e sem rituais), Eletrocussão verdadeiro (8d6 de Energia em cada ser escolhido em alcance curto), Salto Fantasma (teleporte em alcance médio) e Tela de Ruído discente."
+   }
+  ]
+ },
+ {
+  "id": "simulacro",
+  "nome": "Simulacro",
+  "fonte": "AS4",
+  "pag": 61,
+  "elemento": "Energia",
+  "elementosSecundarios": [
+   "Conhecimento"
+  ],
+  "vd": 32,
+  "tipo": "Criatura Minúscula",
+  "presencaPerturbadora": "DT 15, 2d6 mental (NEX 30%+ imune)",
+  "percepcao": "1d20+5",
+  "iniciativa": "1d20+5",
+  "defesa": 10,
+  "fortitude": "1d20+5",
+  "reflexos": "1d20+5",
+  "vontade": "1d20+5",
+  "pv": 70,
+  "vulnerabilidades": "Conhecimento",
+  "imunidades": "Dano (exceto Conhecimento)",
+  "atributos": {
+   "agi": 1,
+   "for": "—",
+   "int": 1,
+   "pre": 1,
+   "vig": 1
+  },
+  "deslocamento": "0m",
+  "ataques": [],
+  "habilidades": [
+   {
+    "acao": "Passiva",
+    "nome": "Intangibilidade Digital",
+    "resumo": "Incorpóreo, só afetado por Conhecimento; notá-lo num aparelho exige Ocultismo DT 4d10, salvo se ele se revelar."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Forma Evolutiva",
+    "resumo": "Esta é a forma troyan. Krypto: VD 64, 100 PV, Defesa 20, testes 1d20+10, Pequeno. Vvorm: VD 128, 200 PV, Defesa 30, atributos 2, testes 2d20+15, Médio. Botnetz: VD 256, 500 PV, Defesa 40, atributos 3, testes 3d20+20, Grande."
+   },
+   {
+    "acao": "Passiva",
+    "nome": "Exorcismo Digital",
+    "resumo": "Duas pessoas treinadas em Ocultismo ou Religião, sem outros aparelhos ligados a 9m e com sigilos num objeto analógico: uma encara a tela enquanto a outra faz teste estendido de Ocultismo (DT 4d10, 3 sucessos); ele fica preso no objeto, que deve ser destruído. Falha total: ele foge para a internet."
+   },
+   {
+    "acao": "Movimento",
+    "nome": "Saltar",
+    "resumo": "Pula para outro aparelho eletrônico em alcance curto (médio, longo e extremo nas formas seguintes)."
+   },
+   {
+    "acao": "Padrão",
+    "nome": "Perturbação Digital",
+    "resumo": "Alguém olhando uma tela sofre 2d6 mental (Vontade DT 3d10 metade), a qualquer distância; cresce até 6d8 em quatro pessoas no botnetz. Quem enlouquece assim tem 50% de morrer e 50% de ir para o Jogo do Anfitrião com 1 SAN."
+   }
+  ]
+ }
+]
