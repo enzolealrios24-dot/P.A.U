@@ -358,6 +358,13 @@ Set<String> _aplicaveis(Map<String, dynamic> item) {
   }
   if (tipo == 'protecao') return {'protecao'};
   if (livro == 'municao') return {'municao'};
+  if (livro == 'explosivo') return {'granada'};
+  final doLivro = Catalogo.instance.porRef(asStr(item['ref']));
+  if (asBool(doLivro?['drone'])) return {'drone'};
+  if (asBool(doLivro?['remedio']) ||
+      Catalogo.normalizar(asStr(item['nome'])).contains('cicatrizante')) {
+    return {'medicamento', 'acessorio'};
+  }
   return {'acessorio'};
 }
 
@@ -421,9 +428,11 @@ Future<void> editarModificacoes(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                      'Cada modificação aumenta a categoria em I. A primeira maldição aumenta em II e as seguintes em I. Segure um item para ver o efeito.',
-                      style: TextStyle(fontSize: 12, color: Cores.textoFraco)),
+                  Text(
+                      apl.contains('drone')
+                          ? 'Escolha o tipo do drone. Cada tipo além do primeiro aumenta a categoria em I (até IV). Segure um item para ver o efeito.'
+                          : 'Cada modificação aumenta a categoria em I. A primeira maldição aumenta em II e as seguintes em I. Segure um item para ver o efeito.',
+                      style: const TextStyle(fontSize: 12, color: Cores.textoFraco)),
                   const SizedBox(height: 10),
                   const Text('MODIFICAÇÕES',
                       style: TextStyle(fontSize: 12, letterSpacing: 2)),
@@ -467,7 +476,7 @@ Future<void> editarModificacoes(
             k: item[k],
         };
   var categoria = asInt(base['categoria']);
-  var espacos = asInt(base['espacos'], 1);
+  num espacos = base['espacos'] is num ? base['espacos'] as num : asInt(base['espacos'], 1);
   var bonusAtaque = asInt(base['bonusAtaque']);
   var bonusDano = asInt(base['bonusDano']);
   var defesa = asInt(base['defesa']);
@@ -506,7 +515,13 @@ Future<void> editarModificacoes(
   for (final r in selMals) {
     aplicar(cat.porRef(r), nivelItem: false);
   }
-  categoria += selMods.length + (selMals.isEmpty ? 0 : selMals.length + 1);
+  if (_aplicaveis(item).contains('drone')) {
+    // Drones: o primeiro tipo vem com o item; cada tipo extra soma I, até IV.
+    categoria += selMods.isEmpty ? 0 : selMods.length - 1;
+    if (categoria > 4) categoria = 4;
+  } else {
+    categoria += selMods.length + (selMals.isEmpty ? 0 : selMals.length + 1);
+  }
   lista[indice] = {
     ...item,
     'base': base,
@@ -818,7 +833,7 @@ class TabInventario extends StatelessWidget {
             title: Text(
                 '${asStr(l[i]['nome'], 'Item')}${asInt(l[i]['qtd'], 1) > 1 ? ' x${asInt(l[i]['qtd'], 1)}' : ''}'),
             subtitle: Text(
-                'Cat. ${asInt(l[i]['categoria']) == 0 ? '0' : romanos[(asInt(l[i]['categoria']).clamp(1, 4)) - 1]} • ${asInt(l[i]['espacos'], 1)} espaço(s)${nomesModificacoes(l[i]).isNotEmpty ? ' • ${nomesModificacoes(l[i])}' : ''}${asStr(l[i]['descricao']).isNotEmpty ? ' • ${asStr(l[i]['descricao'])}' : ''}',
+                'Cat. ${asInt(l[i]['categoria']) == 0 ? '0' : romanos[(asInt(l[i]['categoria']).clamp(1, 4)) - 1]} • ${_espacosTexto(l[i]['espacos'])} espaço(s)${nomesModificacoes(l[i]).isNotEmpty ? ' • ${nomesModificacoes(l[i])}' : ''}${asStr(l[i]['descricao']).isNotEmpty ? ' • ${asStr(l[i]['descricao'])}' : ''}',
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis),
             trailing: IconButton(
@@ -902,4 +917,10 @@ class TabPoderes extends StatelessWidget {
       ),
     ]);
   }
+}
+
+/// Espaços com fração (0,5) sem perder o meio espaço.
+String _espacosTexto(dynamic v) {
+  if (v is! num) return '${asInt(v, 1)}';
+  return v == v.roundToDouble() ? '${v.toInt()}' : '$v'.replaceAll('.', ',');
 }

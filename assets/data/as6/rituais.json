@@ -1,0 +1,24 @@
+[
+ {
+  "id": "hesitacao_forcada",
+  "nome": "Hesitação Forçada",
+  "elemento": "Sangue/Conhecimento",
+  "elementos": [
+   "Sangue",
+   "Conhecimento"
+  ],
+  "circulo": 1,
+  "execucao": "Padrão",
+  "alcance": "Curto",
+  "alvo": "1 pessoa",
+  "duracao": "Sustentada",
+  "resistencia": "Vontade parcial",
+  "fonte": "AS6",
+  "pag": 72,
+  "resumo": "A cada turno o alvo faz Vontade; se falhar, rola de novo o maior dado dos testes do turno. Dois sucessos seguidos encerram.",
+  "custoDiscente": 2,
+  "discente": "Qualquer ser; quem não resistiu também não pode agir hostilmente contra você. Requer 2º círculo.",
+  "custoVerdadeiro": 5,
+  "verdadeiro": "Vontade anula; o alvo fica confiante demais: rola de novo o menor dado dos testes e precisa se pôr na frente de ataques contra aliados adjacentes. Requer 3º círculo e afinidade."
+ }
+]

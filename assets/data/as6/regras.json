@@ -1,0 +1,97 @@
+{
+ "fonte": "AS6",
+ "doencas": {
+  "pag": 75,
+  "lista": [
+   {
+    "nome": "Crise Alérgica",
+    "teste": "Fortitude DT 20",
+    "estagios": [
+     "−2 em testes",
+     "−5 em testes",
+     "−5 e enjoado",
+     "−5, enjoado e asfixiado"
+    ]
+   },
+   {
+    "nome": "Crise Hipertensiva",
+    "teste": "Vontade DT 20",
+    "estagios": [
+     "Trêmulo",
+     "Trêmulo e abalado",
+     "Trêmulo, abalado e enjoado",
+     "Infarto: morre"
+    ]
+   },
+   {
+    "nome": "Infecção Cerebral",
+    "teste": "Fortitude DT 20",
+    "estagios": [
+     "Frustrado",
+     "Esmorecido",
+     "Esmorecido, Int 0, sem comunicação",
+     "Morte cerebral"
+    ]
+   },
+   {
+    "nome": "Crise Hipocondríaca",
+    "teste": "—",
+    "estagios": [
+     "Abalado",
+     "Abalado e confuso",
+     "Toma todos os remédios do grupo sem efeito, perde 2d12 PV, abalado e confuso",
+     "Morre intoxicado"
+    ]
+   },
+   {
+    "nome": "Infecção Generalizada",
+    "teste": "Fortitude DT 20",
+    "estagios": [
+     "Fatigado",
+     "Exausto",
+     "Exausto e inconsciente",
+     "Falência dos órgãos: morre"
+    ]
+   }
+  ]
+ },
+ "venenos": {
+  "pag": 76,
+  "lista": [
+   {
+    "nome": "Batracotoxina",
+    "tipo": "contato",
+    "dt": 25,
+    "efeito": "Exausta, paralisada e asfixiada (passar: exausta)."
+   },
+   {
+    "nome": "Ricina",
+    "tipo": "inalação",
+    "dt": 25,
+    "efeito": "Perde 4d6 PV por rodada até ser curada (passar: 2d6 por 1d4+1 rodadas)."
+   },
+   {
+    "nome": "Cianeto de Potássio",
+    "tipo": "ingestão",
+    "dt": 25,
+    "efeito": "Inconsciente e asfixiada (passar: asfixiada)."
+   },
+   {
+    "nome": "Toxina Cardiotóxica",
+    "tipo": "ferimento",
+    "dt": 25,
+    "efeito": "0 PV e morrendo (passar: perde metade dos PV)."
+   },
+   {
+    "nome": "Gás Neurotóxico",
+    "tipo": "inalação",
+    "dt": 25,
+    "efeito": "Paralisada (passar: imóvel)."
+   }
+  ]
+ },
+ "evolucaoModular": {
+  "pag": 80,
+  "resumo": "Regra de fã (não oficial): em vez de Poder de classe, ganha um poder de utilidade em NEX 10% e a cada NEX par, e um poder de combate em 15% e a cada NEX ímpar; Versatilidade dá a 1ª habilidade de outra trilha."
+ }
+}

@@ -1,0 +1,62 @@
+[
+ {
+  "id": "monstruoso_especialista",
+  "nome": "Monstruoso (especialista)",
+  "classe": "especialista",
+  "fonte": "AS7",
+  "pag": 81,
+  "requisito": "Usa as alterações de NEX (regra Nível + NEX), como o Monstruoso de combatente.",
+  "habilidades": [
+   {
+    "nex": 10,
+    "nome": "Ser Experimentado",
+    "resumo": "Treino em Ocultismo (ou +2). Escolha um elemento: −2 em Diplomacia, Enganação e Intuição; um experimento diário cura 1d8+1 PV. Sangue: tamanho Grande, soma For em testes de For e usa For para PE. Morte: 2d6 PV temporários e uma ação padrão extra por cena, soma Vig e usa Vig para PE. Conhecimento: treino em duas perícias, soma Int e usa Int para PE. Energia: sacar como ação livre, +6m, soma Agi e usa Agi para PE."
+   },
+   {
+    "nex": 40,
+    "nome": "Ser Testado",
+    "resumo": "Penalidade da trilha vira −5 e o experimento cura 2d8+2. Sangue: +1d6 de dano e RD 2 (devorar troca Int por mais). Morte: +1 turno morrendo e 2d8 PV temporários por cena (necrose em For). Conhecimento: +1d6 em testes de Int (inexistir em Agi). Energia: +1d6 no ataque e +2 na Defesa (queima Vig)."
+   },
+   {
+    "nex": 65,
+    "nome": "Ser Expurgado",
+    "resumo": "Presença −1, penalidade −1d20, experimento cura 3d8+3 e ganha um braço novo. Sangue: For +1, +1d8 corpo a corpo e ataque desarmado extra. Morte: Vig +1, envelhece itens (50 de dano) ou vê seu passado. Conhecimento: Int +1, Detecção de Ameaças discente em si ou Mergulho Mental em outros. Energia: Agi +1, braço que atravessa matéria (+5 em testes criativos) e prende um item de uma mão."
+   },
+   {
+    "nex": 99,
+    "nome": "Ser Apavorante",
+    "resumo": "Presença −1, penalidade −2d20 e experimento cura 4d8+4. Sangue: tamanho Enorme, For +1 e Vínculo de Sangue. Morte: 4d6 PV temporários, 2 ações extras por cena, Vig +1 e Distorção Temporal. Conhecimento: expert em 3 perícias, Int +1 e Controle Mental. Energia: 3 saques livres por rodada, +12m, Agi +1 e Teletransporte."
+   }
+  ]
+ },
+ {
+  "id": "monstruoso_ocultista",
+  "nome": "Monstruoso (ocultista)",
+  "classe": "ocultista",
+  "fonte": "AS7",
+  "pag": 85,
+  "requisito": "Usa as alterações de NEX (regra Nível + NEX), como o Monstruoso de combatente.",
+  "habilidades": [
+   {
+    "nex": 10,
+    "nome": "Ser Escarificado",
+    "resumo": "+2 em Ocultismo e penalidade −2 da trilha. Escarificação diária recupera 1d4 PE. Escolha um elemento: PE e DT de rituais passam a usar For (Sangue), Vig (Morte), Int (Conhecimento) ou Agi (Energia), e esse atributo ganha +1."
+   },
+   {
+    "nex": 40,
+    "nome": "Ser Perfurado",
+    "resumo": "Penalidade −5 e a escarificação recupera 1d6 PE. Recebe Tatuagem Ritualística para rituais marcados do elemento; 1x por cena conjura um ritual marcado como reação, em condições próprias do elemento; +5 em testes de concentração."
+   },
+   {
+    "nex": 65,
+    "nome": "Ser Rasgado",
+    "resumo": "Presença −1, penalidade −1d20, recupera 1d8 PE e +2 na DT dos rituais marcados. Sangue: compartilha sangue para +1d20 em Agi, For ou Vig. Morte: aprende Cicatrização e conjura como movimento. Conhecimento: 5 perguntas de sim ou não sobre o alvo, ou vê o invisível. Energia: teleporte de 3m e bônus na Defesa."
+   },
+   {
+    "nex": 99,
+    "nome": "Ser Mutilado",
+    "resumo": "Presença −1, penalidade −2d20, recupera 1d12 PE e +1 no atributo do elemento. Conjura rituais marcados sem fala, gestos ou componentes; aprende um ritual de 4º círculo do elemento e um ritual de Medo de 4º círculo."
+   }
+  ]
+ }
+]

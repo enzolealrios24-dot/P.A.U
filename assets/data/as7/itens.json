@@ -1,0 +1,61 @@
+[
+ {
+  "id": "carranca_cacadora",
+  "nome": "Carranca Caçadora",
+  "tipo": "paranormal",
+  "categoria": 2,
+  "espacos": 2,
+  "fonte": "AS7",
+  "pag": 78,
+  "resumo": "Com um vestígio de uma criatura paranormal na boca, os olhos apontam o caminho (sempre o mais perigoso) até ela ou ao último lugar onde esteve, por 10 minutos; depois não serve mais para essa criatura."
+ },
+ {
+  "id": "cajado_cruz_sangue",
+  "nome": "Cajado da Cruz de Sangue",
+  "tipo": "amaldicoado",
+  "elemento": "Sangue",
+  "proficiencia": "simples",
+  "ataque": "corpo",
+  "empunhadura": "duas",
+  "categoria": 3,
+  "espacos": 2,
+  "dano": "1d12",
+  "critico": "x2",
+  "tipoDano": "Corte",
+  "agil": true,
+  "fonte": "AS7",
+  "pag": 78,
+  "resumo": "Arma simples de duas mãos, ágil, que conta como leve de uma mão para Combater com Duas Armas. Para ocultista que conhece um ritual de Sangue: rituais e poderes de Sangue custam −1 PE, têm +1 na DT e +1 dado de dano."
+ },
+ {
+  "id": "pe_de_coelho",
+  "nome": "Pé de Coelho",
+  "tipo": "paranormal",
+  "categoria": 1,
+  "espacos": 1,
+  "fonte": "AS7",
+  "pag": 79,
+  "resumo": "Vestimenta: 1x por cena, +1d4 em todos os testes até o fim da cena; se o d4 sair ímpar, perde 1d4 PV."
+ },
+ {
+  "id": "sal_dourado",
+  "nome": "Sal Dourado",
+  "tipo": "paranormal",
+  "categoria": 1,
+  "espacos": 1,
+  "fonte": "AS7",
+  "pag": 79,
+  "resumo": "Espalhado, repele criaturas de Sangue de VD até 80 (Vontade DT 20 para atravessar)."
+ },
+ {
+  "id": "terco_maculado",
+  "nome": "Terço Maculado",
+  "tipo": "amaldicoado",
+  "elemento": "Sangue",
+  "categoria": 2,
+  "espacos": 1,
+  "fonte": "AS7",
+  "pag": 79,
+  "resumo": "+2d10 em testes ao agir pela súplica herdada do terço; não pode ser removido (tentar custa 2d10 PV)."
+ }
+]

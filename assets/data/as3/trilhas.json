@@ -1,0 +1,37 @@
+[
+ {
+  "id": "performatico",
+  "nome": "Performático",
+  "classe": "combatente",
+  "classes": [
+   "combatente",
+   "especialista",
+   "ocultista"
+  ],
+  "fonte": "AS3",
+  "pag": 119,
+  "requisito": "Trilha geral (regra opcional): qualquer classe pode escolher.",
+  "habilidades": [
+   {
+    "nex": 10,
+    "nome": "Ensaio",
+    "resumo": "Ação de interlúdio ensaiar combate: +1 na margem de ameaça até o próximo interlúdio (+2 em 40%, +3 em 65%, +4 em 99%); quem ensaiar junto ganha o mesmo."
+   },
+   {
+    "nex": 40,
+    "nome": "Frase de Efeito",
+    "resumo": "Quando você ou aliado próximo faz um crítico, 2 PE para o multiplicador virar sua Presença (ou +1 se já for maior)."
+   },
+   {
+    "nex": 65,
+    "nome": "Mosh Pit",
+    "resumo": "Flanqueando um alvo, você e aliados ao redor dele ganham +1d6 de dano por aliado cercando-o (até +5d6)."
+   },
+   {
+    "nex": 99,
+    "nome": "Ritmo Contagiante",
+    "resumo": "No início do combate, você e aliados em alcance médio ganham +5 na Defesa até o fim; cada crítico seu soma +1."
+   }
+  ]
+ }
+]

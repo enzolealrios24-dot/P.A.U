@@ -62,7 +62,7 @@
   {"id": "bandoleira", "nome": "Bandoleira", "tipo": "operacional", "categoria": 1, "espacos": 1, "fonte": "OPRPG", "pag": 65, "resumo": "1x por rodada, saca ou guarda um item como ação livre."},
   {"id": "binoculos", "nome": "Binóculos", "tipo": "operacional", "categoria": 0, "espacos": 1, "fonte": "OPRPG", "pag": 65, "resumo": "+5 em Percepção para observar coisas distantes."},
   {"id": "bloqueador_sinal", "nome": "Bloqueador de sinal", "tipo": "operacional", "categoria": 1, "espacos": 1, "fonte": "OPRPG", "pag": 65, "resumo": "Impede celulares em alcance médio de se conectarem."},
-  {"id": "cicatrizante", "nome": "Cicatrizante", "tipo": "operacional", "categoria": 1, "espacos": 1, "dano": "2d8+2", "fonte": "OPRPG", "pag": 65, "resumo": "Ação padrão: cura 2d8+2 PV em você ou num ser adjacente (consumível)."},
+  {"id": "cicatrizante", "nome": "Cicatrizante", "tipo": "operacional", "remedio": true, "categoria": 1, "espacos": 1, "dano": "2d8+2", "fonte": "OPRPG", "pag": 65, "resumo": "Ação padrão: cura 2d8+2 PV em você ou num ser adjacente (consumível)."},
   {"id": "corda", "nome": "Corda", "tipo": "operacional", "categoria": 0, "espacos": 1, "fonte": "OPRPG", "pag": 65, "resumo": "10m; +5 em Atletismo para descer ou subir com ela."},
   {"id": "equip_sobrevivencia", "nome": "Equipamento de sobrevivência", "tipo": "operacional", "categoria": 0, "espacos": 2, "fonte": "OPRPG", "pag": 65, "resumo": "+5 em Sobrevivência para acampar e se orientar, mesmo sem treino."},
   {"id": "lanterna_tatica", "nome": "Lanterna tática", "tipo": "operacional", "categoria": 1, "espacos": 1, "fonte": "OPRPG", "pag": 65, "resumo": "Ilumina cone de 9m; com movimento, ofusca um ser em alcance curto por 1 rodada (1x por cena por ser)."},

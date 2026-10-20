@@ -1,0 +1,38 @@
+[
+ {
+  "id": "c.municiador_ambulante",
+  "nome": "Municiador Ambulante",
+  "tipo": "combatente",
+  "prereq": "Int 2",
+  "fonte": "AS9",
+  "pag": 39,
+  "resumo": "Nova ação de interlúdio: prepara 1d6 pacotes de munição por ponto de Intelecto, que você carrega sem ocupar espaço."
+ },
+ {
+  "id": "c.ripostar_ousado",
+  "nome": "Ripostar Ousado",
+  "tipo": "combatente",
+  "prereq": "Agi 2, treinado em Luta",
+  "fonte": "AS9",
+  "pag": 39,
+  "resumo": "Alvo de ataque corpo a corpo, antes do resultado: reação especial de defesa e 2 PE para contra-atacar com +5 na Defesa contra esse ataque; se ele errar, +5 no ataque do contra-ataque."
+ },
+ {
+  "id": "c.tatica_abordagem",
+  "nome": "Tática de Abordagem",
+  "tipo": "combatente",
+  "prereq": "Int 1, veterano em Tática",
+  "fonte": "AS9",
+  "pag": 39,
+  "resumo": "Ação de interlúdio (1x por cena): planeja como lidar com uma ameaça futura e testa Tática DT 10 para ganhar 1 dado de tática (d6), +1 a cada 5 acima. Contra essa ameaça, gasta os dados como reação, em você ou num aliado do plano, para +1d6 num teste, no dano ou na cura. Somem no próximo interlúdio."
+ },
+ {
+  "id": "c.tiro_intuitivo",
+  "nome": "Tiro Intuitivo",
+  "tipo": "combatente",
+  "prereq": "Veterano em Pontaria",
+  "fonte": "AS9",
+  "pag": 39,
+  "resumo": "Ataque à distância sem mirar: 2 PE para +2 na margem de ameaça desse ataque."
+ }
+]

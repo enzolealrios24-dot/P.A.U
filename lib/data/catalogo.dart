@@ -96,14 +96,22 @@ class Catalogo {
     final n = _sem(nome);
     final c = _sem(classe);
     for (final t in trilhas) {
-      if (_sem(asStr(t['nome'])) == n && _sem(asStr(t['classe'])) == c) return t;
+      if (_sem(asStr(t['nome'])) == n &&
+          (_sem(asStr(t['classe'])) == c ||
+              asStrList(t['classes']).map(_sem).contains(c))) {
+        return t;
+      }
     }
     return _porNome(trilhas, nome);
   }
 
   List<Map<String, dynamic>> trilhasDaClasse(String classe) {
     final c = _sem(classe);
-    return trilhas.where((t) => _sem(asStr(t['classe'])) == c).toList();
+    return trilhas
+        .where((t) =>
+            _sem(asStr(t['classe'])) == c ||
+            asStrList(t['classes']).map(_sem).contains(c))
+        .toList();
   }
 
   Map<String, dynamic>? condicao(String nome) => _porNome(condicoes, nome);

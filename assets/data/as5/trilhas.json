@@ -1,0 +1,31 @@
+[
+ {
+  "id": "criptologista_oculto",
+  "nome": "Criptologista do Oculto",
+  "classe": "ocultista",
+  "fonte": "AS5",
+  "pag": 58,
+  "habilidades": [
+   {
+    "nex": 10,
+    "nome": "Método Intuitivo",
+    "resumo": "Recebe Criar Selo (ou dobra o máximo de selos); cria 2 selos por ação de interlúdio, +1 por habilidade seguinte da trilha."
+   },
+   {
+    "nex": 40,
+    "nome": "Caligrafia Eficiente",
+    "resumo": "Usar seus selos sem conhecer o ritual vira Ocultismo DT 10 + custo; +5 para identificar rituais."
+   },
+   {
+    "nex": 65,
+    "nome": "Decifrar à Distância",
+    "resumo": "Usa selos em alcance curto só lendo mentalmente, sem empunhar; +5 para entender linguagens do Outro Lado."
+   },
+   {
+    "nex": 99,
+    "nome": "Selo Supremo",
+    "resumo": "Seus selos dispensam teste, têm +5 na DT, +3 dados de dano e formas avançadas sem custo extra."
+   }
+  ]
+ }
+]

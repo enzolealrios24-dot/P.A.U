@@ -1,0 +1,151 @@
+[
+ {
+  "id": "c.aura_confianca",
+  "nome": "Aura de Confiança",
+  "tipo": "combatente",
+  "fonte": "AS5",
+  "pag": 55,
+  "resumo": "Aliados (não você) a até 18m recebem +5 em Iniciativa e contra Presença Perturbadora."
+ },
+ {
+  "id": "c.folego_emergencia",
+  "nome": "Fôlego de Emergência",
+  "tipo": "combatente",
+  "fonte": "AS5",
+  "pag": 55,
+  "resumo": "1x por cena, com ameaça presente, ação de movimento para recuperar 1d8 + Vig de PV ou PE."
+ },
+ {
+  "id": "c.parede_carne",
+  "nome": "Parede de Carne",
+  "tipo": "combatente",
+  "prereq": "Vig 3 ou For 3",
+  "fonte": "AS5",
+  "pag": 55,
+  "resumo": "Aliados adjacentes recebem cobertura leve (+5 na Defesa)."
+ },
+ {
+  "id": "e.adepto_escuro",
+  "nome": "Adepto do Escuro",
+  "tipo": "especialista",
+  "fonte": "AS5",
+  "pag": 55,
+  "resumo": "Ignora camuflagem por escuridão e recebe +2 em Investigação na penumbra."
+ },
+ {
+  "id": "e.saudosista_hitech",
+  "nome": "Saudosista Hi-Tech",
+  "tipo": "especialista",
+  "fonte": "AS5",
+  "pag": 55,
+  "resumo": "+5 em Tecnologia com aparelhos anteriores a 2000 e faz gambiarras para ligá-los aos atuais."
+ },
+ {
+  "id": "e.treinado_telas",
+  "nome": "Treinado nas Telas",
+  "tipo": "especialista",
+  "fonte": "AS5",
+  "pag": 55,
+  "resumo": "2 PE para usar Intelecto em vez de Agilidade em Iniciativa ou Reflexos."
+ },
+ {
+  "id": "o.catalogo_criaturas",
+  "nome": "Catálogo de Criaturas Ambulante",
+  "tipo": "ocultista",
+  "fonte": "AS5",
+  "pag": 56,
+  "resumo": "+5 em Ocultismo para identificar criaturas, inclusive só por vestígios."
+ },
+ {
+  "id": "g.apaixonado_veiculos",
+  "nome": "Apaixonado por Veículos",
+  "tipo": "geral",
+  "prereq": "Agi 2",
+  "fonte": "AS5",
+  "pag": 56,
+  "resumo": "Treino em Pilotagem (ou +2); +1d20 para proteger o veículo; com Veículos Operacionais, uma regalia extra."
+ },
+ {
+  "id": "g.meditacao_ocultista",
+  "nome": "Meditação Ocultista",
+  "tipo": "geral",
+  "fonte": "AS5",
+  "pag": 56,
+  "resumo": "Nova ação de interlúdio (1x): recupera PE iguais ao dobro do seu limite de PE (metade se precária, ×3 confortável, ×4 luxuosa)."
+ },
+ {
+  "id": "g.ruido_comunicacao",
+  "nome": "Ruído de Comunicação",
+  "tipo": "geral",
+  "fonte": "AS5",
+  "pag": 56,
+  "resumo": "Reação e 4 PE quando um alvo próximo recebe bônus ou penalidade em dados: inverte o efeito até o fim da cena."
+ },
+ {
+  "id": "g.desafiar_ego",
+  "nome": "Desafiar o Ego",
+  "tipo": "geral",
+  "prereq": "Pre 2",
+  "fonte": "AS5",
+  "pag": 56,
+  "resumo": "1x por rodada, reação e 1 PE no ataque de um aliado: se acertar, causa dano extra igual à sua Presença; se errar, devolve o PE."
+ },
+ {
+  "id": "g.direcao_defensiva",
+  "nome": "Direção Defensiva",
+  "tipo": "geral",
+  "fonte": "AS5",
+  "pag": 56,
+  "resumo": "Treino em Pilotagem (ou +2); dirigindo, todos no veículo ganham +2 na Defesa e em resistências (e o veículo +2 na Defesa)."
+ },
+ {
+  "id": "p.acido_corrosivo",
+  "nome": "Ácido Corrosivo",
+  "tipo": "paranormal",
+  "elemento": "Energia",
+  "fonte": "AS5",
+  "pag": 57,
+  "resumo": "1 PE: até o fim da cena, +2 no ataque e +5 no dano desarmado (químico); pode aplicar numa arma corpo a corpo, que é destruída no fim da cena se não for amaldiçoada.",
+  "afinidade": "+4 no ataque e +10 no dano."
+ },
+ {
+  "id": "p.dead_man_switch",
+  "nome": "Dead Man Switch",
+  "tipo": "paranormal",
+  "elemento": "Conhecimento",
+  "fonte": "AS5",
+  "pag": 57,
+  "resumo": "Machucado, escolha alguém em alcance médio e uma perícia sua: ele recebe seu grau nela até você se curar acima da metade ou morrer.",
+  "afinidade": "Até três alvos e mais uma perícia; se morrer, eles mantêm até o fim da missão."
+ },
+ {
+  "id": "p.paralinguistica",
+  "nome": "Paralinguística Ampliada",
+  "tipo": "paranormal",
+  "elemento": "Conhecimento",
+  "fonte": "AS5",
+  "pag": 57,
+  "resumo": "+5 para entender linguagens do Outro Lado e aprende Compreensão Paranormal (ou ela custa −1 PE).",
+  "afinidade": "Bônus +10 e fica sempre sob Compreensão Paranormal discente."
+ },
+ {
+  "id": "p.conexao_comunicativa",
+  "nome": "Conexão Comunicativa",
+  "tipo": "paranormal",
+  "elemento": "Transmissão",
+  "prereq": "Conectar-se ao Sino de Transmissão; só funciona com outro ser com o mesmo poder",
+  "fonte": "AS5",
+  "pag": 62,
+  "resumo": "Telepatia e localização com quem tem este poder a até 90m; +2 em resistência contra a comunicação de Alheios por ser conectado."
+ },
+ {
+  "id": "p.sincronia_conectiva",
+  "nome": "Sincronia Conectiva",
+  "tipo": "paranormal",
+  "elemento": "Transmissão",
+  "prereq": "Conectar-se ao Sino de Transmissão; só funciona com outro ser com o mesmo poder",
+  "fonte": "AS5",
+  "pag": 62,
+  "resumo": "Reação e 3 PE: os sincronizados compartilham Iniciativa, sabem os itens e ações uns dos outros, usam PE uns dos outros e podem receber o dano de outro."
+ }
+]

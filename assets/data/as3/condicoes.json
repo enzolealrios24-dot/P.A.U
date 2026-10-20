@@ -1,0 +1,20 @@
+[
+ {
+  "id": "apaixonado",
+  "nome": "Apaixonado",
+  "categoria": "mental",
+  "resumo": "Sofre penalidade igual aos PV e PE ganhos na relação íntima em testes contra a pessoa amada."
+ },
+ {
+  "id": "tremulo",
+  "nome": "Trêmulo",
+  "resumo": "Nervoso: −1d20 em testes de Força e Vigor por 3 rodadas.",
+  "efeitos": [
+   {
+    "alvo": "dados",
+    "escopo": "attr:for,vig",
+    "valor": -1
+   }
+  ]
+ }
+]

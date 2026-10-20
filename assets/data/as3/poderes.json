@@ -1,0 +1,152 @@
+[
+ {
+  "id": "c.guardiao_tropa",
+  "nome": "Guardião da Tropa",
+  "tipo": "combatente",
+  "prereq": "Ataque Especial, Casca Grossa",
+  "repetivel": true,
+  "fonte": "AS3",
+  "pag": 108,
+  "resumo": "Reação e 2 PE para receber no lugar de um aliado adjacente um ataque ou habilidade de alvo único; se não o afetar, recupera 1 SAN. Escolhendo de novo, o alcance vira curto."
+ },
+ {
+  "id": "c.vitalidade_sofrida",
+  "nome": "Vitalidade Sofrida",
+  "tipo": "combatente",
+  "prereq": "Ataque Especial",
+  "fonte": "AS3",
+  "pag": 108,
+  "resumo": "Seus PV de combatente passam a 24 + Vig iniciais e 6 + Vig por nível (retroativo).",
+  "efeitos": [
+   {
+    "alvo": "pv",
+    "valor": 2
+   },
+   {
+    "alvo": "pv",
+    "valor": 2,
+    "por": "nivel"
+   }
+  ]
+ },
+ {
+  "id": "o.flagelo_aproveitado",
+  "nome": "Flagelo Bem Aproveitado",
+  "tipo": "ocultista",
+  "prereq": "Escolhido pelo Outro Lado, Poder do Flagelo",
+  "fonte": "AS3",
+  "pag": 108,
+  "resumo": "Poder do Flagelo passa a custar 1 PV por PE."
+ },
+ {
+  "id": "o.recuperacao_flagelante",
+  "nome": "Recuperação Flagelante",
+  "tipo": "ocultista",
+  "prereq": "Escolhido pelo Outro Lado, Poder do Flagelo",
+  "repetivel": true,
+  "fonte": "AS3",
+  "pag": 108,
+  "resumo": "1x entre interlúdios, PV gastos com Poder do Flagelo podem ser curados por outros meios (até 3 usos escolhendo de novo)."
+ },
+ {
+  "id": "g.ambidestria",
+  "nome": "Ambidestria",
+  "tipo": "geral",
+  "prereq": "For 2 ou Agi 2, treinado em Luta",
+  "fonte": "AS3",
+  "pag": 108,
+  "resumo": "Com duas armas (uma leve), ataca com as duas sofrendo −1d20; se já tem Combater com Duas Armas, sem penalidade e pode usar duas armas de uma mão."
+ },
+ {
+  "id": "g.entrada_triunfal",
+  "nome": "Entrada Triunfal",
+  "tipo": "geral",
+  "prereq": "Pre 2",
+  "fonte": "AS3",
+  "pag": 109,
+  "resumo": "1x por sessão, anuncie sua chegada: +1d20 no primeiro teste no ambiente (exceto Furtividade), ou passe o bônus a um aliado."
+ },
+ {
+  "id": "g.papinho_sedutor",
+  "nome": "Papinho Sedutor",
+  "tipo": "geral",
+  "prereq": "Pre 2",
+  "fonte": "AS3",
+  "pag": 109,
+  "resumo": "1 PE para +5 num teste de Presença para seduzir; se passar, o alvo fica apaixonado (e pode virar um problema)."
+ },
+ {
+  "id": "p.direcao_precognitiva",
+  "nome": "Conhecimento de Direção Precognitiva",
+  "tipo": "paranormal",
+  "elemento": "Conhecimento",
+  "fonte": "AS3",
+  "pag": 109,
+  "resumo": "+5 em Percepção ou Sobrevivência para se orientar até um lugar, mesmo desconhecido.",
+  "afinidade": "Bônus vira +10."
+ },
+ {
+  "id": "p.instrumento_eletrico",
+  "nome": "Instrumento Elétrico de Combate",
+  "tipo": "paranormal",
+  "elemento": "Energia",
+  "fonte": "AS3",
+  "pag": 109,
+  "resumo": "Um instrumento vira arma tática amaldiçoada de Energia só sua: duas mãos, alcance curto, ataque com Artes, 2d8 de Energia + Presença, x2, categoria II, 2 espaços.",
+  "afinidade": "Atinge todos os alvos escolhidos em alcance curto."
+ },
+ {
+  "id": "s.arrogancia_diabolica",
+  "nome": "Arrogância Diabólica",
+  "tipo": "sacrificio",
+  "prereq": "Sacrifício do Orgulho (Hexatombe)",
+  "fonte": "AS3",
+  "pag": 110,
+  "resumo": "Ação padrão e 3 PE: alguém em alcance médio faz Vontade (DT Pre +5) ou comete uma imprudência no próximo turno; se passar, sofre 2d6 mental."
+ },
+ {
+  "id": "s.causar_culpa",
+  "nome": "Causar Culpa",
+  "tipo": "sacrificio",
+  "prereq": "Sacrifício da Culpa (Hexatombe)",
+  "fonte": "AS3",
+  "pag": 110,
+  "resumo": "Ação padrão e 3 PE: alguém em alcance curto faz Vontade (DT Pre +5) ou fica indefeso pela culpa até se libertar."
+ },
+ {
+  "id": "s.despertar_obsessao",
+  "nome": "Despertar Obsessão",
+  "tipo": "sacrificio",
+  "prereq": "Sacrifício da Obsessão (Hexatombe)",
+  "fonte": "AS3",
+  "pag": 110,
+  "resumo": "Ação padrão e 3 PE encarando alguém: se desviar, fica desprevenido; se encarar e falhar em Vontade, passa 1 rodada adorando você ou se ferindo."
+ },
+ {
+  "id": "s.estimular_hedonismo",
+  "nome": "Estimular Hedonismo",
+  "tipo": "sacrificio",
+  "prereq": "Sacrifício do Prazer (Hexatombe)",
+  "fonte": "AS3",
+  "pag": 111,
+  "resumo": "Ação padrão e 3 PE: alguém em alcance curto faz Vontade (DT Pre +5) ou fica indefeso por 1 rodada, tomado de prazer."
+ },
+ {
+  "id": "s.fruto_ambicao",
+  "nome": "Fruto da Ambição",
+  "tipo": "sacrificio",
+  "prereq": "Sacrifício do Desejo (Hexatombe)",
+  "fonte": "AS3",
+  "pag": 111,
+  "resumo": "Um poder ou ritual seu vira gatilho para uma forma suprema, como as máscaras (AS2 p. 97)."
+ },
+ {
+  "id": "s.odio_suprimido",
+  "nome": "Ódio Suprimido",
+  "tipo": "sacrificio",
+  "prereq": "Sacrifício do Rancor (Hexatombe)",
+  "fonte": "AS3",
+  "pag": 111,
+  "resumo": "Ação completa e 3 PE: seres em alcance curto fazem Fortitude e Reflexos (DT Pre +5) contra seu dano corpo a corpo e à distância; depois você fica exausto."
+ }
+]

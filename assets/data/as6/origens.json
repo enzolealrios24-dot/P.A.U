@@ -1,0 +1,44 @@
+[
+ {
+  "id": "cientista_ex_panacea",
+  "nome": "Cientista Ex-Panacea",
+  "fonte": "AS6",
+  "pag": 66,
+  "pericias": [
+   "Atualidades",
+   "Ciências"
+  ],
+  "poder": {
+   "nome": "Existe uma Explicação",
+   "resumo": "Em testes de Ocultismo, 2 PE para usar Ciências no lugar."
+  }
+ },
+ {
+  "id": "seguranca_ex_panacea",
+  "nome": "Segurança Ex-Panacea",
+  "fonte": "AS6",
+  "pag": 66,
+  "pericias": [
+   "Luta",
+   "Pontaria"
+  ],
+  "poder": {
+   "nome": "Técnicas de Contenção",
+   "resumo": "Em manobras de combate, 2 PE para +5 no teste."
+  }
+ },
+ {
+  "id": "cobaia_sobrevivente",
+  "nome": "Cobaia Sobrevivente",
+  "fonte": "AS6",
+  "pag": 66,
+  "pericias": [
+   "Fortitude",
+   "Vontade"
+  ],
+  "poder": {
+   "nome": "Forças para Enfrentar",
+   "resumo": "Cenas ligadas ao seu trauma o deixam abalado, mas aí você pode gastar 2 PE para ficar imune a efeitos de medo até o fim da cena."
+  }
+ }
+]

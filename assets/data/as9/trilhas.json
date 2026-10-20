@@ -1,0 +1,60 @@
+[
+ {
+  "id": "incursor",
+  "nome": "Incursor",
+  "classe": "combatente",
+  "fonte": "AS9",
+  "pag": 40,
+  "habilidades": [
+   {
+    "nex": 10,
+    "nome": "CQB",
+    "resumo": "Treino em Pontaria (se já tiver, em Luta; se tiver as duas, +2 nelas). 1 PE para anular o −5 de Pontaria contra alvo engajado corpo a corpo."
+   },
+   {
+    "nex": 40,
+    "nome": "Entrada Explosiva",
+    "resumo": "+5 em testes para implantar ou usar explosivos (incluindo ataques com granadas); 1 PE para implantar mina antipessoal ou carga de arrombamento como movimento."
+   },
+   {
+    "nex": 65,
+    "nome": "Proteger Reféns",
+    "resumo": "A até 3m de um refém que protege, reação e 2 PE para receber no lugar dele um efeito negativo; se for dano, mais 2 PE o reduzem à metade. Vale para até três reféns."
+   },
+   {
+    "nex": 99,
+    "nome": "Alvo-prioritário",
+    "resumo": "O mestre informa o VD dos inimigos que você vê. 5 PE para marcar um alvo: com VD até 200, qualquer dano seu zera os PV dele; acima disso, +5 na margem de ameaça contra ele. Dura até ele cair ou você marcar outro."
+   }
+  ]
+ },
+ {
+  "id": "piloto_drone",
+  "nome": "Piloto de Drone",
+  "classe": "especialista",
+  "fonte": "AS9",
+  "pag": 41,
+  "habilidades": [
+   {
+    "nex": 10,
+    "nome": "Companheiro Drone",
+    "resumo": "Recebe um drone de combate tático como aliado, do tipo que escolher. Consertar custa 1 ação de interlúdio (com as peças) e um novo, 2 ações."
+   },
+   {
+    "nex": 40,
+    "nome": "Protetor dos Drones",
+    "resumo": "Uma modificação no drone que não conta no limite de categoria; 3 PE para o drone evitar um efeito negativo."
+   },
+   {
+    "nex": 65,
+    "nome": "Ás dos Drones",
+    "resumo": "Mais duas modificações (3 no total) fora do limite de categoria; ao falhar num teste feito com o drone, 3 PE para rolar de novo (uma vez)."
+   },
+   {
+    "nex": 99,
+    "nome": "Mestre dos Drones",
+    "resumo": "Mais três modificações (6 no total) ou um segundo drone com 3 modificações; evitar efeito negativo no drone passa a custar 1 PE."
+   }
+  ]
+ }
+]

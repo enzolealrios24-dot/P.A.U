@@ -1,0 +1,15 @@
+{
+ "fonte": "AS5",
+ "tecnologiaRastrearTrilha": {
+  "pag": 54,
+  "resumo": "Novo uso de Tecnologia (veterano): 1d4+1 ações completas para refazer o trajeto de um aparelho (DT 20 simples, 25 tortuoso, 30 enigmático)."
+ },
+ "regaliasVeiculos": {
+  "pag": 59,
+  "resumo": "Novas regalias: conversão de combustível (10 dados), gaiola de proteção (+5 Defesa dos ocupantes), indução forçada (deslocamento maior), pneus run-flat, óxido nitroso (dobra deslocamento 1 rodada por cena), multicombustível, snorkel, tanques de lastro e vedação hermética (imune a eletricidade)."
+ },
+ "elementoTransmissao": {
+  "pag": 62,
+  "resumo": "Poderes de Transmissão exigem conectar-se ao Sino de Transmissão e só funcionam quando dois ou mais seres têm o mesmo poder."
+ }
+}

@@ -1,0 +1,27 @@
+{
+ "fonte": "AS3",
+ "batalhasIntencoes": {
+  "pag": 120,
+  "resumo": "Hexatombe: duas pessoas em batalha de intenções causam +1d10 de dano uma na outra e reduzem à metade todo dano de terceiros."
+ },
+ "trocasRecursos": {
+  "pag": 121,
+  "resumo": "Informação custa 1 recurso; segredo custa 3 (água, comida ou sucata)."
+ },
+ "construcaoBase": {
+  "pag": 121,
+  "resumo": "Uma melhoria de base leva 7 dias para uma pessoa, −1 dia por ajudante (mínimo 3)."
+ },
+ "regrasPaixao": {
+  "pag": 124,
+  "resumo": "No interlúdio, dormir com outra pessoa pode criar um laço: +1d8 PV e PE (atuais e máximos) e a condição apaixonado; se o outro morrer, perde esses valores para sempre."
+ },
+ "veiculos": {
+  "pag": 125,
+  "resumo": "Veículos operacionais: categoria II (Grande, Defesa 8 + Agi, RD 5, 100 PV, 1 regalia), III (van, Defesa 10, RD 10, 150 PV, 2 regalias) e IV (trailer, Enorme, Defesa 12, RD 15, 200 PV, 3 regalias). Deslocamento em combate vem de Pilotagem; combustível em 5d6; regras de colisão, dano e reparo."
+ },
+ "animaisTreinados": {
+  "pag": 132,
+  "resumo": "Animais como aliados (corvo, gato, serpente) ou com ficha de ameaça cujo VD acompanha seu NEX (VD 10 até NEX 10%, +20 a cada 5%, até VD 360)."
+ }
+}

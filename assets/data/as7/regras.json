@@ -1,0 +1,19 @@
+{
+ "fonte": "AS7",
+ "religiaoResguardarEspirito": {
+  "pag": 80,
+  "resumo": "Novo uso de Religião (treinado, DT 20): ação completa de rito em si ou num adjacente; se passar, +2 em Vontade até o fim da cena; se falhar, não tenta de novo nessa pessoa na cena. Sem efeito paranormal."
+ },
+ "ambienteSubaquatico": {
+  "pag": 92,
+  "resumo": "Regra de fã (não oficial): nadar usa Atletismo, −10 em Percepção, −5 em testes de pista em água turva e rituais só sem fala e gestos."
+ },
+ "combateSubmerso": {
+  "pag": 93,
+  "resumo": "−5 em ataques e deslocamento só nadando (Atletismo), salvo quem tem natação. Armas de fogo com alcance 3m; outras à distância não funcionam (exceto arremesso de perfuração, balestras e redes); corte e impacto não naturais causam metade do dano. Submersos têm camuflagem e cobertura leve contra quem está fora d'água. O mestre pode ignorar para efeitos paranormais."
+ },
+ "perigoPressao": {
+  "pag": 93,
+  "resumo": "50–99m: fatigado (Fortitude DT 20 evita). 100–299m: perde 1d6 PV por turno e fica exausto (Fortitude DT 25, +1 por teste anterior, reduz à metade e evita). 300m ou mais: Fortitude DT 25 (+5 por teste anterior) por rodada ou fica inconsciente e perde 1d6 PV por rodada."
+ }
+}

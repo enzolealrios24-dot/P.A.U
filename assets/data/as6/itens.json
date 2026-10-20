@@ -1,0 +1,81 @@
+[
+ {
+  "id": "anel_invertido",
+  "nome": "Anel Invertido",
+  "tipo": "amaldicoado",
+  "elemento": "Morte",
+  "categoria": 2,
+  "espacos": 0.5,
+  "fonte": "AS6",
+  "pag": 73,
+  "resumo": "Ao sofrer dano de um nidere, reação e 2 PE para RD 4d10 contra ele."
+ },
+ {
+  "id": "aplicador_adrenalina",
+  "nome": "Aplicador de adrenalina",
+  "tipo": "operacional",
+  "categoria": 1,
+  "espacos": 1,
+  "dano": "2d8+2",
+  "fonte": "AS6",
+  "pag": 73,
+  "resumo": "Medicamento: 2d8+2 PV temporários, +3m e +2 em testes de For, Agi e Vig até o fim da cena; depois fatigado por uma cena.",
+  "remedio": true
+ },
+ {
+  "id": "lanca_nitrogenio",
+  "nome": "Lança-nitrogênio",
+  "tipo": "arma",
+  "proficiencia": "pesada",
+  "ataque": "fogo",
+  "empunhadura": "duas",
+  "categoria": 3,
+  "espacos": 2,
+  "dano": "6d6",
+  "critico": "x2",
+  "alcance": "Curto",
+  "tipoDano": "Frio",
+  "municao": "Combustível",
+  "fonte": "AS6",
+  "pag": 73,
+  "resumo": "Linha de 1,5m em alcance curto, um teste contra todos: 6d6 de frio e enredado até quebrar o gelo (Fortitude DT Agi deixa só lento)."
+ },
+ {
+  "id": "mod.emulsificante",
+  "nome": "Emulsificante químico",
+  "tipo": "modificacao",
+  "aplica": "medicamento",
+  "fonte": "AS6",
+  "pag": 74,
+  "resumo": "O remédio soma o efeito de outro remédio diferente de categoria igual ou menor."
+ },
+ {
+  "id": "mod.potencializador_quimico",
+  "nome": "Potencializador químico",
+  "tipo": "modificacao",
+  "aplica": "medicamento",
+  "fonte": "AS6",
+  "pag": 74,
+  "resumo": "Melhora o remédio: +5 no bônus, +2d8 PV (temporários ou curados) ou funciona duas vezes por cena."
+ },
+ {
+  "id": "mal.aceleracao_espiral",
+  "nome": "Aceleração Espiral",
+  "tipo": "maldicao",
+  "aplica": "medicamento",
+  "elemento": "Morte",
+  "fonte": "AS6",
+  "pag": 74,
+  "resumo": "Além do efeito, 3 PE para uma ação padrão extra (não para rituais); Fortitude DT 20 ou perde 2d8 PV."
+ },
+ {
+  "id": "mal.esforco_espiral",
+  "nome": "Esforço Espiral",
+  "tipo": "maldicao",
+  "aplica": "medicamento",
+  "elemento": "Morte",
+  "fonte": "AS6",
+  "pag": 74,
+  "resumo": "Além do efeito, recupera 1d8+1 PE; Fortitude DT 20 ou envelhece 1 ano e fica frustrado."
+ }
+]

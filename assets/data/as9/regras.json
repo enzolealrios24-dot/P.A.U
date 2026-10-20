@@ -1,0 +1,15 @@
+{
+ "fonte": "AS9",
+ "taticaAnalisarPerigo": {
+  "pag": 38,
+  "resumo": "Novo uso de Tática (treinado, DT 15): ação de movimento, 1x por cena, para analisar um perigo; até o fim do próximo turno, +2 em testes e na Defesa (+1 a cada 5 acima da DT)."
+ },
+ "regaliasVeiculosAssalto": {
+  "pag": 42,
+  "resumo": "Novas regalias de Veículos Operacionais: central de drones (+5 em Tecnologia para drones e pegar ou guardar um drone como ação livre 1x por rodada), estação de armas (arma de fogo de duas mãos no teto, sem penalidade de veículo em movimento, mas sem cobertura) e lançadores de fumaça (1x por cena, nuvem como granada de fumaça)."
+ },
+ "aliadoDrone": {
+  "pag": 44,
+  "resumo": "Drones contam como aliados: o bônus é passivo, mas a habilidade (ação livre) exige operar o drone com as duas mãos. Podem ser danificados ou quebrar pela narrativa. Deslocamento 6m e voo 12m, uma ação de movimento por rodada e sinal até 5km. Modificações somam tipos de drone (+I de categoria cada, até IV); efeitos iguais não acumulam."
+ }
+}

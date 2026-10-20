@@ -1,0 +1,30 @@
+[
+ {
+  "id": "ufologo",
+  "nome": "Ufólogo",
+  "fonte": "AS5",
+  "pag": 54,
+  "pericias": [
+   "Ciências",
+   "Ocultismo"
+  ],
+  "poder": {
+   "nome": "Minha Teoria Absurda",
+   "resumo": "1x por missão com investigação, apresente sua teoria ao grupo antes das respostas; se no fim ela estiver certa, ganha +3 PE máximos e atuais."
+  }
+ },
+ {
+  "id": "funcionario_beira_estrada",
+  "nome": "Funcionário de Beira de Estrada",
+  "fonte": "AS5",
+  "pag": 54,
+  "pericias": [
+   "Fortitude",
+   "Intuição"
+  ],
+  "poder": {
+   "nome": "Turno Invertido",
+   "resumo": "1x por missão, recebe os benefícios de dormir no interlúdio sem gastar a ação; +2 contra efeitos que deixam inconsciente."
+  }
+ }
+]

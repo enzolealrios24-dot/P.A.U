@@ -1,0 +1,30 @@
+[
+ {
+  "id": "exorcizado",
+  "nome": "Exorcizado",
+  "fonte": "AS7",
+  "pag": 80,
+  "pericias": [
+   "Fortitude",
+   "Ocultismo"
+  ],
+  "poder": {
+   "nome": "O Que Restou",
+   "resumo": "Escolha um elemento (exceto Medo): RD 5 contra ele, mas perde 2 SAN no primeiro contato com esse elemento em cada cena."
+  }
+ },
+ {
+  "id": "sensitivo_rebelde",
+  "nome": "Sensitivo Rebelde",
+  "fonte": "AS7",
+  "pag": 80,
+  "pericias": [
+   "Intuição",
+   "Vontade"
+  ],
+  "poder": {
+   "nome": "Sussurros e Vultos",
+   "resumo": "Em testes de Diplomacia, Enganação, Intimidação ou Intuição, pode perder 2 SAN para receber +5."
+  }
+ }
+]

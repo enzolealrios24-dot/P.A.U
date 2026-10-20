@@ -1,0 +1,19 @@
+[
+ {
+  "id": "vampirismo",
+  "nome": "Vampirismo",
+  "elemento": "Sangue",
+  "circulo": 2,
+  "execucao": "Completa",
+  "alcance": "Toque",
+  "alvo": "1 pessoa",
+  "duracao": "Cena",
+  "fonte": "AS7",
+  "pag": 76,
+  "resumo": "Torna o corpo (vivo ou morto) uma refeição paranormal até o fim da cena; quem passa 1 minuto comendo escolhe um vaso ainda não consumido: Visão (+5 em ataques), Audição (um ritual de 1º círculo que a pessoa conhecia), Paladar (cura 2d8+2 PV), Olfato (+5 para rastrear um ser ligado a ela) ou Tato (treino numa perícia dela, ou +2). Efeitos até o fim da cena.",
+  "custoDiscente": 5,
+  "discente": "Visão +10, ritual de 2º círculo, cura 3d8+3, Olfato +10 e Tato dá grau veterano. Requer 3º círculo.",
+  "custoVerdadeiro": 10,
+  "verdadeiro": "Visão +15, ritual de 3º círculo, cura 4d8+4, Olfato +15 e Tato dá grau expert. Requer 4º círculo e afinidade."
+ }
+]

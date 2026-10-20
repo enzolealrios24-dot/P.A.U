@@ -436,7 +436,8 @@
   "espacos": 0.5,
   "fonte": "SaH",
   "pag": 43,
-  "resumo": "+5 no próximo Fortitude contra doença no dia."
+  "resumo": "+5 no próximo Fortitude contra doença no dia.",
+  "remedio": true
  },
  {
   "id": "antidoto",
@@ -446,7 +447,8 @@
   "espacos": 0.5,
   "fonte": "SaH",
   "pag": 43,
-  "resumo": "+5 no próximo Fortitude contra veneno no dia (específico remove o veneno)."
+  "resumo": "+5 no próximo Fortitude contra veneno no dia (específico remove o veneno).",
+  "remedio": true
  },
  {
   "id": "antiemetico",
@@ -456,7 +458,8 @@
   "espacos": 0.5,
   "fonte": "SaH",
   "pag": 43,
-  "resumo": "Remove enjoado e dá +5 para evitá-lo na cena."
+  "resumo": "Remove enjoado e dá +5 para evitá-lo na cena.",
+  "remedio": true
  },
  {
   "id": "antihistaminico",
@@ -466,7 +469,8 @@
   "espacos": 0.5,
   "fonte": "SaH",
   "pag": 43,
-  "resumo": "+5 no próximo teste contra alergia no dia."
+  "resumo": "+5 no próximo teste contra alergia no dia.",
+  "remedio": true
  },
  {
   "id": "anti_inflamatorio",
@@ -477,7 +481,8 @@
   "dano": "1d8+2",
   "fonte": "SaH",
   "pag": 43,
-  "resumo": "Dá 1d8+2 PV temporários."
+  "resumo": "Dá 1d8+2 PV temporários.",
+  "remedio": true
  },
  {
   "id": "antitermico",
@@ -487,7 +492,8 @@
   "espacos": 0.5,
   "fonte": "SaH",
   "pag": 43,
-  "resumo": "Novo teste contra uma condição mental (1x por cena)."
+  "resumo": "Novo teste contra uma condição mental (1x por cena).",
+  "remedio": true
  },
  {
   "id": "broncodilatador",
@@ -497,7 +503,8 @@
   "espacos": 0.5,
   "fonte": "SaH",
   "pag": 43,
-  "resumo": "+5 para evitar asfixiado ou fatigado no dia."
+  "resumo": "+5 para evitar asfixiado ou fatigado no dia.",
+  "remedio": true
  },
  {
   "id": "coagulante",
@@ -507,7 +514,8 @@
   "espacos": 0.5,
   "fonte": "SaH",
   "pag": 43,
-  "resumo": "+5 para estabilizar sangrando no dia e +5 na Medicina para tirar alguém de morrendo."
+  "resumo": "+5 para estabilizar sangrando no dia e +5 na Medicina para tirar alguém de morrendo.",
+  "remedio": true
  },
  {
   "id": "oculos_escuros",

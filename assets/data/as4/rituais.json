@@ -1,0 +1,20 @@
+[
+ {
+  "id": "backup",
+  "nome": "Backup",
+  "elemento": "Energia",
+  "circulo": 2,
+  "execucao": "Padrão",
+  "alcance": "Curto",
+  "alvo": "Veja texto",
+  "duracao": "24 horas",
+  "fonte": "AS4",
+  "pag": 68,
+  "resumo": "Cria uma cópia de Energia sua (movimentos simples e uma frase) ligada a você num raio de 50km; reação para trocar de lugar com ela (−2d4 SAN). Dano na cópia dissipa.",
+  "custoDiscente": 2,
+  "discente": "Permanente; cobrindo olhos e ouvidos, vê e ouve pela cópia (fica cego, surdo e pasmo). Requer 2º círculo.",
+  "custoVerdadeiro": 5,
+  "danoVerdadeiro": "6d6",
+  "verdadeiro": "Também fala pela cópia e escolhe a aparência dela; ao trocar, pode dissipar causando 6d6 de Energia nos dois pontos (Reflexos reduz). Requer 3º círculo."
+ }
+]

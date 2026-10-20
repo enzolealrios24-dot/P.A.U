@@ -1,0 +1,31 @@
+[
+ {
+  "id": "granadeiro_blaster",
+  "nome": "Granadeiro Blaster",
+  "classe": "especialista",
+  "fonte": "AS4",
+  "pag": 69,
+  "habilidades": [
+   {
+    "nex": 10,
+    "nome": "Meus Bebês",
+    "resumo": "Treino em Profissão (químico) (ou +5); começa a missão com 1 explosivo autoral fora do limite de itens (+1 em 40%, 65% e 99%) e pode fabricar mais."
+   },
+   {
+    "nex": 40,
+    "nome": "Fogo Amigo",
+    "resumo": "Recebe Perito em Explosivos (ou dobra seus efeitos) e a área dos seus explosivos aumenta +6m."
+   },
+   {
+    "nex": 65,
+    "nome": "O Calor do Momento",
+    "resumo": "Ação completa e 4 PE para fabricar um explosivo autoral às pressas (25% de explodir na sua mão)."
+   },
+   {
+    "nex": 99,
+    "nome": "Memória Muscular",
+    "resumo": "Seus explosivos podem ser empunhados como ação livre; 4 PE para usar um como ação de movimento; causam o dobro de dados de dano."
+   }
+  ]
+ }
+]

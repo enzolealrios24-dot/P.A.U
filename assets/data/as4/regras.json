@@ -1,0 +1,11 @@
+{
+ "fonte": "AS4",
+ "tecnologiaObterInformacoes": {
+  "pag": 64,
+  "resumo": "Novo uso de Tecnologia: ação completa e DT 5 para pesquisar um local ou pessoa; 1 informação +1 a cada 5 acima da DT."
+ },
+ "hacking": {
+  "pag": 72,
+  "resumo": "Regra opcional: o sistema tem pontos de segurança (PS = DT de hackear). Você começa com dados virtuais (d6) iguais ao Intelecto e, a cada turno, faz até duas ações: Procurar Brechas (Tecnologia DT 15 +5 por tentativa dá mais um dado), Quebrar Códigos (gasta dados e o total vira dano nos PS), Cobrir Rastros, Programar Backdoor e Plantar Vírus. Ao fim de cada rodada, os 1 rolados geram imprevistos: dor nos pulsos, código mal escrito, rastro detectado (+2d6 PS) ou invasão detectada (perde o progresso)."
+ }
+}

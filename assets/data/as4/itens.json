@@ -1,0 +1,76 @@
+[
+ {
+  "id": "granada_ctrl_c_v",
+  "nome": "Granada Ctrl+C Ctrl+V",
+  "tipo": "amaldicoado",
+  "elemento": "Energia",
+  "categoria": 2,
+  "espacos": 1,
+  "dano": "8d6",
+  "fonte": "AS4",
+  "pag": 70,
+  "resumo": "Granada de 6m: 8d6 de Energia (Reflexos DT Agi reduz); em 1d4 par gera outra explosão na área, até quatro."
+ },
+ {
+  "id": "granada_lacrimogeneo",
+  "nome": "Granada de gás lacrimogêneo",
+  "tipo": "explosivo",
+  "categoria": 1,
+  "espacos": 1,
+  "dano": "4d6",
+  "fonte": "AS4",
+  "pag": 70,
+  "resumo": "Raio de 6m: 4d6 químico, enjoado e com dificuldade de respirar (Fortitude DT Agi reduz e evita enjoado)."
+ },
+ {
+  "id": "granada_tinta",
+  "nome": "Granada de tinta",
+  "tipo": "explosivo",
+  "categoria": 0,
+  "espacos": 1,
+  "fonte": "AS4",
+  "pag": 70,
+  "resumo": "Raio de 6m: vulneráveis e −2d20 em Furtividade até o fim da cena (Reflexos DT Agi evita)."
+ },
+ {
+  "id": "lancador_granadas",
+  "nome": "Lançador de granadas",
+  "tipo": "arma",
+  "proficiencia": "pesada",
+  "ataque": "fogo",
+  "empunhadura": "duas",
+  "categoria": 2,
+  "espacos": 2,
+  "alcance": "Longo",
+  "fonte": "AS4",
+  "pag": 71,
+  "resumo": "Dispara granadas 40mm (até 6; recarga com movimento): dano no alvo atingido e resistência para os demais na área; pode mirar um ponto sem rolar."
+ },
+ {
+  "id": "mod.adesiva",
+  "nome": "Adesiva",
+  "tipo": "modificacao",
+  "aplica": "granada",
+  "fonte": "AS4",
+  "pag": 71,
+  "resumo": "Acertando o ataque, a granada gruda no alvo, que falha na resistência; senão gruda no chão onde ele está."
+ },
+ {
+  "id": "mod.dupla",
+  "nome": "Dupla",
+  "tipo": "modificacao",
+  "aplica": "granada",
+  "fonte": "AS4",
+  "pag": 71,
+  "resumo": "Soma o efeito de outra granada (não amaldiçoada) diferente."
+ },
+ {
+  "id": "mod.programada",
+  "nome": "Programada",
+  "tipo": "modificacao",
+  "aplica": "granada",
+  "fonte": "AS4",
+  "pag": 71,
+  "resumo": "Temporizador: escolha em quantos turnos ela explode."
+ }
+]

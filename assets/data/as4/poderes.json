@@ -1,0 +1,136 @@
+[
+ {
+  "id": "c.chuva_balas",
+  "nome": "Chuva de Balas",
+  "tipo": "combatente",
+  "fonte": "AS4",
+  "pag": 65,
+  "resumo": "Pacotes de munição duram o dobro; antes do dano com arma de fogo, sacrifique pacotes para +2 dados por pacote. Com contagem de munição, +10 balas por pacote."
+ },
+ {
+  "id": "c.combatente_esforcado",
+  "nome": "Combatente Esforçado",
+  "tipo": "combatente",
+  "prereq": "For 3 ou Vig 3",
+  "fonte": "AS4",
+  "pag": 65,
+  "resumo": "+1 PE por NEX (ou nível).",
+  "efeitos": [
+   {
+    "alvo": "pe",
+    "valor": 1,
+    "por": "nivel"
+   }
+  ]
+ },
+ {
+  "id": "c.treinamento_militarizado",
+  "nome": "Treinamento Militarizado",
+  "tipo": "combatente",
+  "fonte": "AS4",
+  "pag": 65,
+  "resumo": "O bônus de exercitar-se no interlúdio vira +1d8 e também pode ir no dano (um bônus por rolagem)."
+ },
+ {
+  "id": "e.analise_conturbada",
+  "nome": "Análise Conturbada",
+  "tipo": "especialista",
+  "fonte": "AS4",
+  "pag": 65,
+  "resumo": "Numa investigação, ação padrão para expor teorias sombrias: quem aceitar rola 1d6 e ganha esse bônus em testes de Int e Pre na cena, mas perde o mesmo em SAN."
+ },
+ {
+  "id": "e.profissao_perigo",
+  "nome": "Profissão Perigo",
+  "tipo": "especialista",
+  "fonte": "AS4",
+  "pag": 65,
+  "resumo": "1x por missão, ação completa e 4 PE: desmonta um item e monta um item operacional de categoria e espaços iguais ou menores."
+ },
+ {
+  "id": "e.quase_novo",
+  "nome": "Quase Novo",
+  "tipo": "especialista",
+  "fonte": "AS4",
+  "pag": 65,
+  "resumo": "Na manutenção, o item ganha +10 PV e uma modificação temporária até o próximo interlúdio."
+ },
+ {
+  "id": "o.explorador_nevoa",
+  "nome": "Explorador da Névoa",
+  "tipo": "ocultista",
+  "fonte": "AS4",
+  "pag": 66,
+  "resumo": "1x por cena, 2 PE para saber o estado da Membrana; se danificada ou pior, perde 1 SAN e seus rituais custam −1 PE."
+ },
+ {
+  "id": "o.sinestesia_paranormal",
+  "nome": "Sinestesia Paranormal",
+  "tipo": "ocultista",
+  "fonte": "AS4",
+  "pag": 66,
+  "resumo": "Em Membrana danificada, aceite perder 1d6 SAN para trocar os atributos entre dois pares de perícias enquanto estiver ali (1x por dia)."
+ },
+ {
+  "id": "o.terrores_noturnos",
+  "nome": "Terrores Noturnos",
+  "tipo": "ocultista",
+  "fonte": "AS4",
+  "pag": 66,
+  "resumo": "Ao dormir, 1d100: com 50 ou menos tem pesadelos (descanso precário, −1d4 SAN) mas pode usar 1x um poder paranormal ou ritual que cumpra os requisitos até o próximo interlúdio."
+ },
+ {
+  "id": "g.gororoba",
+  "nome": "Gororoba",
+  "tipo": "geral",
+  "fonte": "AS4",
+  "pag": 66,
+  "resumo": "No interlúdio, alimenta-se 1x sem gastar ação nem ter refeição."
+ },
+ {
+  "id": "g.ruido_branco",
+  "nome": "Ruído Branco",
+  "tipo": "geral",
+  "fonte": "AS4",
+  "pag": 66,
+  "resumo": "Em lugar movimentado, +1d6 em Investigação e Percepção; 1x por cena, 1 PE para captar uma conversa útil."
+ },
+ {
+  "id": "g.ultima_olhada",
+  "nome": "Uma Última Olhada",
+  "tipo": "geral",
+  "fonte": "AS4",
+  "pag": 67,
+  "resumo": "Na última rodada de uma investigação, 2 PE para ganhar mais uma rodada (1x por cena)."
+ },
+ {
+  "id": "p.foco_gravitacional",
+  "nome": "Foco Gravitacional",
+  "tipo": "paranormal",
+  "elemento": "Energia",
+  "fonte": "AS4",
+  "pag": 67,
+  "resumo": "Um equipamento ocupa 0 espaços guardado, mas ao empunhá-lo há 25% de ele voar para longe.",
+  "afinidade": "Até três equipamentos."
+ },
+ {
+  "id": "p.sobrepor_imprevisivel",
+  "nome": "Sobrepor Imprevisível",
+  "tipo": "paranormal",
+  "elemento": "Energia",
+  "fonte": "AS4",
+  "pag": 67,
+  "resumo": "No início da rodada, 2 PE e 1d20: par soma à Iniciativa, ímpar subtrai.",
+  "afinidade": "Rola 2d20 e escolhe um."
+ },
+ {
+  "id": "p.traco_inconsistencia",
+  "nome": "Traço de Inconsistência",
+  "tipo": "paranormal",
+  "elemento": "Energia",
+  "fonte": "AS4",
+  "pag": 67,
+  "resumo": "Reação e 2 PE para esconder sua identidade em fotos e vídeos digitais.",
+  "afinidade": "Nunca aparece em imagens digitais e sua voz fica distorcida em gravações."
+ }
+]

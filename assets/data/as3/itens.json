@@ -1,0 +1,100 @@
+[
+ {
+  "id": "garra_harpia",
+  "nome": "Garra do Harpia",
+  "tipo": "arma",
+  "proficiencia": "tatica",
+  "ataque": "corpo",
+  "empunhadura": "duas",
+  "categoria": 1,
+  "espacos": 2,
+  "dano": "2d8",
+  "critico": "19",
+  "alcance": "Curto",
+  "tipoDano": "Corte",
+  "agil": true,
+  "arremesso": true,
+  "unico": true,
+  "fonte": "AS3",
+  "pag": 112,
+  "resumo": "Rastelo ágil e arremessável; ao ferir, 2 PE para agarrar como ação livre; conta como uma mão e leve para Combater com Duas Armas. Item único."
+ },
+ {
+  "id": "bloody_mary",
+  "nome": "Bloody Mary Batizada",
+  "tipo": "operacional",
+  "categoria": 2,
+  "espacos": 1,
+  "fonte": "AS3",
+  "pag": 112,
+  "resumo": "Beber remove uma condição mental ou de medo, mas causa 2d4 de dano mental."
+ },
+ {
+  "id": "pacoca",
+  "nome": "Paçoca",
+  "tipo": "operacional",
+  "categoria": 0,
+  "espacos": 0.5,
+  "fonte": "AS3",
+  "pag": 112,
+  "resumo": "Conta como prato rápido; em ocasiões especiais, 1x por dia, recupera 1d8+1 PV, PE e SAN."
+ },
+ {
+  "id": "cranio_dominador",
+  "nome": "Crânio Dominador",
+  "tipo": "paranormal",
+  "categoria": 3,
+  "espacos": 1,
+  "fonte": "AS3",
+  "pag": 113,
+  "resumo": "Ação padrão e 2 PE: correntes paralisam até dois alvos em alcance curto (Reflexos DT Pre evita; correntes com Defesa 10, RD 10, 20 PV). Recarrega em 24h."
+ },
+ {
+  "id": "gaiola_corvo",
+  "nome": "Gaiola do Corvo",
+  "tipo": "paranormal",
+  "categoria": 4,
+  "espacos": 2,
+  "dano": "3d10",
+  "fonte": "AS3",
+  "pag": 113,
+  "resumo": "Aberta no chão, cobre 18m de Lodo (terreno difícil) que causa 3d10 de Morte por rodada (Fortitude DT Vig reduz); quem fica morrendo vira cinzas na gaiola, que então se fecha."
+ },
+ {
+  "id": "camiseta_psikolera",
+  "nome": "Camiseta Psikolera",
+  "tipo": "amaldicoado",
+  "elemento": "Sangue",
+  "categoria": 2,
+  "espacos": 1,
+  "fonte": "AS3",
+  "pag": 114,
+  "resumo": "Vestimenta: enquanto machucado, todas as suas rolagens de dano causam +2d8 de Sangue."
+ },
+ {
+  "id": "dupla_obsessiva",
+  "nome": "Dupla Obsessiva",
+  "tipo": "amaldicoado",
+  "elemento": "Sangue",
+  "categoria": 3,
+  "espacos": 2,
+  "dano": "2d4+1d6",
+  "critico": "x3",
+  "ataque": "corpo",
+  "fonte": "AS3",
+  "pag": 114,
+  "resumo": "Maça (2d4 P +1d6 Sangue, x3) e florete ágil (1d6 P +2d4 Sangue, 18); com as duas, ação padrão ataca com ambas; reação e 2 PE para ser o alvo no lugar de um aliado."
+ },
+ {
+  "id": "armadura_guevara",
+  "nome": "Armadura de Guevara (Couraças)",
+  "tipo": "amaldicoado",
+  "elemento": "Sangue",
+  "categoria": 3,
+  "espacos": 0,
+  "defesa": 10,
+  "fonte": "AS3",
+  "pag": 115,
+  "resumo": "Proteção pesada viva: Defesa +10 (+1 por semana até +20), 0 espaços, sem proficiência; RD balístico, impacto, perfuração 5 e Sangue 10; vulnerável a Morte; pode controlar quem a veste."
+ }
+]

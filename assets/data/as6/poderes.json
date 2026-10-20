@@ -1,0 +1,155 @@
+[
+ {
+  "id": "c.analise_combativa",
+  "nome": "Análise Combativa",
+  "tipo": "combatente",
+  "prereq": "Treinado em Luta ou Pontaria",
+  "fonte": "AS6",
+  "pag": 67,
+  "resumo": "2 PE para usar Luta ou Pontaria ao investigar ações violentas (marcas de ataque, rastros de combate, arma do crime)."
+ },
+ {
+  "id": "c.especialista_protecao_leve",
+  "nome": "Especialista em Proteção Leve",
+  "tipo": "combatente",
+  "fonte": "AS6",
+  "pag": 67,
+  "resumo": "Usando proteção leve, +2 na Defesa e em Reflexos."
+ },
+ {
+  "id": "e.doutor_emergencias",
+  "nome": "Doutor em Emergências",
+  "tipo": "especialista",
+  "prereq": "Especialista em Emergências",
+  "fonte": "AS6",
+  "pag": 68,
+  "resumo": "Cicatrizantes e remédios que você aplica curam ou dão +1d8 PV; +5 em Medicina para tratamento e o paciente ganha +10 (em vez de +5) contra a doença ou veneno."
+ },
+ {
+  "id": "e.farmaceutico_campo",
+  "nome": "Farmacêutico de Campo",
+  "tipo": "especialista",
+  "prereq": "Treinado em Medicina e Profissão (químico ou similar)",
+  "fonte": "AS6",
+  "pag": 68,
+  "resumo": "No interlúdio, um uso do kit de medicina e 2 PE + 2 por categoria para fabricar um cicatrizante ou remédio (o kit se gasta após 3 usos)."
+ },
+ {
+  "id": "e.medico_salvacao",
+  "nome": "Médico da Salvação",
+  "tipo": "especialista",
+  "prereq": "Paramédico",
+  "fonte": "AS6",
+  "pag": 68,
+  "resumo": "Paramédico usa d12; 1x por rodada, 3 PE para usá-lo como ação de movimento."
+ },
+ {
+  "id": "e.resgatar_morte",
+  "nome": "Resgatar da Morte",
+  "tipo": "especialista",
+  "prereq": "Paramédico, Equipe de Trauma, Resgate",
+  "fonte": "AS6",
+  "pag": 68,
+  "resumo": "2 PE para passar automaticamente em primeiros socorros (1x por cena por pessoa)."
+ },
+ {
+  "id": "e.veterano_equipe_trauma",
+  "nome": "Veterano da Equipe de Trauma",
+  "tipo": "especialista",
+  "prereq": "Paramédico, Equipe de Trauma",
+  "fonte": "AS6",
+  "pag": 68,
+  "resumo": "Equipe de Trauma remove até três condições negativas (exceto morrendo)."
+ },
+ {
+  "id": "o.dominador_elemento",
+  "nome": "Dominador de Elemento",
+  "tipo": "ocultista",
+  "prereq": "Especialista em Elemento no elemento escolhido, NEX 30%",
+  "fonte": "AS6",
+  "pag": 69,
+  "resumo": "Rituais de dano do elemento oprimido pelo seu escolhido podem causar dano do seu elemento."
+ },
+ {
+  "id": "o.grao_mestre_elemento",
+  "nome": "Grão-Mestre em Elemento",
+  "tipo": "ocultista",
+  "prereq": "Mestre em Elemento no elemento escolhido, NEX 60%",
+  "fonte": "AS6",
+  "pag": 69,
+  "resumo": "Ao conjurar ritual do elemento, 1 PE para um efeito num alvo: Sangue (+2d4 de dano ao aliado ou inimigo debilitado), Morte (2d8+2 PV temporários ou lento), Conhecimento (+2 em perícias ou esmorecido), Energia (+6m ou desprevenido)."
+ },
+ {
+  "id": "g.adaptacao_climatica",
+  "nome": "Adaptação Climática",
+  "tipo": "geral",
+  "prereq": "Vig 2",
+  "fonte": "AS6",
+  "pag": 70,
+  "resumo": "+2 em Fortitude e sem dano por calor ou frio extremos.",
+  "efeitos": [
+   {
+    "alvo": "pericia",
+    "pericia": "Fortitude",
+    "valor": 2
+   }
+  ]
+ },
+ {
+  "id": "g.muito_sorrateiro",
+  "nome": "Muito Sorrateiro",
+  "tipo": "geral",
+  "prereq": "Sorrateiro",
+  "fonte": "AS6",
+  "pag": 70,
+  "resumo": "+3 em Furtividade e, em cenas furtivas, a visibilidade inicial cai 1d4.",
+  "efeitos": [
+   {
+    "alvo": "pericia",
+    "pericia": "Furtividade",
+    "valor": 3
+   }
+  ]
+ },
+ {
+  "id": "g.especialista_armas_improvisadas",
+  "nome": "Especialista em Armas Improvisadas",
+  "tipo": "geral",
+  "prereq": "For 2 ou Agi 2, treinado em Luta",
+  "fonte": "AS6",
+  "pag": 70,
+  "resumo": "Sem penalidade com armas improvisadas e +1 dado de dano com elas."
+ },
+ {
+  "id": "p.escudo_espiral",
+  "nome": "Escudo Espiral Temporal",
+  "tipo": "paranormal",
+  "elemento": "Morte",
+  "prereq": "Morte 1",
+  "fonte": "AS6",
+  "pag": 71,
+  "resumo": "1x por rodada, reação e 2 PE: RD 20 contra uma munição (que vira cinzas) ou RD 10 contra arma corpo a corpo (que envelhece); não vale contra Energia.",
+  "afinidade": "Pode usar mais de uma vez por rodada."
+ },
+ {
+  "id": "p.grilhoes_lodo",
+  "nome": "Grilhões de Lodo",
+  "tipo": "paranormal",
+  "elemento": "Morte",
+  "fonte": "AS6",
+  "pag": 71,
+  "resumo": "2 PE: área de 9m ao seu redor até o fim da cena; seres nela sofrem 3d6 de Morte e ficam lentos (Fortitude reduz e evita por 1 rodada).",
+  "afinidade": "6d6 e enredado."
+ },
+ {
+  "id": "p.salto_dados",
+  "nome": "Salto de Dados",
+  "tipo": "paranormal",
+  "elemento": "Energia",
+  "prereq": "Energia 2",
+  "fonte": "AS6",
+  "pag": 71,
+  "resumo": "2 PE para marcar um símbolo (dura 1 dia); reação e 3 PE para voltar ao estado de quando marcou (PV, PE, condições), perdendo as memórias desde então (frustrado).",
+  "afinidade": "O símbolo dura 1 ano."
+ }
+]

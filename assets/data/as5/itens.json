@@ -1,0 +1,95 @@
+[
+ {
+  "id": "camera_filmadora",
+  "nome": "Câmera filmadora",
+  "tipo": "acessorio",
+  "categoria": 0,
+  "espacos": 1,
+  "fonte": "AS5",
+  "pag": 60,
+  "resumo": "Utensílio: +2 em Investigação e Percepção, serve de lanterna (cone de 9m) e visão no escuro."
+ },
+ {
+  "id": "faixas_videncia",
+  "nome": "Faixas da Vidência",
+  "tipo": "amaldicoado",
+  "elemento": "Morte",
+  "categoria": 3,
+  "espacos": 1,
+  "fonte": "AS5",
+  "pag": 60,
+  "resumo": "Vestimenta: +5 em Defesa e resistências contra o que vem de alcance curto, −5 contra o que vem de além de 9m; +2 em Intimidação.",
+  "efeitos": [
+   {
+    "alvo": "pericia",
+    "pericia": "Intimidação",
+    "valor": 2
+   }
+  ]
+ },
+ {
+  "id": "joias_mente",
+  "nome": "Joias da Mente",
+  "tipo": "amaldicoado",
+  "elemento": "Conhecimento",
+  "categoria": 3,
+  "espacos": 1,
+  "fonte": "AS5",
+  "pag": 60,
+  "resumo": "Piercing e brinco (uma vestimenta): +2 em Diplomacia e RD mental 10.",
+  "efeitos": [
+   {
+    "alvo": "pericia",
+    "pericia": "Diplomacia",
+    "valor": 2
+   }
+  ]
+ },
+ {
+  "id": "larva_furia",
+  "nome": "Larva da Fúria",
+  "tipo": "amaldicoado",
+  "elemento": "Sangue",
+  "categoria": 2,
+  "espacos": 1,
+  "fonte": "AS5",
+  "pag": 61,
+  "resumo": "Engolir (movimento): +4 em ataque e dano corpo a corpo até o fim da cena, sem ações calmas; acaba se a rodada passar sem combate."
+ },
+ {
+  "id": "skate_caotico",
+  "nome": "Skate Caótico",
+  "tipo": "amaldicoado",
+  "elemento": "Energia",
+  "categoria": 2,
+  "espacos": 2,
+  "dano": "1d12",
+  "critico": "x2",
+  "ataque": "corpo",
+  "fonte": "AS5",
+  "pag": 61,
+  "resumo": "Transporte (+3m se souber andar), arma improvisada de duas mãos (1d12) ou escudo caótico (+5 Defesa)."
+ },
+ {
+  "id": "tenis_lepidos",
+  "nome": "Tênis Lépidos",
+  "tipo": "amaldicoado",
+  "elemento": "Energia",
+  "categoria": 3,
+  "espacos": 1,
+  "fonte": "AS5",
+  "pag": 61,
+  "resumo": "Vestimenta: +12 em Atletismo e +3m de deslocamento; 2 PE para ignorar terreno, escalar e cair até 9m sem dano.",
+  "efeitos": [
+   {
+    "alvo": "pericia",
+    "pericia": "Atletismo",
+    "valor": 12
+   },
+   {
+    "alvo": "deslocamento",
+    "valor": 3
+   }
+  ]
+ }
+]
