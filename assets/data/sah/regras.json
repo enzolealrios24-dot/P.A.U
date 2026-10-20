@@ -1,0 +1,275 @@
+{
+  "fonte": "SaH",
+  "nexExperiencia": {
+    "pag": 98,
+    "resumo": "O nível de experiência (1 a 20) substitui o NEX para PV, PE, SAN, habilidades de classe e efeitos de origem; 1 nível equivale a 5% de NEX. O NEX começa em 0% e só sobe por exposição ao paranormal; ele vale para afinidade, poderes paranormais e Presença Perturbadora. Transcender deixa de ser poder de classe e pode ser feito ao atingir um NEX com alteração.",
+    "exposicao": [
+      {
+        "nome": "Exposição branda",
+        "nex": 0,
+        "resumo": "Contato indireto, como ler sobre o Outro Lado."
+      },
+      {
+        "nome": "Exposição moderada",
+        "nex": 1,
+        "resumo": "Contato concreto: manusear algo paranormal ou visitar Membrana danificada."
+      },
+      {
+        "nome": "Exposição profunda",
+        "nex": 2,
+        "resumo": "Contato direto com criatura de até VD 300 ou manifestação equivalente."
+      },
+      {
+        "nome": "Exposição total",
+        "nex": 5,
+        "resumo": "Membrana arruinada ou criatura acima de VD 300."
+      },
+      {
+        "nome": "Aprender um ritual",
+        "nex": 0,
+        "porCirculo": true,
+        "resumo": "NEX sobe igual ao círculo do ritual (inclusive os iniciais)."
+      }
+    ],
+    "limite": "Só exposição não passa de 99%; além disso exige desconjuração. Exposições repetidas podem render menos NEX.",
+    "alteracoes": {
+      "geral": [
+        {
+          "nex": 25,
+          "resumo": "Pode testar Ocultismo sem treino; se treinado, +2 em Ocultismo. Mas −5 em uma perícia à escolha entre Diplomacia, Enganação e Intimidação.",
+          "efeitos": [
+            {
+              "alvo": "pericia",
+              "pericia": "Ocultismo",
+              "valor": 2,
+              "seTreinado": true
+            },
+            {
+              "alvo": "escolhaPenalidade",
+              "chave": "nex25",
+              "opcoes": [
+                "Diplomacia",
+                "Enganação",
+                "Intimidação"
+              ],
+              "valor": -5
+            }
+          ]
+        },
+        {
+          "nex": 35,
+          "resumo": "Some um atributo à escolha (exceto Presença) ao total de PE. Mas −5 em uma perícia à escolha entre Atletismo, Fortitude e Reflexos.",
+          "efeitos": [
+            {
+              "alvo": "escolhaAtributoPE",
+              "chave": "nex35attr"
+            },
+            {
+              "alvo": "escolhaPenalidade",
+              "chave": "nex35",
+              "opcoes": [
+                "Atletismo",
+                "Fortitude",
+                "Reflexos"
+              ],
+              "valor": -5
+            }
+          ]
+        },
+        {
+          "nex": 50,
+          "resumo": "No próximo Transcender, ganha afinidade com Conhecimento, Energia, Morte ou Sangue e passa a sofrer as alterações desse elemento."
+        }
+      ],
+      "Sangue": [
+        {
+          "nex": 60,
+          "resumo": "+1d20 em Sobrevivência e imunidade a calor e frio extremos, mas não pode escolher 10.",
+          "efeitos": [
+            {
+              "alvo": "dados",
+              "escopo": "pericia:Sobrevivência",
+              "valor": 1
+            }
+          ]
+        },
+        {
+          "nex": 75,
+          "resumo": "Pode conjurar Aprimorar Físico só em si (se já conhece, −1 PE em si mesmo), mas −1d20 em Ciências, Medicina e Tecnologia.",
+          "efeitos": [
+            {
+              "alvo": "dados",
+              "escopo": "pericia:Ciências",
+              "valor": -1
+            },
+            {
+              "alvo": "dados",
+              "escopo": "pericia:Medicina",
+              "valor": -1
+            },
+            {
+              "alvo": "dados",
+              "escopo": "pericia:Tecnologia",
+              "valor": -1
+            }
+          ]
+        },
+        {
+          "nex": 90,
+          "resumo": "A penalidade vira −2d20, mas pode conjurar Forma Monstruosa (−1 PE se já conhece); +2 PE nela anulam as penalidades de Sangue enquanto durar.",
+          "efeitos": [
+            {
+              "alvo": "dados",
+              "escopo": "pericia:Ciências",
+              "valor": -1
+            },
+            {
+              "alvo": "dados",
+              "escopo": "pericia:Medicina",
+              "valor": -1
+            },
+            {
+              "alvo": "dados",
+              "escopo": "pericia:Tecnologia",
+              "valor": -1
+            }
+          ]
+        }
+      ],
+      "Morte": [
+        {
+          "nex": 60,
+          "resumo": "+1d20 em Iniciativa e Reflexos, mas −1d20 em Diplomacia e Intuição.",
+          "efeitos": [
+            {
+              "alvo": "dados",
+              "escopo": "pericia:Iniciativa",
+              "valor": 1
+            },
+            {
+              "alvo": "dados",
+              "escopo": "pericia:Reflexos",
+              "valor": 1
+            },
+            {
+              "alvo": "dados",
+              "escopo": "pericia:Diplomacia",
+              "valor": -1
+            },
+            {
+              "alvo": "dados",
+              "escopo": "pericia:Intuição",
+              "valor": -1
+            }
+          ]
+        },
+        {
+          "nex": 75,
+          "resumo": "Pode conjurar Velocidade Mortal (−1 PE se já conhece), mas a penalidade vira −2d20 e passa a valer também para Enganação e Intimidação.",
+          "efeitos": [
+            {
+              "alvo": "dados",
+              "escopo": "pericia:Diplomacia",
+              "valor": -1
+            },
+            {
+              "alvo": "dados",
+              "escopo": "pericia:Intuição",
+              "valor": -1
+            },
+            {
+              "alvo": "dados",
+              "escopo": "pericia:Enganação",
+              "valor": -2
+            },
+            {
+              "alvo": "dados",
+              "escopo": "pericia:Intimidação",
+              "valor": -2
+            }
+          ]
+        },
+        {
+          "nex": 90,
+          "resumo": "Não pode ser surpreendido e pode esperar quem tem Iniciativa menor declarar a ação antes de agir; a primeira interação social com cada pessoa na cena custa 3 PE."
+        }
+      ],
+      "Conhecimento": [
+        {
+          "nex": 60,
+          "resumo": "Fica sempre sob o efeito básico de Terceiro Olho (−1 PE se já conhece), mas fica permanentemente ofuscado.",
+          "efeitos": [
+            {
+              "alvo": "dados",
+              "escopo": "ataque",
+              "valor": -1
+            },
+            {
+              "alvo": "dados",
+              "escopo": "pericia:Percepção",
+              "valor": -1
+            }
+          ]
+        },
+        {
+          "nex": 75,
+          "resumo": "Fica sempre sob o efeito básico de Detecção de Ameaças (−1 PE se já conhece), mas o ofuscado vira −2d20.",
+          "efeitos": [
+            {
+              "alvo": "dados",
+              "escopo": "ataque",
+              "valor": -1
+            },
+            {
+              "alvo": "dados",
+              "escopo": "pericia:Percepção",
+              "valor": -1
+            }
+          ]
+        },
+        {
+          "nex": 90,
+          "resumo": "Fora da escuridão fica cego em vez de ofuscado, mas pode conjurar Vidência (−1 PE se já conhece) sem superfície reflexiva."
+        }
+      ],
+      "Energia": [
+        {
+          "nex": 60,
+          "resumo": "Pode conjurar Coincidência Forçada (−1 PE se já conhece), mas no início de cada cena rola 1d6 na tabela de caos."
+        },
+        {
+          "nex": 75,
+          "resumo": "Pode conjurar Tela de Ruído (−1 PE se já conhece); o caos fica mais forte."
+        },
+        {
+          "nex": 90,
+          "resumo": "Pode conjurar Salto Fantasma (−1 PE se já conhece), conjura sem falar e, digitando o ritual num aparelho, a DT sobe +2."
+        }
+      ]
+    },
+    "caosEnergia": [
+      "−1d20 em testes de Presença e perícias dela, exceto Vontade (−2d20 em 75%, −3d20 em 90%).",
+      "1x por cena o mestre disputa par ou ímpar e, se vencer, troca o alvo de uma ação sua (2x em 75%, 3x em 90%).",
+      "O mestre define um tique; se esquecer de fazê-lo ao descrever uma ação, perde 1 SAN (2 em 75%, 3 em 90%).",
+      "Fica confuso por 1 rodada (2 em 75%, 3 em 90%), por convulsões e não por efeito mental.",
+      "O mestre anota um valor de d20 (dois em 75%, três em 90%); se algum dado seu rolar esse valor, você e todos em alcance curto sofrem 1d6 de Energia.",
+      "Sem efeito... por enquanto."
+    ]
+  },
+  "semSanidade": {
+    "pag": 104,
+    "resumo": "PE e Sanidade viram Pontos de Determinação (PD). Gastos de PE e perdas de Sanidade saem dos PD. Dormir recupera só PV; relaxar recupera PD; prato favorito dá 2 PD temporários. Dano mental de criaturas: cada dado cai um passo e a quantidade de dados é dividida por 2 (arredonda para cima). Perturbado: PD abaixo da metade após dano mental; enlouquecendo: dano mental maior que os PD atuais. No Custo do Paranormal, falhar faz a perda de Sanidade virar perda de PD."
+  },
+  "evolucaoPatentes": {
+    "pag": 108,
+    "resumo": "Variante sem níveis: a patente (por pontos de prestígio) define PV, PD, habilidades e limite de PD. Exige jogar sem sanidade. Dormir ou relaxar recupera 1 PV ou PD por patente. Para pré-requisitos e efeitos, o nível de experiência é igual ao limite de PD."
+  },
+  "ferimentosDebilitantes": {
+    "pag": 105,
+    "resumo": "Falhar em Fortitude contra dano massivo causa um ferimento (1d6: 1 Agi, 2 For, 3 Int, 4 Pre, 5 Vig, 6 superficial) em vez de cair a 0 PV: −1d20 em testes do atributo; em Vigor, −1 PV máximo por 5% de NEX. Cura com Medicina DT 20 no interlúdio e uma ação dormir."
+  },
+  "efeitosMedo": {
+    "pag": 89,
+    "dado": "2d10"
+  }
+}

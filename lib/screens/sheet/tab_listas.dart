@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import '../../core/dice.dart';
 import '../../core/rules.dart';
 import '../../core/theme.dart';
+import '../../data/catalogo.dart';
 import '../../data/models.dart';
 import '../../data/repo.dart';
 import '../../widgets/common.dart';
+import '../../widgets/catalogo_picker.dart';
 import '../../widgets/form_dialog.dart';
 import 'rolar.dart';
 
@@ -174,7 +176,12 @@ Widget _botoesAdicionar(BuildContext context, CtxFicha ctx,
       onPressed: () => _editarNaLista(context, ctx,
           campo: campo, titulo: titulo, campos: campos, padrao: padrao),
       icon: const Icon(Icons.add),
-      label: Text('Adicionar'),
+      label: const Text('Adicionar'),
+    ),
+    FilledButton.tonalIcon(
+      onPressed: () => adicionarDoLivro(context, ctx, tipoBiblio),
+      icon: const Icon(Icons.auto_stories_outlined),
+      label: const Text('Do livro'),
     ),
     if (camp != null)
       OutlinedButton.icon(
@@ -190,6 +197,344 @@ Widget _botoesAdicionar(BuildContext context, CtxFicha ctx,
         label: const Text('Da biblioteca da mesa'),
       ),
   ]);
+}
+
+// ---------------- adicionar do livro ----------------
+
+String _tipoPoderFicha(String tipo) {
+  switch (tipo) {
+    case 'paranormal':
+      return 'Paranormal';
+    case 'geral':
+      return 'Geral';
+    default:
+      return 'Classe';
+  }
+}
+
+Future<void> adicionarDoLivro(
+    BuildContext context, CtxFicha ctx, String tipoBiblio) async {
+  final cat = Catalogo.instance;
+  final f = ctx.f;
+  Map<String, dynamic>? e;
+  String campo;
+  Map<String, dynamic> novo;
+  if (tipoBiblio == 'ritual') {
+    campo = 'rituais';
+    e = await escolherDoLivro(
+      context,
+      titulo: 'Rituais dos livros',
+      itens: cat.rituais,
+      filtros: [
+        const FiltroCatalogo('Todos', _sempre),
+        for (var c = 1; c <= 4; c++)
+          FiltroCatalogo('$cº círculo', (r) => asInt(r['circulo']) == c),
+        for (final el in elementos)
+          FiltroCatalogo(
+              el,
+              (r) =>
+                  asStr(r['elemento']) == el ||
+                  asStrList(r['elementos']).contains(el)),
+      ],
+      meta: metaRitual,
+      detalhes: detalhesRitual,
+    );
+    if (e == null) return;
+    novo = {
+      for (final k in const [
+        'nome', 'elemento', 'circulo', 'execucao', 'alcance', 'alvo', 'duracao',
+        'resistencia', 'dano', 'custoDiscente', 'danoDiscente',
+        'custoVerdadeiro', 'danoVerdadeiro', 'fonte', 'pag', 'ref'
+      ])
+        if (e[k] != null) k: e[k],
+      'descricao': textoRitual(e),
+    };
+  } else if (tipoBiblio == 'poder') {
+    campo = 'poderes';
+    final minhaClasse = Catalogo.normalizar(f.classe);
+    e = await escolherDoLivro(
+      context,
+      titulo: 'Poderes dos livros',
+      itens: cat.poderes,
+      filtros: [
+        FiltroCatalogo('Minha classe',
+            (p) => Catalogo.normalizar(asStr(p['tipo'])) == minhaClasse),
+        const FiltroCatalogo('Paranormais', _paranormal),
+        const FiltroCatalogo('Gerais', _geral),
+        const FiltroCatalogo('Todos', _sempre),
+      ],
+      meta: metaPoder,
+      detalhes: detalhesPoder,
+    );
+    if (e == null) return;
+    final pre = asStr(e['prereq']);
+    novo = {
+      'nome': asStr(e['nome']),
+      'tipo': _tipoPoderFicha(asStr(e['tipo'])),
+      'descricao':
+          '${detalhesPoder(e)}${pre.isEmpty ? '' : '\nPré-requisito: $pre'}',
+      if (e['elemento'] != null) 'elemento': e['elemento'],
+      'fonte': e['fonte'],
+      'pag': e['pag'],
+      'ref': e['ref'],
+    };
+  } else {
+    campo = 'inventario';
+    e = await escolherDoLivro(
+      context,
+      titulo: 'Itens dos livros',
+      itens: cat.itens
+          .where((i) =>
+              asStr(i['tipo']) != 'modificacao' &&
+              asStr(i['tipo']) != 'maldicao')
+          .toList(),
+      filtros: const [
+        FiltroCatalogo('Armas', _arma),
+        FiltroCatalogo('Proteções', _protecao),
+        FiltroCatalogo('Munições', _municao),
+        FiltroCatalogo('Equipamentos', _equipamento),
+        FiltroCatalogo('Paranormais', _itemParanormal),
+        FiltroCatalogo('Amaldiçoados', _amaldicoado),
+        FiltroCatalogo('Todos', _sempre),
+      ],
+      meta: metaItem,
+    );
+    if (e == null) return;
+    final tipo = asStr(e['tipo']);
+    final ataque = asStr(e['ataque']);
+    novo = {
+      'nome': asStr(e['nome']),
+      'tipo':
+          tipo == 'arma' ? 'arma' : (tipo == 'protecao' ? 'protecao' : 'geral'),
+      'categoria': asInt(e['categoria']),
+      'espacos': asInt(e['espacos'], 1),
+      'qtd': 1,
+      'equipado': true,
+      for (final k in const [
+        'dano', 'critico', 'alcance', 'ataque', 'agil', 'somaFor', 'tipoDano',
+        'defesa', 'rd', 'elemento', 'fonte', 'pag', 'ref', 'bonusAtaque'
+      ])
+        if (e[k] != null) k: e[k],
+      if (tipo == 'arma') 'pericia': ataque == 'corpo' ? 'Luta' : 'Pontaria',
+      'categoriaLivro': tipo,
+      'descricao': asStr(e['resumo']),
+    };
+  }
+  final lista = asMapList(f.d[campo])..add({...novo, 'id': novoId()});
+  _salvarLista(ctx, campo, lista);
+  if (context.mounted) {
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('${asStr(e['nome'])} adicionado.')));
+  }
+}
+
+bool _sempre(Map<String, dynamic> _) => true;
+bool _paranormal(Map<String, dynamic> p) => asStr(p['tipo']) == 'paranormal';
+bool _geral(Map<String, dynamic> p) => asStr(p['tipo']) == 'geral';
+bool _arma(Map<String, dynamic> i) => asStr(i['tipo']) == 'arma';
+bool _protecao(Map<String, dynamic> i) => asStr(i['tipo']) == 'protecao';
+bool _municao(Map<String, dynamic> i) => asStr(i['tipo']) == 'municao';
+bool _equipamento(Map<String, dynamic> i) =>
+    const ['acessorio', 'explosivo', 'operacional', 'geral']
+        .contains(asStr(i['tipo']));
+bool _itemParanormal(Map<String, dynamic> i) => asStr(i['tipo']) == 'paranormal';
+bool _amaldicoado(Map<String, dynamic> i) => asStr(i['tipo']) == 'amaldicoado';
+
+// ---------------- modificacoes e maldicoes ----------------
+
+/// Quais "aplica" de modificacoes/maldicoes servem para o item.
+Set<String> _aplicaveis(Map<String, dynamic> item) {
+  final tipo = asStr(item['tipo']);
+  final livro = asStr(item['categoriaLivro']);
+  if (tipo == 'arma') {
+    final ataque = asStr(item['ataque'],
+        asStr(item['pericia']) == 'Pontaria' ? 'fogo' : 'corpo');
+    return {
+      'arma',
+      if (ataque == 'corpo') ...{'corpo', 'corpo_disparo'},
+      if (ataque == 'disparo') 'corpo_disparo',
+      if (ataque == 'fogo') ...{'fogo', 'municao'},
+    };
+  }
+  if (tipo == 'protecao') return {'protecao'};
+  if (livro == 'municao') return {'municao'};
+  return {'acessorio'};
+}
+
+String _formatarCritico(int margem, int mult) {
+  if (margem >= 20) return 'x$mult';
+  if (mult == 2) return '$margem';
+  return '$margem/x$mult';
+}
+
+String _maisUmDado(String dano) {
+  final m = RegExp(r'(\d*)[dD](\d+)').firstMatch(dano);
+  if (m == null) return dano;
+  final n = (int.tryParse(m.group(1) ?? '') ?? 1) + 1;
+  return dano.replaceRange(m.start, m.end, '${n}d${m.group(2)}');
+}
+
+Future<void> editarModificacoes(
+    BuildContext context, CtxFicha ctx, int indice) async {
+  final cat = Catalogo.instance;
+  final lista = asMapList(ctx.f.d['inventario']);
+  if (indice < 0 || indice >= lista.length) return;
+  final item = lista[indice];
+  final apl = _aplicaveis(item);
+  final mods = cat.itens
+      .where((m) =>
+          asStr(m['tipo']) == 'modificacao' && apl.contains(asStr(m['aplica'])))
+      .toList();
+  final mals = cat.itens
+      .where((m) =>
+          asStr(m['tipo']) == 'maldicao' && apl.contains(asStr(m['aplica'])))
+      .toList();
+  final selMods = {...asStrList(item['mods'])};
+  final selMals = {...asStrList(item['maldicoes'])};
+  final ok = await showDialog<bool>(
+    context: context,
+    builder: (dctx) => StatefulBuilder(
+      builder: (dctx, set) {
+        Widget chips(List<Map<String, dynamic>> l, Set<String> sel) => Wrap(
+              spacing: 6,
+              runSpacing: 6,
+              children: [
+                for (final m in l)
+                  Tooltip(
+                    message:
+                        '${asStr(m['resumo'])}${asStr(m['elemento']).isNotEmpty ? ' (${asStr(m['elemento'])})' : ''}',
+                    child: FilterChip(
+                      label: Text(asStr(m['nome'])),
+                      selected: sel.contains(asStr(m['ref'])),
+                      onSelected: (v) => set(() => v
+                          ? sel.add(asStr(m['ref']))
+                          : sel.remove(asStr(m['ref']))),
+                    ),
+                  ),
+              ],
+            );
+        return AlertDialog(
+          title: Text('Modificar: ${asStr(item['nome'])}'),
+          content: SizedBox(
+            width: 520,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                      'Cada modificação aumenta a categoria em I. A primeira maldição aumenta em II e as seguintes em I. Segure um item para ver o efeito.',
+                      style: TextStyle(fontSize: 12, color: Cores.textoFraco)),
+                  const SizedBox(height: 10),
+                  const Text('MODIFICAÇÕES',
+                      style: TextStyle(fontSize: 12, letterSpacing: 2)),
+                  const SizedBox(height: 6),
+                  if (mods.isEmpty)
+                    const Text('Nenhuma para este tipo de item.')
+                  else
+                    chips(mods, selMods),
+                  const SizedBox(height: 14),
+                  const Text('MALDIÇÕES',
+                      style: TextStyle(fontSize: 12, letterSpacing: 2)),
+                  const SizedBox(height: 6),
+                  if (mals.isEmpty)
+                    const Text('Nenhuma para este tipo de item.')
+                  else
+                    chips(mals, selMals),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+                onPressed: () => Navigator.pop(dctx, false),
+                child: const Text('Cancelar')),
+            FilledButton(
+                onPressed: () => Navigator.pop(dctx, true),
+                child: const Text('Aplicar')),
+          ],
+        );
+      },
+    ),
+  );
+  if (ok != true) return;
+  final base = item['base'] is Map
+      ? asMap(item['base'])
+      : <String, dynamic>{
+          for (final k in const [
+            'categoria', 'espacos', 'bonusAtaque', 'bonusDano', 'critico',
+            'dano', 'defesa'
+          ])
+            k: item[k],
+        };
+  var categoria = asInt(base['categoria']);
+  var espacos = asInt(base['espacos'], 1);
+  var bonusAtaque = asInt(base['bonusAtaque']);
+  var bonusDano = asInt(base['bonusDano']);
+  var defesa = asInt(base['defesa']);
+  var dano = asStr(base['dano']);
+  final crit = Dados.critico(asStr(base['critico'], 'x2'));
+  var margem = crit.margem;
+  var mult = crit.mult;
+  void aplicar(Map<String, dynamic>? m, {required bool nivelItem}) {
+    if (m == null) return;
+    for (final e in asMapList(m['efeitos'])) {
+      final v = asInt(e['valor']);
+      switch (asStr(e['alvo'])) {
+        case 'bonusAtaque':
+          bonusAtaque += v;
+        case 'bonusDano':
+          bonusDano += v;
+        case 'espacos':
+          espacos += v;
+        case 'margem':
+          margem -= v;
+        case 'multiplicador':
+          mult += v;
+        case 'dadoDano':
+          if (dano.isNotEmpty) dano = _maisUmDado(dano);
+        case 'danoExtra':
+          if (dano.isNotEmpty) dano = '$dano+${asStr(e['dano'])}';
+        case 'defesa':
+          if (nivelItem) defesa += v;
+      }
+    }
+  }
+
+  for (final r in selMods) {
+    aplicar(cat.porRef(r), nivelItem: true);
+  }
+  for (final r in selMals) {
+    aplicar(cat.porRef(r), nivelItem: false);
+  }
+  categoria += selMods.length + (selMals.isEmpty ? 0 : selMals.length + 1);
+  lista[indice] = {
+    ...item,
+    'base': base,
+    'mods': selMods.toList(),
+    'maldicoes': selMals.toList(),
+    'categoria': categoria,
+    'espacos': espacos < 0 ? 0 : espacos,
+    if (base['bonusAtaque'] != null || bonusAtaque != 0)
+      'bonusAtaque': bonusAtaque,
+    if (base['bonusDano'] != null || bonusDano != 0) 'bonusDano': bonusDano,
+    if (base['defesa'] != null || defesa != 0) 'defesa': defesa,
+    if (dano.isNotEmpty) 'dano': dano,
+    if (base['critico'] != null)
+      'critico': _formatarCritico(margem.clamp(2, 20), mult),
+  };
+  _salvarLista(ctx, 'inventario', lista);
+}
+
+String nomesModificacoes(Map<String, dynamic> item) {
+  final cat = Catalogo.instance;
+  final n = [
+    for (final r in [
+      ...asStrList(item['mods']),
+      ...asStrList(item['maldicoes'])
+    ])
+      asStr(cat.porRef(r)?['nome'], r.split('/').last)
+  ];
+  return n.join(', ');
 }
 
 // ---------------- COMBATE ----------------
@@ -473,9 +818,14 @@ class TabInventario extends StatelessWidget {
             title: Text(
                 '${asStr(l[i]['nome'], 'Item')}${asInt(l[i]['qtd'], 1) > 1 ? ' x${asInt(l[i]['qtd'], 1)}' : ''}'),
             subtitle: Text(
-                'Cat. ${asInt(l[i]['categoria']) == 0 ? '0' : romanos[(asInt(l[i]['categoria']).clamp(1, 4)) - 1]} • ${asInt(l[i]['espacos'], 1)} espaço(s)${asStr(l[i]['descricao']).isNotEmpty ? ' • ${asStr(l[i]['descricao'])}' : ''}',
-                maxLines: 2,
+                'Cat. ${asInt(l[i]['categoria']) == 0 ? '0' : romanos[(asInt(l[i]['categoria']).clamp(1, 4)) - 1]} • ${asInt(l[i]['espacos'], 1)} espaço(s)${nomesModificacoes(l[i]).isNotEmpty ? ' • ${nomesModificacoes(l[i])}' : ''}${asStr(l[i]['descricao']).isNotEmpty ? ' • ${asStr(l[i]['descricao'])}' : ''}',
+                maxLines: 3,
                 overflow: TextOverflow.ellipsis),
+            trailing: IconButton(
+              tooltip: 'Modificações e maldições',
+              icon: const Icon(Icons.tune),
+              onPressed: () => editarModificacoes(context, ctx, i),
+            ),
             onTap: () => _editarNaLista(context, ctx,
                 campo: 'inventario',
                 titulo: 'Editar item',
@@ -512,6 +862,27 @@ class TabPoderes extends StatelessWidget {
             subtitle: Text(
                 '${asStr(l[i]['tipo'])}${asStr(l[i]['descricao']).isNotEmpty ? '\n${asStr(l[i]['descricao'])}' : ''}'),
             isThreeLine: asStr(l[i]['descricao']).isNotEmpty,
+            trailing: asStr(Catalogo.instance.porRef(asStr(l[i]['ref']))?['afinidade'])
+                    .isEmpty
+                ? null
+                : IconButton(
+                    tooltip: asBool(l[i]['afinidade'])
+                        ? 'Com afinidade (toque para tirar)'
+                        : 'Escolher de novo com afinidade',
+                    icon: Icon(
+                        asBool(l[i]['afinidade'])
+                            ? Icons.star
+                            : Icons.star_border,
+                        color: Cores.elemento(asStr(l[i]['elemento']))),
+                    onPressed: () {
+                      final lista = asMapList(ctx.f.d['poderes']);
+                      lista[i] = {
+                        ...lista[i],
+                        'afinidade': !asBool(lista[i]['afinidade'])
+                      };
+                      _salvarLista(ctx, 'poderes', lista);
+                    },
+                  ),
             onTap: () => _editarNaLista(context, ctx,
                 campo: 'poderes',
                 titulo: 'Editar poder',

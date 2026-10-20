@@ -110,7 +110,12 @@ class Repo {
       'joinCode': codigo,
       'memberUids': [uid],
       'members': {uid: nomeUsuario},
-      'regras': {'determinacao': false, 'cargaBase': 0, 'cargaPorFor': 5},
+      'regras': {
+        'determinacao': false,
+        'progressao': 'nex',
+        'cargaBase': 0,
+        'cargaPorFor': 5
+      },
       'combate': {'ativo': false, 'rodada': 1, 'turno': 0, 'ordem': []},
       'ledger': [],
       'missao': '',

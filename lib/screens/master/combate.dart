@@ -370,7 +370,7 @@ Future<void> editarCondicoesAmeaca(BuildContext context, Campanha camp,
           width: 480,
           child: SingleChildScrollView(
             child: Wrap(spacing: 6, runSpacing: 6, children: [
-              for (final c in condicoesLista)
+              for (final c in nomesCondicoes())
                 FilterChip(
                   label: Text(c),
                   selected: sel.contains(c),

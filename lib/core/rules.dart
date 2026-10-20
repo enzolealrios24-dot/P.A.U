@@ -1,7 +1,8 @@
+import '../data/catalogo.dart';
 import '../data/models.dart';
 
-/// Tudo que e "regra do livro" fica aqui e pode ser sobrescrito por campanha
-/// (aba Regras do mestre). Confira os numeros no seu exemplar do livro.
+/// Tudo que e "regra do livro" fica aqui ou nos dados de assets/data, e pode
+/// ser sobrescrito por campanha (aba Regras do mestre).
 
 const atributosChaves = ['agi', 'for', 'int', 'pre', 'vig'];
 const atributosNomes = {
@@ -59,6 +60,8 @@ const periciasDef = <PericiaDef>[
   PericiaDef('Vontade', 'pre'),
 ];
 
+const periciasResistencia = ['Fortitude', 'Reflexos', 'Vontade'];
+
 PericiaDef? periciaPorNome(String n) {
   for (final p in periciasDef) {
     if (p.nome == n) return p;
@@ -68,11 +71,7 @@ PericiaDef? periciaPorNome(String n) {
 
 const grausTreino = {0: 'Destreinado', 5: 'Treinado', 10: 'Veterano', 15: 'Expert'};
 
-const classes = ['Combatente', 'Especialista', 'Ocultista'];
-
-/// Constantes padrao por classe (livro basico v1.x).
-/// pd* = Pontos de Determinacao (regra opcional do Sobrevivendo ao Horror) -
-/// valores editaveis pelo mestre.
+/// Valores de reserva caso os dados dos livros nao carreguem.
 const classesPadrao = <String, Map<String, int>>{
   'Combatente': {
     'pvIni': 20, 'pvNex': 4, 'peIni': 2, 'peNex': 2, 'sanIni': 12, 'sanNex': 3,
@@ -88,58 +87,36 @@ const classesPadrao = <String, Map<String, int>>{
   },
 };
 
-const classesPericiasTexto = {
-  'Combatente': 'Luta ou Pontaria; Fortitude ou Reflexos; + 1 + INT à escolha',
-  'Especialista': '7 + INT à escolha',
-  'Ocultista': 'Ocultismo e Vontade; + 3 + INT à escolha',
-};
+/// Nomes das classes disponiveis (livros carregados).
+List<String> nomesClasses() {
+  final l = [for (final c in Catalogo.instance.classes) asStr(c['nome'])];
+  return l.isEmpty ? classesPadrao.keys.toList() : l;
+}
 
-const trilhas = <String, List<String>>{
-  'Combatente': [
-    'Aniquilador', 'Comandante de Campo', 'Guerreiro', 'Operações Especiais',
-    'Tropa de Choque', 'Agente Secreto', 'Caçador', 'Monstruoso',
-  ],
-  'Especialista': [
-    'Atirador de Elite', 'Infiltrador', 'Médico de Campo', 'Negociador',
-    'Técnico', 'Bibliotecário', 'Perseverante', 'Muambeiro',
-  ],
-  'Ocultista': [
-    'Conduíte', 'Flagelador', 'Graduado', 'Intuitivo', 'Lâmina Paranormal',
-    'Exorcista', 'Possuído', 'Parapsicólogo',
-  ],
-};
+/// Valores numericos de uma classe no formato pvIni/pvNex/... (para a aba
+/// Regras do mestre e para o Calc).
+Map<String, int> valoresClasse(String nome) {
+  final c = Catalogo.instance.classePorNome(nome);
+  if (c == null) {
+    return Map<String, int>.from(
+        classesPadrao[nome] ?? classesPadrao['Combatente']!);
+  }
+  int at(String k, int i) {
+    final l = c[k];
+    return l is List && l.length > i ? asInt(l[i]) : 0;
+  }
 
-/// Origens do livro basico com as duas pericias treinadas.
-const origens = <String, List<String>>{
-  'Acadêmico': ['Ciências', 'Investigação'],
-  'Agente de Saúde': ['Intuição', 'Medicina'],
-  'Amnésico': [],
-  'Artista': ['Artes', 'Enganação'],
-  'Atleta': ['Acrobacia', 'Atletismo'],
-  'Chef': ['Fortitude', 'Profissão'],
-  'Criminoso': ['Crime', 'Furtividade'],
-  'Cultista Arrependido': ['Ocultismo', 'Religião'],
-  'Desgarrado': ['Fortitude', 'Sobrevivência'],
-  'Engenheiro': ['Profissão', 'Tecnologia'],
-  'Executivo': ['Diplomacia', 'Profissão'],
-  'Investigador': ['Investigação', 'Percepção'],
-  'Lutador': ['Luta', 'Reflexos'],
-  'Magnata': ['Diplomacia', 'Pilotagem'],
-  'Mercenário': ['Iniciativa', 'Intimidação'],
-  'Militar': ['Pontaria', 'Tática'],
-  'Operário': ['Fortitude', 'Profissão'],
-  'Policial': ['Percepção', 'Pontaria'],
-  'Religioso': ['Religião', 'Vontade'],
-  'Servidor Público': ['Intuição', 'Vontade'],
-  'Teórico da Conspiração': ['Investigação', 'Ocultismo'],
-  'T.I.': ['Investigação', 'Tecnologia'],
-  'Trabalhador Rural': ['Adestramento', 'Sobrevivência'],
-  'Trambiqueiro': ['Crime', 'Enganação'],
-  'Universitário': ['Atualidades', 'Investigação'],
-  'Vítima': ['Reflexos', 'Vontade'],
-};
+  return {
+    'pvIni': at('pv', 0), 'pvNex': at('pv', 1),
+    'peIni': at('pe', 0), 'peNex': at('pe', 1),
+    'sanIni': at('san', 0), 'sanNex': at('san', 1),
+    'pdIni': at('pd', 0), 'pdNex': at('pd', 1),
+    'pericias': asInt(c['periciasLivres']),
+  };
+}
 
 const elementos = ['Sangue', 'Morte', 'Conhecimento', 'Energia', 'Medo'];
+const elementosAfinidade = ['Sangue', 'Morte', 'Conhecimento', 'Energia'];
 
 const condicoesLista = [
   'Abalado', 'Agarrado', 'Alquebrado', 'Apavorado', 'Atordoado', 'Caído',
@@ -150,33 +127,54 @@ const condicoesLista = [
   'Surpreendido', 'Vulnerável',
 ];
 
+List<String> nomesCondicoes() {
+  final l = [for (final c in Catalogo.instance.condicoes) asStr(c['nome'])];
+  return l.isEmpty ? condicoesLista : l;
+}
+
 const nexValores = [
   5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 99
 ];
+
+const modosProgressao = {
+  'nex': 'Somente NEX',
+  'nivel': 'Nível + NEX',
+  'patente': 'Evolução por patentes',
+};
+
+const modosSanidade = {
+  'san': 'Com sanidade (PE e SAN)',
+  'pd': 'Sem sanidade (PD)',
+};
 
 class Patente {
   final int pp;
   final String nome;
   final String credito;
   final List<int> limites; // categorias I..IV
-  const Patente(this.pp, this.nome, this.credito, this.limites);
+  final int limitePD;
+  const Patente(this.pp, this.nome, this.credito, this.limites, this.limitePD);
 }
 
 const patentes = [
-  Patente(0, 'Recruta', 'Baixo', [2, 0, 0, 0]),
-  Patente(20, 'Operador', 'Médio', [3, 1, 0, 0]),
-  Patente(50, 'Agente Especial', 'Médio', [3, 2, 1, 0]),
-  Patente(100, 'Oficial de Operações', 'Alto', [3, 3, 2, 1]),
-  Patente(200, 'Agente de Elite', 'Ilimitado', [3, 3, 3, 2]),
+  Patente(0, 'Recruta', 'Baixo', [2, 0, 0, 0], 1),
+  Patente(20, 'Operador', 'Médio', [3, 1, 0, 0], 3),
+  Patente(50, 'Agente Especial', 'Médio', [3, 2, 1, 0], 6),
+  Patente(100, 'Oficial de Operações', 'Alto', [3, 3, 2, 1], 10),
+  Patente(200, 'Agente de Elite', 'Ilimitado', [3, 3, 3, 2], 15),
 ];
 
-Patente patentePorPP(int pp) {
-  var p = patentes.first;
-  for (final x in patentes) {
-    if (pp >= x.pp) p = x;
+const chavesPatente = ['recruta', 'operador', 'agente_especial', 'oficial', 'elite'];
+
+int indicePatente(int pp) {
+  var i = 0;
+  for (var k = 0; k < patentes.length; k++) {
+    if (pp >= patentes[k].pp) i = k;
   }
-  return p;
+  return i;
 }
+
+Patente patentePorPP(int pp) => patentes[indicePatente(pp)];
 
 const custoRitualPadrao = {1: 1, 2: 3, 3: 6, 4: 10};
 
@@ -197,6 +195,11 @@ Map<String, dynamic> novaFicha(String ownerUid, String jogador) => {
       'origem': '',
       'trilha': '',
       'nex': 5,
+      'nivel': 1,
+      'estagio': 1,
+      'modoSanidade': 'san',
+      'modoProgressao': 'nex',
+      'afinidade': '',
       'pp': 0,
       'atributos': {'agi': 1, 'for': 1, 'int': 1, 'pre': 1, 'vig': 1},
       'pericias': <String, dynamic>{},
@@ -205,6 +208,7 @@ Map<String, dynamic> novaFicha(String ownerUid, String jogador) => {
       'sanAtual': 12,
       'pdAtual': 7,
       'bonus': <String, dynamic>{},
+      'escolhas': <String, dynamic>{},
       'condicoes': <String>[],
       'inventario': <dynamic>[],
       'rituais': <dynamic>[],
@@ -215,17 +219,219 @@ Map<String, dynamic> novaFicha(String ownerUid, String jogador) => {
       'criadoEm': DateTime.now().millisecondsSinceEpoch,
     };
 
+/// Alvos de efeito que pertencem ao item (aplicados ao escolher a
+/// modificacao), e nao ao personagem.
+const _alvosDeItem = {
+  'bonusAtaque', 'bonusDano', 'margem', 'multiplicador', 'dadoDano',
+  'danoExtra', 'espacos',
+};
+
 /// Calculos automaticos da ficha considerando as regras da campanha.
 class Calc {
   final Ficha f;
   final Map<String, dynamic> regras;
   Calc(this.f, [Map<String, dynamic>? regras]) : regras = regras ?? const {};
 
-  bool get determinacao => asBool(regras['determinacao']);
+  late final Map<String, dynamic>? classeDados =
+      Catalogo.instance.classePorNome(f.classe);
+  late final Map<String, dynamic>? origemDados =
+      Catalogo.instance.origemPorNome(f.origem);
+  late final Map<String, dynamic>? trilhaDados =
+      Catalogo.instance.trilhaPorNome(f.trilha, f.classe);
+
+  // ---------------- modos ----------------
+
+  /// Modo de progressao: 'nex', 'nivel' ou 'patente'. A mesa decide, se houver.
+  String get modoProgressao {
+    final r = asStr(regras['progressao']);
+    final m = r.isNotEmpty ? r : f.modoProgressao;
+    return modosProgressao.containsKey(m) ? m : 'nex';
+  }
+
+  bool get modoNivel => modoProgressao == 'nivel';
+  bool get modoPatente => modoProgressao == 'patente';
+
+  /// Jogando sem sanidade (Pontos de Determinacao). A mesa decide, se houver.
+  /// A evolucao por patentes sempre usa PD.
+  bool get determinacao {
+    if (modoPatente) return true;
+    if (regras.containsKey('determinacao')) {
+      return asBool(regras['determinacao']);
+    }
+    return f.modoSanidade == 'pd';
+  }
+
+  bool get sobrevivente => asInt(classeDados?['estagios']) > 0;
+  int get maxEstagio => asInt(classeDados?['estagios'], 5);
+
+  int get indicePat => indicePatente(f.pp);
+  Patente get patente => patentes[indicePat];
+
+  /// Nivel efetivo da classe (1..20). Patentes: limite de PD da patente.
+  /// Sobrevivente: estagio.
+  int get nivel {
+    if (sobrevivente) return f.estagio.clamp(1, maxEstagio);
+    if (modoPatente) return patente.limitePD;
+    if (modoNivel) return f.nivel.clamp(1, 20);
+    final n = f.nex;
+    if (n >= 99) return 20;
+    return (n ~/ 5).clamp(1, 20);
+  }
+
+  /// NEX equivalente para habilidades e pre-requisitos de classe.
+  int get nexClasse {
+    if (sobrevivente) return 0;
+    if (modoNivel || modoPatente) return nivel >= 20 ? 99 : nivel * 5;
+    return f.nex;
+  }
+
+  /// NEX de exposicao paranormal (afinidade, poderes paranormais).
+  int get nexExposicao => f.nex;
+
+  /// A habilidade de trilha do NEX indicado ja foi liberada?
+  bool trilhaLiberada(int nexHab) {
+    if (sobrevivente) return f.estagio >= nexHab;
+    if (modoPatente) {
+      if (nexHab <= 10) return indicePat >= 2;
+      if (nexHab <= 40) return indicePat >= 3;
+      return indicePat >= 4;
+    }
+    return nexHab <= nexClasse;
+  }
+
+  // ---------------- efeitos ----------------
+
+  late final Set<String> condicoesAtivas = _expandirCondicoes();
+
+  Set<String> _expandirCondicoes() {
+    final cat = Catalogo.instance;
+    final r = <String>{};
+    void add(String nome) {
+      final c = cat.condicao(nome);
+      final id = c == null ? Catalogo.normalizar(nome) : asStr(c['id']);
+      if (!r.add(id) || c == null) return;
+      for (final i in asStrList(c['inclui'])) {
+        final ci = cat.condicao(i);
+        add(ci == null ? i : asStr(ci['nome']));
+      }
+    }
+
+    for (final c in f.condicoes) {
+      add(c);
+    }
+    if (r.contains('indefeso')) r.remove('desprevenido');
+    return r;
+  }
+
+  late final List<Map<String, dynamic>> efeitos = _coletarEfeitos();
+
+  List<Map<String, dynamic>> _coletarEfeitos() {
+    final cat = Catalogo.instance;
+    final l = <Map<String, dynamic>>[];
+    void add(dynamic efs, {bool soPersonagem = false}) {
+      for (final e in asMapList(efs)) {
+        if (soPersonagem && _alvosDeItem.contains(asStr(e['alvo']))) continue;
+        l.add(e);
+      }
+    }
+
+    add(origemDados?['efeitos']);
+    for (final p in f.poderes) {
+      final c = cat.porRef(asStr(p['ref']));
+      if (c == null) continue;
+      add(c['efeitos']);
+      if (asBool(p['afinidade'])) add(c['efeitosAfinidade']);
+    }
+    final t = trilhaDados;
+    if (t != null) {
+      for (final h in asMapList(t['habilidades'])) {
+        if (trilhaLiberada(asInt(h['nex']))) add(h['efeitos']);
+      }
+    }
+    for (final i in f.inventario) {
+      if (!asBool(i['equipado'], true)) continue;
+      final c = cat.porRef(asStr(i['ref']));
+      if (c != null && asStr(c['tipo']) != 'modificacao') {
+        add(c['efeitos'], soPersonagem: true);
+      }
+      for (final m in asStrList(i['maldicoes'])) {
+        add(cat.porRef(m)?['efeitos'], soPersonagem: true);
+      }
+    }
+    for (final id in condicoesAtivas) {
+      add(cat.condicao(id)?['efeitos']);
+    }
+    if (modoNivel) {
+      for (final a in alteracoesNex) {
+        add(a['efeitos']);
+      }
+    }
+    return l;
+  }
+
+  /// Alteracoes de NEX ja recebidas (regra NEX & Experiencia).
+  List<Map<String, dynamic>> get alteracoesNex {
+    final alt = asMap(asMap(Catalogo.instance.regra('nexExperiencia'))['alteracoes']);
+    final r = <Map<String, dynamic>>[];
+    for (final a in asMapList(alt['geral'])) {
+      if (nexExposicao >= asInt(a['nex'])) r.add(a);
+    }
+    final af = f.afinidade;
+    if (af.isNotEmpty) {
+      for (final a in asMapList(alt[af])) {
+        if (nexExposicao >= asInt(a['nex'])) r.add({...a, 'elemento': af});
+      }
+    }
+    return r;
+  }
+
+  int _mult(Map<String, dynamic> e) {
+    final v = asInt(e['valor']);
+    switch (asStr(e['por'])) {
+      case 'nivel':
+        return v * nivel;
+      case 'nivelImpar':
+        return v * ((nivel + 1) ~/ 2);
+      default:
+        return v;
+    }
+  }
+
+  int soma(String alvo) {
+    var t = 0;
+    for (final e in efeitos) {
+      if (asStr(e['alvo']) == alvo) t += _mult(e);
+    }
+    return t;
+  }
+
+  bool tem(String alvo) => efeitos.any((e) => asStr(e['alvo']) == alvo);
+
+  // ---------------- atributos ----------------
+
+  int attrBase(String k) => f.attr(k);
+
+  /// Atributo com bonus de itens e efeitos (para testes).
+  int attr(String k) {
+    var v = f.attr(k);
+    for (final e in efeitos) {
+      if (asStr(e['alvo']) == 'atributo' && asStr(e['attr']) == k) {
+        v += _mult(e);
+      }
+    }
+    return v;
+  }
+
+  int get agi => attr('agi');
+  int get forca => attr('for');
+  int get intel => attr('int');
+  int get pre => attr('pre');
+  int get vig => attr('vig');
+
+  // ---------------- valores da classe ----------------
 
   Map<String, int> get _cls {
-    final base = Map<String, int>.from(
-        classesPadrao[f.classe] ?? classesPadrao['Combatente']!);
+    final base = valoresClasse(f.classe);
     final over = asMap(asMap(regras['classes'])[f.classe]);
     over.forEach((k, v) => base[k] = asInt(v, base[k] ?? 0));
     return base;
@@ -233,34 +439,92 @@ class Calc {
 
   int c(String k) => _cls[k] ?? 0;
 
-  /// 5% = 1 ... 95% = 19, 99% = 20
-  int get nivel {
-    final n = f.nex;
-    if (n >= 99) return 20;
-    return (n ~/ 5).clamp(1, 20);
+  bool get _somaAttr => asBool(classeDados?['somaAttrPorNivel'], true);
+
+  List<int> _patenteClasse(String k) {
+    final p = asMap(asMap(classeDados?['patente'])[k]);
+    final l = asMap(classeDados?['patente'])[k];
+    if (l is List && l.length >= 2) return [asInt(l[0]), asInt(l[1])];
+    return [asInt(p['0']), asInt(p['1'])];
   }
 
-  int get agi => f.attr('agi');
-  int get forca => f.attr('for');
-  int get intel => f.attr('int');
-  int get pre => f.attr('pre');
-  int get vig => f.attr('vig');
+  int get qtdTranscender => f.poderes
+      .where((p) => Catalogo.normalizar(asStr(p['nome'])) == 'transcender')
+      .length;
 
-  int get pvMax =>
-      c('pvIni') + vig + (nivel - 1) * (c('pvNex') + vig) + f.b('pv');
-  int get peMax =>
-      c('peIni') + pre + (nivel - 1) * (c('peNex') + pre) + f.b('pe');
-  int get sanMax => c('sanIni') + (nivel - 1) * c('sanNex') + f.b('san');
-  int get pdMax =>
-      c('pdIni') + pre + (nivel - 1) * (c('pdNex') + pre) + f.b('pd');
+  int get pvMax {
+    final v = attrBase('vig');
+    if (modoPatente && !sobrevivente) {
+      final p = _patenteClasse('pv');
+      return p[0] + v + indicePat * (p[1] + v) + soma('pv') + f.b('pv');
+    }
+    return c('pvIni') +
+        v +
+        (nivel - 1) * (c('pvNex') + (_somaAttr ? v : 0)) +
+        soma('pv') +
+        f.b('pv');
+  }
 
-  int get limitePE => nivel + f.b('limitePE');
+  int get peMax {
+    final p = attrBase('pre');
+    return c('peIni') +
+        p +
+        (nivel - 1) * (c('peNex') + (_somaAttr ? p : 0)) +
+        soma('pe') +
+        _bonusPEAlteracao +
+        f.b('pe');
+  }
+
+  int get sanMax {
+    var ini = c('sanIni');
+    if (tem('sanInicialMetade')) ini = ini ~/ 2;
+    final t = modoNivel ? 0 : qtdTranscender;
+    return ini +
+        (nivel - 1) * c('sanNex') -
+        t * c('sanNex') +
+        soma('san') +
+        f.b('san');
+  }
+
+  int get pdMax {
+    final p = attrBase('pre');
+    if (modoPatente && !sobrevivente) {
+      final pd = _patenteClasse('pd');
+      return pd[0] + p + indicePat * (pd[1] + p) + soma('pe') + soma('pd') + f.b('pd');
+    }
+    return c('pdIni') +
+        p +
+        (nivel - 1) * (c('pdNex') + (_somaAttr ? p : 0)) +
+        soma('pe') +
+        soma('pd') +
+        _bonusPEAlteracao +
+        f.b('pd');
+  }
+
+  int get _bonusPEAlteracao {
+    if (!modoNivel || nexExposicao < 35) return 0;
+    final a = asStr(asMap(f.d['escolhas'])['nex35attr']);
+    return a.isEmpty ? 0 : attrBase(a);
+  }
+
+  /// Limite base (sem bonus), usado na DT.
+  int get limiteBase {
+    if (sobrevivente) return asInt(classeDados?['limitePE'], 1);
+    if (modoPatente) return patente.limitePD;
+    return nivel;
+  }
+
+  int get limitePE => limiteBase + soma('limitePE') + f.b('limitePE');
 
   int get cargaMax {
-    if (forca <= 0) return 2 + f.b('carga');
+    var forc = attrBase('for');
+    for (final e in efeitos) {
+      if (asStr(e['alvo']) == 'cargaAtributo') forc += attrBase(asStr(e['attr']));
+    }
+    if (forc <= 0) return 2 + soma('carga') + f.b('carga');
     final base = asInt(regras['cargaBase'], 0);
     final por = asInt(regras['cargaPorFor'], 5);
-    return base + por * forca + f.b('carga');
+    return base + por * forc + soma('carga') + f.b('carga');
   }
 
   int get cargaAtual {
@@ -273,8 +537,13 @@ class Calc {
 
   bool get sobrecarregado => cargaAtual > cargaMax;
 
+  bool get usandoProtecaoPesada => f.inventario.any((i) =>
+      asStr(i['tipo']) == 'protecao' &&
+      asBool(i['equipado'], true) &&
+      (asBool(i['pesada']) || asStr(i['ref']).endsWith('/protecao_pesada')));
+
   int get defesa {
-    var d = 10 + agi + f.b('defesa');
+    var d = 10 + agi + f.b('defesa') + soma('defesa');
     for (final i in f.inventario) {
       if (asStr(i['tipo']) == 'protecao' && asBool(i['equipado'], true)) {
         d += asInt(i['defesa']);
@@ -285,30 +554,110 @@ class Calc {
   }
 
   int get deslocamento {
-    final base = 9 + f.b('deslocamento');
-    return sobrecarregado ? base - 3 : base;
+    var base = 9 + f.b('deslocamento') + soma('deslocamento');
+    if (sobrecarregado) base -= 3;
+    if (tem('deslocamentoMetade')) base = ((base / 1.5) ~/ 2 * 1.5).floor();
+    if (condicoesAtivas.contains('imovel')) base = 0;
+    return base;
   }
 
   int bonusPericia(String nome) {
     final def = periciaPorNome(nome);
     var b = f.grau(nome) + f.bonusPericia(nome);
-    if (def != null && def.carga && sobrecarregado) b -= 5;
+    for (final e in efeitos) {
+      final alvo = asStr(e['alvo']);
+      if (alvo == 'pericia' && asStr(e['pericia']) == nome) {
+        if (asBool(e['seTreinado']) && f.grau(nome) < 5) continue;
+        b += _mult(e);
+      } else if (alvo == 'resistencias' && periciasResistencia.contains(nome)) {
+        b += _mult(e);
+      } else if (alvo == 'escolhaPenalidade') {
+        final escolha = asStr(asMap(f.d['escolhas'])[asStr(e['chave'])]);
+        if (escolha == nome) b += _mult(e);
+      }
+    }
+    if (def != null && def.carga) {
+      if (sobrecarregado) b -= 5;
+      if (usandoProtecaoPesada) b -= 5;
+    }
     return b;
+  }
+
+  /// Ajuste em quantidade de d20 vindo de condicoes e efeitos.
+  int modDados({String? pericia, String? attrTeste, bool ataque = false, bool corpo = false}) {
+    final a = attrTeste ??
+        (pericia == null ? null : periciaPorNome(pericia)?.attr);
+    var t = 0;
+    for (final e in efeitos) {
+      if (asStr(e['alvo']) != 'dados') continue;
+      final esc = asStr(e['escopo']);
+      bool vale;
+      if (esc == 'todos') {
+        vale = true;
+      } else if (esc == 'pericia') {
+        vale = pericia != null;
+      } else if (esc == 'ataque') {
+        vale = ataque;
+      } else if (esc == 'ataqueCorpo') {
+        vale = ataque && corpo;
+      } else if (esc.startsWith('attr:')) {
+        vale = a != null && esc.substring(5).split(',').contains(a);
+      } else if (esc.startsWith('pericia:')) {
+        vale = pericia != null && esc.substring(8) == pericia;
+      } else {
+        vale = false;
+      }
+      if (vale) t += asInt(e['valor']);
+    }
+    return t;
   }
 
   int dadosPericia(String nome) {
     final def = periciaPorNome(nome);
-    return f.attr(def?.attr ?? 'agi');
+    return attr(def?.attr ?? 'agi') + modDados(pericia: nome);
   }
 
-  int get dtRitual => 10 + limitePE + pre + f.b('dtRitual');
+  /// Bonus de dano por tipo de ataque: 'corpo', 'disparo' ou 'fogo'.
+  int bonusDanoArma(String ataque) {
+    switch (ataque) {
+      case 'corpo':
+        return soma('danoCorpo');
+      case 'fogo':
+        return soma('danoFogo') + soma('danoDisparo');
+      default:
+        return soma('danoDisparo');
+    }
+  }
+
+  int get bonusDanoRitual {
+    var t = 0;
+    for (final e in efeitos) {
+      if (asStr(e['alvo']) == 'danoRitual') {
+        final a = asStr(e['attr']);
+        t += a.isEmpty ? _mult(e) : attr(a) * asInt(e['valor'], 1);
+      }
+    }
+    return t;
+  }
+
+  int get dtRitual => 10 + limiteBase + pre + f.b('dtRitual') + soma('dtRitual');
 
   int custoRitual(int circulo) {
     final over = asMap(regras['custoRitual']);
     return asInt(over['$circulo'], custoRitualPadrao[circulo] ?? 1);
   }
 
-  Patente get patente => patentePorPP(f.pp);
+  /// Maior circulo de ritual que a classe conjura.
+  int get circuloMaximo {
+    if (Catalogo.normalizar(f.classe) != 'ocultista') {
+      return 1;
+    }
+    final n = nexClasse;
+    if (n >= 85) return 4;
+    if (n >= 55) return 3;
+    if (n >= 25) return 2;
+    return 1;
+  }
 
   /// itens usados por categoria (1..4)
   List<int> get itensPorCategoria {
@@ -320,7 +669,9 @@ class Calc {
     return r;
   }
 
-  int get periciasTreinadasPermitidas => c('pericias') + intel;
+  int get periciasTreinadasPermitidas => c('pericias') + attrBase('int');
+
+  int get pontosAtributoIniciais => asInt(classeDados?['pontosAtributo'], 4);
 
   /// Validacao dos atributos na criacao (4 pontos, max 3, 0 devolve 1 ponto)
   int get pontosAtributoGastos {
@@ -329,5 +680,35 @@ class Calc {
       t += f.attr(k) - 1;
     }
     return t;
+  }
+
+  /// Texto curto da progressao (NEX, nivel, estagio ou patente).
+  String get resumoProgressao {
+    if (sobrevivente) return 'Estágio ${f.estagio}';
+    if (modoPatente) return patente.nome;
+    if (modoNivel) return 'Nível $nivel • NEX ${f.nex}%';
+    return 'NEX ${f.nex}%';
+  }
+
+  /// Habilidades de classe recebidas ate agora (texto da progressao).
+  List<String> get progressaoAtual {
+    final cd = classeDados;
+    if (cd == null) return const [];
+    if (modoPatente && !sobrevivente) {
+      final p = asMap(cd['progressaoPatente']);
+      return [
+        for (var i = 0; i <= indicePat && i < chavesPatente.length; i++)
+          if (p[chavesPatente[i]] != null)
+            '${patentes[i].nome}: ${asStr(p[chavesPatente[i]])}'
+      ];
+    }
+    final p = asMap(cd['progressao']);
+    final chaves = p.keys.map((k) => asInt(k)).toList()..sort();
+    final limite = sobrevivente ? f.estagio : nexClasse;
+    return [
+      for (final k in chaves)
+        if (k <= limite)
+          '${sobrevivente ? 'Estágio $k' : 'NEX $k%'}: ${asStr(p['$k'])}'
+    ];
   }
 }

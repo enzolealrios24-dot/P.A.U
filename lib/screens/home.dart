@@ -148,7 +148,7 @@ class CartaoAgente extends StatelessWidget {
                       style: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.w800)),
                 ),
-                Text('NEX ${ficha.nex}%',
+                Text(c.resumoProgressao,
                     style: const TextStyle(
                         color: Cores.destaque, fontWeight: FontWeight.bold)),
               ]),

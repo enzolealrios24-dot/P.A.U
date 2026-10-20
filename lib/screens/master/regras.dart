@@ -25,13 +25,30 @@ class AbaRegras extends StatelessWidget {
       Secao(
         titulo: 'Regras opcionais',
         child: Column(children: [
+          Seletor(
+            rotulo: 'Progressão dos personagens',
+            valor: modosProgressao[asStr(r['progressao'], 'nex')] ??
+                modosProgressao['nex']!,
+            opcoes: modosProgressao.values.toList(),
+            aoMudar: (v) => set(
+                'progressao',
+                modosProgressao.entries.firstWhere((e) => e.value == v).key),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(top: 4, bottom: 8),
+            child: Text(
+                'Somente NEX: regra padrão. Nível + NEX: o nível controla a classe e o NEX só sobe por exposição (Sobrevivendo ao Horror). Patentes: evolui pelos pontos de prestígio e sempre usa PD.',
+                style: TextStyle(fontSize: 12, color: Cores.textoFraco)),
+          ),
           SwitchListTile(
             contentPadding: EdgeInsets.zero,
-            title: const Text('Determinação (Sobrevivendo ao Horror)'),
+            title: const Text('Jogar sem sanidade (Determinação)'),
             subtitle: const Text(
-                'Junta PE e Sanidade em Pontos de Determinação (PD). Ajuste os valores de PD de cada classe abaixo conforme o livro.'),
-            value: asBool(r['determinacao']),
-            onChanged: (v) => set('determinacao', v),
+                'Junta PE e Sanidade em Pontos de Determinação (PD), do Sobrevivendo ao Horror. Vale para todas as fichas da mesa.'),
+            value: asBool(r['determinacao']) || asStr(r['progressao']) == 'patente',
+            onChanged: asStr(r['progressao']) == 'patente'
+                ? null
+                : (v) => set('determinacao', v),
           ),
           const Divider(),
           Row(children: [
@@ -83,7 +100,7 @@ class AbaRegras extends StatelessWidget {
           ),
         ],
         child: Column(children: [
-          for (final cl in classes)
+          for (final cl in nomesClasses())
             ExpansionTile(
               tilePadding: EdgeInsets.zero,
               title: Text(cl, style: const TextStyle(fontWeight: FontWeight.bold)),
@@ -105,7 +122,7 @@ class AbaRegras extends StatelessWidget {
                       width: 140,
                       child: CampoNumero(
                         valor: asInt(asMap(classesOver[cl])[e.key],
-                            classesPadrao[cl]![e.key]!),
+                            valoresClasse(cl)[e.key] ?? 0),
                         rotulo: e.value,
                         aoSalvar: (v) => set('classes.$cl.${e.key}', v),
                       ),

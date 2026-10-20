@@ -337,7 +337,7 @@ class _CartaoPainel extends StatelessWidget {
                         style: const TextStyle(
                             fontSize: 17, fontWeight: FontWeight.w800)),
                     Text(
-                        '${f.jogador.isEmpty ? asStr(camp.members[f.ownerUid]) : f.jogador} • ${f.classe} • NEX ${f.nex}%',
+                        '${f.jogador.isEmpty ? asStr(camp.members[f.ownerUid]) : f.jogador} • ${f.classe} • ${c.resumoProgressao}',
                         style: const TextStyle(
                             fontSize: 12, color: Cores.textoFraco)),
                   ],

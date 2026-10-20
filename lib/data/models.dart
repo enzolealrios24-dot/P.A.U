@@ -44,6 +44,11 @@ class Ficha {
   String get origem => asStr(d['origem']);
   String get trilha => asStr(d['trilha']);
   int get nex => asInt(d['nex'], 5);
+  int get nivel => asInt(d['nivel'], 1);
+  int get estagio => asInt(d['estagio'], 1);
+  String get modoSanidade => asStr(d['modoSanidade'], 'san');
+  String get modoProgressao => asStr(d['modoProgressao'], 'nex');
+  String get afinidade => asStr(d['afinidade']);
   int get pp => asInt(d['pp']);
 
   Map<String, dynamic> get atributos => asMap(d['atributos']);

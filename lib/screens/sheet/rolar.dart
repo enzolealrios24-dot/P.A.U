@@ -33,7 +33,7 @@ class CtxFicha {
       {int dadosExtra = 0, int bonusExtra = 0}) {
     final r = Dados.rolarTeste(
       titulo: '${f.nome}: ${atributosNomes[attr]}',
-      nDados: f.attr(attr) + dadosExtra,
+      nDados: calc.attr(attr) + calc.modDados(attrTeste: attr) + dadosExtra,
       bonus: bonusExtra,
     );
     _publicar(context, r);
@@ -41,22 +41,36 @@ class CtxFicha {
 
   void rolarAtaque(BuildContext context, Map<String, dynamic> arma,
       {int dadosExtra = 0, int bonusExtra = 0}) {
-    final pericia = asStr(arma['pericia'], 'Luta');
+    final tipoAtaque = asStr(arma['ataque']);
+    final pericia = asStr(arma['pericia'],
+        tipoAtaque.isEmpty || tipoAtaque == 'corpo' ? 'Luta' : 'Pontaria');
+    final ataque = tipoAtaque.isNotEmpty
+        ? tipoAtaque
+        : (pericia == 'Luta' ? 'corpo' : 'disparo');
+    final agil = asBool(arma['agil']) && pericia == 'Luta';
     final crit = Dados.critico(asStr(arma['critico'], '20/x2'));
+    final attrAtaque = agil
+        ? (calc.agi > calc.forca ? calc.agi : calc.forca)
+        : calc.attr(periciaPorNome(pericia)?.attr ?? 'for');
     final teste = Dados.rolarTeste(
       titulo: '${f.nome}: ataque com ${asStr(arma['nome'], 'arma')}',
-      nDados: calc.dadosPericia(pericia) + dadosExtra,
+      nDados: attrAtaque +
+          calc.modDados(pericia: pericia, ataque: true, corpo: ataque == 'corpo') +
+          dadosExtra,
       bonus: calc.bonusPericia(pericia) + asInt(arma['bonusAtaque']) + bonusExtra,
       margemCritico: crit.margem,
     );
     final danoExpr = asStr(arma['dano'], '1d4');
-    // na pericia Luta soma-se FOR ao dano (arma corpo a corpo)
-    final somaFor = pericia == 'Luta' && asBool(arma['somaFor'], true);
+    // corpo a corpo (e arremesso) soma FOR ao dano; armas ageis podem usar AGI
+    final somaFor = asBool(arma['somaFor'], ataque == 'corpo');
+    final attrDano = agil && calc.agi > calc.forca ? calc.agi : calc.forca;
     final dano = Dados.expressao(danoExpr, multDados: teste.critico ? crit.mult : 1);
-    final extra = asInt(arma['bonusDano']) + (somaFor ? calc.forca : 0);
+    final extra = asInt(arma['bonusDano']) +
+        (somaFor ? attrDano : 0) +
+        calc.bonusDanoArma(ataque);
     final r = Rolagem(
       titulo: teste.titulo,
-      detalhe: '${teste.detalhe}  (${pericia})',
+      detalhe: '${teste.detalhe}  ($pericia)',
       total: teste.total,
       critico: teste.critico,
       falhaCritica: teste.falhaCritica,
@@ -77,7 +91,7 @@ class CtxFicha {
     if (custo > calc.limitePE) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
-              'Custo $custo maior que seu limite de PE por turno (${calc.limitePE}).')));
+              'Custo $custo maior que seu limite de ${calc.determinacao ? 'PD' : 'PE'} por turno (${calc.limitePE}).')));
     }
     if (calc.determinacao) {
       Repo.set(f.id, 'pdAtual', f.pdAtual - custo);
@@ -92,13 +106,16 @@ class CtxFicha {
             ? null
             : Dados.expressao(asStr(ritual['dano']))
         : Dados.expressao(danoExpr);
+    final extraRitual = d == null ? 0 : calc.bonusDanoRitual;
     final r = Rolagem(
       titulo: '${f.nome} conjura ${asStr(ritual['nome'], 'ritual')}',
       detalhe:
           '$forma • ${circulo}º círculo • ${asStr(ritual['elemento'])} • gastou $custo ${calc.determinacao ? 'PD' : 'PE'} • DT ${calc.dtRitual}',
       total: custo,
-      danoTotal: d?.total,
-      danoDetalhe: d?.detalhe,
+      danoTotal: d == null ? null : d.total + extraRitual,
+      danoDetalhe: d == null
+          ? null
+          : '${d.detalhe}${extraRitual != 0 ? ' + $extraRitual' : ''}',
     );
     _publicar(context, r);
   }

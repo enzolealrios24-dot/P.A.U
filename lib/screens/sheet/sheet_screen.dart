@@ -63,7 +63,7 @@ class _Ficha extends StatelessWidget {
             children: [
               Text(f.nome, style: const TextStyle(fontWeight: FontWeight.w800)),
               Text(
-                  '${f.classe} • NEX ${f.nex}% • ${calc.patente.nome}${ctx.camp != null ? ' • ${ctx.camp!.nome}' : ''}',
+                  '${f.classe} • ${calc.resumoProgressao} • ${calc.patente.nome}${ctx.camp != null ? ' • ${ctx.camp!.nome}' : ''}',
                   style: const TextStyle(fontSize: 12, color: Cores.textoFraco)),
             ],
           ),

@@ -1,0 +1,79 @@
+[
+  {"id": "aniquilador", "nome": "Aniquilador", "classe": "combatente", "fonte": "OPRPG", "pag": 26, "habilidades": [
+    {"nex": 10, "nome": "A Favorita", "resumo": "Escolha uma arma favorita: a categoria dela cai em I."},
+    {"nex": 40, "nome": "Técnica Secreta", "resumo": "Favorita cai em II. Ao atacar com ela, gaste 2 PE por efeito: Amplo (atinge mais um alvo adjacente com o mesmo teste) ou Destruidor (+1 no multiplicador de crítico)."},
+    {"nex": 65, "nome": "Técnica Sublime", "resumo": "Novos efeitos da Técnica Secreta: Letal (+2 na margem de ameaça; escolhido 2x dá +5) e Perfurante (ignora até 5 de RD)."},
+    {"nex": 99, "nome": "Máquina de Matar", "resumo": "Favorita cai em III, ganha +2 na margem de ameaça e +1 dado de dano."}]},
+  {"id": "comandante_campo", "nome": "Comandante de Campo", "classe": "combatente", "fonte": "OPRPG", "pag": 26, "habilidades": [
+    {"nex": 10, "nome": "Inspirar Confiança", "resumo": "Reação e 2 PE: um aliado em alcance curto rola de novo um teste recém-feito."},
+    {"nex": 40, "nome": "Estrategista", "resumo": "Ação padrão e 1 PE por aliado (até seu Int) em alcance curto: no próximo turno deles, ganham uma ação de movimento extra."},
+    {"nex": 65, "nome": "Brecha na Guarda", "resumo": "1x por rodada, quando um aliado fere um inimigo em alcance curto, reação e 2 PE para você ou outro aliado atacar o mesmo inimigo. Inspirar e Estrategista passam a alcance médio."},
+    {"nex": 99, "nome": "Oficial Comandante", "resumo": "Ação padrão e 5 PE: cada aliado visível em alcance médio ganha uma ação padrão extra no próximo turno."}]},
+  {"id": "guerreiro", "nome": "Guerreiro", "classe": "combatente", "fonte": "OPRPG", "pag": 27, "habilidades": [
+    {"nex": 10, "nome": "Técnica Letal", "resumo": "+2 na margem de ameaça em todos os ataques corpo a corpo."},
+    {"nex": 40, "nome": "Revidar", "resumo": "Ao bloquear, reação e 2 PE para atacar corpo a corpo quem o atacou."},
+    {"nex": 65, "nome": "Força Opressora", "resumo": "Ao acertar corpo a corpo, 1 PE para derrubar ou empurrar como ação livre (+5 no empurrão a cada 10 de dano); se derrubar, 1 PE para atacar o alvo caído."},
+    {"nex": 99, "nome": "Potência Máxima", "resumo": "Com Ataque Especial em armas corpo a corpo, todos os bônus numéricos dobram."}]},
+  {"id": "operacoes_especiais", "nome": "Operações Especiais", "classe": "combatente", "fonte": "OPRPG", "pag": 27, "habilidades": [
+    {"nex": 10, "nome": "Iniciativa Aprimorada", "resumo": "+5 em Iniciativa e uma ação de movimento extra na primeira rodada.", "efeitos": [{"alvo": "pericia", "pericia": "Iniciativa", "valor": 5}]},
+    {"nex": 40, "nome": "Ataque Extra", "resumo": "1x por rodada, ao atacar, gaste 2 PE para fazer mais um ataque."},
+    {"nex": 65, "nome": "Surto de Adrenalina", "resumo": "1x por rodada, gaste 5 PE para uma ação padrão ou de movimento extra."},
+    {"nex": 99, "nome": "Sempre Alerta", "resumo": "Uma ação padrão extra no início de cada cena de combate."}]},
+  {"id": "tropa_choque", "nome": "Tropa de Choque", "classe": "combatente", "fonte": "OPRPG", "pag": 27, "habilidades": [
+    {"nex": 10, "nome": "Casca Grossa", "resumo": "+1 PV a cada 5% de NEX; ao bloquear, soma seu Vigor à RD.", "efeitos": [{"alvo": "pv", "valor": 1, "por": "nivel"}]},
+    {"nex": 40, "nome": "Cai Dentro", "resumo": "Quando um oponente em alcance curto ataca um aliado, reação e 1 PE: ele faz Vontade (DT Vig) ou tem de atacar você."},
+    {"nex": 65, "nome": "Duro de Matar", "resumo": "Reação e 2 PE para reduzir à metade um dano não paranormal (em 85%, também paranormal)."},
+    {"nex": 99, "nome": "Inquebrável", "resumo": "Machucado: +5 Defesa e RD 5. Morrendo: não fica indefeso e continua agindo."}]},
+
+  {"id": "atirador_elite", "nome": "Atirador de Elite", "classe": "especialista", "fonte": "OPRPG", "pag": 30, "habilidades": [
+    {"nex": 10, "nome": "Mira de Elite", "resumo": "Proficiência com armas de fogo de balas longas; soma Int no dano delas."},
+    {"nex": 40, "nome": "Disparo Letal", "resumo": "Ao mirar, 1 PE para +2 na margem de ameaça do próximo ataque."},
+    {"nex": 65, "nome": "Disparo Impactante", "resumo": "Com arma de fogo, 2 PE para trocar o dano por derrubar, desarmar, empurrar ou quebrar."},
+    {"nex": 99, "nome": "Atirar para Matar", "resumo": "Crítico com arma de fogo causa dano máximo, sem rolar."}]},
+  {"id": "infiltrador", "nome": "Infiltrador", "classe": "especialista", "fonte": "OPRPG", "pag": 30, "habilidades": [
+    {"nex": 10, "nome": "Ataque Furtivo", "resumo": "1x por rodada, contra alvo desprevenido ou flanqueado (corpo a corpo ou alcance curto), 1 PE para +1d6 de dano; +2d6 em 40%, +3d6 em 65%, +4d6 em 99%."},
+    {"nex": 40, "nome": "Gatuno", "resumo": "+5 em Atletismo e Crime; esconde-se andando no deslocamento normal.", "efeitos": [{"alvo": "pericia", "pericia": "Atletismo", "valor": 5}, {"alvo": "pericia", "pericia": "Crime", "valor": 5}]},
+    {"nex": 65, "nome": "Assassinar", "resumo": "Movimento e 3 PE para analisar um alvo: o próximo Ataque Furtivo nele dobra os dados extras e o deixa inconsciente ou morrendo (Fortitude DT Agi evita)."},
+    {"nex": 99, "nome": "Sombra Fugaz", "resumo": "3 PE para ignorar a penalidade de Furtividade depois de atacar ou chamar atenção."}]},
+  {"id": "medico_campo", "nome": "Médico de Campo", "classe": "especialista", "fonte": "OPRPG", "pag": 31, "requisito": "Treinado em Medicina; precisa de kit de medicina.", "habilidades": [
+    {"nex": 10, "nome": "Paramédico", "resumo": "Ação padrão e 2 PE: cura 2d10 PV em você ou aliado adjacente; +1d10 (e +1 PE) em 40%, 65% e 99%."},
+    {"nex": 40, "nome": "Equipe de Trauma", "resumo": "Ação padrão e 2 PE: remove uma condição negativa (exceto morrendo) de aliado adjacente."},
+    {"nex": 65, "nome": "Resgate", "resumo": "1x por rodada, aproxima-se de aliado ferido como ação livre; ao curar, você e ele ganham +5 Defesa; carregar alguém pesa metade."},
+    {"nex": 99, "nome": "Reanimação", "resumo": "1x por cena, ação completa e 10 PE: traz de volta quem morreu nesta cena (exceto dano massivo)."}]},
+  {"id": "negociador", "nome": "Negociador", "classe": "especialista", "fonte": "OPRPG", "pag": 31, "habilidades": [
+    {"nex": 10, "nome": "Eloquência", "resumo": "Ação completa e 1 PE por alvo em alcance curto: Diplomacia, Enganação ou Intimidação contra Vontade; quem falhar fica fascinado enquanto você se concentra."},
+    {"nex": 40, "nome": "Discurso Motivador", "resumo": "Ação padrão e 4 PE: você e aliados em alcance curto ganham +1d20 em perícias até o fim da cena (em 65%, 8 PE para +2d20)."},
+    {"nex": 65, "nome": "Eu Conheço um Cara", "resumo": "1x por missão, peça um favor à sua rede de contatos (equipamento novo, abrigo, resgate…)."},
+    {"nex": 99, "nome": "Truque de Mestre", "resumo": "5 PE para imitar uma habilidade que viu um aliado usar na cena, pagando os custos dela."}]},
+  {"id": "tecnico", "nome": "Técnico", "classe": "especialista", "fonte": "OPRPG", "pag": 31, "habilidades": [
+    {"nex": 10, "nome": "Inventário Otimizado", "resumo": "Soma Intelecto à Força para calcular a carga.", "efeitos": [{"alvo": "cargaAtributo", "attr": "int", "valor": 1}]},
+    {"nex": 40, "nome": "Remendão", "resumo": "Ação completa e 1 PE para consertar um item quebrado até o fim da cena; equipamentos gerais caem uma categoria para você."},
+    {"nex": 65, "nome": "Improvisar", "resumo": "Ação completa e 2 PE + 2 PE por categoria: improvisa um equipamento geral que dura a cena."},
+    {"nex": 99, "nome": "Preparado para Tudo", "resumo": "Movimento e 3 PE por categoria: 'acha' na bolsa qualquer item que não seja arma."}]},
+
+  {"id": "conduite", "nome": "Conduíte", "classe": "ocultista", "fonte": "OPRPG", "pag": 34, "habilidades": [
+    {"nex": 10, "nome": "Ampliar Ritual", "resumo": "+2 PE para aumentar o alcance do ritual em um passo ou dobrar a área."},
+    {"nex": 40, "nome": "Acelerar Ritual", "resumo": "1x por rodada, +4 PE para conjurar um ritual como ação livre."},
+    {"nex": 65, "nome": "Anular Ritual", "resumo": "Alvo de um ritual, gaste PE iguais ao custo dele e vença um teste oposto de Ocultismo para anulá-lo."},
+    {"nex": 99, "nome": "Canalizar o Medo", "resumo": "Aprende o ritual Canalizar o Medo."}]},
+  {"id": "flagelador", "nome": "Flagelador", "classe": "ocultista", "fonte": "OPRPG", "pag": 34, "habilidades": [
+    {"nex": 10, "nome": "Poder do Flagelo", "resumo": "Pague custo de rituais com PV, 2 PV por PE (só recupera com descanso)."},
+    {"nex": 40, "nome": "Abraçar a Dor", "resumo": "Reação e 2 PE para reduzir à metade um dano não paranormal."},
+    {"nex": 65, "nome": "Absorver Agonia", "resumo": "Ao derrubar inimigos a 0 PV com um ritual, ganha PE temporários iguais ao círculo dele."},
+    {"nex": 99, "nome": "Medo Tangível", "resumo": "Aprende o ritual Medo Tangível."}]},
+  {"id": "graduado", "nome": "Graduado", "classe": "ocultista", "fonte": "OPRPG", "pag": 35, "habilidades": [
+    {"nex": 10, "nome": "Saber Ampliado", "resumo": "Aprende um ritual de 1º círculo e mais um a cada novo círculo (fora do limite)."},
+    {"nex": 40, "nome": "Grimório Ritualístico", "resumo": "Grimório (1 espaço) com Int rituais de 1º ou 2º círculo, mais 1 por novo círculo; conjurar dele exige ação completa folheando."},
+    {"nex": 65, "nome": "Rituais Eficientes", "resumo": "+5 na DT para resistir a todos os seus rituais.", "efeitos": [{"alvo": "dtRitual", "valor": 5}]},
+    {"nex": 99, "nome": "Conhecendo o Medo", "resumo": "Aprende o ritual Conhecendo o Medo."}]},
+  {"id": "intuitivo", "nome": "Intuitivo", "classe": "ocultista", "fonte": "OPRPG", "pag": 35, "habilidades": [
+    {"nex": 10, "nome": "Mente Sã", "resumo": "Resistência paranormal +5 (+5 em testes de resistência contra efeitos paranormais)."},
+    {"nex": 40, "nome": "Presença Poderosa", "resumo": "Soma Presença ao limite de PE por turno, só para conjurar rituais (não afeta DT)."},
+    {"nex": 65, "nome": "Inabalável", "resumo": "RD mental e paranormal 10; se passar em Vontade contra dano paranormal que reduz à metade, não sofre dano."},
+    {"nex": 99, "nome": "Presença do Medo", "resumo": "Aprende o ritual Presença do Medo."}]},
+  {"id": "lamina_paranormal", "nome": "Lâmina Paranormal", "classe": "ocultista", "fonte": "OPRPG", "pag": 35, "habilidades": [
+    {"nex": 10, "nome": "Lâmina Maldita", "resumo": "Aprende Amaldiçoar Arma (se já conhece, +1 PE para conjurar como movimento) e pode atacar com Ocultismo usando a arma amaldiçoada."},
+    {"nex": 40, "nome": "Gladiador Paranormal", "resumo": "Cada acerto corpo a corpo dá 2 PE temporários (máximo por cena = seu limite de PE)."},
+    {"nex": 65, "nome": "Conjuração Marcial", "resumo": "1x por rodada, ao conjurar ritual de ação padrão, 2 PE para um ataque corpo a corpo livre."},
+    {"nex": 99, "nome": "Lâmina do Medo", "resumo": "Aprende o ritual Lâmina do Medo."}]}
+]

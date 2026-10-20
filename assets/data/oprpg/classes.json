@@ -1,0 +1,59 @@
+[
+  {
+    "id": "combatente", "nome": "Combatente", "fonte": "OPRPG", "pag": 24,
+    "pv": [20, 4], "pe": [2, 2], "san": [12, 3], "pd": [6, 3],
+    "patente": {"pv": [20, 10], "pd": [8, 4], "pag": 110},
+    "periciasTexto": "Luta ou Pontaria; Fortitude ou Reflexos; mais 1 + Intelecto à escolha.",
+    "periciasLivres": 1,
+    "proficiencias": "Armas simples, armas táticas e proteções leves.",
+    "habilidades": [
+      {"nex": 5, "nome": "Ataque Especial", "resumo": "Ao atacar, gaste 2 PE para +5 no ataque ou no dano. Sobe para 3 PE/+10 (25%), 4 PE/+15 (55%) e 5 PE/+20 (85%); cada +5 vai em ataque ou dano."},
+      {"nex": 10, "nome": "Habilidade de Trilha", "resumo": "Escolha uma trilha de combatente; novas habilidades em NEX 40%, 65% e 99%."},
+      {"nex": 15, "nome": "Poder de Combatente", "resumo": "Um poder de combatente à escolha em 15%, 30%, 45%, 60%, 75% e 90%.", "repete": [15, 30, 45, 60, 75, 90]},
+      {"nex": 20, "nome": "Aumento de Atributo", "resumo": "+1 em um atributo (máximo 5) em 20%, 50%, 80% e 95%.", "repete": [20, 50, 80, 95]},
+      {"nex": 35, "nome": "Grau de Treinamento", "resumo": "Em 35% e 70%, sobe o grau de 2 + Int perícias treinadas (treinado→veterano→expert).", "repete": [35, 70]},
+      {"nex": 50, "nome": "Versatilidade", "resumo": "Um poder de combatente ou a 1ª habilidade de outra trilha de combatente."}
+    ],
+    "progressao": {"5": "Ataque especial (2 PE, +5)", "10": "Habilidade de trilha", "15": "Poder de combatente", "20": "Aumento de atributo", "25": "Ataque especial (3 PE, +10)", "30": "Poder de combatente", "35": "Grau de treinamento", "40": "Habilidade de trilha", "45": "Poder de combatente", "50": "Aumento de atributo, versatilidade", "55": "Ataque especial (4 PE, +15)", "60": "Poder de combatente", "65": "Habilidade de trilha", "70": "Grau de treinamento", "75": "Poder de combatente", "80": "Aumento de atributo", "85": "Ataque especial (5 PE, +20)", "90": "Poder de combatente", "95": "Aumento de atributo", "99": "Habilidade de trilha"},
+    "progressaoPatente": {"recruta": "Ataque Especial (1 PD, +5)", "operador": "Aumento de atributo, poder de combatente", "agente_especial": "Ataque Especial (2 PD, +10), grau de treinamento, poder de combatente, trilha (1ª habilidade)", "oficial": "Ataque Especial (3 PD, +15), aumento de atributo, poder de combatente, trilha (2ª habilidade)", "elite": "Ataque Especial (4 PD, +20), grau de treinamento, poder de combatente, trilha (3ª ou 4ª habilidade)"}
+  },
+  {
+    "id": "especialista", "nome": "Especialista", "fonte": "OPRPG", "pag": 28,
+    "pv": [16, 3], "pe": [3, 3], "san": [16, 4], "pd": [8, 4],
+    "patente": {"pv": [16, 8], "pd": [12, 6], "pag": 111},
+    "periciasTexto": "7 + Intelecto à escolha.",
+    "periciasLivres": 7,
+    "proficiencias": "Armas simples e proteções leves.",
+    "habilidades": [
+      {"nex": 5, "nome": "Eclético", "resumo": "Gaste 2 PE para fazer um teste de perícia como se fosse treinado nela."},
+      {"nex": 5, "nome": "Perito", "resumo": "Escolha 2 perícias treinadas (exceto Luta e Pontaria): gaste 2 PE para +1d6 no teste. Sobe para 3 PE/+1d8 (25%), 4 PE/+1d10 (55%) e 5 PE/+1d12 (85%)."},
+      {"nex": 10, "nome": "Habilidade de Trilha", "resumo": "Escolha uma trilha de especialista; novas habilidades em NEX 40%, 65% e 99%."},
+      {"nex": 15, "nome": "Poder de Especialista", "resumo": "Um poder de especialista à escolha em 15%, 30%, 45%, 60%, 75% e 90%.", "repete": [15, 30, 45, 60, 75, 90]},
+      {"nex": 20, "nome": "Aumento de Atributo", "resumo": "+1 em um atributo (máximo 5) em 20%, 50%, 80% e 95%.", "repete": [20, 50, 80, 95]},
+      {"nex": 35, "nome": "Grau de Treinamento", "resumo": "Em 35% e 70%, sobe o grau de 5 + Int perícias treinadas.", "repete": [35, 70]},
+      {"nex": 40, "nome": "Engenhosidade", "resumo": "Com Eclético, +2 PE para agir como veterano; em 75%, +4 PE para agir como expert."},
+      {"nex": 50, "nome": "Versatilidade", "resumo": "Um poder de especialista ou a 1ª habilidade de outra trilha de especialista."}
+    ],
+    "progressao": {"5": "Eclético, perito (2 PE, +1d6)", "10": "Habilidade de trilha", "15": "Poder de especialista", "20": "Aumento de atributo", "25": "Perito (3 PE, +1d8)", "30": "Poder de especialista", "35": "Grau de treinamento", "40": "Engenhosidade (veterano), habilidade de trilha", "45": "Poder de especialista", "50": "Aumento de atributo, versatilidade", "55": "Perito (4 PE, +1d10)", "60": "Poder de especialista", "65": "Habilidade de trilha", "70": "Grau de treinamento", "75": "Engenhosidade (expert), poder de especialista", "80": "Aumento de atributo", "85": "Perito (5 PE, +1d12)", "90": "Poder de especialista", "95": "Aumento de atributo", "99": "Habilidade de trilha"},
+    "progressaoPatente": {"recruta": "Eclético, perito (1 PD, +1d6)", "operador": "Aumento de atributo, poder de especialista", "agente_especial": "Perito (2 PD, +1d8), grau de treinamento, poder de especialista, trilha (1ª habilidade)", "oficial": "Perito (3 PD, +1d10), aumento de atributo, poder de especialista, trilha (2ª habilidade)", "elite": "Perito (4 PD, +1d12), grau de treinamento, poder de especialista, trilha (3ª ou 4ª habilidade)"}
+  },
+  {
+    "id": "ocultista", "nome": "Ocultista", "fonte": "OPRPG", "pag": 32,
+    "pv": [12, 2], "pe": [4, 4], "san": [20, 5], "pd": [10, 5],
+    "patente": {"pv": [12, 6], "pd": [16, 8], "pag": 112},
+    "periciasTexto": "Ocultismo e Vontade; mais 3 + Intelecto à escolha.",
+    "periciasLivres": 3,
+    "periciasFixas": ["Ocultismo", "Vontade"],
+    "proficiencias": "Armas simples.",
+    "habilidades": [
+      {"nex": 5, "nome": "Escolhido pelo Outro Lado", "resumo": "Conjura rituais de 1º círculo (2º em 25%, 3º em 55%, 4º em 85%). Começa com 3 rituais de 1º círculo e aprende 1 ritual a cada NEX (fora do limite de rituais)."},
+      {"nex": 10, "nome": "Habilidade de Trilha", "resumo": "Escolha uma trilha de ocultista; novas habilidades em NEX 40%, 65% e 99%."},
+      {"nex": 15, "nome": "Poder de Ocultista", "resumo": "Um poder de ocultista à escolha em 15%, 30%, 45%, 60%, 75% e 90%.", "repete": [15, 30, 45, 60, 75, 90]},
+      {"nex": 20, "nome": "Aumento de Atributo", "resumo": "+1 em um atributo (máximo 5) em 20%, 50%, 80% e 95%.", "repete": [20, 50, 80, 95]},
+      {"nex": 35, "nome": "Grau de Treinamento", "resumo": "Em 35% e 70%, sobe o grau de 3 + Int perícias treinadas.", "repete": [35, 70]},
+      {"nex": 50, "nome": "Versatilidade", "resumo": "Um poder de ocultista ou a 1ª habilidade de outra trilha de ocultista."}
+    ],
+    "progressao": {"5": "Escolhido pelo Outro Lado (1º círculo)", "10": "Habilidade de trilha", "15": "Poder de ocultista", "20": "Aumento de atributo", "25": "Escolhido pelo Outro Lado (2º círculo)", "30": "Poder de ocultista", "35": "Grau de treinamento", "40": "Habilidade de trilha", "45": "Poder de ocultista", "50": "Aumento de atributo, versatilidade", "55": "Escolhido pelo Outro Lado (3º círculo)", "60": "Poder de ocultista", "65": "Habilidade de trilha", "70": "Grau de treinamento", "75": "Poder de ocultista", "80": "Aumento de atributo", "85": "Escolhido pelo Outro Lado (4º círculo)", "90": "Poder de ocultista", "95": "Aumento de atributo", "99": "Habilidade de trilha"},
+    "progressaoPatente": {"recruta": "Escolhido pelo Outro Lado (1º círculo)", "operador": "Aumento de atributo, poder de ocultista", "agente_especial": "Escolhido pelo Outro Lado (2º círculo), grau de treinamento, poder de ocultista, trilha (1ª habilidade)", "oficial": "Escolhido pelo Outro Lado (3º círculo), aumento de atributo, poder de ocultista, trilha (2ª habilidade)", "elite": "Escolhido pelo Outro Lado (4º círculo), grau de treinamento, poder de ocultista, trilha (3ª ou 4ª habilidade)"}
+  }
+]

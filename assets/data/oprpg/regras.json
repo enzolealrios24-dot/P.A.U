@@ -1,0 +1,38 @@
+{
+  "fonte": "OPRPG",
+  "patentes": [
+    {"id": "recruta", "nome": "Recruta", "pp": 0, "credito": "Baixo", "limites": [2, 0, 0, 0], "limitePD": 1, "recuperacao": 1},
+    {"id": "operador", "nome": "Operador", "pp": 20, "credito": "Médio", "limites": [3, 1, 0, 0], "limitePD": 3, "recuperacao": 2},
+    {"id": "agente_especial", "nome": "Agente Especial", "pp": 50, "credito": "Médio", "limites": [3, 2, 1, 0], "limitePD": 6, "recuperacao": 3},
+    {"id": "oficial", "nome": "Oficial de Operações", "pp": 100, "credito": "Alto", "limites": [3, 3, 2, 1], "limitePD": 10, "recuperacao": 4},
+    {"id": "elite", "nome": "Agente de Elite", "pp": 200, "credito": "Ilimitado", "limites": [3, 3, 3, 2], "limitePD": 15, "recuperacao": 5}
+  ],
+  "custoRitual": {"1": 1, "2": 3, "3": 6, "4": 10},
+  "eventosPP": {"Solução do caso": 10, "Pista adicional": 2, "Morte de inocente": -2, "Morte de membro do grupo": -5},
+  "insanidade": {
+    "pag": 113,
+    "dado": "1d20",
+    "efeitos": [
+      "Procura a dor, sentir ou causar.",
+      "Vê rostos humanos deformados com traços de bichos ou monstros.",
+      "Toda voz soa como se viesse de um monstro.",
+      "Uma voz interna insiste que você está mentindo.",
+      "Sente o sangue fervendo, querendo sair do corpo.",
+      "Rostos o encaram das sombras o tempo todo.",
+      "Uma fome que nada sacia.",
+      "Gosto constante de ferro na boca.",
+      "A luz arde nos olhos; precisa escondê-los.",
+      "Mal consegue falar; parece que outro controla suas palavras.",
+      "Coceira insuportável nos olhos.",
+      "Lembranças de mais de uma hora atrás ficam nebulosas.",
+      "Emoções trocadas: alegria vira raiva, dor vira prazer.",
+      "Precisa narrar tudo da forma mais grotesca possível.",
+      "Certeza de que há vermes correndo sob a pele.",
+      "Acredita estar sob um ritual que o deixa mais poderoso.",
+      "Acha que as mãos estão furadas e as coisas caem dos bolsos.",
+      "Deixa todas as decisões para o acaso.",
+      "Tudo parece ferver, e você gosta da dor.",
+      "Só o fim das coisas merece ser celebrado, e você quer provocá-lo."
+    ]
+  }
+}

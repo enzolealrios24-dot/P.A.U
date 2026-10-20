@@ -1,0 +1,21 @@
+[
+  {
+    "id": "sobrevivente", "nome": "Sobrevivente", "fonte": "SaH", "pag": 30,
+    "estagios": 5,
+    "pv": [8, 2], "pe": [2, 1], "san": [8, 2], "pd": [4, 2],
+    "somaAttrPorNivel": false,
+    "limitePE": 1,
+    "pontosAtributo": 3,
+    "periciasTexto": "1 + Intelecto à escolha.",
+    "periciasLivres": 1,
+    "proficiencias": "Armas simples.",
+    "habilidades": [
+      {"nex": 1, "nome": "Empenho", "resumo": "Gaste 1 PE para +2 num teste de perícia."},
+      {"nex": 2, "nome": "Trilha", "resumo": "Escolha uma trilha de sobrevivente (Durão, Esperto ou Esotérico); segunda habilidade no estágio 4."},
+      {"nex": 3, "nome": "Aumento de Atributo", "resumo": "+1 em um atributo (máximo 3)."},
+      {"nex": 5, "nome": "Cicatrizado", "resumo": "Escolha um perigo paranormal que enfrentou: −1d20 em resistência contra ele. 1x por sessão, como reação, sacrifique 1 PV permanente para ignorar dano mental ou gasto de PE, ou 1 PE permanente para reduzir um dano físico à metade."}
+    ],
+    "progressao": {"1": "Empenho", "2": "Trilha (1ª habilidade)", "3": "Aumento de atributo", "4": "Trilha (2ª habilidade)", "5": "Cicatrizado"},
+    "observacao": "Começa com NEX 0% e sobe um estágio por missão. Não usa patentes: começa com um item de categoria I e itens de categoria 0. Com treinamento especial pode virar combatente, especialista ou ocultista de NEX 5%."
+  }
+]
