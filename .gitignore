@@ -12,3 +12,6 @@ macos/
 web/
 *.iml
 .idea/
+
+# prints gerados pela vitrine de telas (flutter test --update-goldens vitrine/)
+vitrine/prints/

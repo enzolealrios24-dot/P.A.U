@@ -140,29 +140,51 @@ class _ListaAgentes extends StatelessWidget {
               .toList();
           if (l.isEmpty) {
             return Center(
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
-                const Text('Nenhum agente ainda.\nCrie o primeiro!',
-                    textAlign: TextAlign.center),
-                const SizedBox(height: 12),
-                OutlinedButton.icon(
-                  onPressed: () => abrirImportarCris(context, logado: true),
-                  icon: const Icon(Icons.download_outlined),
-                  label: const Text('Trazer do site do CRIS'),
-                ),
-              ]),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+                child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  SigiloConhecimento(
+                      tamanho: 120, cor: Cores.destaque.withValues(alpha: 0.5), espessura: 1.2),
+                  const SizedBox(height: 20),
+                  Text('Nenhum agente ainda', style: estiloTitulo(22, cor: Cores.texto)),
+                  const SizedBox(height: 6),
+                  const Text('Crie o primeiro ou traga os seus do site do CRIS.',
+                      textAlign: TextAlign.center, style: TextStyle(color: Cores.textoFraco)),
+                  const SizedBox(height: 20),
+                  OutlinedButton.icon(
+                    onPressed: () => abrirImportarCris(context, logado: true),
+                    icon: const Icon(Icons.download_outlined),
+                    label: const Text('Trazer do site do CRIS'),
+                  ),
+                ]),
+              ),
             );
           }
-          return ListView(
-            padding: const EdgeInsets.fromLTRB(12, 12, 12, 90),
-            children: [
+          return LayoutBuilder(builder: (context, cons) {
+            final colunas = cons.maxWidth >= 1150 ? 3 : (cons.maxWidth >= 760 ? 2 : 1);
+            final largura = (cons.maxWidth - 32 - 12 * (colunas - 1)) / colunas;
+            final cartoes = [
               for (final f in l)
                 CartaoAgente(
                     ficha: f,
-                    formas: todas
-                        .where((t) => t.transformacaoDe == f.id)
-                        .toList()),
-            ],
-          );
+                    formas: todas.where((t) => t.transformacaoDe == f.id).toList()),
+            ];
+            return ListView(
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 100),
+              children: [
+                TituloPagina(
+                  titulo: 'Agentes',
+                  subtitulo: l.length == 1 ? '1 agente na sua pasta' : '${l.length} agentes na sua pasta',
+                ),
+                if (colunas == 1)
+                  ...cartoes
+                else
+                  Wrap(spacing: 12, children: [
+                    for (final c in cartoes) SizedBox(width: largura, child: c),
+                  ]),
+              ],
+            );
+          });
         },
       ),
     );
@@ -179,60 +201,74 @@ class CartaoAgente extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = Calc(ficha, regras);
+    final detalhes = [ficha.classe, ficha.trilha, ficha.origem].where((s) => s.isNotEmpty).join(' · ');
     return Card(
+      clipBehavior: Clip.antiAlias,
       child: InkWell(
-        borderRadius: BorderRadius.circular(10),
         onTap: () => Navigator.push(context,
             MaterialPageRoute(builder: (_) => TelaFicha(fichaId: ficha.id))),
         child: Padding(
           padding: const EdgeInsets.all(12),
-          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: AvatarFicha(foto: ficha.foto, nome: ficha.nome, tamanho: 58),
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(children: [
+          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              RetratoFicha(
+                foto: ficha.foto,
+                nome: ficha.nome,
+                ajuste: ficha.fotoAjuste,
+                largura: 78,
+              ),
+              const SizedBox(width: 14),
+              Expanded(
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     Expanded(
                       child: Text(ficha.nome,
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w800)),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: estiloTitulo(18, cor: Cores.texto)),
                     ),
-                    Text(c.resumoProgressao,
-                        style: TextStyle(
-                            color: Cores.destaque, fontWeight: FontWeight.bold)),
+                    const SizedBox(width: 8),
+                    Selo(c.resumoProgressao),
                   ]),
-                  Text(
-                      [ficha.classe, ficha.trilha, ficha.origem]
-                          .where((s) => s.isNotEmpty)
-                          .join(' • '),
-                      style: const TextStyle(color: Cores.textoFraco)),
-                  if (ficha.campaignId != null)
-                    Padding(
-                      padding: EdgeInsets.only(top: 4),
-                      child: Text('Em uma mesa',
-                          style: TextStyle(color: Cores.roxo, fontSize: 12)),
-                    ),
-                  const SizedBox(height: 8),
-                  _mini('PV', ficha.pvAtual, c.pvMax, Cores.pv, temp: ficha.pvTemp),
-                  if (c.determinacao)
-                    _mini('PD', ficha.pdAtual, c.pdMax, Cores.pd, temp: ficha.peTemp)
-                  else ...[
-                    _mini('PE', ficha.peAtual, c.peMax, Cores.pe, temp: ficha.peTemp),
-                    _mini('SAN', ficha.sanAtual, c.sanMax, Cores.san),
+                  const SizedBox(height: 4),
+                  Text(detalhes,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontSize: 13.5, color: Cores.textoFraco)),
+                  if (ficha.campaignId != null) ...[
+                    const SizedBox(height: 6),
+                    Selo('Em uma mesa', cor: Cores.roxoClaro, icone: Icons.groups_outlined),
                   ],
-                  if (formas.isNotEmpty) ...[
-                    const SizedBox(height: 8),
-                    Wrap(spacing: 6, runSpacing: 6, children: [
-                      for (final t in formas) _chipForma(context, t),
-                    ]),
-                  ],
-                ],
+                  const SizedBox(height: 12),
+                  Row(children: [
+                    Expanded(
+                        child: MedidorMini(
+                            rotulo: 'PV', atual: ficha.pvAtual, max: c.pvMax, cor: Cores.pv, temp: ficha.pvTemp)),
+                    const SizedBox(width: 12),
+                    if (c.determinacao)
+                      Expanded(
+                          child: MedidorMini(
+                              rotulo: 'PD', atual: ficha.pdAtual, max: c.pdMax, cor: Cores.pd, temp: ficha.peTemp))
+                    else ...[
+                      Expanded(
+                          child: MedidorMini(
+                              rotulo: 'PE', atual: ficha.peAtual, max: c.peMax, cor: Cores.pe, temp: ficha.peTemp)),
+                      const SizedBox(width: 12),
+                      Expanded(
+                          child: MedidorMini(rotulo: 'SAN', atual: ficha.sanAtual, max: c.sanMax, cor: Cores.san)),
+                    ],
+                  ]),
+                ]),
               ),
-            ),
+            ]),
+            if (formas.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              const Divider(),
+              const SizedBox(height: 10),
+              Wrap(spacing: 8, runSpacing: 8, children: [
+                for (final t in formas) _chipForma(context, t),
+              ]),
+            ],
           ]),
         ),
       ),
@@ -242,52 +278,28 @@ class CartaoAgente extends StatelessWidget {
   Widget _chipForma(BuildContext context, Ficha t) {
     final ativa = ficha.formaAtiva == t.id;
     return InkWell(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(12),
       onTap: () => Navigator.push(context,
           MaterialPageRoute(builder: (_) => TelaFicha(fichaId: t.id))),
       child: Container(
-        padding: const EdgeInsets.fromLTRB(3, 3, 10, 3),
+        padding: const EdgeInsets.fromLTRB(4, 4, 12, 4),
         decoration: BoxDecoration(
-          color: ativa ? Cores.roxo.withValues(alpha: 0.45) : Cores.painel2,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: ativa ? Cores.roxoClaro : Cores.borda),
+          color: ativa ? Cores.roxo.withValues(alpha: 0.32) : Cores.painel2,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: ativa ? Cores.roxoClaro.withValues(alpha: 0.7) : Cores.borda),
         ),
         child: Row(mainAxisSize: MainAxisSize.min, children: [
-          AvatarFicha(foto: t.foto, nome: t.nome, tamanho: 24, transformacao: true),
-          const SizedBox(width: 6),
-          Text(ativa ? '${t.nome} • em uso' : t.nome,
-              style: const TextStyle(fontSize: 12)),
+          AvatarFicha(foto: t.foto, nome: t.nome, ajuste: t.fotoAjuste, tamanho: 28, transformacao: true),
+          const SizedBox(width: 8),
+          Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
+            if (ativa)
+              Text('EM USO', style: estiloRotulo(10, cor: Cores.roxoClaro, peso: FontWeight.w700, espaco: 1.4)),
+            Text(t.nome, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+          ]),
         ]),
       ),
     );
   }
-
-  Widget _mini(String r, int a, int m, Color cor, {int temp = 0}) => Padding(
-        padding: const EdgeInsets.only(top: 3),
-        child: Row(children: [
-          SizedBox(
-              width: 36,
-              child: Text(r,
-                  style: TextStyle(
-                      color: cor, fontSize: 11, fontWeight: FontWeight.bold))),
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(3),
-              child: LinearProgressIndicator(
-                value: m <= 0 ? 0 : (a / m).clamp(0.0, 1.0),
-                minHeight: 5,
-                color: cor,
-                backgroundColor: cor.withValues(alpha: 0.15),
-              ),
-            ),
-          ),
-          SizedBox(
-              width: 80,
-              child: Text(temp > 0 ? '$a/$m +$temp' : '$a/$m',
-                  textAlign: TextAlign.right,
-                  style: const TextStyle(fontSize: 12))),
-        ]),
-      );
 }
 
 class _ListaMesas extends StatelessWidget {
@@ -334,8 +346,10 @@ class _ListaMesas extends StatelessWidget {
       builder: (context, snap) {
         final l = snap.data ?? [];
         return ListView(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
           children: [
+            const TituloPagina(
+                titulo: 'Mesas', subtitulo: 'Campanhas que você mestra ou joga'),
             Row(children: [
               Expanded(
                 child: FilledButton.icon(
@@ -366,16 +380,28 @@ class _ListaMesas extends StatelessWidget {
               ),
             for (final c in l)
               Card(
+                clipBehavior: Clip.antiAlias,
                 child: ListTile(
-                  leading: Icon(
-                    c.masterUid == Repo.uid
-                        ? Icons.shield_moon_outlined
-                        : Icons.person_outline,
-                    color:
-                        c.masterUid == Repo.uid ? Cores.destaque : Cores.roxo,
+                  contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+                  leading: Container(
+                    width: 46,
+                    height: 46,
+                    decoration: BoxDecoration(
+                      color: (c.masterUid == Repo.uid ? Cores.destaque : Cores.roxoClaro)
+                          .withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(
+                          color: (c.masterUid == Repo.uid ? Cores.destaque : Cores.roxoClaro)
+                              .withValues(alpha: 0.4)),
+                    ),
+                    child: Icon(
+                      c.masterUid == Repo.uid
+                          ? Icons.shield_moon_outlined
+                          : Icons.person_outline,
+                      color: c.masterUid == Repo.uid ? Cores.destaque : Cores.roxoClaro,
+                    ),
                   ),
-                  title: Text(c.nome,
-                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  title: Text(c.nome, style: estiloTitulo(17, cor: Cores.texto)),
                   subtitle: Text(
                       '${c.masterUid == Repo.uid ? 'Você é o mestre' : 'Mestre: ${asStr(c.members[c.masterUid], '?')}'} • ${c.memberUids.length} na mesa'),
                   trailing: const Icon(Icons.chevron_right),

@@ -13,8 +13,11 @@ typedef Json = Map<String, dynamic>;
 /// Acesso ao Firestore. Escritas nao sao aguardadas (fire-and-forget) para
 /// funcionar offline: o Firestore guarda na fila e sincroniza depois.
 class Repo {
-  static FirebaseFirestore get db => FirebaseFirestore.instance;
-  static FirebaseAuth get auth => FirebaseAuth.instance;
+  /// Na vitrine de telas (vitrine/), um Firestore e um login de mentira.
+  static FirebaseFirestore? dbTeste;
+  static FirebaseAuth? authTeste;
+  static FirebaseFirestore get db => dbTeste ?? FirebaseFirestore.instance;
+  static FirebaseAuth get auth => authTeste ?? FirebaseAuth.instance;
   static String get uid => auth.currentUser!.uid;
   static String get nomeUsuario {
     final n = auth.currentUser?.displayName;
@@ -88,7 +91,7 @@ class Repo {
     m['nome'] = '${f.nome} (cópia)';
     m.remove('crisId'); // a cópia não é mais atualizada pelo site do CRIS
     // a cópia começa sem transformações e com uma foto só dela
-    for (final k in const ['transformacoes', 'formaAtiva', 'foto']) {
+    for (final k in const ['transformacoes', 'formaAtiva', 'foto', 'fotoAjuste']) {
       m.remove(k);
     }
     m['ownerUid'] = uid;
@@ -98,7 +101,7 @@ class Repo {
     _w(ref.set(m));
     if (f.foto.isNotEmpty) {
       Imagens.copiar(f.foto).then((id) {
-        if (id != null) set(ref.id, 'foto', id);
+        if (id != null) setVarios(ref.id, {'foto': id, 'fotoAjuste': f.fotoAjuste});
       });
     }
     return ref.id;
@@ -130,7 +133,7 @@ class Repo {
       m = Map<String, dynamic>.from(agente.d);
       for (final k in const [
         'crisId', 'crisImportadoEm', 'transformacoes', 'formaAtiva', 'quadro',
-        'foto',
+        'foto', 'fotoAjuste',
       ]) {
         m.remove(k);
       }

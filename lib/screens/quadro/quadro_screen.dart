@@ -1009,7 +1009,7 @@ class _TelaQuadroState extends State<TelaQuadro> {
         }
         return Scaffold(
           appBar: AppBar(
-            title: Text(q.d.isEmpty ? _f.nomeRaiz : q.nome),
+            title: Text(q.d.isEmpty ? _f.nomeRaiz : q.nome, style: estiloTitulo(17, cor: Cores.texto)),
             actions: [
               IconButton(
                 tooltip: 'Afastar',
@@ -1361,8 +1361,7 @@ Widget conteudoCartao(BuildContext context, ItemQuadro i, void Function(int) aoM
         child: Align(
           alignment: Alignment.centerLeft,
           child: Text(i.texto.isEmpty ? 'Título' : i.texto,
-              style: TextStyle(
-                  fontSize: 28, fontWeight: FontWeight.w900, color: Cores.destaque)),
+              style: estiloTitulo(26, cor: Cores.destaque)),
         ),
       );
     case TiposQuadro.tarefas:
@@ -1514,6 +1513,7 @@ Widget textoNota(String texto) {
   for (var k = 0; k < linhas.length; k++) {
     var l = linhas[k];
     var estilo = base;
+    InlineSpan? caixa;
     if (l.startsWith('## ')) {
       l = l.substring(3);
       estilo = base.copyWith(fontSize: 16, fontWeight: FontWeight.w800);
@@ -1523,11 +1523,18 @@ Widget textoNota(String texto) {
     } else if (l.startsWith('- ') || l.startsWith('* ')) {
       l = '•  ${l.substring(2)}';
     } else if (l.startsWith('[ ] ')) {
-      l = '☐  ${l.substring(4)}';
+      l = ' ${l.substring(4)}';
+      caixa = const WidgetSpan(
+          alignment: PlaceholderAlignment.middle,
+          child: Icon(Icons.check_box_outline_blank, size: 16, color: Cores.textoFraco));
     } else if (l.toLowerCase().startsWith('[x] ')) {
-      l = '☑  ${l.substring(4)}';
+      l = ' ${l.substring(4)}';
+      caixa = const WidgetSpan(
+          alignment: PlaceholderAlignment.middle,
+          child: Icon(Icons.check_box, size: 16, color: Cores.ok));
       estilo = base.copyWith(color: Cores.textoFraco, decoration: TextDecoration.lineThrough);
     }
+    if (caixa != null) spans.add(caixa);
     spans.addAll(_trechos(l, estilo));
     if (k < linhas.length - 1) spans.add(const TextSpan(text: '\n'));
   }

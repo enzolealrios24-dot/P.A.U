@@ -43,6 +43,8 @@ class Ficha {
 
   /// Foto do personagem (id em /imagens).
   String get foto => asStr(d['foto']);
+  /// Enquadramento da foto: foco x/y (-1 a 1) e zoom z.
+  Map<String, dynamic> get fotoAjuste => asMap(d['fotoAjuste']);
 
   /// Transformação: ficha separada, ligada ao agente [transformacaoDe].
   String? get transformacaoDe {

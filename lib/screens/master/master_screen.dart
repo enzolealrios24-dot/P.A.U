@@ -61,9 +61,10 @@ class _TelaMestreState extends State<TelaMestre> {
       appBar: AppBar(
         bottom: const LinhaCris(),
         title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(widget.camp.nome),
-          Text('Escudo do mestre • código ${widget.camp.joinCode}',
-              style: const TextStyle(fontSize: 12, color: Cores.textoFraco)),
+          Text(widget.camp.nome, maxLines: 1, overflow: TextOverflow.ellipsis),
+          const SizedBox(height: 2),
+          Text('Escudo do mestre · código ${widget.camp.joinCode}',
+              style: estiloRotulo(13.5, cor: Cores.textoFraco, peso: FontWeight.w500, espaco: 0.6)),
         ]),
       ),
       body: largo
@@ -337,7 +338,8 @@ class _CartaoPainel extends StatelessWidget {
               child: AvatarFicha(
                 foto: f.foto,
                 nome: f.nome,
-                tamanho: 48,
+                ajuste: f.fotoAjuste,
+                tamanho: 52,
                 transformacao: f.eTransformacao,
                 aoTocar: () => abrirFicha(context, f.id),
               ),
@@ -355,9 +357,7 @@ class _CartaoPainel extends StatelessWidget {
                               letterSpacing: 2,
                               fontWeight: FontWeight.w900,
                               color: Cores.roxoClaro)),
-                    Text(f.nome,
-                        style: const TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.w800)),
+                    Text(f.nome, style: estiloTitulo(17, cor: Cores.texto)),
                     Text(
                         '${f.jogador.isEmpty ? asStr(camp.members[f.ownerUid]) : f.jogador} • ${f.classe} • ${c.resumoProgressao}',
                         style: const TextStyle(

@@ -26,6 +26,12 @@ Future<void> opcoesFoto(BuildContext context, Ficha f) async {
             title: const Text('Ver foto'),
             onTap: () => Navigator.pop(ctx, 'ver'),
           ),
+        if (temFoto)
+          ListTile(
+            leading: const Icon(Icons.crop_portrait),
+            title: const Text('Enquadrar foto'),
+            onTap: () => Navigator.pop(ctx, 'enquadrar'),
+          ),
         ListTile(
           leading: const Icon(Icons.add_a_photo_outlined),
           title: Text(temFoto ? 'Trocar foto' : 'Colocar foto'),
@@ -43,13 +49,21 @@ Future<void> opcoesFoto(BuildContext context, Ficha f) async {
   if (!context.mounted || escolha == null) return;
   if (escolha == 'ver') {
     verImagem(context, f.foto, titulo: f.nome);
+  } else if (escolha == 'enquadrar') {
+    final a = await escolherEnquadramento(context,
+        foto: f.foto, nome: f.nome, ajuste: f.fotoAjuste);
+    if (a != null) Repo.set(f.id, 'fotoAjuste', a);
   } else if (escolha == 'trocar') {
     final r = await escolherImagem(context, lado: 900);
     if (r == null) return;
-    Repo.set(f.id, 'foto', r.id);
+    // a foto nova entra já com o enquadramento escolhido logo em seguida
+    Repo.setVarios(f.id, {'foto': r.id, 'fotoAjuste': null});
     Imagens.apagar(f.foto);
+    if (!context.mounted) return;
+    final a = await escolherEnquadramento(context, foto: r.id, nome: f.nome);
+    if (a != null) Repo.set(f.id, 'fotoAjuste', a);
   } else if (escolha == 'tirar') {
-    Repo.set(f.id, 'foto', '');
+    Repo.setVarios(f.id, {'foto': '', 'fotoAjuste': null});
     Imagens.apagar(f.foto);
   }
 }
@@ -74,9 +88,11 @@ class FaixaForma extends StatelessWidget {
           return _faixa(
             context,
             icone: Icons.auto_awesome,
-            texto: ativa
-                ? 'Em uso: ${a.nome} está nesta forma.'
-                : 'Transformação de ${a.nome}.',
+            rotulo: ativa ? 'FORMA EM USO POR' : 'TRANSFORMAÇÃO DE',
+            texto: a.nome,
+            foto: a.foto,
+            ajuste: a.fotoAjuste,
+            nome: a.nome,
             acoes: [
               TextButton(
                 onPressed: () => Repo.transformar(a.id, ativa ? null : f.id),
@@ -102,8 +118,10 @@ class FaixaForma extends StatelessWidget {
           context,
           icone: Icons.auto_awesome,
           foto: t.foto,
+          ajuste: t.fotoAjuste,
           nome: t.nome,
-          texto: 'Transformado em ${t.nome}.',
+          rotulo: 'TRANSFORMADO EM',
+          texto: t.nome,
           acoes: [
             TextButton(
               onPressed: () => abrirOutraFicha(context, t.id),
@@ -111,7 +129,7 @@ class FaixaForma extends StatelessWidget {
             ),
             TextButton(
               onPressed: () => Repo.transformar(f.id, null),
-              child: const Text('Voltar ao normal'),
+              child: const Text('Voltar'),
             ),
           ],
         );
@@ -121,33 +139,51 @@ class FaixaForma extends StatelessWidget {
 
   Widget _faixa(BuildContext context,
       {required IconData icone,
+      required String rotulo,
       required String texto,
       required List<Widget> acoes,
       String? foto,
+      Map<String, dynamic> ajuste = const {},
       String nome = ''}) {
+    final botoes = TextButtonTheme(
+      data: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: Cores.roxoClaro,
+          visualDensity: VisualDensity.compact,
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          textStyle: estiloRotulo(14.5, peso: FontWeight.w700, espaco: 0.6),
+        ),
+      ),
+      child: Row(mainAxisSize: MainAxisSize.min, children: acoes),
+    );
     return Container(
+      margin: const EdgeInsets.fromLTRB(12, 10, 12, 0),
+      padding: const EdgeInsets.fromLTRB(8, 6, 4, 6),
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: [
-          Cores.roxo.withValues(alpha: 0.45),
-          Cores.roxo.withValues(alpha: 0.15),
+          Cores.roxo.withValues(alpha: 0.38),
+          Cores.roxo.withValues(alpha: 0.12),
         ]),
-        border: Border(
-            bottom: BorderSide(color: Cores.roxoClaro.withValues(alpha: 0.5))),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: Cores.roxoClaro.withValues(alpha: 0.35)),
       ),
-      padding: const EdgeInsets.fromLTRB(12, 2, 4, 2),
       child: Row(children: [
         if (foto != null)
-          AvatarFicha(foto: foto, nome: nome, tamanho: 28, transformacao: true)
+          AvatarFicha(foto: foto, nome: nome, ajuste: ajuste, tamanho: 34, transformacao: true)
         else
-          Icon(icone, size: 18, color: Cores.roxoClaro),
-        const SizedBox(width: 8),
+          Icon(icone, size: 20, color: Cores.roxoClaro),
+        const SizedBox(width: 10),
         Expanded(
-          child: Text(texto,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontWeight: FontWeight.w700)),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
+            Text(rotulo, style: estiloRotulo(11, cor: Cores.roxoClaro, peso: FontWeight.w700, espaco: 1.6)),
+            const SizedBox(height: 2),
+            Text(texto,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14.5)),
+          ]),
         ),
-        ...acoes,
+        botoes,
       ]),
     );
   }
@@ -218,10 +254,11 @@ class _LinhaTransformacao extends StatelessWidget {
         border: Border.all(color: ativa ? Cores.roxoClaro : Cores.borda),
       ),
       child: Row(children: [
-        AvatarFicha(
+        RetratoFicha(
           foto: t.foto,
           nome: t.nome,
-          tamanho: 52,
+          ajuste: t.fotoAjuste,
+          largura: 50,
           transformacao: true,
           aoTocar: () => abrirOutraFicha(context, t.id),
         ),
@@ -287,6 +324,7 @@ class _SecaoLigacao extends StatelessWidget {
                 AvatarFicha(
                   foto: a.foto,
                   nome: a.nome,
+                  ajuste: a.fotoAjuste,
                   tamanho: 44,
                   aoTocar: () => abrirOutraFicha(context, a.id),
                 ),

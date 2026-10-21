@@ -112,44 +112,69 @@ class _PintorSigilo extends CustomPainter {
       old.cor != cor || old.espessura != espessura || old.variante != variante;
 }
 
-/// Fundo das telas: degradê de amarelo (em cima) para roxo (embaixo), com
-/// sigilos de Conhecimento bem suaves.
+/// Fundo das telas: quase preto, com um brilho da cor do tema no alto, outro
+/// da cor secundária embaixo e sigilos de Conhecimento bem apagados.
 class FundoCris extends StatelessWidget {
   final Widget child;
   const FundoCris({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Cores.degradeTopo, Cores.degradeMeio, Cores.degradeBase],
-          stops: [0, 0.48, 1],
-        ),
-      ),
+    return ColoredBox(
+      color: Cores.fundo,
       child: Stack(children: [
         Positioned.fill(
           child: IgnorePointer(
             child: LayoutBuilder(builder: (context, c) {
-              final grande = c.maxWidth * 0.75 > 520 ? 520.0 : c.maxWidth * 0.75;
+              final grande = c.maxWidth * 0.8 > 560 ? 560.0 : c.maxWidth * 0.8;
               return Stack(clipBehavior: Clip.hardEdge, children: [
-                Positioned(
-                  top: -grande * 0.30,
-                  right: -grande * 0.30,
-                  child: SigiloConhecimento(
-                      tamanho: grande,
-                      cor: Cores.destaque.withValues(alpha: 0.10),
-                      espessura: 1.6),
+                Positioned.fill(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: RadialGradient(
+                        center: const Alignment(0.2, -1.25),
+                        radius: 1.25,
+                        colors: [
+                          Cores.degradeTopo.withValues(alpha: 0.20),
+                          Cores.degradeTopo.withValues(alpha: 0.05),
+                          Colors.transparent,
+                        ],
+                        stops: const [0, 0.45, 1],
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned.fill(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: RadialGradient(
+                        center: const Alignment(-0.9, 1.3),
+                        radius: 1.35,
+                        colors: [
+                          Cores.degradeBase.withValues(alpha: 0.24),
+                          Cores.degradeBase.withValues(alpha: 0.06),
+                          Colors.transparent,
+                        ],
+                        stops: const [0, 0.5, 1],
+                      ),
+                    ),
+                  ),
                 ),
                 Positioned(
-                  bottom: -grande * 0.35,
-                  left: -grande * 0.30,
+                  top: -grande * 0.34,
+                  right: -grande * 0.34,
+                  child: SigiloConhecimento(
+                      tamanho: grande,
+                      cor: Cores.destaque.withValues(alpha: 0.06),
+                      espessura: 1.2),
+                ),
+                Positioned(
+                  bottom: -grande * 0.38,
+                  left: -grande * 0.32,
                   child: SigiloConhecimento(
                       tamanho: grande * 0.9,
-                      cor: Cores.roxoClaro.withValues(alpha: 0.12),
-                      espessura: 1.6,
+                      cor: Cores.roxoClaro.withValues(alpha: 0.06),
+                      espessura: 1.2,
                       variante: 1),
                 ),
               ]);
@@ -174,16 +199,21 @@ class TransicaoComFundo extends PageTransitionsBuilder {
           route, context, animation, secondaryAnimation, FundoCris(child: child));
 }
 
-/// Linha fina em degradê embaixo do topo das telas, como no CRIS original.
+/// Linha fina embaixo do topo das telas: acende no meio e some nas pontas.
 class LinhaCris extends StatelessWidget implements PreferredSizeWidget {
   const LinhaCris({super.key});
   @override
-  Size get preferredSize => const Size.fromHeight(2);
+  Size get preferredSize => const Size.fromHeight(1);
   @override
   Widget build(BuildContext context) => Container(
-        height: 2,
+        height: 1,
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [Cores.destaque, Cores.roxo, Cores.destaque]),
+          gradient: LinearGradient(colors: [
+            Colors.transparent,
+            Cores.destaque.withValues(alpha: 0.55),
+            Cores.roxoClaro.withValues(alpha: 0.35),
+            Colors.transparent,
+          ]),
         ),
       );
 }

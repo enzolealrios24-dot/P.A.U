@@ -31,6 +31,9 @@ class Imagens {
 
   static Uint8List? naMemoria(String id) => _cache[id];
 
+  /// Para a vitrine de telas: imagem já pronta, sem passar pelo Firestore.
+  static void guardarNaMemoria(String id, Uint8List b) => _guardar(id, b);
+
   static void _guardar(String id, Uint8List b) {
     _cache.remove(id);
     _cache[id] = b;

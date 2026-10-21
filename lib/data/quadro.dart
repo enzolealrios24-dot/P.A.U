@@ -131,13 +131,13 @@ class FonteQuadro {
 
   /// Quadro da ficha: campo "quadro" do documento do agente.
   factory FonteQuadro.ficha(String fichaId) => FonteQuadro(
-      FirebaseFirestore.instance.collection('characters').doc(fichaId),
+      Repo.db.collection('characters').doc(fichaId),
       const ['quadro'],
       'Quadro do agente');
 
   /// Quadro do mestre: documento privado da mesa (só o mestre lê).
   factory FonteQuadro.mestre(String campanhaId) => FonteQuadro(
-      FirebaseFirestore.instance
+      Repo.db
           .collection('campaigns')
           .doc(campanhaId)
           .collection('gm')

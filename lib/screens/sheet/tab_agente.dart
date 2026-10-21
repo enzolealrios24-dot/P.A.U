@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,7 @@ import '../../data/models.dart';
 import '../../data/repo.dart';
 import '../../widgets/common.dart';
 import '../../widgets/imagem.dart';
+import '../../widgets/sigilos.dart';
 import 'forma.dart';
 import 'rolar.dart';
 
@@ -60,29 +62,6 @@ class TabAgente extends StatelessWidget {
     final identidade = Secao(
       titulo: 'Identidade',
       child: Column(children: [
-        Row(children: [
-          AvatarFicha(
-            foto: f.foto,
-            nome: f.nome,
-            tamanho: 96,
-            transformacao: f.eTransformacao,
-            aoTocar: () => opcoesFoto(context, f),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(f.eTransformacao ? 'Foto da transformação' : 'Foto do agente',
-                  style: const TextStyle(fontWeight: FontWeight.w800)),
-              const SizedBox(height: 4),
-              OutlinedButton.icon(
-                onPressed: () => opcoesFoto(context, f),
-                icon: const Icon(Icons.add_a_photo_outlined, size: 18),
-                label: Text(f.foto.isEmpty ? 'Colocar foto' : 'Trocar foto'),
-              ),
-            ]),
-          ),
-        ]),
-        const SizedBox(height: 12),
         CampoSync(
             valor: f.nome,
             rotulo: f.eTransformacao ? 'Nome da transformação' : 'Nome do agente',
@@ -271,7 +250,7 @@ class TabAgente extends StatelessWidget {
           label: const Text('Recuperar tudo'),
         ),
       ],
-      child: Wrap(spacing: 8, runSpacing: 8, children: [
+      child: _Grade(children: [
         _Stat('DEFESA', '${c.defesa}'),
         _Stat('DESLOC.', '${c.deslocamento} m'),
         _Stat(c.determinacao ? 'LIMITE PD' : 'LIMITE PE', '${c.limitePE}/turno'),
@@ -284,6 +263,7 @@ class TabAgente extends StatelessWidget {
       ]),
     );
 
+    final dossie = _Dossie(ctx: ctx);
     final transformacoes = SecaoTransformacoes(ctx: ctx);
     final habilidades = _secaoHabilidades(context, c);
     final alteracoes = c.modoNivel ? _secaoAlteracoes(c) : null;
@@ -372,7 +352,7 @@ class TabAgente extends StatelessWidget {
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Expanded(
               child: Column(
-                  children: [identidade, transformacoes, modos, habilidades, if (alteracoes != null) alteracoes, historia])),
+                  children: [dossie, identidade, transformacoes, modos, habilidades, if (alteracoes != null) alteracoes, historia])),
           const SizedBox(width: 12),
           Expanded(child: Column(children: [atributos, stats, condicoes, bonus])),
         ]),
@@ -381,6 +361,7 @@ class TabAgente extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(12),
       children: [
+        dossie,
         atributos,
         stats,
         identidade,
@@ -587,15 +568,19 @@ class _CirculoAtributos extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Cores.painel2,
-                  border: Border.all(color: Cores.destaque, width: 2),
+                  gradient: RadialGradient(colors: [
+                    Color.lerp(Cores.painel2, Cores.roxo, 0.25)!,
+                    Cores.painel2,
+                  ]),
+                  border: Border.all(color: Cores.roxoClaro.withValues(alpha: 0.45), width: 1.2),
                 ),
-                child: Text('ATRIBUTOS',
-                    style: TextStyle(
-                        color: Cores.destaque,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 0.8,
-                        fontSize: lado * 0.042)),
+                child: Stack(alignment: Alignment.center, children: [
+                  SigiloConhecimento(
+                      tamanho: centro * 1.7,
+                      cor: Cores.roxoClaro.withValues(alpha: 0.22),
+                      espessura: 1),
+                  Text('Atributos', style: estiloTitulo(lado * 0.04, cor: Cores.texto, espaco: 0.6)),
+                ]),
               ),
             ),
             for (var i = 0; i < _ordem.length; i++)
@@ -627,8 +612,10 @@ class _BolhaAtributo extends StatelessWidget {
     final efetivo = ctx.calc.attr(chave);
     return Material(
       shape: CircleBorder(
-          side: BorderSide(color: Cores.destaque, width: 2)),
-      color: Cores.painel2,
+          side: BorderSide(color: Cores.destaque.withValues(alpha: 0.75), width: 1.6)),
+      color: Color.lerp(Cores.painel2, Cores.fundo, 0.3),
+      shadowColor: Cores.destaque,
+      elevation: 0,
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: () => ctx.rolarAtributo(context, chave),
@@ -645,17 +632,11 @@ class _BolhaAtributo extends StatelessWidget {
         },
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(efetivo == v ? '$v' : '$efetivo',
-              style: TextStyle(
-                  fontSize: lado * 0.085,
-                  fontWeight: FontWeight.w900,
-                  height: 1,
-                  color: efetivo == v ? Cores.texto : Cores.ok)),
+              style: estiloTitulo(lado * 0.088,
+                  cor: efetivo == v ? Cores.texto : Cores.ok, peso: FontWeight.w800, altura: 1)),
+          const SizedBox(height: 2),
           Text(atributosSigla[chave]!,
-              style: TextStyle(
-                  color: Cores.destaque,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 1.5,
-                  fontSize: lado * 0.036)),
+              style: estiloRotulo(lado * 0.04, cor: Cores.destaque, peso: FontWeight.w700, espaco: 1.6)),
         ]),
       ),
     );
@@ -672,13 +653,13 @@ class _PintorCirculo extends CustomPainter {
     final c = size.center(Offset.zero);
     final l = size.shortestSide;
     final traco = Paint()
-      ..color = Cores.destaque.withValues(alpha: 0.55)
+      ..color = Cores.destaque.withValues(alpha: 0.38)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.4;
+      ..strokeWidth = 1.1;
     final fraco = Paint()
-      ..color = Cores.roxoClaro.withValues(alpha: 0.45)
+      ..color = Cores.roxoClaro.withValues(alpha: 0.32)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.2;
+      ..strokeWidth = 1;
     canvas.drawCircle(c, l * 0.49, traco);
     canvas.drawCircle(c, l * 0.455, fraco);
     canvas.drawCircle(c, l * anel, traco);
@@ -715,21 +696,141 @@ class _Stat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final w = Container(
-      width: 104,
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
       decoration: BoxDecoration(
-        color: alerta ? Cores.destaque.withValues(alpha: 0.2) : Cores.painel2,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: alerta ? Cores.destaque : Cores.borda),
+        color: alerta ? Cores.destaque.withValues(alpha: 0.16) : Cores.painel2.withValues(alpha: 0.7),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: alerta ? Cores.destaque.withValues(alpha: 0.7) : Cores.borda),
       ),
       child: Column(children: [
-        Text(valor,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
+        FittedBox(fit: BoxFit.scaleDown, child: Text(valor, style: estiloNumero(24, cor: Cores.texto))),
+        const SizedBox(height: 5),
         Text(rotulo,
-            style: const TextStyle(
-                fontSize: 10, letterSpacing: 1, color: Cores.textoFraco)),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: estiloRotulo(11.5, cor: Cores.textoFraco, espaco: 1.3)),
       ]),
     );
     return dica == null ? w : Tooltip(message: dica!, child: w);
+  }
+}
+
+/// Grade que reparte a largura entre os blocos (3 por linha no celular).
+class _Grade extends StatelessWidget {
+  final List<Widget> children;
+  const _Grade({required this.children});
+  @override
+  Widget build(BuildContext context) => LayoutBuilder(builder: (context, c) {
+        final colunas = (c.maxWidth / 112).floor().clamp(3, 6);
+        final largura = (c.maxWidth - 8 * (colunas - 1)) / colunas;
+        return Wrap(spacing: 8, runSpacing: 8, children: [
+          for (final w in children) SizedBox(width: largura, child: w),
+        ]);
+      });
+}
+
+/// Topo da aba AGENTE: retrato grande, nome e o essencial, com a própria
+/// foto desfocada ao fundo.
+class _Dossie extends StatelessWidget {
+  final CtxFicha ctx;
+  const _Dossie({required this.ctx});
+
+  @override
+  Widget build(BuildContext context) {
+    final f = ctx.f;
+    final c = ctx.calc;
+    final detalhes = [f.classe, f.trilha].where((s) => s.isNotEmpty).join(' · ');
+    final camera = Material(
+      color: Cores.destaque,
+      shape: const CircleBorder(),
+      elevation: 0,
+      child: InkWell(
+        customBorder: const CircleBorder(),
+        onTap: () => opcoesFoto(context, f),
+        child: Padding(
+          padding: const EdgeInsets.all(7),
+          child: Icon(f.foto.isEmpty ? Icons.add_a_photo_outlined : Icons.photo_camera_outlined,
+              size: 18, color: Cores.sobreDestaque),
+        ),
+      ),
+    );
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: Stack(children: [
+        if (f.foto.isNotEmpty) ...[
+          Positioned.fill(
+            child: ImageFiltered(
+              imageFilter: ImageFilter.blur(sigmaX: 26, sigmaY: 26, tileMode: TileMode.decal),
+              child: Opacity(opacity: 0.55, child: FotoEnquadrada(id: f.foto, ajuste: f.fotoAjuste)),
+            ),
+          ),
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Cores.painel.withValues(alpha: 0.35), Cores.painel.withValues(alpha: 0.92)],
+                ),
+              ),
+            ),
+          ),
+        ] else
+          Positioned(
+            right: -60,
+            top: -50,
+            child: SigiloConhecimento(
+                tamanho: 220, cor: Cores.destaque.withValues(alpha: 0.07), espessura: 1),
+          ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 18),
+          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            RetratoFicha(
+              foto: f.foto,
+              nome: f.nome,
+              ajuste: f.fotoAjuste,
+              largura: 112,
+              transformacao: f.eTransformacao,
+              aoTocar: () => opcoesFoto(context, f),
+              canto: camera,
+            ),
+            const SizedBox(width: 18),
+            Expanded(
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                if (f.eTransformacao)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 6),
+                    child: Selo('Transformação', cor: Cores.roxoClaro, icone: Icons.auto_awesome),
+                  ),
+                Text(f.nome, style: estiloTitulo(23, cor: Cores.texto, altura: 1.1)),
+                if (detalhes.isNotEmpty) ...[
+                  const SizedBox(height: 6),
+                  Text(detalhes,
+                      style: estiloRotulo(16, cor: Cores.textoFraco, peso: FontWeight.w500, espaco: 0.4)),
+                ],
+                const SizedBox(height: 12),
+                Wrap(spacing: 6, runSpacing: 6, children: [
+                  Selo(c.resumoProgressao, cheio: true),
+                  Selo(c.patente.nome, cor: Cores.roxoClaro),
+                  if (f.origem.isNotEmpty) Selo(f.origem, cor: Cores.textoFraco),
+                ]),
+                if (f.jogador.isNotEmpty) ...[
+                  const SizedBox(height: 12),
+                  Row(children: [
+                    const Icon(Icons.person_outline, size: 16, color: Cores.textoFraco),
+                    const SizedBox(width: 5),
+                    Flexible(
+                      child: Text(f.jogador,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 13.5, color: Cores.textoFraco)),
+                    ),
+                  ]),
+                ],
+              ]),
+            ),
+          ]),
+        ),
+      ]),
+    );
   }
 }

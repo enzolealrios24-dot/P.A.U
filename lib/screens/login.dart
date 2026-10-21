@@ -93,101 +93,137 @@ class _TelaLoginState extends State<TelaLogin> {
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.fromLTRB(20, 32, 20, 24),
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 400),
+            constraints: const BoxConstraints(maxWidth: 420),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const LogoCris(tamanho: 64),
-                const SizedBox(height: 8),
-                const Text(
-                  'Fichas de agentes da Ordo Realitas',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Cores.textoFraco),
-                ),
-                const SizedBox(height: 32),
-                if (_criando) ...[
-                  TextField(
-                      controller: _nome,
-                      decoration:
-                          const InputDecoration(labelText: 'Seu nome / apelido')),
-                  const SizedBox(height: 12),
-                ],
-                TextField(
-                  controller: _email,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(labelText: 'E-mail'),
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: _senha,
-                  obscureText: true,
-                  decoration: const InputDecoration(labelText: 'Senha'),
-                  onSubmitted: (_) => _enviar(),
-                ),
-                const SizedBox(height: 16),
-                if (_erro != null)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: Text(_erro!,
-                        style: TextStyle(color: Cores.destaque)),
-                  ),
-                FilledButton(
-                  onPressed: _carregando ? null : _enviar,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: _carregando
-                        ? const SizedBox(
-                            width: 18,
-                            height: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2))
-                        : Text(_criando ? 'CRIAR CONTA' : 'ENTRAR'),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                TextButton(
-                  onPressed: () => setState(() {
-                    _criando = !_criando;
-                    _erro = null;
-                  }),
-                  child: Text(_criando
-                      ? 'Já tenho conta'
-                      : 'Não tem conta? Criar agora'),
-                ),
-                if (!_criando)
-                  TextButton(
-                      onPressed: _esqueci,
-                      child: const Text('Esqueci minha senha')),
-                const SizedBox(height: 16),
-                const Divider(),
-                const SizedBox(height: 12),
-                OutlinedButton.icon(
-                  onPressed: () async {
-                    await abrirImportarCris(context, logado: false);
-                    if (mounted) setState(() {});
-                  },
-                  icon: const Icon(Icons.download_outlined),
-                  label: const Text('Trazer agentes do site do CRIS'),
-                ),
-                const SizedBox(height: 6),
+                const LogoCris(tamanho: 58),
+                const SizedBox(height: 14),
                 Text(
-                  CrisImport.pendentes.isEmpty
-                      ? 'Já usa o crisordemparanormal.com? Traga seus agentes: eles entram no app assim que você entrar ou criar a conta.'
-                      : '${CrisImport.pendentes.length == 1 ? '1 agente esperando' : '${CrisImport.pendentes.length} agentes esperando'} o login: ${CrisImport.pendentes.map((a) => a.nome).join(', ')}.',
+                  'FICHAS DE AGENTES DA ORDO REALITAS',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: CrisImport.pendentes.isEmpty
-                          ? Cores.textoFraco
-                          : Cores.destaque),
+                  style: estiloRotulo(13.5, cor: Cores.textoFraco, peso: FontWeight.w600, espaco: 2.6),
+                ),
+                const SizedBox(height: 28),
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                      Text(_criando ? 'Criar conta' : 'Entrar',
+                          style: estiloTitulo(20, cor: Cores.texto)),
+                      const SizedBox(height: 4),
+                      Text(
+                          _criando
+                              ? 'Seus agentes ficam salvos na nuvem e no aparelho.'
+                              : 'Bem-vindo de volta, agente.',
+                          style: const TextStyle(color: Cores.textoFraco, fontSize: 13.5)),
+                      const SizedBox(height: 12),
+                      if (_criando) ...[
+                        TextField(
+                            controller: _nome,
+                            textInputAction: TextInputAction.next,
+                            decoration: const InputDecoration(
+                                labelText: 'Seu nome / apelido',
+                                prefixIcon: Icon(Icons.person_outline, size: 20))),
+                        const SizedBox(height: 10),
+                      ],
+                      TextField(
+                        controller: _email,
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        decoration: const InputDecoration(
+                            labelText: 'E-mail', prefixIcon: Icon(Icons.mail_outline, size: 20)),
+                      ),
+                      const SizedBox(height: 10),
+                      TextField(
+                        controller: _senha,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                            labelText: 'Senha', prefixIcon: Icon(Icons.lock_outline, size: 20)),
+                        onSubmitted: (_) => _enviar(),
+                      ),
+                      const SizedBox(height: 18),
+                      if (_erro != null)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: Text(_erro!, style: TextStyle(color: Cores.destaque)),
+                        ),
+                      FilledButton(
+                        onPressed: _carregando ? null : _enviar,
+                        child: _carregando
+                            ? const SizedBox(
+                                width: 18,
+                                height: 18,
+                                child: CircularProgressIndicator(strokeWidth: 2))
+                            : Text(_criando ? 'CRIAR CONTA' : 'ENTRAR'),
+                      ),
+                      const SizedBox(height: 6),
+                      Wrap(alignment: WrapAlignment.spaceBetween, children: [
+                        TextButton(
+                          onPressed: () => setState(() {
+                            _criando = !_criando;
+                            _erro = null;
+                          }),
+                          child: Text(_criando ? 'Já tenho conta' : 'Criar conta'),
+                        ),
+                        if (!_criando)
+                          TextButton(
+                            onPressed: _esqueci,
+                            style: TextButton.styleFrom(foregroundColor: Cores.textoFraco),
+                            child: const Text('Esqueci a senha'),
+                          ),
+                      ]),
+                    ]),
+                  ),
                 ),
                 const SizedBox(height: 12),
-                TextButton.icon(
-                  onPressed: () => escolherTema(context),
-                  icon: const Icon(Icons.palette_outlined),
-                  label: const Text('Tema de cores'),
+                Card(
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(16),
+                    onTap: () async {
+                      await abrirImportarCris(context, logado: false);
+                      if (mounted) setState(() {});
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Row(children: [
+                        Container(
+                          width: 42,
+                          height: 42,
+                          decoration: BoxDecoration(
+                            color: Cores.roxoClaro.withValues(alpha: 0.12),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: Cores.roxoClaro.withValues(alpha: 0.4)),
+                          ),
+                          child: Icon(Icons.download_outlined, color: Cores.roxoClaro),
+                        ),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                            Text('Trazer agentes do site do CRIS',
+                                style: estiloRotulo(16, cor: Cores.texto, peso: FontWeight.w700, espaco: 0.3)),
+                            const SizedBox(height: 3),
+                            Text(
+                              CrisImport.pendentes.isEmpty
+                                  ? 'Já usa o crisordemparanormal.com? Seus agentes entram assim que você entrar.'
+                                  : '${CrisImport.pendentes.length == 1 ? '1 agente esperando' : '${CrisImport.pendentes.length} agentes esperando'} o login: ${CrisImport.pendentes.map((a) => a.nome).join(', ')}.',
+                              style: TextStyle(
+                                  fontSize: 12.5,
+                                  color: CrisImport.pendentes.isEmpty
+                                      ? Cores.textoFraco
+                                      : Cores.destaque),
+                            ),
+                          ]),
+                        ),
+                        const Icon(Icons.chevron_right, color: Cores.textoFraco),
+                      ]),
+                    ),
+                  ),
                 ),
+                const SizedBox(height: 22),
+                const AmostrasTema(),
               ],
             ),
           ),

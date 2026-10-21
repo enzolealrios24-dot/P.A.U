@@ -136,15 +136,16 @@ class BarraStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final frac = max <= 0 ? 0.0 : (atual / max).clamp(0.0, 1.0);
-    // Barra cheia com « ‹ valor › », como no CRIS original.
-    Widget seta(IconData icone, int d) => InkWell(
-          onTap: () => aoMudar(atual + d),
-          borderRadius: BorderRadius.circular(6),
-          child: Tooltip(
-            message: d > 0 ? '+$d' : '$d',
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: compacta ? 2 : 5),
-              child: Icon(icone, size: compacta ? 18 : 22, color: Colors.white),
+    final alto = compacta ? 32.0 : 38.0;
+    Widget seta(IconData icone, int d) => SizedBox(
+          width: compacta ? 28 : 34,
+          height: alto,
+          child: InkWell(
+            onTap: () => aoMudar(atual + d),
+            child: Tooltip(
+              message: d > 0 ? '+$d' : '$d',
+              child: Icon(icone,
+                  size: compacta ? 17 : 20, color: Colors.white.withValues(alpha: 0.85)),
             ),
           ),
         );
@@ -152,21 +153,18 @@ class BarraStatus extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(rotulo,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: cor,
-                fontWeight: FontWeight.w800,
-                letterSpacing: 1.5,
-                fontSize: compacta ? 11 : 13)),
-        const SizedBox(height: 3),
+        Padding(
+          padding: const EdgeInsets.only(left: 2, bottom: 4),
+          child: Text(rotulo,
+              style: estiloRotulo(compacta ? 12 : 13, cor: cor, peso: FontWeight.w700, espaco: 1.6)),
+        ),
         Container(
-          height: compacta ? 30 : 38,
+          height: alto,
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
-            color: cor.withValues(alpha: 0.16),
-            borderRadius: BorderRadius.circular(6),
-            border: Border.all(color: cor.withValues(alpha: 0.6)),
+            color: cor.withValues(alpha: 0.12),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: cor.withValues(alpha: 0.35)),
           ),
           child: Stack(fit: StackFit.expand, children: [
             FractionallySizedBox(
@@ -175,7 +173,7 @@ class BarraStatus extends StatelessWidget {
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                      colors: [cor.withValues(alpha: 0.7), cor]),
+                      colors: [cor.withValues(alpha: 0.55), cor.withValues(alpha: 0.92)]),
                 ),
               ),
             ),
@@ -189,14 +187,18 @@ class BarraStatus extends StatelessWidget {
                     if (v != null) aoMudar(v);
                   },
                   child: Center(
-                    child: Text('$atual / $max',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                            fontSize: compacta ? 14 : 17,
-                            color: Colors.white,
-                            shadows: const [
-                              Shadow(color: Colors.black54, blurRadius: 3)
-                            ])),
+                    child: Text.rich(
+                      TextSpan(children: [
+                        TextSpan(
+                            text: '$atual',
+                            style: estiloNumero(compacta ? 18 : 21, cor: Colors.white)),
+                        TextSpan(
+                            text: ' / $max',
+                            style: estiloNumero(compacta ? 13 : 15,
+                                cor: Colors.white.withValues(alpha: 0.75), peso: FontWeight.w600)),
+                      ]),
+                      style: const TextStyle(shadows: [Shadow(color: Colors.black54, blurRadius: 4)]),
+                    ),
                   ),
                 ),
               ),
@@ -206,6 +208,85 @@ class BarraStatus extends StatelessWidget {
           ]),
         ),
       ],
+    );
+  }
+}
+
+/// Medidor pequeno (só leitura): rótulo, valor e uma barra fina.
+class MedidorMini extends StatelessWidget {
+  final String rotulo;
+  final int atual, max;
+  final Color cor;
+  /// Pontos temporários, mostrados como "+N".
+  final int temp;
+  const MedidorMini(
+      {super.key,
+      required this.rotulo,
+      required this.atual,
+      required this.max,
+      required this.cor,
+      this.temp = 0});
+
+  @override
+  Widget build(BuildContext context) {
+    final frac = max <= 0 ? 0.0 : (atual / max).clamp(0.0, 1.0);
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisSize: MainAxisSize.min, children: [
+      Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+        Text(rotulo, style: estiloRotulo(11.5, cor: cor, peso: FontWeight.w700, espaco: 1.2)),
+        const Spacer(),
+        Text.rich(TextSpan(children: [
+          TextSpan(text: '$atual', style: estiloNumero(15, cor: Cores.texto)),
+          TextSpan(text: '/$max', style: estiloNumero(11.5, cor: Cores.textoFraco, peso: FontWeight.w600)),
+          if (temp > 0)
+            TextSpan(text: ' +$temp', style: estiloNumero(11.5, cor: cor, peso: FontWeight.w700)),
+        ])),
+      ]),
+      const SizedBox(height: 5),
+      ClipRRect(
+        borderRadius: BorderRadius.circular(3),
+        child: SizedBox(
+          height: 4,
+          child: Stack(fit: StackFit.expand, children: [
+            ColoredBox(color: cor.withValues(alpha: 0.16)),
+            FractionallySizedBox(
+              alignment: Alignment.centerLeft,
+              widthFactor: frac,
+              child: ColoredBox(color: cor),
+            ),
+          ]),
+        ),
+      ),
+    ]);
+  }
+}
+
+/// Selo pequeno (NEX, patente, "em uso"...).
+class Selo extends StatelessWidget {
+  final String texto;
+  final Color? cor;
+  final IconData? icone;
+  /// Preenchido com a cor (em vez de só contornado).
+  final bool cheio;
+  const Selo(this.texto, {super.key, this.cor, this.icone, this.cheio = false});
+
+  @override
+  Widget build(BuildContext context) {
+    final c = cor ?? Cores.destaque;
+    final frente = cheio ? Cores.sobreDestaque : c;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+      decoration: BoxDecoration(
+        color: c.withValues(alpha: cheio ? 0.95 : 0.12),
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: c.withValues(alpha: cheio ? 1 : 0.4)),
+      ),
+      child: Row(mainAxisSize: MainAxisSize.min, children: [
+        if (icone != null) ...[
+          Icon(icone, size: 13, color: frente),
+          const SizedBox(width: 4),
+        ],
+        Text(texto, style: estiloRotulo(12.5, cor: frente, peso: FontWeight.w700, espaco: 1)),
+      ]),
     );
   }
 }
@@ -346,38 +427,49 @@ class Secao extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Card(
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.fromLTRB(16, 12, 12, 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(children: [
-                Container(
-                  width: 3,
-                  height: 14,
-                  margin: const EdgeInsets.only(right: 8),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Cores.destaque, Cores.roxo]),
+              ConstrainedBox(
+                constraints: const BoxConstraints(minHeight: 32),
+                child: Row(children: [
+                  const Losango(),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(titulo, style: estiloTitulo(15, cor: Cores.destaque, espaco: 0.8)),
                   ),
-                ),
-                Expanded(
-                  child: Text(titulo.toUpperCase(),
-                      style: TextStyle(
-                          letterSpacing: 2,
-                          fontWeight: FontWeight.w800,
-                          color: Cores.destaque,
-                          fontSize: 12)),
-                ),
-                ...acoes,
-              ]),
+                  ...acoes,
+                ]),
+              ),
               const SizedBox(height: 10),
-              child,
+              Padding(padding: const EdgeInsets.only(right: 4), child: child),
             ],
           ),
         ),
       );
+}
+
+/// Losango pequeno que marca os títulos das seções.
+class Losango extends StatelessWidget {
+  final double tamanho;
+  final Color? cor;
+  const Losango({super.key, this.tamanho = 7, this.cor});
+  @override
+  Widget build(BuildContext context) {
+    final c = cor ?? Cores.destaque;
+    return Transform.rotate(
+      angle: 0.785398,
+      child: Container(
+        width: tamanho,
+        height: tamanho,
+        decoration: BoxDecoration(
+          color: c,
+          boxShadow: [BoxShadow(color: c.withValues(alpha: 0.6), blurRadius: 8)],
+        ),
+      ),
+    );
+  }
 }
 
 /// Seletor simples (dropdown) que aceita valor fora da lista.
@@ -420,4 +512,30 @@ String formatarHora(int ms) {
   final d = DateTime.fromMillisecondsSinceEpoch(ms);
   String two(int n) => n.toString().padLeft(2, '0');
   return '${two(d.hour)}:${two(d.minute)}';
+}
+
+/// Título grande no alto das listas (Agentes, Mesas...).
+class TituloPagina extends StatelessWidget {
+  final String titulo;
+  final String? subtitulo;
+  final List<Widget> acoes;
+  const TituloPagina({super.key, required this.titulo, this.subtitulo, this.acoes = const []});
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.fromLTRB(4, 12, 4, 14),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+          Expanded(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(titulo, style: estiloTitulo(26, cor: Cores.texto)),
+              if (subtitulo != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 3),
+                  child: Text(subtitulo!,
+                      style: estiloRotulo(14.5, cor: Cores.textoFraco, peso: FontWeight.w500, espaco: 0.5)),
+                ),
+            ]),
+          ),
+          ...acoes,
+        ]),
+      );
 }

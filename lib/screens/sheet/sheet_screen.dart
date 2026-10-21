@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/rules.dart';
 import '../../core/theme.dart';
 import '../../data/cris_import.dart';
 import '../../data/models.dart';
@@ -61,16 +62,17 @@ class _Ficha extends StatelessWidget {
       length: 7,
       child: Scaffold(
         appBar: AppBar(
-          titleSpacing: 0,
+          titleSpacing: 4,
           title: Row(children: [
             AvatarFicha(
               foto: f.foto,
               nome: f.nome,
-              tamanho: 40,
+              ajuste: f.fotoAjuste,
+              tamanho: 38,
               transformacao: f.eTransformacao,
               aoTocar: () => opcoesFoto(context, f),
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,12 +80,13 @@ class _Ficha extends StatelessWidget {
                   Text(f.nome,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontWeight: FontWeight.w800)),
+                      style: estiloTitulo(18, cor: Cores.texto)),
+                  const SizedBox(height: 2),
                   Text(
-                      '${f.eTransformacao ? 'Transformação • ' : ''}${f.classe} • ${calc.resumoProgressao} • ${calc.patente.nome}${ctx.camp != null ? ' • ${ctx.camp!.nome}' : ''}',
+                      '${f.eTransformacao ? 'Transformação · ' : ''}${f.classe} · ${calc.resumoProgressao}${ctx.camp != null ? ' · ${ctx.camp!.nome}' : ''}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 12, color: Cores.textoFraco)),
+                      style: estiloRotulo(13.5, cor: Cores.textoFraco, peso: FontWeight.w500, espaco: 0.4)),
                 ],
               ),
             ),
@@ -196,82 +199,327 @@ class _Ficha extends StatelessWidget {
   }
 }
 
-/// PV / PE / SAN (ou PD) sempre visiveis no topo.
+/// Um recurso da ficha (PV, PE/PD ou SAN) com o que é preciso para mostrar e
+/// mudar o valor, inclusive os pontos temporários.
+class _Recurso {
+  final String rotulo;
+  final String nomeLongo;
+  final int atual, max;
+  final Color cor;
+  final int temp, tempMax;
+  final Color? corTemp;
+  final ValueChanged<int> aoMudar;
+  final ValueChanged<int>? aoMudarTemp;
+  const _Recurso({
+    required this.rotulo,
+    required this.nomeLongo,
+    required this.atual,
+    required this.max,
+    required this.cor,
+    required this.aoMudar,
+    this.temp = 0,
+    this.tempMax = 0,
+    this.corTemp,
+    this.aoMudarTemp,
+  });
+}
+
+List<_Recurso> _recursos(Ficha f, Calc c) {
+  final pd = c.determinacao;
+  return [
+    _Recurso(
+      rotulo: 'PV',
+      nomeLongo: 'Pontos de vida',
+      atual: f.pvAtual,
+      max: c.pvMax,
+      cor: Cores.pv,
+      temp: f.pvTemp,
+      tempMax: f.pvTempMax < f.pvTemp ? f.pvTemp : f.pvTempMax,
+      corTemp: Cores.pvTemp,
+      aoMudar: (v) => Repo.mudarPontos(f, 'pvAtual', v),
+      aoMudarTemp: (v) => Repo.mudarTemporario(f, 'pvTemp', v),
+    ),
+    _Recurso(
+      rotulo: pd ? 'PD' : 'PE',
+      nomeLongo: pd ? 'Pontos de determinação' : 'Pontos de esforço',
+      atual: pd ? f.pdAtual : f.peAtual,
+      max: pd ? c.pdMax : c.peMax,
+      cor: pd ? Cores.pd : Cores.pe,
+      temp: f.peTemp,
+      tempMax: f.peTempMax < f.peTemp ? f.peTemp : f.peTempMax,
+      corTemp: pd ? Cores.pdTemp : Cores.peTemp,
+      aoMudar: (v) => Repo.mudarPontos(f, pd ? 'pdAtual' : 'peAtual', v),
+      aoMudarTemp: (v) => Repo.mudarTemporario(f, 'peTemp', v),
+    ),
+    if (!pd)
+      _Recurso(
+        rotulo: 'SAN',
+        nomeLongo: 'Sanidade',
+        atual: f.sanAtual,
+        max: c.sanMax,
+        cor: Cores.san,
+        aoMudar: (v) => Repo.mudarRecursos(f, {'sanAtual': v}),
+      ),
+  ];
+}
+
+/// PV, PE (ou PD) e SAN sempre visíveis no topo, em painéis compactos: os
+/// botões tiram e somam 1, e tocar no número abre o ajuste completo, com os
+/// pontos temporários.
 class BarrasTopo extends StatelessWidget {
   final CtxFicha ctx;
   const BarrasTopo({super.key, required this.ctx});
   @override
   Widget build(BuildContext context) {
     final f = ctx.f;
-    final c = ctx.calc;
-    final pd = c.determinacao;
-    final barras = <Widget>[
-      BarraStatus(
-          rotulo: 'PV',
-          atual: f.pvAtual,
-          max: c.pvMax,
-          cor: Cores.pv,
-          compacta: true,
-          aoMudar: (v) => Repo.mudarPontos(f, 'pvAtual', v)),
-      BarraStatus(
-          rotulo: 'PV TEMP',
-          atual: f.pvTemp,
-          max: f.pvTempMax < f.pvTemp ? f.pvTemp : f.pvTempMax,
-          cor: Cores.pvTemp,
-          compacta: true,
-          aoMudar: (v) => Repo.mudarTemporario(f, 'pvTemp', v)),
-      BarraStatus(
-          rotulo: pd ? 'PD' : 'PE',
-          atual: pd ? f.pdAtual : f.peAtual,
-          max: pd ? c.pdMax : c.peMax,
-          cor: pd ? Cores.pd : Cores.pe,
-          compacta: true,
-          aoMudar: (v) => Repo.mudarPontos(f, pd ? 'pdAtual' : 'peAtual', v)),
-      BarraStatus(
-          rotulo: pd ? 'PD TEMP' : 'PE TEMP',
-          atual: f.peTemp,
-          max: f.peTempMax < f.peTemp ? f.peTemp : f.peTempMax,
-          cor: pd ? Cores.pdTemp : Cores.peTemp,
-          compacta: true,
-          aoMudar: (v) => Repo.mudarTemporario(f, 'peTemp', v)),
-      if (!pd)
-        BarraStatus(
-            rotulo: 'SAN',
-            atual: f.sanAtual,
-            max: c.sanMax,
-            cor: Cores.san,
-            compacta: true,
-            aoMudar: (v) => Repo.mudarRecursos(f, {'sanAtual': v})),
-    ];
+    final lista = _recursos(f, ctx.calc);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+      padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
       child: Column(
         children: [
-          LayoutBuilder(builder: (context, cons) {
-            // Quantas barras cabem lado a lado (cada uma precisa de ~190px).
-            final colunas = (cons.maxWidth / 190).floor().clamp(1, barras.length);
-            final largura = (cons.maxWidth - 12 * (colunas - 1)) / colunas;
-            return Wrap(spacing: 12, runSpacing: 4, children: [
-              for (final b in barras) SizedBox(width: largura, child: b),
-            ]);
-          }),
+          Row(children: [
+            for (var i = 0; i < lista.length; i++) ...[
+              if (i > 0) const SizedBox(width: 8),
+              Expanded(
+                child: _PainelRecurso(
+                  r: lista[i],
+                  aoAbrir: () => _ajustarRecurso(context, f.id, ctx.camp?.regras, i),
+                ),
+              ),
+            ],
+          ]),
           if (f.condicoes.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.only(top: 6),
-              child: Wrap(spacing: 4, runSpacing: 4, children: [
-                for (final cd in f.condicoes)
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    decoration: BoxDecoration(
-                        color: Cores.destaque.withValues(alpha: 0.18),
-                        borderRadius: BorderRadius.circular(4)),
-                    child: Text(cd, style: const TextStyle(fontSize: 11)),
-                  ),
-              ]),
+              padding: const EdgeInsets.only(top: 8),
+              child: SizedBox(
+                width: double.infinity,
+                child: Wrap(spacing: 6, runSpacing: 6, children: [
+                  for (final cd in f.condicoes)
+                    Selo(cd, icone: Icons.warning_amber_rounded),
+                ]),
+              ),
             ),
         ],
       ),
     );
   }
+}
+
+class _PainelRecurso extends StatelessWidget {
+  final _Recurso r;
+  final VoidCallback aoAbrir;
+  const _PainelRecurso({required this.r, required this.aoAbrir});
+
+  @override
+  Widget build(BuildContext context) {
+    final frac = r.max <= 0 ? 0.0 : (r.atual / r.max).clamp(0.0, 1.0);
+    final fracTemp = r.tempMax <= 0 ? 0.0 : (r.temp / r.tempMax).clamp(0.0, 1.0);
+    return LayoutBuilder(builder: (context, cons) {
+      final largo = cons.maxWidth >= 220;
+      Widget botao(IconData icone, int d) => InkResponse(
+            onTap: () => r.aoMudar(r.atual + d),
+            radius: 20,
+            child: SizedBox(
+              width: 30,
+              height: 34,
+              child: Icon(icone, size: 18, color: r.cor.withValues(alpha: 0.9)),
+            ),
+          );
+      return Material(
+        color: r.cor.withValues(alpha: 0.07),
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14),
+          side: BorderSide(color: r.cor.withValues(alpha: 0.28)),
+        ),
+        child: InkWell(
+          onTap: aoAbrir,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(4, 8, 4, 9),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+              Row(children: [
+                const SizedBox(width: 6),
+                Text(r.rotulo, style: estiloRotulo(12.5, cor: r.cor, peso: FontWeight.w700, espaco: 1.8)),
+                const Spacer(),
+                if (r.temp > 0)
+                  Text('+${r.temp}',
+                      style: estiloNumero(13, cor: r.corTemp ?? r.cor, peso: FontWeight.w700)),
+                const SizedBox(width: 6),
+              ]),
+              Row(children: [
+                if (largo) botao(Icons.keyboard_double_arrow_left, -5),
+                botao(Icons.remove, -1),
+                Expanded(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text.rich(TextSpan(children: [
+                      TextSpan(text: '${r.atual}', style: estiloNumero(24, cor: Cores.texto)),
+                      TextSpan(
+                          text: '/${r.max}',
+                          style: estiloNumero(14, cor: Cores.textoFraco, peso: FontWeight.w600)),
+                    ])),
+                  ),
+                ),
+                botao(Icons.add, 1),
+                if (largo) botao(Icons.keyboard_double_arrow_right, 5),
+              ]),
+              const SizedBox(height: 4),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+                child: _Trilho(frac: frac, cor: r.cor, altura: 5),
+              ),
+              // a linha dos temporários ocupa lugar sempre, para os painéis
+              // ficarem da mesma altura
+              Padding(
+                padding: const EdgeInsets.fromLTRB(6, 3, 6, 0),
+                child: r.temp > 0
+                    ? _Trilho(frac: fracTemp, cor: r.corTemp ?? r.cor, altura: 3)
+                    : const SizedBox(height: 3),
+              ),
+            ]),
+          ),
+        ),
+      );
+    });
+  }
+}
+
+class _Trilho extends StatelessWidget {
+  final double frac;
+  final Color cor;
+  final double altura;
+  const _Trilho({required this.frac, required this.cor, required this.altura});
+  @override
+  Widget build(BuildContext context) => ClipRRect(
+        borderRadius: BorderRadius.circular(altura),
+        child: SizedBox(
+          height: altura,
+          child: Stack(fit: StackFit.expand, children: [
+            ColoredBox(color: cor.withValues(alpha: 0.16)),
+            FractionallySizedBox(
+              alignment: Alignment.centerLeft,
+              widthFactor: frac,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [cor.withValues(alpha: 0.7), cor]),
+                ),
+              ),
+            ),
+          ]),
+        ),
+      );
+}
+
+/// Ajuste completo de um recurso: ±1, ±5, digitar o valor, temporários e
+/// recuperar tudo. Acompanha a ficha ao vivo enquanto está aberto.
+Future<void> _ajustarRecurso(
+        BuildContext context, String fichaId, Map<String, dynamic>? regras, int indice) =>
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (ctx) => StreamBuilder<Ficha?>(
+        stream: Repo.ficha(fichaId),
+        builder: (ctx, s) {
+          final f = s.data;
+          if (f == null) return const SizedBox(height: 200);
+          final lista = _recursos(f, Calc(f, regras));
+          final r = lista[indice.clamp(0, lista.length - 1)];
+          return SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+              child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                  Expanded(child: Text(r.nomeLongo, style: estiloTitulo(19, cor: r.cor))),
+                  Text.rich(TextSpan(children: [
+                    TextSpan(text: '${r.atual}', style: estiloNumero(34, cor: Cores.texto)),
+                    TextSpan(text: ' / ${r.max}', style: estiloNumero(18, cor: Cores.textoFraco, peso: FontWeight.w600)),
+                  ])),
+                ]),
+                const SizedBox(height: 10),
+                _Trilho(frac: r.max <= 0 ? 0 : (r.atual / r.max).clamp(0.0, 1.0), cor: r.cor, altura: 8),
+                const SizedBox(height: 16),
+                Row(children: [
+                  for (final d in const [-5, -1]) ...[
+                    Expanded(
+                        child: _BotaoValor(
+                            texto: '\u2212${-d}', cor: r.cor, aoTocar: () => r.aoMudar(r.atual + d))),
+                    const SizedBox(width: 8),
+                  ],
+                  Expanded(
+                    child: Tooltip(
+                      message: 'Digitar o valor',
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                            padding: EdgeInsets.zero, minimumSize: const Size(0, 46)),
+                        onPressed: () async {
+                          final v = await pedirNumero(ctx, r.nomeLongo, r.atual);
+                          if (v != null) r.aoMudar(v);
+                        },
+                        child: const Icon(Icons.edit_outlined, size: 20),
+                      ),
+                    ),
+                  ),
+                  for (final d in const [1, 5]) ...[
+                    const SizedBox(width: 8),
+                    Expanded(child: _BotaoValor(texto: '+$d', cor: r.cor, aoTocar: () => r.aoMudar(r.atual + d))),
+                  ],
+                ]),
+                if (r.aoMudarTemp != null) ...[
+                  const SizedBox(height: 20),
+                  Row(children: [
+                    Expanded(
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        Text('TEMPORÁRIOS', style: estiloRotulo(13, cor: r.corTemp, peso: FontWeight.w700, espaco: 1.6)),
+                        const Text('Gastos antes dos normais quando você perde pontos.',
+                            style: TextStyle(fontSize: 12.5, color: Cores.textoFraco)),
+                      ]),
+                    ),
+                    _BotaoValor(texto: '\u22121', cor: r.corTemp ?? r.cor, aoTocar: () => r.aoMudarTemp!(r.temp - 1)),
+                    SizedBox(
+                      width: 52,
+                      child: InkWell(
+                        onTap: () async {
+                          final v = await pedirNumero(ctx, '${r.rotulo} temporários', r.temp);
+                          if (v != null) r.aoMudarTemp!(v);
+                        },
+                        child: Center(child: Text('${r.temp}', style: estiloNumero(24, cor: Cores.texto))),
+                      ),
+                    ),
+                    _BotaoValor(texto: '+1', cor: r.corTemp ?? r.cor, aoTocar: () => r.aoMudarTemp!(r.temp + 1)),
+                  ]),
+                ],
+                const SizedBox(height: 16),
+                TextButton.icon(
+                  onPressed: () => r.aoMudar(r.max),
+                  icon: const Icon(Icons.restore, size: 18),
+                  label: Text('Recuperar ${r.rotulo} ao máximo'),
+                ),
+              ]),
+            ),
+          );
+        },
+      ),
+    );
+
+class _BotaoValor extends StatelessWidget {
+  final String texto;
+  final Color cor;
+  final VoidCallback aoTocar;
+  const _BotaoValor({required this.texto, required this.cor, required this.aoTocar});
+  @override
+  Widget build(BuildContext context) => Material(
+        color: cor.withValues(alpha: 0.12),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(color: cor.withValues(alpha: 0.35)),
+        ),
+        child: InkWell(
+          onTap: aoTocar,
+          customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          child: SizedBox(
+            height: 46,
+            width: 52,
+            child: Center(child: Text(texto, style: estiloNumero(19, cor: cor))),
+          ),
+        ),
+      );
 }

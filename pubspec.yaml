@@ -19,11 +19,38 @@ dependencies:
   url_launcher: ^6.3.0
 
 dev_dependencies:
+  fake_cloud_firestore: ^4.3.0
+  firebase_auth_mocks: ^0.15.2
   flutter_test:
     sdk: flutter
 
 flutter:
   uses-material-design: true
+  # Cinzel nos títulos, Barlow no texto e Barlow Condensed em números e rótulos
+  # (Google Fonts, licença OFL em assets/fonts/).
+  fonts:
+    - family: Cinzel
+      fonts:
+        - asset: assets/fonts/Cinzel-Variavel.ttf
+    - family: Barlow
+      fonts:
+        - asset: assets/fonts/Barlow-Regular.ttf
+        - asset: assets/fonts/Barlow-Italic.ttf
+          style: italic
+        - asset: assets/fonts/Barlow-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Barlow-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Barlow-Bold.ttf
+          weight: 700
+    - family: BarlowCondensed
+      fonts:
+        - asset: assets/fonts/BarlowCondensed-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/BarlowCondensed-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/BarlowCondensed-Bold.ttf
+          weight: 700
   assets:
     - assets/data/oprpg/
     - assets/data/sah/

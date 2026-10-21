@@ -1,11 +1,15 @@
+import 'dart:ui' show FontFeature, FontVariation;
+
 import 'package:flutter/material.dart';
 
 import '../widgets/sigilos.dart';
 
-/// Paleta de um tema de cores do app.
+/// Paleta de um tema de cores do app. Cada tema leva o nome de um elemento
+/// do Outro Lado.
 class TemaCores {
   final String id;
-  final String nome;
+  final String nome; // cor ("Amarelo")
+  final String elemento; // "Conhecimento"
   final Color destaque; // botões, abas, títulos
   final Color sobreDestaque; // texto em cima do destaque
   final Color roxo; // cor secundária
@@ -14,13 +18,14 @@ class TemaCores {
   final Color painel;
   final Color painel2;
   final Color borda;
-  // Degradê do fundo, de cima para baixo.
+  // Brilhos do fundo: um em cima e outro embaixo (o meio é só para a amostra).
   final Color degradeTopo;
   final Color degradeMeio;
   final Color degradeBase;
   const TemaCores({
     required this.id,
     required this.nome,
+    required this.elemento,
     required this.destaque,
     required this.sobreDestaque,
     required this.roxo,
@@ -39,62 +44,66 @@ const temasCores = <TemaCores>[
   TemaCores(
     id: 'amarelo',
     nome: 'Amarelo',
-    destaque: Color(0xFFF5C42C),
-    sobreDestaque: Color(0xFF1B1024),
-    roxo: Color(0xFF8A4DFF),
-    roxoClaro: Color(0xFFB98CFF),
-    fundo: Color(0xFF0E0A14),
-    painel: Color(0xE6170F22),
-    painel2: Color(0xFF221832),
-    borda: Color(0xFF3F3058),
-    degradeTopo: Color(0xFF6A520A),
-    degradeMeio: Color(0xFF2A1A35),
-    degradeBase: Color(0xFF34105E),
+    elemento: 'Conhecimento',
+    destaque: Color(0xFFE9BC4E),
+    sobreDestaque: Color(0xFF1A1407),
+    roxo: Color(0xFF8E6CF0),
+    roxoClaro: Color(0xFFBBA6FF),
+    fundo: Color(0xFF0B0A0F),
+    painel: Color(0xEB15131B),
+    painel2: Color(0xFF1E1B26),
+    borda: Color(0xFF2E2938),
+    degradeTopo: Color(0xFFE9BC4E),
+    degradeMeio: Color(0xFF2A2340),
+    degradeBase: Color(0xFF6B3FD4),
   ),
   TemaCores(
     id: 'roxo',
     nome: 'Roxo',
-    destaque: Color(0xFFB98CFF),
-    sobreDestaque: Color(0xFF14091F),
-    roxo: Color(0xFF7B3FF2),
-    roxoClaro: Color(0xFFD9C2FF),
-    fundo: Color(0xFF0D0716),
-    painel: Color(0xE6170C26),
-    painel2: Color(0xFF231538),
-    borda: Color(0xFF473266),
-    degradeTopo: Color(0xFF4E2290),
-    degradeMeio: Color(0xFF23133A),
-    degradeBase: Color(0xFF0E0719),
+    elemento: 'Energia',
+    destaque: Color(0xFFB9A1FF),
+    sobreDestaque: Color(0xFF130A26),
+    roxo: Color(0xFF7443F0),
+    roxoClaro: Color(0xFFD9CCFF),
+    fundo: Color(0xFF0B0911),
+    painel: Color(0xEB151121),
+    painel2: Color(0xFF1D182D),
+    borda: Color(0xFF2F2846),
+    degradeTopo: Color(0xFF8B5CF6),
+    degradeMeio: Color(0xFF2B1F4D),
+    degradeBase: Color(0xFFC14BE0),
   ),
   TemaCores(
     id: 'preto',
     nome: 'Preto',
-    destaque: Color(0xFFE9E7F0),
-    sobreDestaque: Color(0xFF0B0B0F),
-    roxo: Color(0xFF8A4DFF),
-    roxoClaro: Color(0xFFB98CFF),
-    fundo: Color(0xFF09090C),
-    painel: Color(0xE6131317),
-    painel2: Color(0xFF1C1C23),
-    borda: Color(0xFF30303B),
-    degradeTopo: Color(0xFF222229),
-    degradeMeio: Color(0xFF121216),
-    degradeBase: Color(0xFF050507),
+    elemento: 'Morte',
+    destaque: Color(0xFFE7E4EC),
+    sobreDestaque: Color(0xFF0B0B0D),
+    roxo: Color(0xFF77727F),
+    roxoClaro: Color(0xFFB2ADBA),
+    fundo: Color(0xFF09090B),
+    painel: Color(0xEB131316),
+    painel2: Color(0xFF1B1B1F),
+    borda: Color(0xFF2B2B31),
+    degradeTopo: Color(0xFFA19DAA),
+    degradeMeio: Color(0xFF1E1E23),
+    degradeBase: Color(0xFF4A4753),
   ),
   TemaCores(
     id: 'vermelho',
     nome: 'Vermelho',
-    destaque: Color(0xFFEF3B53),
+    elemento: 'Sangue',
+    destaque: Color(0xFFEC4A55),
     sobreDestaque: Color(0xFFFFFFFF),
-    roxo: Color(0xFFB0283F),
-    roxoClaro: Color(0xFFFF8A99),
-    fundo: Color(0xFF0F0708),
-    painel: Color(0xE61A0B0E),
-    painel2: Color(0xFF281317),
-    borda: Color(0xFF4D2329),
-    degradeTopo: Color(0xFF63101C),
-    degradeMeio: Color(0xFF280A0F),
-    degradeBase: Color(0xFF0B0405),
+    roxo: Color(0xFF9B2335),
+    roxoClaro: Color(0xFFFF9AA2),
+    fundo: Color(0xFF0D0708),
+    painel: Color(0xEB181012),
+    painel2: Color(0xFF221518),
+    borda: Color(0xFF38232A),
+    degradeTopo: Color(0xFFEC4A55),
+    degradeMeio: Color(0xFF3A1219),
+    degradeBase: Color(0xFF7A1029),
   ),
 ];
 
@@ -126,17 +135,19 @@ class Cores {
     degradeBase = t.degradeBase;
   }
 
-  static const texto = Color(0xFFF3EEF8);
-  static const textoFraco = Color(0xFFB4AAC6);
-  static const pv = Color(0xFFD7263D);
-  static const pe = Color(0xFFE0A526);
-  static const san = Color(0xFF3D7BFF);
-  static const pd = Color(0xFF9B59E0);
+  static const texto = Color(0xFFEDE9F3);
+  static const textoFraco = Color(0xFF9D96AB);
+  /// Linhas bem sutis (divisórias, contornos de campos).
+  static const linha = Color(0x1FFFFFFF);
+  static const pv = Color(0xFFE5484D);
+  static const pe = Color(0xFFF0A93B);
+  static const san = Color(0xFF4C8DFF);
+  static const pd = Color(0xFFA57BFF);
   // Pontos temporários: tons mais claros das barras de origem.
-  static const pvTemp = Color(0xFFF2788A);
-  static const peTemp = Color(0xFFF2CF6B);
-  static const pdTemp = Color(0xFFC79BF2);
-  static const ok = Color(0xFF3DBE7A);
+  static const pvTemp = Color(0xFFFF9AA0);
+  static const peTemp = Color(0xFFFFD27A);
+  static const pdTemp = Color(0xFFCDB4FF);
+  static const ok = Color(0xFF3CCB85);
 
   static Color elemento(String? e) {
     switch (e) {
@@ -156,6 +167,51 @@ class Cores {
   }
 }
 
+/// Famílias de fonte do app.
+class Fontes {
+  /// Títulos e nomes: letras romanas, com minúsculas em versalete.
+  static const titulo = 'Cinzel';
+  static const texto = 'Barlow';
+  /// Números, rótulos, abas e botões.
+  static const condensada = 'BarlowCondensed';
+}
+
+/// Título em Cinzel. A fonte é variável: o peso vai também como variação.
+TextStyle estiloTitulo(double tamanho,
+        {Color? cor, FontWeight peso = FontWeight.w700, double espaco = 0.4, double altura = 1.15}) =>
+    TextStyle(
+      fontFamily: Fontes.titulo,
+      fontSize: tamanho,
+      fontWeight: peso,
+      fontVariations: [FontVariation.weight(peso.value.toDouble())],
+      color: cor,
+      letterSpacing: espaco,
+      height: altura,
+    );
+
+/// Rótulo em Barlow Condensed (em maiúsculas fica com cara de ficha oficial).
+TextStyle estiloRotulo(double tamanho,
+        {Color? cor, FontWeight peso = FontWeight.w600, double espaco = 1.2}) =>
+    TextStyle(
+      fontFamily: Fontes.condensada,
+      fontSize: tamanho,
+      fontWeight: peso,
+      color: cor,
+      letterSpacing: espaco,
+      height: 1.1,
+    );
+
+/// Números de ficha: condensados e com largura fixa, para não "pularem".
+TextStyle estiloNumero(double tamanho, {Color? cor, FontWeight peso = FontWeight.w700}) =>
+    TextStyle(
+      fontFamily: Fontes.condensada,
+      fontSize: tamanho,
+      fontWeight: peso,
+      color: cor,
+      height: 1,
+      fontFeatures: const [FontFeature.tabularFigures()],
+    );
+
 ThemeData temaCris() {
   final scheme = ColorScheme.fromSeed(
     seedColor: Cores.roxo,
@@ -163,11 +219,11 @@ ThemeData temaCris() {
   ).copyWith(
     primary: Cores.destaque,
     onPrimary: Cores.sobreDestaque,
-    primaryContainer: Color.alphaBlend(Cores.destaque.withValues(alpha: 0.28), Cores.painel2),
+    primaryContainer: Color.alphaBlend(Cores.destaque.withValues(alpha: 0.22), Cores.painel2),
     onPrimaryContainer: Cores.destaque,
     secondary: Cores.roxoClaro,
     onSecondary: Cores.sobreDestaque,
-    secondaryContainer: Color.alphaBlend(Cores.roxo.withValues(alpha: 0.35), Cores.painel2),
+    secondaryContainer: Color.alphaBlend(Cores.roxo.withValues(alpha: 0.32), Cores.painel2),
     onSecondaryContainer: Cores.texto,
     tertiary: Cores.roxo,
     surface: Cores.painel2,
@@ -182,90 +238,225 @@ ThemeData temaCris() {
     outlineVariant: Cores.borda,
     error: const Color(0xFFFF6B6B),
   );
-  final bordaLinha = UnderlineInputBorder(borderSide: BorderSide(color: Cores.borda));
-  return ThemeData(
-    useMaterial3: true,
-    colorScheme: scheme,
-    // As telas são transparentes: o fundo em degradê vem da transição de página.
+  final base = ThemeData(useMaterial3: true, colorScheme: scheme, brightness: Brightness.dark);
+  final textos = base.textTheme.apply(
+    fontFamily: Fontes.texto,
+    bodyColor: Cores.texto,
+    displayColor: Cores.texto,
+  );
+  final linha = UnderlineInputBorder(borderSide: BorderSide(color: Cores.borda));
+  const cantos = RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12)));
+  final botao = estiloRotulo(16, peso: FontWeight.w700, espaco: 0.9);
+  return base.copyWith(
+    // As telas são transparentes: o fundo vem da transição de página.
     scaffoldBackgroundColor: Colors.transparent,
     canvasColor: Cores.painel2,
+    textTheme: textos.copyWith(
+      displayLarge: estiloTitulo(48, cor: Cores.texto),
+      displayMedium: estiloTitulo(38, cor: Cores.texto),
+      displaySmall: estiloTitulo(30, cor: Cores.texto),
+      headlineLarge: estiloTitulo(28, cor: Cores.texto),
+      headlineMedium: estiloTitulo(24, cor: Cores.texto),
+      headlineSmall: estiloTitulo(21, cor: Cores.texto),
+      titleLarge: estiloTitulo(19, cor: Cores.texto),
+      titleMedium: textos.titleMedium?.copyWith(fontWeight: FontWeight.w600, fontSize: 16),
+      titleSmall: estiloRotulo(15, cor: Cores.texto, espaco: 0.5),
+      bodyLarge: textos.bodyLarge?.copyWith(fontSize: 16, height: 1.35),
+      bodyMedium: textos.bodyMedium?.copyWith(fontSize: 14.5, height: 1.35),
+      bodySmall: textos.bodySmall?.copyWith(fontSize: 12.5, color: Cores.textoFraco),
+      labelLarge: estiloRotulo(15.5, cor: Cores.texto, espaco: 0.8),
+      labelMedium: estiloRotulo(13.5, cor: Cores.texto, espaco: 0.8),
+      labelSmall: estiloRotulo(12, cor: Cores.textoFraco, espaco: 1),
+    ),
     pageTransitionsTheme: PageTransitionsTheme(builders: {
       for (final p in TargetPlatform.values) p: const TransicaoComFundo(),
     }),
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       backgroundColor: Colors.transparent,
       surfaceTintColor: Colors.transparent,
       foregroundColor: Cores.texto,
       elevation: 0,
       scrolledUnderElevation: 0,
       centerTitle: false,
+      toolbarHeight: 60,
+      titleTextStyle: estiloTitulo(20, cor: Cores.texto),
     ),
     cardTheme: CardThemeData(
       color: Cores.painel,
       elevation: 0,
       margin: const EdgeInsets.symmetric(vertical: 6),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(16),
         side: BorderSide(color: Cores.borda),
       ),
     ),
     dialogTheme: DialogThemeData(
       backgroundColor: Cores.painel2,
       surfaceTintColor: Colors.transparent,
+      titleTextStyle: estiloTitulo(19, cor: Cores.texto),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(14),
-        side: BorderSide(color: Cores.destaque.withValues(alpha: 0.35)),
+        borderRadius: BorderRadius.circular(20),
+        side: BorderSide(color: Cores.borda),
       ),
+    ),
+    bottomSheetTheme: BottomSheetThemeData(
+      backgroundColor: Cores.painel2,
+      surfaceTintColor: Colors.transparent,
+      showDragHandle: true,
+      dragHandleColor: Cores.textoFraco.withValues(alpha: 0.5),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
     ),
     // Campos como no CRIS original: só a linha de baixo.
     inputDecorationTheme: InputDecorationTheme(
       isDense: true,
       filled: false,
-      labelStyle: TextStyle(color: Cores.textoFraco),
-      floatingLabelStyle: TextStyle(color: Cores.destaque),
-      border: bordaLinha,
-      enabledBorder: bordaLinha,
-      focusedBorder:
-          UnderlineInputBorder(borderSide: BorderSide(color: Cores.destaque, width: 2)),
+      contentPadding: const EdgeInsets.symmetric(vertical: 10),
+      labelStyle: const TextStyle(color: Cores.textoFraco, fontSize: 15),
+      floatingLabelStyle: estiloRotulo(15, cor: Cores.destaque, espaco: 0.6),
+      hintStyle: TextStyle(color: Cores.textoFraco.withValues(alpha: 0.6)),
+      border: linha,
+      enabledBorder: linha,
+      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Cores.destaque, width: 1.6)),
+    ),
+    filledButtonTheme: FilledButtonThemeData(
+      style: FilledButton.styleFrom(
+        textStyle: botao,
+        shape: cantos,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        minimumSize: const Size(0, 44),
+      ),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Cores.painel2,
+        foregroundColor: Cores.destaque,
+        textStyle: botao,
+        shape: cantos,
+        minimumSize: const Size(0, 44),
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        foregroundColor: Cores.destaque,
+        side: const BorderSide(color: Color(0x2EFFFFFF)),
+        textStyle: botao,
+        shape: cantos,
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+        minimumSize: const Size(0, 44),
+      ),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: Cores.destaque,
+        textStyle: estiloRotulo(15.5, peso: FontWeight.w600, espaco: 0.6),
+        shape: cantos,
+      ),
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: Cores.destaque,
+      foregroundColor: Cores.sobreDestaque,
+      elevation: 3,
+      focusElevation: 3,
+      hoverElevation: 4,
+      highlightElevation: 4,
+      extendedTextStyle: estiloRotulo(16, peso: FontWeight.w700, espaco: 1),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    ),
+    segmentedButtonTheme: SegmentedButtonThemeData(
+      style: ButtonStyle(
+        textStyle: WidgetStatePropertyAll(estiloRotulo(14.5, espaco: 0.5)),
+        side: const WidgetStatePropertyAll(BorderSide(color: Color(0x2EFFFFFF))),
+        shape: const WidgetStatePropertyAll(cantos),
+      ),
     ),
     tabBarTheme: TabBarThemeData(
       labelColor: Cores.destaque,
       unselectedLabelColor: Cores.textoFraco,
       indicatorColor: Cores.destaque,
-      dividerColor: Colors.transparent,
-      labelStyle: TextStyle(fontWeight: FontWeight.w800, letterSpacing: 1.2),
+      indicatorSize: TabBarIndicatorSize.label,
+      indicator: UnderlineTabIndicator(
+        borderSide: BorderSide(color: Cores.destaque, width: 2.5),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(3)),
+      ),
+      dividerColor: Cores.linha,
+      dividerHeight: 1,
+      labelPadding: const EdgeInsets.symmetric(horizontal: 14),
+      labelStyle: estiloRotulo(15, peso: FontWeight.w700, espaco: 1.4),
+      unselectedLabelStyle: estiloRotulo(15, peso: FontWeight.w600, espaco: 1.4),
     ),
     navigationBarTheme: NavigationBarThemeData(
-      backgroundColor: Cores.painel2.withValues(alpha: 0.94),
+      backgroundColor: Color.alphaBlend(Cores.painel2.withValues(alpha: 0.6), Cores.fundo),
       surfaceTintColor: Colors.transparent,
-      indicatorColor: Cores.destaque.withValues(alpha: 0.22),
+      height: 66,
+      indicatorColor: Cores.destaque.withValues(alpha: 0.16),
       iconTheme: WidgetStateProperty.resolveWith((s) => IconThemeData(
           color: s.contains(WidgetState.selected) ? Cores.destaque : Cores.textoFraco)),
-      labelTextStyle: WidgetStateProperty.resolveWith((s) => TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w700,
-          color: s.contains(WidgetState.selected) ? Cores.destaque : Cores.textoFraco)),
+      labelTextStyle: WidgetStateProperty.resolveWith((s) => estiloRotulo(13,
+          peso: FontWeight.w600,
+          espaco: 1,
+          cor: s.contains(WidgetState.selected) ? Cores.destaque : Cores.textoFraco)),
     ),
     navigationRailTheme: NavigationRailThemeData(
       backgroundColor: Colors.transparent,
-      indicatorColor: Cores.destaque.withValues(alpha: 0.22),
+      indicatorColor: Cores.destaque.withValues(alpha: 0.16),
       selectedIconTheme: IconThemeData(color: Cores.destaque),
       unselectedIconTheme: const IconThemeData(color: Cores.textoFraco),
-      selectedLabelTextStyle:
-          TextStyle(color: Cores.destaque, fontWeight: FontWeight.w700),
-      unselectedLabelTextStyle: const TextStyle(color: Cores.textoFraco),
+      selectedLabelTextStyle: estiloRotulo(13, cor: Cores.destaque, espaco: 1),
+      unselectedLabelTextStyle: estiloRotulo(13, cor: Cores.textoFraco, espaco: 1),
     ),
     chipTheme: ChipThemeData(
       backgroundColor: Cores.painel2,
-      selectedColor: Cores.destaque.withValues(alpha: 0.25),
+      selectedColor: Cores.destaque.withValues(alpha: 0.22),
       side: BorderSide(color: Cores.borda),
+      labelStyle: estiloRotulo(14, cor: Cores.texto, espaco: 0.4),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+    ),
+    listTileTheme: ListTileThemeData(
+      iconColor: Cores.textoFraco,
+      titleTextStyle: const TextStyle(
+          fontFamily: Fontes.texto, fontSize: 15.5, fontWeight: FontWeight.w600, color: Cores.texto),
+      subtitleTextStyle:
+          const TextStyle(fontFamily: Fontes.texto, fontSize: 13.5, color: Cores.textoFraco),
+    ),
+    switchTheme: SwitchThemeData(
+      thumbColor: WidgetStateProperty.resolveWith(
+          (s) => s.contains(WidgetState.selected) ? Cores.sobreDestaque : Cores.textoFraco),
+      trackColor: WidgetStateProperty.resolveWith(
+          (s) => s.contains(WidgetState.selected) ? Cores.destaque : Cores.painel2),
+      trackOutlineColor: WidgetStatePropertyAll(Cores.borda),
+    ),
+    checkboxTheme: CheckboxThemeData(
+      fillColor: WidgetStateProperty.resolveWith(
+          (s) => s.contains(WidgetState.selected) ? Cores.destaque : Colors.transparent),
+      checkColor: WidgetStatePropertyAll(Cores.sobreDestaque),
+      side: const BorderSide(color: Cores.textoFraco, width: 1.5),
     ),
     snackBarTheme: SnackBarThemeData(
       backgroundColor: Cores.painel2,
-      contentTextStyle: TextStyle(color: Cores.texto),
+      contentTextStyle: const TextStyle(fontFamily: Fontes.texto, color: Cores.texto, fontSize: 14.5),
       actionTextColor: Cores.destaque,
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12), side: BorderSide(color: Cores.borda)),
     ),
-    popupMenuTheme: PopupMenuThemeData(color: Cores.painel2),
-    dividerColor: Cores.borda,
+    popupMenuTheme: PopupMenuThemeData(
+      color: Cores.painel2,
+      surfaceTintColor: Colors.transparent,
+      textStyle: const TextStyle(fontFamily: Fontes.texto, fontSize: 15, color: Cores.texto),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14), side: BorderSide(color: Cores.borda)),
+    ),
+    tooltipTheme: TooltipThemeData(
+      decoration: BoxDecoration(
+        color: Cores.painel2,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Cores.borda),
+      ),
+      textStyle: const TextStyle(fontFamily: Fontes.texto, fontSize: 13, color: Cores.texto),
+    ),
+    progressIndicatorTheme: ProgressIndicatorThemeData(color: Cores.destaque),
+    dividerTheme: const DividerThemeData(color: Cores.linha, thickness: 1, space: 1),
+    dividerColor: Cores.linha,
   );
 }
