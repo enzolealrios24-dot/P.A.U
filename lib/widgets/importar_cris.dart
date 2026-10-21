@@ -183,13 +183,13 @@ class _JanelaCrisState extends State<_JanelaCris> {
               if (_aviso != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 8),
-                  child: Text(_aviso!, style: const TextStyle(color: Cores.destaque)),
+                  child: Text(_aviso!, style: TextStyle(color: Cores.destaque)),
                 ),
               for (final r in _resultados)
                 r.agente == null
                     ? ListTile(
                         contentPadding: EdgeInsets.zero,
-                        leading: const Icon(Icons.error_outline, color: Cores.destaque),
+                        leading: Icon(Icons.error_outline, color: Cores.destaque),
                         title: Text(r.id, style: const TextStyle(fontSize: 13)),
                         subtitle: Text(r.erro ?? ''),
                       )

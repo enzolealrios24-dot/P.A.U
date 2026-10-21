@@ -310,7 +310,7 @@ void mostrarRolagem(BuildContext context, Rolagem r) {
             const Text('CRÍTICO!',
                 style: TextStyle(color: Cores.ok, fontWeight: FontWeight.bold)),
           if (r.falhaCritica)
-            const Text('Resultado natural 1',
+            Text('Resultado natural 1',
                 style: TextStyle(color: Cores.destaque)),
           const SizedBox(height: 8),
           Text(r.detalhe,
@@ -319,7 +319,7 @@ void mostrarRolagem(BuildContext context, Rolagem r) {
           if (r.danoTotal != null) ...[
             const Divider(height: 24),
             Text('Dano: ${r.danoTotal}',
-                style: const TextStyle(
+                style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w800,
                     color: Cores.destaque)),
@@ -355,7 +355,7 @@ class Secao extends StatelessWidget {
                   width: 3,
                   height: 14,
                   margin: const EdgeInsets.only(right: 8),
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
@@ -364,7 +364,7 @@ class Secao extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(titulo.toUpperCase(),
-                      style: const TextStyle(
+                      style: TextStyle(
                           letterSpacing: 2,
                           fontWeight: FontWeight.w800,
                           color: Cores.destaque,

@@ -595,7 +595,7 @@ class _AbaMesa extends StatelessWidget {
           Row(children: [
             const Text('Código para os jogadores: '),
             SelectableText(camp.joinCode,
-                style: const TextStyle(
+                style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 4,

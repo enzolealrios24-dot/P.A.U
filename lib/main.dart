@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import 'core/tema_app.dart';
 import 'core/theme.dart';
 import 'data/catalogo.dart';
 import 'data/repo.dart';
@@ -15,6 +16,7 @@ final mensageiro = GlobalKey<ScaffoldMessengerState>();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Catalogo.instance.carregar();
+  await TemaApp.carregar();
   String? erroInit;
   if (FirebaseConfig.configurado) {
     try {
@@ -45,7 +47,16 @@ class CrisApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Trocar o tema recria o app inteiro com as cores novas.
+    return ValueListenableBuilder<String>(
+      valueListenable: TemaApp.atual,
+      builder: (context, tema, _) => _app(tema),
+    );
+  }
+
+  Widget _app(String tema) {
     return MaterialApp(
+      key: ValueKey(tema),
       title: 'C.R.I.S',
       debugShowCheckedModeBanner: false,
       theme: temaCris(),

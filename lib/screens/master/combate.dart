@@ -64,7 +64,7 @@ class AbaCombate extends StatelessWidget {
         children: [
           SimpleDialogOption(
             onPressed: () => Navigator.pop(ctx, ('', <String, dynamic>{})),
-            child: const Text('+ Participante avulso (só nome)',
+            child: Text('+ Participante avulso (só nome)',
                 style: TextStyle(color: Cores.roxo)),
           ),
           for (final a in lista)

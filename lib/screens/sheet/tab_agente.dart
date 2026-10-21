@@ -450,7 +450,7 @@ class TabAgente extends StatelessWidget {
               for (final a in alts) ...[
                 Text(
                     'NEX ${asInt(a['nex'])}%${a['elemento'] != null ? ' • ${asStr(a['elemento'])}' : ''}',
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontWeight: FontWeight.w800, color: Cores.destaque)),
                 Text(asStr(a['resumo']), style: const TextStyle(fontSize: 13)),
                 for (final e in asMapList(a['efeitos']))
@@ -599,7 +599,7 @@ class _BolhaAtributo extends StatelessWidget {
     final v = f.attr(chave);
     final efetivo = ctx.calc.attr(chave);
     return Material(
-      shape: const CircleBorder(
+      shape: CircleBorder(
           side: BorderSide(color: Cores.destaque, width: 2)),
       color: Cores.painel2,
       child: InkWell(

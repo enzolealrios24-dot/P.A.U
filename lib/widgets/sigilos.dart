@@ -8,14 +8,15 @@ import '../core/theme.dart';
 /// um triângulo e um olho no centro. Desenho original do app.
 class SigiloConhecimento extends StatelessWidget {
   final double tamanho;
-  final Color cor;
+  /// Sem cor, usa o destaque do tema atual.
+  final Color? cor;
   final double espessura;
   /// Muda a disposição das runas para os sigilos não ficarem iguais.
   final int variante;
   const SigiloConhecimento({
     super.key,
     this.tamanho = 120,
-    this.cor = Cores.destaque,
+    this.cor,
     this.espessura = 1.4,
     this.variante = 0,
   });
@@ -23,7 +24,7 @@ class SigiloConhecimento extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CustomPaint(
         size: Size.square(tamanho),
-        painter: _PintorSigilo(cor, espessura, variante),
+        painter: _PintorSigilo(cor ?? Cores.destaque, espessura, variante),
       );
 }
 
@@ -120,7 +121,7 @@ class FundoCris extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -181,7 +182,7 @@ class LinhaCris extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) => Container(
         height: 2,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(colors: [Cores.destaque, Cores.roxo, Cores.destaque]),
         ),
       );

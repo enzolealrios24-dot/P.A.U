@@ -44,7 +44,7 @@ class IniciativaView extends StatelessWidget {
                             i == turno ? FontWeight.w800 : FontWeight.w400)),
               ),
               if (i == turno)
-                const Text('VEZ', style: TextStyle(color: Cores.destaque)),
+                Text('VEZ', style: TextStyle(color: Cores.destaque)),
             ]),
           ),
       ]),

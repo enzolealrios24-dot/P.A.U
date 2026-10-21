@@ -2,22 +2,132 @@ import 'package:flutter/material.dart';
 
 import '../widgets/sigilos.dart';
 
+/// Paleta de um tema de cores do app.
+class TemaCores {
+  final String id;
+  final String nome;
+  final Color destaque; // botões, abas, títulos
+  final Color sobreDestaque; // texto em cima do destaque
+  final Color roxo; // cor secundária
+  final Color roxoClaro;
+  final Color fundo;
+  final Color painel;
+  final Color painel2;
+  final Color borda;
+  // Degradê do fundo, de cima para baixo.
+  final Color degradeTopo;
+  final Color degradeMeio;
+  final Color degradeBase;
+  const TemaCores({
+    required this.id,
+    required this.nome,
+    required this.destaque,
+    required this.sobreDestaque,
+    required this.roxo,
+    required this.roxoClaro,
+    required this.fundo,
+    required this.painel,
+    required this.painel2,
+    required this.borda,
+    required this.degradeTopo,
+    required this.degradeMeio,
+    required this.degradeBase,
+  });
+}
+
+const temasCores = <TemaCores>[
+  TemaCores(
+    id: 'amarelo',
+    nome: 'Amarelo',
+    destaque: Color(0xFFF5C42C),
+    sobreDestaque: Color(0xFF1B1024),
+    roxo: Color(0xFF8A4DFF),
+    roxoClaro: Color(0xFFB98CFF),
+    fundo: Color(0xFF0E0A14),
+    painel: Color(0xE6170F22),
+    painel2: Color(0xFF221832),
+    borda: Color(0xFF3F3058),
+    degradeTopo: Color(0xFF6A520A),
+    degradeMeio: Color(0xFF2A1A35),
+    degradeBase: Color(0xFF34105E),
+  ),
+  TemaCores(
+    id: 'roxo',
+    nome: 'Roxo',
+    destaque: Color(0xFFB98CFF),
+    sobreDestaque: Color(0xFF14091F),
+    roxo: Color(0xFF7B3FF2),
+    roxoClaro: Color(0xFFD9C2FF),
+    fundo: Color(0xFF0D0716),
+    painel: Color(0xE6170C26),
+    painel2: Color(0xFF231538),
+    borda: Color(0xFF473266),
+    degradeTopo: Color(0xFF4E2290),
+    degradeMeio: Color(0xFF23133A),
+    degradeBase: Color(0xFF0E0719),
+  ),
+  TemaCores(
+    id: 'preto',
+    nome: 'Preto',
+    destaque: Color(0xFFE9E7F0),
+    sobreDestaque: Color(0xFF0B0B0F),
+    roxo: Color(0xFF8A4DFF),
+    roxoClaro: Color(0xFFB98CFF),
+    fundo: Color(0xFF09090C),
+    painel: Color(0xE6131317),
+    painel2: Color(0xFF1C1C23),
+    borda: Color(0xFF30303B),
+    degradeTopo: Color(0xFF222229),
+    degradeMeio: Color(0xFF121216),
+    degradeBase: Color(0xFF050507),
+  ),
+  TemaCores(
+    id: 'vermelho',
+    nome: 'Vermelho',
+    destaque: Color(0xFFEF3B53),
+    sobreDestaque: Color(0xFFFFFFFF),
+    roxo: Color(0xFFB0283F),
+    roxoClaro: Color(0xFFFF8A99),
+    fundo: Color(0xFF0F0708),
+    painel: Color(0xE61A0B0E),
+    painel2: Color(0xFF281317),
+    borda: Color(0xFF4D2329),
+    degradeTopo: Color(0xFF63101C),
+    degradeMeio: Color(0xFF280A0F),
+    degradeBase: Color(0xFF0B0405),
+  ),
+];
+
 class Cores {
-  // Base escura arroxeada; as telas ficam sobre o degradê do FundoCris.
-  static const fundo = Color(0xFF0E0A14);
-  static const painel = Color(0xE6170F22);
-  static const painel2 = Color(0xFF221832);
-  static const borda = Color(0xFF3F3058);
+  // Cores do tema escolhido (mudam com aplicar). As demais são fixas.
+  static Color fundo = temasCores.first.fundo;
+  static Color painel = temasCores.first.painel;
+  static Color painel2 = temasCores.first.painel2;
+  static Color borda = temasCores.first.borda;
+  static Color destaque = temasCores.first.destaque;
+  static Color sobreDestaque = temasCores.first.sobreDestaque;
+  static Color roxo = temasCores.first.roxo;
+  static Color roxoClaro = temasCores.first.roxoClaro;
+  static Color degradeTopo = temasCores.first.degradeTopo;
+  static Color degradeMeio = temasCores.first.degradeMeio;
+  static Color degradeBase = temasCores.first.degradeBase;
+
+  static void aplicar(TemaCores t) {
+    fundo = t.fundo;
+    painel = t.painel;
+    painel2 = t.painel2;
+    borda = t.borda;
+    destaque = t.destaque;
+    sobreDestaque = t.sobreDestaque;
+    roxo = t.roxo;
+    roxoClaro = t.roxoClaro;
+    degradeTopo = t.degradeTopo;
+    degradeMeio = t.degradeMeio;
+    degradeBase = t.degradeBase;
+  }
+
   static const texto = Color(0xFFF3EEF8);
   static const textoFraco = Color(0xFFB4AAC6);
-  static const destaque = Color(0xFFF5C42C); // amarelo do Conhecimento
-  static const sobreDestaque = Color(0xFF1B1024); // texto em cima do amarelo
-  static const roxo = Color(0xFF8A4DFF);
-  static const roxoClaro = Color(0xFFB98CFF);
-  // Degradê do fundo: amarelo em cima, roxo embaixo.
-  static const degradeTopo = Color(0xFF6A520A);
-  static const degradeMeio = Color(0xFF2A1A35);
-  static const degradeBase = Color(0xFF34105E);
   static const pv = Color(0xFFD7263D);
   static const pe = Color(0xFFE0A526);
   static const san = Color(0xFF3D7BFF);
@@ -53,26 +163,26 @@ ThemeData temaCris() {
   ).copyWith(
     primary: Cores.destaque,
     onPrimary: Cores.sobreDestaque,
-    primaryContainer: const Color(0xFF4A3A08),
+    primaryContainer: Color.alphaBlend(Cores.destaque.withValues(alpha: 0.28), Cores.painel2),
     onPrimaryContainer: Cores.destaque,
     secondary: Cores.roxoClaro,
     onSecondary: Cores.sobreDestaque,
-    secondaryContainer: const Color(0xFF3A2266),
+    secondaryContainer: Color.alphaBlend(Cores.roxo.withValues(alpha: 0.35), Cores.painel2),
     onSecondaryContainer: Cores.texto,
     tertiary: Cores.roxo,
     surface: Cores.painel2,
     onSurface: Cores.texto,
     onSurfaceVariant: Cores.textoFraco,
-    surfaceContainerLowest: const Color(0xFF120C1A),
-    surfaceContainerLow: const Color(0xFF181022),
-    surfaceContainer: const Color(0xFF1D142A),
-    surfaceContainerHigh: const Color(0xFF231931),
-    surfaceContainerHighest: const Color(0xFF2B1F3B),
+    surfaceContainerLowest: Color.lerp(Cores.fundo, Cores.painel2, 0.2)!,
+    surfaceContainerLow: Color.lerp(Cores.fundo, Cores.painel2, 0.45)!,
+    surfaceContainer: Color.lerp(Cores.fundo, Cores.painel2, 0.7)!,
+    surfaceContainerHigh: Cores.painel2,
+    surfaceContainerHighest: Color.lerp(Cores.painel2, Cores.borda, 0.35)!,
     outline: Cores.borda,
     outlineVariant: Cores.borda,
     error: const Color(0xFFFF6B6B),
   );
-  const bordaLinha = UnderlineInputBorder(borderSide: BorderSide(color: Cores.borda));
+  final bordaLinha = UnderlineInputBorder(borderSide: BorderSide(color: Cores.borda));
   return ThemeData(
     useMaterial3: true,
     colorScheme: scheme,
@@ -96,7 +206,7 @@ ThemeData temaCris() {
       margin: const EdgeInsets.symmetric(vertical: 6),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
-        side: const BorderSide(color: Cores.borda),
+        side: BorderSide(color: Cores.borda),
       ),
     ),
     dialogTheme: DialogThemeData(
@@ -108,7 +218,7 @@ ThemeData temaCris() {
       ),
     ),
     // Campos como no CRIS original: só a linha de baixo.
-    inputDecorationTheme: const InputDecorationTheme(
+    inputDecorationTheme: InputDecorationTheme(
       isDense: true,
       filled: false,
       labelStyle: TextStyle(color: Cores.textoFraco),
@@ -118,7 +228,7 @@ ThemeData temaCris() {
       focusedBorder:
           UnderlineInputBorder(borderSide: BorderSide(color: Cores.destaque, width: 2)),
     ),
-    tabBarTheme: const TabBarThemeData(
+    tabBarTheme: TabBarThemeData(
       labelColor: Cores.destaque,
       unselectedLabelColor: Cores.textoFraco,
       indicatorColor: Cores.destaque,
@@ -126,7 +236,7 @@ ThemeData temaCris() {
       labelStyle: TextStyle(fontWeight: FontWeight.w800, letterSpacing: 1.2),
     ),
     navigationBarTheme: NavigationBarThemeData(
-      backgroundColor: const Color(0xF0190F26),
+      backgroundColor: Cores.painel2.withValues(alpha: 0.94),
       surfaceTintColor: Colors.transparent,
       indicatorColor: Cores.destaque.withValues(alpha: 0.22),
       iconTheme: WidgetStateProperty.resolveWith((s) => IconThemeData(
@@ -139,23 +249,23 @@ ThemeData temaCris() {
     navigationRailTheme: NavigationRailThemeData(
       backgroundColor: Colors.transparent,
       indicatorColor: Cores.destaque.withValues(alpha: 0.22),
-      selectedIconTheme: const IconThemeData(color: Cores.destaque),
+      selectedIconTheme: IconThemeData(color: Cores.destaque),
       unselectedIconTheme: const IconThemeData(color: Cores.textoFraco),
       selectedLabelTextStyle:
-          const TextStyle(color: Cores.destaque, fontWeight: FontWeight.w700),
+          TextStyle(color: Cores.destaque, fontWeight: FontWeight.w700),
       unselectedLabelTextStyle: const TextStyle(color: Cores.textoFraco),
     ),
     chipTheme: ChipThemeData(
       backgroundColor: Cores.painel2,
       selectedColor: Cores.destaque.withValues(alpha: 0.25),
-      side: const BorderSide(color: Cores.borda),
+      side: BorderSide(color: Cores.borda),
     ),
-    snackBarTheme: const SnackBarThemeData(
+    snackBarTheme: SnackBarThemeData(
       backgroundColor: Cores.painel2,
       contentTextStyle: TextStyle(color: Cores.texto),
       actionTextColor: Cores.destaque,
     ),
-    popupMenuTheme: const PopupMenuThemeData(color: Cores.painel2),
+    popupMenuTheme: PopupMenuThemeData(color: Cores.painel2),
     dividerColor: Cores.borda,
   );
 }

@@ -13,7 +13,7 @@ class LogoCris extends StatelessWidget {
     final grande = tamanho >= 40;
     final texto = ShaderMask(
       blendMode: BlendMode.srcIn,
-      shaderCallback: (r) => const LinearGradient(
+      shaderCallback: (r) => LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [Cores.destaque, Color(0xFFE59B3A), Cores.roxoClaro],
@@ -45,7 +45,7 @@ class LogoCris extends StatelessWidget {
           height: 2,
           width: tamanho * 3.4,
           margin: const EdgeInsets.only(top: 8),
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(colors: [Cores.destaque, Cores.roxo]),
           ),
         ),

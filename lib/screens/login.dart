@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../core/theme.dart';
 import '../data/cris_import.dart';
 import '../widgets/importar_cris.dart';
+import '../widgets/tema_picker.dart';
 import '../widgets/logo.dart';
 
 class TelaLogin extends StatefulWidget {
@@ -130,7 +131,7 @@ class _TelaLoginState extends State<TelaLogin> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Text(_erro!,
-                        style: const TextStyle(color: Cores.destaque)),
+                        style: TextStyle(color: Cores.destaque)),
                   ),
                 FilledButton(
                   onPressed: _carregando ? null : _enviar,
@@ -180,6 +181,12 @@ class _TelaLoginState extends State<TelaLogin> {
                       color: CrisImport.pendentes.isEmpty
                           ? Cores.textoFraco
                           : Cores.destaque),
+                ),
+                const SizedBox(height: 12),
+                TextButton.icon(
+                  onPressed: () => escolherTema(context),
+                  icon: const Icon(Icons.palette_outlined),
+                  label: const Text('Tema de cores'),
                 ),
               ],
             ),

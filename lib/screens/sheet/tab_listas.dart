@@ -795,7 +795,7 @@ class TabInventario extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: c.sobrecarregado ? Cores.destaque : null)),
           if (c.sobrecarregado)
-            const Text(
+            Text(
                 'Sobrecarregado: -5 em Defesa e perícias de carga, -3 m de deslocamento.',
                 style: TextStyle(color: Cores.destaque, fontSize: 12)),
           const SizedBox(height: 6),

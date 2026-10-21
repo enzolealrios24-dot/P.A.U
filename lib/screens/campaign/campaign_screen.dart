@@ -123,7 +123,7 @@ class _AbaMesaJogador extends StatelessWidget {
                       style: const TextStyle(color: Cores.textoFraco)),
                   if (camp.missao.isNotEmpty) ...[
                     const SizedBox(height: 8),
-                    const Text('MISSÃO ATUAL',
+                    Text('MISSÃO ATUAL',
                         style: TextStyle(
                             fontSize: 11,
                             letterSpacing: 2,
@@ -203,7 +203,7 @@ class LogRolagens extends StatelessWidget {
                                   : (falha ? Cores.destaque : Cores.texto))),
                       if (dano != null)
                         Text('dano ${asInt(dano)}',
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontSize: 11, color: Cores.destaque)),
                     ]),
                   ),

@@ -44,7 +44,7 @@ class TabPericias extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Row(children: [
-                        const Icon(Icons.casino_outlined,
+                        Icon(Icons.casino_outlined,
                             size: 18, color: Cores.destaque),
                         const SizedBox(width: 8),
                         Flexible(

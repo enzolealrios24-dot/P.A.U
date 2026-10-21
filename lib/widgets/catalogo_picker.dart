@@ -171,7 +171,7 @@ class _PickerState extends State<_Picker> {
                                 ),
                                 IconButton(
                                   tooltip: 'Adicionar',
-                                  icon: const Icon(Icons.add_circle,
+                                  icon: Icon(Icons.add_circle,
                                       color: Cores.destaque),
                                   onPressed: () => Navigator.pop(context, e),
                                 ),
