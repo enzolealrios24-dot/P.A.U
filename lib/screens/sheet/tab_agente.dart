@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../../core/rules.dart';
@@ -215,17 +217,10 @@ class TabAgente extends StatelessWidget {
     final atributos = Secao(
       titulo: 'Atributos',
       child: Column(children: [
-        Wrap(
-          alignment: WrapAlignment.center,
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            for (final k in atributosChaves) _CaixaAtributo(ctx: ctx, chave: k),
-          ],
-        ),
+        _CirculoAtributos(ctx: ctx),
         const SizedBox(height: 8),
         Text(
-          'Toque para rolar • segure para modificadores\nPontos distribuídos: $gastos (criação: $pontos, máx. 3; reduzir a 0 dá +1 ponto)',
+          'Toque para rolar • segure para modificadores • dois toques mudam o valor\nPontos distribuídos: $gastos (criação: $pontos, máx. 3; reduzir a 0 dá +1 ponto)',
           textAlign: TextAlign.center,
           style: TextStyle(
               fontSize: 12,
@@ -533,68 +528,155 @@ Future<void> editarCondicoes(BuildContext context, Ficha f) async {
   if (r != null) Repo.set(f.id, 'condicoes', r.toList());
 }
 
-class _CaixaAtributo extends StatelessWidget {
+/// Atributos num círculo ritual, como no CRIS original: AGI no topo e os
+/// outros em volta, no sentido horário.
+class _CirculoAtributos extends StatelessWidget {
+  final CtxFicha ctx;
+  const _CirculoAtributos({required this.ctx});
+
+  static const _ordem = ['agi', 'int', 'vig', 'pre', 'for'];
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(builder: (context, c) {
+      final lado = c.maxWidth < 340 ? c.maxWidth : 340.0;
+      final meio = lado / 2;
+      final anel = lado * 0.33;
+      final raio = lado * 0.135;
+      final centro = lado * 0.17;
+      return Center(
+        child: SizedBox(
+          width: lado,
+          height: lado,
+          child: Stack(children: [
+            Positioned.fill(
+                child: CustomPaint(painter: _PintorCirculo(anel / lado))),
+            Positioned(
+              left: meio - centro,
+              top: meio - centro,
+              width: centro * 2,
+              height: centro * 2,
+              child: Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Cores.painel2,
+                  border: Border.all(color: Cores.destaque, width: 2),
+                ),
+                child: Text('ATRIBUTOS',
+                    style: TextStyle(
+                        color: Cores.destaque,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 0.8,
+                        fontSize: lado * 0.042)),
+              ),
+            ),
+            for (var i = 0; i < _ordem.length; i++)
+              Positioned(
+                left: meio + anel * cos(-pi / 2 + 2 * pi * i / 5) - raio,
+                top: meio + anel * sin(-pi / 2 + 2 * pi * i / 5) - raio,
+                width: raio * 2,
+                height: raio * 2,
+                child: _BolhaAtributo(ctx: ctx, chave: _ordem[i], lado: lado),
+              ),
+          ]),
+        ),
+      );
+    });
+  }
+}
+
+class _BolhaAtributo extends StatelessWidget {
   final CtxFicha ctx;
   final String chave;
-  const _CaixaAtributo({required this.ctx, required this.chave});
+  final double lado;
+  const _BolhaAtributo(
+      {required this.ctx, required this.chave, required this.lado});
+
   @override
   Widget build(BuildContext context) {
     final f = ctx.f;
     final v = f.attr(chave);
     final efetivo = ctx.calc.attr(chave);
-    return Container(
-      width: 92,
-      decoration: BoxDecoration(
-        color: Cores.painel2,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Cores.borda),
-      ),
-      child: Column(children: [
-        InkWell(
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-          onTap: () => ctx.rolarAtributo(context, chave),
-          onLongPress: () async {
-            final m = await pedirModificadores(context);
-            if (m != null && context.mounted) {
-              ctx.rolarAtributo(context, chave,
-                  dadosExtra: m.dados, bonusExtra: m.bonus);
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.only(top: 8, bottom: 2),
-            child: Column(children: [
-              Text(efetivo == v ? '$v' : '$efetivo',
-                  style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.w900,
-                      height: 1,
-                      color: efetivo == v ? Cores.texto : Cores.ok)),
-              Text(atributosSigla[chave]!,
-                  style: const TextStyle(
-                      color: Cores.destaque,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 2)),
-            ]),
-          ),
-        ),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          IconButton(
-            visualDensity: VisualDensity.compact,
-            iconSize: 18,
-            onPressed:
-                v > 0 ? () => Repo.set(f.id, 'atributos.$chave', v - 1) : null,
-            icon: const Icon(Icons.remove),
-          ),
-          IconButton(
-            visualDensity: VisualDensity.compact,
-            iconSize: 18,
-            onPressed: () => Repo.set(f.id, 'atributos.$chave', v + 1),
-            icon: const Icon(Icons.add),
-          ),
+    return Material(
+      shape: const CircleBorder(
+          side: BorderSide(color: Cores.destaque, width: 2)),
+      color: Cores.painel2,
+      child: InkWell(
+        customBorder: const CircleBorder(),
+        onTap: () => ctx.rolarAtributo(context, chave),
+        onLongPress: () async {
+          final m = await pedirModificadores(context);
+          if (m != null && context.mounted) {
+            ctx.rolarAtributo(context, chave,
+                dadosExtra: m.dados, bonusExtra: m.bonus);
+          }
+        },
+        onDoubleTap: () async {
+          final n = await pedirNumero(context, atributosNomes[chave]!, v);
+          if (n != null) Repo.set(f.id, 'atributos.$chave', n < 0 ? 0 : n);
+        },
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Text(efetivo == v ? '$v' : '$efetivo',
+              style: TextStyle(
+                  fontSize: lado * 0.085,
+                  fontWeight: FontWeight.w900,
+                  height: 1,
+                  color: efetivo == v ? Cores.texto : Cores.ok)),
+          Text(atributosSigla[chave]!,
+              style: TextStyle(
+                  color: Cores.destaque,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1.5,
+                  fontSize: lado * 0.036)),
         ]),
-      ]),
+      ),
     );
   }
+}
+
+/// Anéis com marcas e o pentágono que liga os atributos.
+class _PintorCirculo extends CustomPainter {
+  final double anel; // raio do anel dos atributos, em fração do lado
+  _PintorCirculo(this.anel);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final c = size.center(Offset.zero);
+    final l = size.shortestSide;
+    final traco = Paint()
+      ..color = Cores.destaque.withValues(alpha: 0.55)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.4;
+    final fraco = Paint()
+      ..color = Cores.roxoClaro.withValues(alpha: 0.45)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.2;
+    canvas.drawCircle(c, l * 0.49, traco);
+    canvas.drawCircle(c, l * 0.455, fraco);
+    canvas.drawCircle(c, l * anel, traco);
+    for (var i = 0; i < 60; i++) {
+      final a = 2 * pi * i / 60;
+      final d = Offset(cos(a), sin(a));
+      canvas.drawLine(
+          c + d * l * 0.458, c + d * l * (i % 5 == 0 ? 0.487 : 0.472), fraco);
+    }
+    final penta = Path();
+    for (var i = 0; i < 5; i++) {
+      final a = -pi / 2 + 2 * pi * i / 5;
+      final p = c + Offset(cos(a), sin(a)) * l * anel;
+      if (i == 0) {
+        penta.moveTo(p.dx, p.dy);
+      } else {
+        penta.lineTo(p.dx, p.dy);
+      }
+    }
+    penta.close();
+    canvas.drawPath(penta, fraco);
+  }
+
+  @override
+  bool shouldRepaint(covariant _PintorCirculo old) => old.anel != anel;
 }
 
 class _Stat extends StatelessWidget {

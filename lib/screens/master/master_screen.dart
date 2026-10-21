@@ -8,6 +8,7 @@ import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/repo.dart';
 import '../../widgets/common.dart';
+import '../../widgets/sigilos.dart';
 import '../campaign/campaign_screen.dart';
 import '../sheet/tab_agente.dart';
 import 'ameacas.dart';
@@ -55,6 +56,7 @@ class _TelaMestreState extends State<TelaMestre> {
     final largo = MediaQuery.sizeOf(context).width >= 800;
     return Scaffold(
       appBar: AppBar(
+        bottom: const LinhaCris(),
         title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(widget.camp.nome),
           Text('Escudo do mestre • código ${widget.camp.joinCode}',
@@ -66,7 +68,7 @@ class _TelaMestreState extends State<TelaMestre> {
               NavigationRail(
                 selectedIndex: _aba,
                 labelType: NavigationRailLabelType.all,
-                backgroundColor: Cores.fundo,
+                backgroundColor: Colors.transparent,
                 onDestinationSelected: (i) => setState(() => _aba = i),
                 destinations: [
                   for (final a in _abas)

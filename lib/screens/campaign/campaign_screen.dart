@@ -51,7 +51,8 @@ class _VisaoJogador extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(camp.nome),
+          title: Text(camp.nome,
+              style: const TextStyle(fontWeight: FontWeight.w800)),
           actions: [
             PopupMenuButton<String>(
               onSelected: (v) async {

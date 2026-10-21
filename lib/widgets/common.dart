@@ -115,7 +115,7 @@ class CampoNumero extends StatelessWidget {
       );
 }
 
-/// Barra de PV/PE/SAN com botoes de +/-.
+/// Barra de PV/PE/SAN: « -5, ‹ -1, toque no número para digitar, › +1, » +5.
 class BarraStatus extends StatelessWidget {
   final String rotulo;
   final int atual;
@@ -136,58 +136,74 @@ class BarraStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final frac = max <= 0 ? 0.0 : (atual / max).clamp(0.0, 1.0);
-    Widget btn(String t, int d) => InkWell(
+    // Barra cheia com « ‹ valor › », como no CRIS original.
+    Widget seta(IconData icone, int d) => InkWell(
           onTap: () => aoMudar(atual + d),
           borderRadius: BorderRadius.circular(6),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: compacta ? 6 : 8, vertical: 4),
-            child: Text(t,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold, color: Cores.textoFraco)),
+          child: Tooltip(
+            message: d > 0 ? '+$d' : '$d',
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: compacta ? 2 : 5),
+              child: Icon(icone, size: compacta ? 18 : 22, color: Colors.white),
+            ),
           ),
         );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Row(
-          children: [
-            Text(rotulo,
-                style: TextStyle(
-                    color: cor,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 1,
-                    fontSize: compacta ? 12 : 14)),
-            const Spacer(),
-            if (!compacta) btn('-5', -5),
-            btn('-1', -1),
-            InkWell(
-              onTap: () async {
-                final v = await pedirNumero(context, rotulo, atual);
-                if (v != null) aoMudar(v);
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: Text('$atual / $max',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: compacta ? 13 : 16)),
+        Text(rotulo,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: cor,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 1.5,
+                fontSize: compacta ? 11 : 13)),
+        const SizedBox(height: 3),
+        Container(
+          height: compacta ? 30 : 38,
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            color: cor.withValues(alpha: 0.16),
+            borderRadius: BorderRadius.circular(6),
+            border: Border.all(color: cor.withValues(alpha: 0.6)),
+          ),
+          child: Stack(fit: StackFit.expand, children: [
+            FractionallySizedBox(
+              alignment: Alignment.centerLeft,
+              widthFactor: frac,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      colors: [cor.withValues(alpha: 0.7), cor]),
+                ),
               ),
             ),
-            btn('+1', 1),
-            if (!compacta) btn('+5', 5),
-          ],
-        ),
-        const SizedBox(height: 3),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(4),
-          child: LinearProgressIndicator(
-            value: frac,
-            minHeight: compacta ? 6 : 9,
-            color: cor,
-            backgroundColor: cor.withValues(alpha: 0.15),
-          ),
+            Row(children: [
+              seta(Icons.keyboard_double_arrow_left, -5),
+              seta(Icons.chevron_left, -1),
+              Expanded(
+                child: InkWell(
+                  onTap: () async {
+                    final v = await pedirNumero(context, rotulo, atual);
+                    if (v != null) aoMudar(v);
+                  },
+                  child: Center(
+                    child: Text('$atual / $max',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: compacta ? 14 : 17,
+                            color: Colors.white,
+                            shadows: const [
+                              Shadow(color: Colors.black54, blurRadius: 3)
+                            ])),
+                  ),
+                ),
+              ),
+              seta(Icons.chevron_right, 1),
+              seta(Icons.keyboard_double_arrow_right, 5),
+            ]),
+          ]),
         ),
       ],
     );
@@ -335,17 +351,28 @@ class Secao extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Row(children: [
+                Container(
+                  width: 3,
+                  height: 14,
+                  margin: const EdgeInsets.only(right: 8),
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Cores.destaque, Cores.roxo]),
+                  ),
+                ),
                 Expanded(
                   child: Text(titulo.toUpperCase(),
                       style: const TextStyle(
                           letterSpacing: 2,
                           fontWeight: FontWeight.w800,
-                          color: Cores.textoFraco,
+                          color: Cores.destaque,
                           fontSize: 12)),
                 ),
                 ...acoes,
               ]),
-              const SizedBox(height: 8),
+              const SizedBox(height: 10),
               child,
             ],
           ),

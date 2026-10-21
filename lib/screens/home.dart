@@ -8,6 +8,7 @@ import '../data/repo.dart';
 import '../widgets/common.dart';
 import '../widgets/importar_cris.dart';
 import '../widgets/logo.dart';
+import '../widgets/sigilos.dart';
 import 'campaign/campaign_screen.dart';
 import 'sheet/sheet_screen.dart';
 
@@ -35,6 +36,7 @@ class _TelaInicioState extends State<TelaInicio> {
     return Scaffold(
       appBar: AppBar(
         title: const LogoCris(tamanho: 22),
+        bottom: const LinhaCris(),
         actions: [
           IconButton(
             tooltip: 'Importar do site do CRIS',
@@ -77,7 +79,7 @@ class _TelaInicioState extends State<TelaInicio> {
                 selectedIndex: _aba,
                 onDestinationSelected: (i) => setState(() => _aba = i),
                 labelType: NavigationRailLabelType.all,
-                backgroundColor: Cores.fundo,
+                backgroundColor: Colors.transparent,
                 destinations: const [
                   NavigationRailDestination(
                       icon: Icon(Icons.badge_outlined), label: Text('Agentes')),
