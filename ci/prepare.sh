@@ -18,6 +18,14 @@ if ! grep -q 'android.permission.INTERNET' "$M"; then
 fi
 sed -i.bak 's/android:label="cris_ficha"/android:label="P.A.U"/' "$M"
 rm -f "$G.bak" "$M.bak"
+# Com os 8 GB padrao o Gradle esgotava a memoria do runner e o build era
+# cancelado no meio (exit 143).
+P=android/gradle.properties
+if [ -f "$P" ]; then
+  sed -i.bak -E 's/^org\.gradle\.jvmargs=.*/org.gradle.jvmargs=-Xmx4G -XX:MaxMetaspaceSize=1G -XX:ReservedCodeCacheSize=256m -XX:+HeapDumpOnOutOfMemoryError/' "$P"
+  grep -q '^kotlin.daemon.jvmargs' "$P" || echo 'kotlin.daemon.jvmargs=-Xmx1G' >> "$P"
+  rm -f "$P.bak"
+fi
 
 # ---- Windows ----
 if [ -f windows/runner/main.cpp ]; then
