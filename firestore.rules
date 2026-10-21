@@ -1,6 +1,6 @@
 rules_version = '2';
 
-// Regras de seguranca do C.R.I.S (cole em Firestore Database > Regras).
+// Regras de seguranca do P.A.U (cole em Firestore Database > Regras).
 // - Cada jogador so edita as proprias fichas.
 // - O mestre da mesa ve e edita as fichas vinculadas a mesa dele.
 // - Ameacas, rolagens secretas e notas do mestre: so o mestre.
@@ -69,6 +69,19 @@ service cloud.firestore {
         allow read: if isMember(cid);
         allow write: if isMaster(cid);
       }
+    }
+
+    // Fotos dos personagens e imagens do quadro, comprimidas (menos de 1 MB
+    // cada). O id e sorteado: quem tem o id (as fichas e os quadros que usam
+    // a imagem) consegue ler. So quem enviou apaga.
+    match /imagens/{img} {
+      allow get: if signedIn();
+      allow list: if false;
+      allow create: if signedIn()
+        && request.resource.data.dono == me()
+        && request.resource.data.dados is bytes
+        && request.resource.data.dados.size() < 1000000;
+      allow delete: if signedIn() && resource.data.dono == me();
     }
 
     match /characters/{ch} {

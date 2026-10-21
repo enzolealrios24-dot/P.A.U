@@ -1,4 +1,4 @@
-# C.R.I.S — fichas de Ordem Paranormal com mesa sincronizada
+# P.A.U — fichas de Ordem Paranormal com mesa sincronizada
 
 Projeto pessoal para usar com os amigos. App nativo para **Android** e **Windows** (Flutter + Firebase).
 
@@ -23,9 +23,9 @@ Projeto pessoal para usar com os amigos. App nativo para **Android** e **Windows
    - Crie um app **Web** e copie o `firebaseConfig` para `lib/firebase_options.dart`.
 2. **Regras de segurança**: em Firestore → Regras, cole o conteúdo de `firestore.rules` e publique.
 3. **Build**: cada push na branch `main` roda o GitHub Actions. Ele gera:
-   - `CRIS-Android.apk`
-   - `CRIS-Instalador-Windows.exe`
-   - `CRIS-Windows-portatil.zip`
+   - `PAU-Android.apk`
+   - `PAU-Instalador-Windows.exe`
+   - `PAU-Windows-portatil.zip`
 
    Os três ficam na aba **Releases** do repositório.
 

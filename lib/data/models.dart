@@ -35,10 +35,34 @@ class Ficha {
   String get nome => asStr(d['nome'], 'Agente sem nome');
   String get jogador => asStr(d['jogador']);
   String get ownerUid => asStr(d['ownerUid']);
+  List<String> get editors => asStrList(d['editors']);
   String? get campaignId {
     final c = d['campaignId'];
     return (c is String && c.isNotEmpty) ? c : null;
   }
+
+  /// Foto do personagem (id em /imagens).
+  String get foto => asStr(d['foto']);
+
+  /// Transformação: ficha separada, ligada ao agente [transformacaoDe].
+  String? get transformacaoDe {
+    final t = d['transformacaoDe'];
+    return (t is String && t.isNotEmpty) ? t : null;
+  }
+
+  bool get eTransformacao => transformacaoDe != null;
+
+  /// No agente: a transformação em uso agora (null = forma normal).
+  String? get formaAtiva {
+    final t = d['formaAtiva'];
+    return (t is String && t.isNotEmpty) ? t : null;
+  }
+
+  /// No agente: id de cada transformação e o que ela divide com ele.
+  Map<String, dynamic> get transformacoes => asMap(d['transformacoes']);
+
+  /// Na transformação: o que ela divide com o agente ('pv', 'pe', 'san').
+  Map<String, dynamic> get compartilha => asMap(d['compartilha']);
 
   String get classe => asStr(d['classe'], 'Combatente');
   String get origem => asStr(d['origem']);

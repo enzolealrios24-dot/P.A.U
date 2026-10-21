@@ -5,6 +5,8 @@ import '../../data/cris_import.dart';
 import '../../data/models.dart';
 import '../../data/repo.dart';
 import '../../widgets/common.dart';
+import '../../widgets/imagem.dart';
+import 'forma.dart';
 import 'rolar.dart';
 import 'tab_agente.dart';
 import 'tab_listas.dart';
@@ -59,19 +61,41 @@ class _Ficha extends StatelessWidget {
       length: 7,
       child: Scaffold(
         appBar: AppBar(
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(f.nome, style: const TextStyle(fontWeight: FontWeight.w800)),
-              Text(
-                  '${f.classe} • ${calc.resumoProgressao} • ${calc.patente.nome}${ctx.camp != null ? ' • ${ctx.camp!.nome}' : ''}',
-                  style: const TextStyle(fontSize: 12, color: Cores.textoFraco)),
-            ],
-          ),
+          titleSpacing: 0,
+          title: Row(children: [
+            AvatarFicha(
+              foto: f.foto,
+              nome: f.nome,
+              tamanho: 40,
+              transformacao: f.eTransformacao,
+              aoTocar: () => opcoesFoto(context, f),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(f.nome,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontWeight: FontWeight.w800)),
+                  Text(
+                      '${f.eTransformacao ? 'Transformação • ' : ''}${f.classe} • ${calc.resumoProgressao} • ${calc.patente.nome}${ctx.camp != null ? ' • ${ctx.camp!.nome}' : ''}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontSize: 12, color: Cores.textoFraco)),
+                ],
+              ),
+            ),
+          ]),
           actions: [
             PopupMenuButton<String>(
               onSelected: (v) async {
-                if (v == 'dup') {
+                if (v == 'foto') {
+                  await opcoesFoto(context, f);
+                } else if (v == 'transformar') {
+                  await novaTransformacao(context, f);
+                } else if (v == 'dup') {
                   final id = Repo.duplicarFicha(f);
                   if (context.mounted) {
                     Navigator.pushReplacement(
@@ -101,19 +125,32 @@ class _Ficha extends StatelessWidget {
                 } else if (v == 'sairMesa') {
                   Repo.desvincularFicha(f);
                 } else if (v == 'apagar') {
+                  final n = f.transformacoes.length;
                   if (await confirmar(
-                      context, 'Apagar "${f.nome}" para sempre?')) {
-                    Repo.apagarFicha(f.id);
+                      context,
+                      n == 0
+                          ? 'Apagar "${f.nome}" para sempre?'
+                          : 'Apagar "${f.nome}" e ${n == 1 ? 'sua transformação' : 'suas $n transformações'} para sempre?')) {
+                    final de = f.transformacaoDe;
+                    final agente = de == null ? null : await Repo.ficha(de).first;
+                    Repo.apagarFichaCompleta(f, agente: agente);
                     if (context.mounted) Navigator.pop(context);
                   }
                 }
               },
               itemBuilder: (_) => [
-                const PopupMenuItem(value: 'dup', child: Text('Duplicar ficha')),
+                PopupMenuItem(
+                    value: 'foto',
+                    child: Text(f.foto.isEmpty ? 'Colocar foto' : 'Foto')),
+                if (dono && !f.eTransformacao)
+                  const PopupMenuItem(
+                      value: 'transformar', child: Text('Nova transformação')),
+                if (!f.eTransformacao)
+                  const PopupMenuItem(value: 'dup', child: Text('Duplicar ficha')),
                 if (dono && asStr(f.d['crisId']).isNotEmpty)
                   const PopupMenuItem(
                       value: 'cris', child: Text('Atualizar do site do CRIS')),
-                if (dono && f.campaignId != null)
+                if (dono && f.campaignId != null && !f.eTransformacao)
                   const PopupMenuItem(
                       value: 'sairMesa', child: Text('Tirar da mesa')),
                 if (dono)
@@ -138,6 +175,7 @@ class _Ficha extends StatelessWidget {
         ),
         body: Column(
           children: [
+            FaixaForma(ficha: f),
             BarrasTopo(ctx: ctx),
             const Divider(height: 1),
             Expanded(
@@ -203,7 +241,7 @@ class BarrasTopo extends StatelessWidget {
             max: c.sanMax,
             cor: Cores.san,
             compacta: true,
-            aoMudar: (v) => Repo.set(f.id, 'sanAtual', v)),
+            aoMudar: (v) => Repo.mudarRecursos(f, {'sanAtual': v})),
     ];
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../core/theme.dart';
 import 'sigilos.dart';
 
-/// Marca do app: sigilo de Conhecimento e "C.R.I.S." em degradê de amarelo
+/// Marca do app: sigilo de Conhecimento e "P.A.U." em degradê de amarelo
 /// para roxo. Para usar uma imagem própria, troque por Image.asset.
 class LogoCris extends StatelessWidget {
   final double tamanho;
@@ -19,7 +19,7 @@ class LogoCris extends StatelessWidget {
         colors: [Cores.destaque, Color(0xFFE59B3A), Cores.roxoClaro],
       ).createShader(r),
       child: Text(
-        'C.R.I.S.',
+        'P.A.U.',
         style: TextStyle(
           fontSize: tamanho,
           fontWeight: FontWeight.w900,

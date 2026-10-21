@@ -13,6 +13,8 @@ class TiposQuadro {
   static const cor = 'cor';
   static const coluna = 'coluna';
   static const quadro = 'quadro';
+  static const desenho = 'desenho';
+  static const ficha = 'ficha';
 
   static const nomes = {
     nota: 'Nota',
@@ -23,6 +25,8 @@ class TiposQuadro {
     cor: 'Cor',
     coluna: 'Coluna',
     quadro: 'Quadro',
+    desenho: 'Desenho',
+    ficha: 'Ficha',
   };
 
   /// Tamanho inicial de cada tipo.
@@ -35,6 +39,8 @@ class TiposQuadro {
     cor: (150.0, 150.0),
     coluna: (270.0, 0.0),
     quadro: (200.0, 150.0),
+    desenho: (200.0, 150.0),
+    ficha: (250.0, 96.0),
   };
 }
 
@@ -54,6 +60,17 @@ class ItemQuadro {
   String get texto => asStr(d['texto']);
   String get titulo => asStr(d['titulo']);
   String get url => asStr(d['url']);
+  /// Imagem enviada do aparelho (id em /imagens); sem ela, usa [url].
+  String get imagem => asStr(d['imagem']);
+  /// Cartão de ficha: o id da ficha mostrada.
+  String get ficha => asStr(d['ficha']);
+  /// Desenho: traços {c: cor, e: espessura, p: [x, y, x, y...]} medidos num
+  /// espaço de [bw] x [bh], que acompanha o tamanho do cartão.
+  List<Map<String, dynamic>> get tracos => asMapList(d['tracos']);
+  double get bw => _n(d['bw'], w);
+  double get bh => _n(d['bh'], h);
+  /// Comentários {id, uid, autor, texto, em}.
+  List<Map<String, dynamic>> get comentarios => asMapList(d['comentarios']);
   /// Coluna onde o cartão está (null = solto no quadro).
   String? get coluna {
     final c = d['coluna'];
@@ -81,6 +98,8 @@ class LigacaoQuadro {
   String get para => asStr(d['para']);
   String get texto => asStr(d['texto']);
   bool get seta => d['seta'] != false;
+  bool get tracejada => d['tracejada'] == true;
+  int? get cor => d['cor'] is int ? d['cor'] as int : null;
 }
 
 /// Um quadro: cartões e ligações. Pode haver quadros dentro de quadros.
@@ -183,6 +202,17 @@ class FonteQuadro {
         quadroId: {
           'ligacoes': {ligacaoId: FieldValue.delete()}
         }
+      });
+
+  void comentar(String quadroId, String itemId, Map<String, dynamic> c) =>
+      mudarItem(quadroId, itemId, {
+        'comentarios': FieldValue.arrayUnion([c])
+      });
+
+  void apagarComentario(
+          String quadroId, String itemId, Map<String, dynamic> c) =>
+      mudarItem(quadroId, itemId, {
+        'comentarios': FieldValue.arrayRemove([c])
       });
 
   void criarQuadro(String quadroId, String nome) => _gravar({

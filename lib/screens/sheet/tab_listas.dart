@@ -968,7 +968,7 @@ class TabQuadro extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           const Text(
-            'Como o Milanote: notas, títulos, listas de tarefas, links, imagens, cores, colunas, quadros dentro de quadros e setas ligando tudo. O mestre da mesa também vê e edita.',
+            'Como o Milanote: notas, títulos, listas de tarefas, links, imagens do aparelho, desenhos à mão, fichas, cores, colunas, quadros dentro de quadros, setas e comentários. O mestre da mesa também vê e edita.',
             style: TextStyle(fontSize: 12, color: Cores.textoFraco),
           ),
         ]),

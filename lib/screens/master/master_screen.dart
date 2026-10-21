@@ -9,6 +9,7 @@ import '../../data/models.dart';
 import '../../data/quadro.dart';
 import '../../data/repo.dart';
 import '../../widgets/common.dart';
+import '../../widgets/imagem.dart';
 import '../../widgets/sigilos.dart';
 import '../campaign/campaign_screen.dart';
 import '../sheet/tab_agente.dart';
@@ -142,7 +143,7 @@ class PainelAoVivo extends StatelessWidget {
                       }
                       for (final f in fichas) {
                         final c = Calc(f, camp.regras);
-                        Repo.setVarios(f.id, {
+                        Repo.mudarRecursos(f, {
                           'pvAtual': c.pvMax,
                           'peAtual': c.peMax,
                           'sanAtual': c.sanMax,
@@ -331,12 +332,29 @@ class _CartaoPainel extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           Row(children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: AvatarFicha(
+                foto: f.foto,
+                nome: f.nome,
+                tamanho: 48,
+                transformacao: f.eTransformacao,
+                aoTocar: () => abrirFicha(context, f.id),
+              ),
+            ),
             Expanded(
               child: InkWell(
                 onTap: () => abrirFicha(context, f.id),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    if (f.eTransformacao)
+                      Text('TRANSFORMADO',
+                          style: TextStyle(
+                              fontSize: 10,
+                              letterSpacing: 2,
+                              fontWeight: FontWeight.w900,
+                              color: Cores.roxoClaro)),
                     Text(f.nome,
                         style: const TextStyle(
                             fontSize: 17, fontWeight: FontWeight.w800)),
@@ -403,7 +421,7 @@ class _CartaoPainel extends StatelessWidget {
                 atual: f.sanAtual,
                 max: c.sanMax,
                 cor: Cores.san,
-                aoMudar: (v) => Repo.set(f.id, 'sanAtual', v)),
+                aoMudar: (v) => Repo.mudarRecursos(f, {'sanAtual': v})),
           ],
           const SizedBox(height: 8),
           Text(
@@ -567,7 +585,7 @@ class _AbaMesa extends StatelessWidget {
     );
     if (ok != true) return;
     final v = int.tryParse(valor.text.trim()) ?? 0;
-    final fichas = await Repo.fichasDaCampanha(camp.id).first;
+    final fichas = await Repo.agentesDaCampanha(camp.id).first;
     for (final f in fichas) {
       Repo.set(f.id, 'pp', f.pp + v);
     }
@@ -728,7 +746,7 @@ class _AbaMesa extends StatelessWidget {
         onPressed: () async {
           if (await confirmar(context,
               'Apagar a mesa "${camp.nome}"? As fichas dos jogadores continuam existindo.')) {
-            final fichas = await Repo.fichasDaCampanha(camp.id).first;
+            final fichas = await Repo.todasDaCampanha(camp.id).first;
             for (final f in fichas) {
               if (f.ownerUid != Repo.uid) {
                 // o dono desvincula depois; aqui so tiramos o mestre dos editores

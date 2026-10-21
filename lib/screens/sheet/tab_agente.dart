@@ -8,6 +8,8 @@ import '../../data/catalogo.dart';
 import '../../data/models.dart';
 import '../../data/repo.dart';
 import '../../widgets/common.dart';
+import '../../widgets/imagem.dart';
+import 'forma.dart';
 import 'rolar.dart';
 
 class TabAgente extends StatelessWidget {
@@ -58,9 +60,32 @@ class TabAgente extends StatelessWidget {
     final identidade = Secao(
       titulo: 'Identidade',
       child: Column(children: [
+        Row(children: [
+          AvatarFicha(
+            foto: f.foto,
+            nome: f.nome,
+            tamanho: 96,
+            transformacao: f.eTransformacao,
+            aoTocar: () => opcoesFoto(context, f),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(f.eTransformacao ? 'Foto da transformação' : 'Foto do agente',
+                  style: const TextStyle(fontWeight: FontWeight.w800)),
+              const SizedBox(height: 4),
+              OutlinedButton.icon(
+                onPressed: () => opcoesFoto(context, f),
+                icon: const Icon(Icons.add_a_photo_outlined, size: 18),
+                label: Text(f.foto.isEmpty ? 'Colocar foto' : 'Trocar foto'),
+              ),
+            ]),
+          ),
+        ]),
+        const SizedBox(height: 12),
         CampoSync(
             valor: f.nome,
-            rotulo: 'Nome do agente',
+            rotulo: f.eTransformacao ? 'Nome da transformação' : 'Nome do agente',
             aoSalvar: (v) => Repo.set(f.id, 'nome', v)),
         const SizedBox(height: 10),
         CampoSync(
@@ -236,7 +261,7 @@ class TabAgente extends StatelessWidget {
       titulo: 'Estatísticas',
       acoes: [
         TextButton.icon(
-          onPressed: () => Repo.setVarios(f.id, {
+          onPressed: () => Repo.mudarRecursos(f, {
             'pvAtual': c.pvMax,
             'peAtual': c.peMax,
             'sanAtual': c.sanMax,
@@ -259,6 +284,7 @@ class TabAgente extends StatelessWidget {
       ]),
     );
 
+    final transformacoes = SecaoTransformacoes(ctx: ctx);
     final habilidades = _secaoHabilidades(context, c);
     final alteracoes = c.modoNivel ? _secaoAlteracoes(c) : null;
 
@@ -346,7 +372,7 @@ class TabAgente extends StatelessWidget {
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Expanded(
               child: Column(
-                  children: [identidade, modos, habilidades, if (alteracoes != null) alteracoes, historia])),
+                  children: [identidade, transformacoes, modos, habilidades, if (alteracoes != null) alteracoes, historia])),
           const SizedBox(width: 12),
           Expanded(child: Column(children: [atributos, stats, condicoes, bonus])),
         ]),
@@ -358,6 +384,7 @@ class TabAgente extends StatelessWidget {
         atributos,
         stats,
         identidade,
+        transformacoes,
         modos,
         habilidades,
         if (alteracoes != null) alteracoes,

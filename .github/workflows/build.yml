@@ -1,4 +1,4 @@
-name: Build C.R.I.S
+name: Build P.A.U
 
 on:
   push:
@@ -43,11 +43,11 @@ jobs:
       # chave fixa para que as atualizacoes instalem por cima da versao anterior
       - run: mkdir -p ~/.android && cp ci/debug.keystore ~/.android/debug.keystore
       - run: flutter build apk --release --build-number=${{ github.run_number }}
-      - run: mkdir -p dist && cp build/app/outputs/flutter-apk/app-release.apk dist/CRIS-Android.apk
+      - run: mkdir -p dist && cp build/app/outputs/flutter-apk/app-release.apk dist/PAU-Android.apk
       - uses: actions/upload-artifact@v7
         with:
-          name: CRIS-Android
-          path: dist/CRIS-Android.apk
+          name: PAU-Android
+          path: dist/PAU-Android.apk
 
   windows:
     needs: analisar
@@ -65,7 +65,7 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force dist | Out-Null
-          Compress-Archive -Path build\windows\x64\runner\Release\* -DestinationPath dist\CRIS-Windows-portatil.zip
+          Compress-Archive -Path build\windows\x64\runner\Release\* -DestinationPath dist\PAU-Windows-portatil.zip
       - name: Instalador
         shell: pwsh
         continue-on-error: true
@@ -79,7 +79,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v7
         with:
-          name: CRIS-Windows
+          name: PAU-Windows
           path: dist/*
 
   publicar:
@@ -93,10 +93,10 @@ jobs:
       - uses: softprops/action-gh-release@v3
         with:
           tag_name: v1.0.${{ github.run_number }}
-          name: C.R.I.S v1.0.${{ github.run_number }}
+          name: P.A.U v1.0.${{ github.run_number }}
           body: |
             Baixe o arquivo do seu aparelho:
-            - **CRIS-Android.apk**: celular Android
-            - **CRIS-Instalador-Windows.exe**: instalador para Windows
-            - **CRIS-Windows-portatil.zip**: Windows sem instalar (descompacte e abra cris_ficha.exe)
+            - **PAU-Android.apk**: celular Android
+            - **PAU-Instalador-Windows.exe**: instalador para Windows
+            - **PAU-Windows-portatil.zip**: Windows sem instalar (descompacte e abra cris_ficha.exe)
           files: dist/*

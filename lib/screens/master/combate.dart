@@ -119,7 +119,17 @@ class AbaCombate extends StatelessWidget {
       stream: Repo.fichasDaCampanha(camp.id),
       builder: (context, fs) {
         final fichas = fs.data ?? [];
-        final porId = {for (final f in fichas) f.id: f};
+        // Quem se transformou (ou voltou) no meio do combate continua achado
+        // pela entrada antiga da iniciativa.
+        final porId = <String, Ficha>{};
+        for (final f in fichas) {
+          porId[f.id] = f;
+          final de = f.transformacaoDe;
+          if (de != null) porId[de] = f;
+          for (final t in f.transformacoes.keys) {
+            porId.putIfAbsent(t, () => f);
+          }
+        }
         return StreamBuilder<List<(String, Map<String, dynamic>)>>(
           stream: Repo.stream(Repo.ameacas(camp.id)),
           builder: (context, amSnap) {

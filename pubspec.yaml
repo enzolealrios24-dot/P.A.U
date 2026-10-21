@@ -1,5 +1,5 @@
 name: cris_ficha
-description: "C.R.I.S - fichas automaticas de Ordem Paranormal com mesa sincronizada (projeto pessoal)."
+description: "P.A.U - fichas automaticas de Ordem Paranormal com mesa sincronizada (projeto pessoal)."
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -13,6 +13,8 @@ dependencies:
   firebase_auth: ^6.5.7
   cloud_firestore: ^6.8.0
   http: ^1.2.2
+  image: ^4.2.0
+  image_picker: ^1.1.2
   shared_preferences: ^2.3.2
   url_launcher: ^6.3.0
 

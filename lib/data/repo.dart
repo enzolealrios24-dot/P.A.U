@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../core/dice.dart';
 import '../core/rules.dart';
+import 'imagens.dart';
 import 'models.dart';
 
 typedef Json = Map<String, dynamic>;
@@ -38,11 +39,39 @@ class Repo {
       .map((s) => s.docs.map((d) => Ficha(d.id, d.data())).toList()
         ..sort((a, b) => a.nome.toLowerCase().compareTo(b.nome.toLowerCase())));
 
-  static Stream<List<Ficha>> minhasFichas() => fichasEditaveis()
-      .map((l) => l.where((f) => f.ownerUid == uid).toList());
+  /// Meus agentes (as transformações aparecem dentro de cada agente).
+  static Stream<List<Ficha>> minhasFichas() => fichasEditaveis().map((l) =>
+      l.where((f) => f.ownerUid == uid && !f.eTransformacao).toList());
 
-  static Stream<List<Ficha>> fichasDaCampanha(String cid) => fichasEditaveis()
+  /// Todas as fichas da mesa, transformações incluídas.
+  static Stream<List<Ficha>> todasDaCampanha(String cid) => fichasEditaveis()
       .map((l) => l.where((f) => f.campaignId == cid).toList());
+
+  /// Agentes da mesa como estão em jogo: quem está transformado aparece com a
+  /// ficha da transformação.
+  static Stream<List<Ficha>> fichasDaCampanha(String cid) =>
+      todasDaCampanha(cid).map(emJogo);
+
+  /// Só os agentes da mesa, sem as transformações.
+  static Stream<List<Ficha>> agentesDaCampanha(String cid) =>
+      todasDaCampanha(cid)
+          .map((l) => l.where((f) => !f.eTransformacao).toList());
+
+  static List<Ficha> emJogo(List<Ficha> l) {
+    final porId = {for (final f in l) f.id: f};
+    final saida = <Ficha>[];
+    for (final f in l) {
+      if (f.eTransformacao) continue;
+      final t = porId[f.formaAtiva];
+      saida.add(t != null && t.transformacaoDe == f.id ? t : f);
+    }
+    return saida;
+  }
+
+  /// Transformações de um agente (as que eu posso ver).
+  static Stream<List<Ficha>> transformacoesDe(String agenteId) =>
+      fichasEditaveis().map(
+          (l) => l.where((f) => f.transformacaoDe == agenteId).toList());
 
   static Stream<Ficha?> ficha(String id) => chars.doc(id).snapshots().map(
       (s) => s.exists && s.data() != null ? Ficha(s.id, s.data()!) : null);
@@ -58,12 +87,133 @@ class Repo {
     final m = Map<String, dynamic>.from(f.d);
     m['nome'] = '${f.nome} (cópia)';
     m.remove('crisId'); // a cópia não é mais atualizada pelo site do CRIS
+    // a cópia começa sem transformações e com uma foto só dela
+    for (final k in const ['transformacoes', 'formaAtiva', 'foto']) {
+      m.remove(k);
+    }
     m['ownerUid'] = uid;
     m['editors'] = [uid];
     m['campaignId'] = null;
     m['criadoEm'] = DateTime.now().millisecondsSinceEpoch;
     _w(ref.set(m));
+    if (f.foto.isNotEmpty) {
+      Imagens.copiar(f.foto).then((id) {
+        if (id != null) set(ref.id, 'foto', id);
+      });
+    }
     return ref.id;
+  }
+
+  // ---------------- Transformações ----------------
+  // Uma transformação é uma ficha completa e separada, ligada ao agente pelo
+  // campo transformacaoDe. O agente guarda em "transformacoes" o id de cada
+  // uma e em "formaAtiva" a que está em uso. PV, PE/PD e SAN podem ser
+  // divididos: o que muda numa ficha é repetido na outra.
+
+  /// Campos de cada recurso que agente e transformação podem dividir.
+  static const camposRecurso = {
+    'pv': ['pvAtual', 'pvTemp', 'pvTempMax'],
+    'pe': ['peAtual', 'pdAtual', 'peTemp', 'peTempMax'],
+    'san': ['sanAtual'],
+  };
+
+  /// Ao criar: o corpo muda (PV próprio), a mente é a mesma (PE/PD e SAN).
+  static const compartilhaPadrao = {'pv': false, 'pe': true, 'san': true};
+
+  /// Cria uma transformação do agente. [copiar] começa igual ao agente;
+  /// senão, começa como uma ficha nova, só com a progressão dele.
+  static String criarTransformacao(Ficha agente,
+      {required bool copiar, String nome = ''}) {
+    final ref = chars.doc();
+    final Json m;
+    if (copiar) {
+      m = Map<String, dynamic>.from(agente.d);
+      for (final k in const [
+        'crisId', 'crisImportadoEm', 'transformacoes', 'formaAtiva', 'quadro',
+        'foto',
+      ]) {
+        m.remove(k);
+      }
+    } else {
+      m = novaFicha(uid, agente.jogador);
+      for (final k in const [
+        'classe', 'nex', 'nivel', 'estagio', 'modoSanidade', 'modoProgressao',
+        'sanAtual', 'peAtual', 'pdAtual',
+      ]) {
+        if (agente.d.containsKey(k)) m[k] = agente.d[k];
+      }
+    }
+    m['nome'] = nome.isEmpty ? '${agente.nome} (transformado)' : nome;
+    m['transformacaoDe'] = agente.id;
+    m['compartilha'] = compartilhaPadrao;
+    m['ownerUid'] = uid;
+    m['editors'] = [uid];
+    m['campaignId'] = null;
+    m['criadoEm'] = DateTime.now().millisecondsSinceEpoch;
+    _w(ref.set(m));
+    // a transformação acompanha o agente na mesa
+    if (agente.campaignId != null) {
+      setVarios(ref.id,
+          {'campaignId': agente.campaignId, 'editors': agente.editors});
+    }
+    set(agente.id, 'transformacoes.${ref.id}', compartilhaPadrao);
+    return ref.id;
+  }
+
+  /// Transforma o agente (ou volta ao normal com null).
+  static void transformar(String agenteId, String? transformacaoId) =>
+      set(agenteId, 'formaAtiva', transformacaoId);
+
+  static void mudarCompartilha(Ficha t, Json divide) {
+    set(t.id, 'compartilha', divide);
+    final de = t.transformacaoDe;
+    if (de != null) set(de, 'transformacoes.${t.id}', divide);
+  }
+
+  /// Apaga a ficha e o que é só dela: a foto e, num agente, as
+  /// transformações. [agente] é o agente de uma transformação, se já lido.
+  static void apagarFichaCompleta(Ficha f, {Ficha? agente}) {
+    apagarFicha(f.id);
+    Imagens.apagar(f.foto);
+    for (final t in f.transformacoes.keys) {
+      apagarFicha(t);
+    }
+    final de = f.transformacaoDe;
+    if (de != null) {
+      setVarios(de, {
+        'transformacoes.${f.id}': FieldValue.delete(),
+        if (agente == null || agente.formaAtiva == f.id) 'formaAtiva': null,
+      });
+    }
+  }
+
+  /// Grava PV/PE/SAN/PD e repete nas fichas ligadas que dividem o recurso
+  /// (agente e transformações).
+  static void mudarRecursos(Ficha f, Json m) {
+    setVarios(f.id, m);
+    for (final (id, campos) in _ligadas(f, m.keys)) {
+      setVarios(id, {for (final k in campos) k: m[k]});
+    }
+  }
+
+  static List<(String, List<String>)> _ligadas(
+      Ficha f, Iterable<String> campos) {
+    List<String> divididos(Map<String, dynamic> cfg) => [
+          for (final k in campos)
+            if (camposRecurso.entries
+                .any((e) => cfg[e.key] == true && e.value.contains(k)))
+              k,
+        ];
+    final de = f.transformacaoDe;
+    if (de != null) {
+      final l = divididos(f.compartilha);
+      return l.isEmpty ? const [] : [(de, l)];
+    }
+    return [
+      for (final e in f.transformacoes.entries)
+        if (divididos(asMap(e.value)).isNotEmpty)
+          (e.key, divididos(asMap(e.value))),
+    ];
   }
 
   /// Grava uma ficha já montada (agente trazido do site do CRIS).
@@ -104,12 +254,12 @@ class Repo {
     final atual = asInt(f.d[campo]);
     final t = temp == null ? 0 : asInt(f.d[temp]);
     if (temp == null || novo >= atual || t <= 0) {
-      set(f.id, campo, novo);
+      mudarRecursos(f, {campo: novo});
       return;
     }
     final perda = atual - novo;
     final doTemp = perda < t ? perda : t;
-    setVarios(f.id, {
+    mudarRecursos(f, {
       campo: atual - (perda - doTemp),
       temp: t - doTemp,
       if (t - doTemp == 0) '${temp}Max': 0,
@@ -121,7 +271,7 @@ class Repo {
   static void mudarTemporario(Ficha f, String temp, int novo) {
     final v = novo < 0 ? 0 : novo;
     final max = asInt(f.d['${temp}Max']);
-    setVarios(f.id, {
+    mudarRecursos(f, {
       temp: v,
       '${temp}Max': v == 0 ? 0 : (v > max ? v : max),
     });
@@ -129,16 +279,21 @@ class Repo {
 
   static void apagarFicha(String id) => _w(chars.doc(id).delete());
 
+  /// As transformações vão e saem da mesa junto com o agente.
   static void vincularFicha(Ficha f, Campanha c) {
     final eds = <String>{f.ownerUid, c.masterUid}.toList();
-    setVarios(f.id, {'campaignId': c.id, 'editors': eds});
+    for (final id in [f.id, ...f.transformacoes.keys]) {
+      setVarios(id, {'campaignId': c.id, 'editors': eds});
+    }
   }
 
   static void desvincularFicha(Ficha f) {
-    setVarios(f.id, {
-      'campaignId': null,
-      'editors': [f.ownerUid]
-    });
+    for (final id in [f.id, ...f.transformacoes.keys]) {
+      setVarios(id, {
+        'campaignId': null,
+        'editors': [f.ownerUid]
+      });
+    }
   }
 
   // ---------------- Campanhas ----------------

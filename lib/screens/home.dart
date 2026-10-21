@@ -6,6 +6,7 @@ import '../core/theme.dart';
 import '../data/models.dart';
 import '../data/repo.dart';
 import '../widgets/common.dart';
+import '../widgets/imagem.dart';
 import '../widgets/importar_cris.dart';
 import '../widgets/logo.dart';
 import '../widgets/sigilos.dart';
@@ -127,13 +128,16 @@ class _ListaAgentes extends StatelessWidget {
         label: const Text('Novo agente'),
       ),
       body: StreamBuilder<List<Ficha>>(
-        stream: Repo.minhasFichas(),
+        stream: Repo.fichasEditaveis(),
         builder: (context, snap) {
           if (snap.hasError) return Center(child: Text('${snap.error}'));
           if (!snap.hasData) {
             return const Center(child: CircularProgressIndicator());
           }
-          final l = snap.data!;
+          final todas = snap.data!;
+          final l = todas
+              .where((f) => f.ownerUid == Repo.uid && !f.eTransformacao)
+              .toList();
           if (l.isEmpty) {
             return Center(
               child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -150,7 +154,14 @@ class _ListaAgentes extends StatelessWidget {
           }
           return ListView(
             padding: const EdgeInsets.fromLTRB(12, 12, 12, 90),
-            children: [for (final f in l) CartaoAgente(ficha: f)],
+            children: [
+              for (final f in l)
+                CartaoAgente(
+                    ficha: f,
+                    formas: todas
+                        .where((t) => t.transformacaoDe == f.id)
+                        .toList()),
+            ],
           );
         },
       ),
@@ -161,7 +172,10 @@ class _ListaAgentes extends StatelessWidget {
 class CartaoAgente extends StatelessWidget {
   final Ficha ficha;
   final Map<String, dynamic>? regras;
-  const CartaoAgente({super.key, required this.ficha, this.regras});
+  /// Transformações do agente, mostradas embaixo dele.
+  final List<Ficha> formas;
+  const CartaoAgente(
+      {super.key, required this.ficha, this.regras, this.formas = const []});
   @override
   Widget build(BuildContext context) {
     final c = Calc(ficha, regras);
@@ -172,41 +186,78 @@ class CartaoAgente extends StatelessWidget {
             MaterialPageRoute(builder: (_) => TelaFicha(fichaId: ficha.id))),
         child: Padding(
           padding: const EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(children: [
-                Expanded(
-                  child: Text(ficha.nome,
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.w800)),
-                ),
-                Text(c.resumoProgressao,
-                    style: TextStyle(
-                        color: Cores.destaque, fontWeight: FontWeight.bold)),
-              ]),
-              Text(
-                  [ficha.classe, ficha.trilha, ficha.origem]
-                      .where((s) => s.isNotEmpty)
-                      .join(' • '),
-                  style: const TextStyle(color: Cores.textoFraco)),
-              if (ficha.campaignId != null)
-                Padding(
-                  padding: EdgeInsets.only(top: 4),
-                  child: Text('Em uma mesa',
-                      style: TextStyle(color: Cores.roxo, fontSize: 12)),
-                ),
-              const SizedBox(height: 8),
-              _mini('PV', ficha.pvAtual, c.pvMax, Cores.pv, temp: ficha.pvTemp),
-              if (c.determinacao)
-                _mini('PD', ficha.pdAtual, c.pdMax, Cores.pd, temp: ficha.peTemp)
-              else ...[
-                _mini('PE', ficha.peAtual, c.peMax, Cores.pe, temp: ficha.peTemp),
-                _mini('SAN', ficha.sanAtual, c.sanMax, Cores.san),
-              ],
-            ],
-          ),
+          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 12),
+              child: AvatarFicha(foto: ficha.foto, nome: ficha.nome, tamanho: 58),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(children: [
+                    Expanded(
+                      child: Text(ficha.nome,
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w800)),
+                    ),
+                    Text(c.resumoProgressao,
+                        style: TextStyle(
+                            color: Cores.destaque, fontWeight: FontWeight.bold)),
+                  ]),
+                  Text(
+                      [ficha.classe, ficha.trilha, ficha.origem]
+                          .where((s) => s.isNotEmpty)
+                          .join(' • '),
+                      style: const TextStyle(color: Cores.textoFraco)),
+                  if (ficha.campaignId != null)
+                    Padding(
+                      padding: EdgeInsets.only(top: 4),
+                      child: Text('Em uma mesa',
+                          style: TextStyle(color: Cores.roxo, fontSize: 12)),
+                    ),
+                  const SizedBox(height: 8),
+                  _mini('PV', ficha.pvAtual, c.pvMax, Cores.pv, temp: ficha.pvTemp),
+                  if (c.determinacao)
+                    _mini('PD', ficha.pdAtual, c.pdMax, Cores.pd, temp: ficha.peTemp)
+                  else ...[
+                    _mini('PE', ficha.peAtual, c.peMax, Cores.pe, temp: ficha.peTemp),
+                    _mini('SAN', ficha.sanAtual, c.sanMax, Cores.san),
+                  ],
+                  if (formas.isNotEmpty) ...[
+                    const SizedBox(height: 8),
+                    Wrap(spacing: 6, runSpacing: 6, children: [
+                      for (final t in formas) _chipForma(context, t),
+                    ]),
+                  ],
+                ],
+              ),
+            ),
+          ]),
         ),
+      ),
+    );
+  }
+
+  Widget _chipForma(BuildContext context, Ficha t) {
+    final ativa = ficha.formaAtiva == t.id;
+    return InkWell(
+      borderRadius: BorderRadius.circular(20),
+      onTap: () => Navigator.push(context,
+          MaterialPageRoute(builder: (_) => TelaFicha(fichaId: t.id))),
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(3, 3, 10, 3),
+        decoration: BoxDecoration(
+          color: ativa ? Cores.roxo.withValues(alpha: 0.45) : Cores.painel2,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: ativa ? Cores.roxoClaro : Cores.borda),
+        ),
+        child: Row(mainAxisSize: MainAxisSize.min, children: [
+          AvatarFicha(foto: t.foto, nome: t.nome, tamanho: 24, transformacao: true),
+          const SizedBox(width: 6),
+          Text(ativa ? '${t.nome} • em uso' : t.nome,
+              style: const TextStyle(fontSize: 12)),
+        ]),
       ),
     );
   }

@@ -57,7 +57,7 @@ class CrisApp extends StatelessWidget {
   Widget _app(String tema) {
     return MaterialApp(
       key: ValueKey(tema),
-      title: 'C.R.I.S',
+      title: 'P.A.U',
       debugShowCheckedModeBanner: false,
       theme: temaCris(),
       scaffoldMessengerKey: mensageiro,
