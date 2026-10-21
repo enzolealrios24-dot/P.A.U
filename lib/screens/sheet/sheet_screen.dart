@@ -56,7 +56,7 @@ class _Ficha extends StatelessWidget {
     final calc = ctx.calc;
     final dono = f.ownerUid == Repo.uid;
     return DefaultTabController(
-      length: 6,
+      length: 7,
       child: Scaffold(
         appBar: AppBar(
           title: Column(
@@ -132,6 +132,7 @@ class _Ficha extends StatelessWidget {
               Tab(text: 'RITUAIS'),
               Tab(text: 'INVENTÁRIO'),
               Tab(text: 'PODERES & NOTAS'),
+              Tab(text: 'QUADRO'),
             ],
           ),
         ),
@@ -147,6 +148,7 @@ class _Ficha extends StatelessWidget {
                 TabRituais(ctx: ctx),
                 TabInventario(ctx: ctx),
                 TabPoderes(ctx: ctx),
+                TabQuadro(ctx: ctx),
               ]),
             ),
           ],

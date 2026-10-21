@@ -6,11 +6,13 @@ import '../../core/dice.dart';
 import '../../core/rules.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
+import '../../data/quadro.dart';
 import '../../data/repo.dart';
 import '../../widgets/common.dart';
 import '../../widgets/sigilos.dart';
 import '../campaign/campaign_screen.dart';
 import '../sheet/tab_agente.dart';
+import '../quadro/quadro_screen.dart';
 import 'ameacas.dart';
 import 'combate.dart';
 import 'regras.dart';
@@ -670,6 +672,39 @@ class _AbaMesa extends StatelessWidget {
                     subtitle: Text(_data(asInt(l['at']))),
                   ),
               ]),
+      ),
+      Secao(
+        titulo: 'Quadro do mestre',
+        child: StreamBuilder<Map<String, Quadro>>(
+          stream: FonteQuadro.mestre(camp.id).todos,
+          builder: (context, s) {
+            final raiz = s.data?[FonteQuadro.raiz];
+            void abrir() => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) =>
+                        TelaQuadro(fonte: FonteQuadro.mestre(camp.id))));
+            return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  InkWell(
+                    onTap: abrir,
+                    borderRadius: BorderRadius.circular(10),
+                    child: MiniQuadro(quadro: raiz),
+                  ),
+                  const SizedBox(height: 10),
+                  FilledButton.icon(
+                    onPressed: abrir,
+                    icon: const Icon(Icons.dashboard_outlined),
+                    label: const Text('Abrir quadro do mestre'),
+                  ),
+                  const SizedBox(height: 6),
+                  const Text(
+                      'Quadro estilo Milanote para planejar a campanha: só você vê.',
+                      style: TextStyle(fontSize: 12, color: Cores.textoFraco)),
+                ]);
+          },
+        ),
       ),
       Secao(
         titulo: 'Notas privadas do mestre',

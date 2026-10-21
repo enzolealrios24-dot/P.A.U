@@ -5,10 +5,12 @@ import '../../core/rules.dart';
 import '../../core/theme.dart';
 import '../../data/catalogo.dart';
 import '../../data/models.dart';
+import '../../data/quadro.dart';
 import '../../data/repo.dart';
 import '../../widgets/common.dart';
 import '../../widgets/catalogo_picker.dart';
 import '../../widgets/form_dialog.dart';
+import '../quadro/quadro_screen.dart';
 import 'rolar.dart';
 
 // ---------------- definicoes de formularios (reaproveitadas pelo mestre) ----
@@ -909,6 +911,13 @@ class TabPoderes extends StatelessWidget {
       const SizedBox(height: 12),
       Secao(
         titulo: 'Anotações',
+        acoes: [
+          TextButton.icon(
+            onPressed: () => abrirQuadroFicha(context, ctx),
+            icon: const Icon(Icons.dashboard_outlined, size: 18),
+            label: const Text('Quadro'),
+          ),
+        ],
         child: CampoSync(
             valor: ctx.f.notas,
             maxLinhas: 14,
@@ -923,4 +932,47 @@ class TabPoderes extends StatelessWidget {
 String _espacosTexto(dynamic v) {
   if (v is! num) return '${asInt(v, 1)}';
   return v == v.roundToDouble() ? '${v.toInt()}' : '$v'.replaceAll('.', ',');
+}
+
+/// Abre o quadro (estilo Milanote) da ficha em tela cheia.
+void abrirQuadroFicha(BuildContext context, CtxFicha ctx) => Navigator.push(
+    context,
+    MaterialPageRoute(
+        builder: (_) => TelaQuadro(fonte: FonteQuadro.ficha(ctx.f.id))));
+
+/// Aba QUADRO da ficha: miniatura e botão para abrir o quadro.
+class TabQuadro extends StatelessWidget {
+  final CtxFicha ctx;
+  const TabQuadro({super.key, required this.ctx});
+  @override
+  Widget build(BuildContext context) {
+    final quadros = asMap(asMap(ctx.f.d['quadro'])['quadros']);
+    final raiz = quadros[FonteQuadro.raiz] is Map
+        ? Quadro(FonteQuadro.raiz, asMap(quadros[FonteQuadro.raiz]))
+        : null;
+    final n = raiz?.itens.length ?? 0;
+    return ListView(padding: const EdgeInsets.all(12), children: [
+      Secao(
+        titulo: 'Quadro de anotações',
+        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          InkWell(
+            onTap: () => abrirQuadroFicha(context, ctx),
+            borderRadius: BorderRadius.circular(10),
+            child: MiniQuadro(quadro: raiz),
+          ),
+          const SizedBox(height: 10),
+          FilledButton.icon(
+            onPressed: () => abrirQuadroFicha(context, ctx),
+            icon: const Icon(Icons.dashboard_outlined),
+            label: Text(n == 0 ? 'Abrir quadro' : 'Abrir quadro ($n cartões)'),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Como o Milanote: notas, títulos, listas de tarefas, links, imagens, cores, colunas, quadros dentro de quadros e setas ligando tudo. O mestre da mesa também vê e edita.',
+            style: TextStyle(fontSize: 12, color: Cores.textoFraco),
+          ),
+        ]),
+      ),
+    ]);
+  }
 }
