@@ -1169,7 +1169,7 @@ class _TelaQuadroState extends State<TelaQuadro> {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
               decoration: BoxDecoration(
                 color: Cores.painel2,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(4),
                 border: Border.all(color: cor.withValues(alpha: 0.6)),
               ),
               child: Text(l.texto.isEmpty ? '•••' : l.texto,
@@ -1308,7 +1308,7 @@ class _CartaoQuadro extends StatelessWidget {
         color: semFundo
             ? Colors.transparent
             : (i.tipo == TiposQuadro.cor ? Color(i.cor ?? 0xFFF5C42C) : cor),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(4),
         border: Border.all(
           color: selecionado
               ? Cores.destaque
@@ -1332,7 +1332,7 @@ class _CartaoQuadro extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                     decoration: BoxDecoration(
                       color: Cores.destaque,
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(4),
                     ),
                     child: Row(mainAxisSize: MainAxisSize.min, children: [
                       Icon(Icons.chat_bubble, size: 11, color: Cores.sobreDestaque),
@@ -1669,7 +1669,7 @@ class _ColunaQuadro extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Color(coluna.cor ?? 0xFF1A1426).withValues(alpha: 0.92),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(4),
         border: Border.all(
             color: selecionado ? Cores.destaque : Cores.borda, width: selecionado ? 2.5 : 1),
       ),
@@ -1770,12 +1770,12 @@ class _BotaoFerramenta extends StatelessWidget {
   @override
   Widget build(BuildContext context) => InkWell(
         onTap: aoTocar,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(4),
         child: Container(
           width: 74,
           padding: const EdgeInsets.symmetric(vertical: 6),
           decoration: ativo
-              ? BoxDecoration(color: Cores.destaque.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(8))
+              ? BoxDecoration(color: Cores.destaque.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(4))
               : null,
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Icon(icone, color: Cores.destaque),
@@ -2084,7 +2084,7 @@ class MiniQuadro extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Cores.painel2,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(4),
           border: Border.all(color: Cores.borda),
         ),
         child: const Text('Quadro vazio. Abra para criar notas, imagens, desenhos, colunas e setas.',
@@ -2096,7 +2096,7 @@ class MiniQuadro extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: Cores.painel2,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(4),
         border: Border.all(color: Cores.borda),
       ),
       child: CustomPaint(painter: _PintorMini(itens, Cores.destaque), size: Size.infinite),

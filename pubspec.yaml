@@ -26,8 +26,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  # Cinzel nos títulos, Barlow no texto e Barlow Condensed em números e rótulos
-  # (Google Fonts, licença OFL em assets/fonts/).
+  # Cinzel nos títulos, Barlow no texto, Barlow Condensed em números e rótulos e
+  # Special Elite (máquina de escrever) nos detalhes de dossiê. Google Fonts,
+  # licenças OFL/Apache em assets/fonts/.
   fonts:
     - family: Cinzel
       fonts:
@@ -51,6 +52,9 @@ flutter:
           weight: 600
         - asset: assets/fonts/BarlowCondensed-Bold.ttf
           weight: 700
+    - family: SpecialElite
+      fonts:
+        - asset: assets/fonts/SpecialElite-Regular.ttf
   assets:
     - assets/data/oprpg/
     - assets/data/sah/

@@ -50,12 +50,12 @@ Future<void> escolherTema(BuildContext context) async {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: InkWell(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(4),
               onTap: () => Navigator.pop(ctx, t.id),
               child: Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(4),
                   color: TemaApp.atual.value == t.id ? t.destaque.withValues(alpha: 0.08) : null,
                   border: Border.all(
                       color: TemaApp.atual.value == t.id

@@ -181,7 +181,7 @@ class _TelaLoginState extends State<TelaLogin> {
                 const SizedBox(height: 12),
                 Card(
                   child: InkWell(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(4),
                     onTap: () async {
                       await abrirImportarCris(context, logado: false);
                       if (mounted) setState(() {});
@@ -194,7 +194,7 @@ class _TelaLoginState extends State<TelaLogin> {
                           height: 42,
                           decoration: BoxDecoration(
                             color: Cores.roxoClaro.withValues(alpha: 0.12),
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(4),
                             border: Border.all(color: Cores.roxoClaro.withValues(alpha: 0.4)),
                           ),
                           child: Icon(Icons.download_outlined, color: Cores.roxoClaro),

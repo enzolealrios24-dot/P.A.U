@@ -50,9 +50,9 @@ const temasCores = <TemaCores>[
     roxo: Color(0xFF8E6CF0),
     roxoClaro: Color(0xFFBBA6FF),
     fundo: Color(0xFF0B0A0F),
-    painel: Color(0xEB15131B),
-    painel2: Color(0xFF1E1B26),
-    borda: Color(0xFF2E2938),
+    painel: Color(0xF00C0B10),
+    painel2: Color(0xFF18161E),
+    borda: Color(0xFF2A2532),
     degradeTopo: Color(0xFFE9BC4E),
     degradeMeio: Color(0xFF2A2340),
     degradeBase: Color(0xFF6B3FD4),
@@ -66,12 +66,12 @@ const temasCores = <TemaCores>[
     roxo: Color(0xFF7443F0),
     roxoClaro: Color(0xFFD9CCFF),
     fundo: Color(0xFF0B0911),
-    painel: Color(0xEB151121),
-    painel2: Color(0xFF1D182D),
-    borda: Color(0xFF2F2846),
-    degradeTopo: Color(0xFF8B5CF6),
+    painel: Color(0xF00C0A14),
+    painel2: Color(0xFF181427),
+    borda: Color(0xFF2C2542),
+    degradeTopo: Color(0xFFC14BE0),
     degradeMeio: Color(0xFF2B1F4D),
-    degradeBase: Color(0xFFC14BE0),
+    degradeBase: Color(0xFF22C7E0),
   ),
   TemaCores(
     id: 'preto',
@@ -82,9 +82,9 @@ const temasCores = <TemaCores>[
     roxo: Color(0xFF77727F),
     roxoClaro: Color(0xFFB2ADBA),
     fundo: Color(0xFF09090B),
-    painel: Color(0xEB131316),
-    painel2: Color(0xFF1B1B1F),
-    borda: Color(0xFF2B2B31),
+    painel: Color(0xF00B0B0D),
+    painel2: Color(0xFF17171A),
+    borda: Color(0xFF29292E),
     degradeTopo: Color(0xFFA19DAA),
     degradeMeio: Color(0xFF1E1E23),
     degradeBase: Color(0xFF4A4753),
@@ -98,9 +98,9 @@ const temasCores = <TemaCores>[
     roxo: Color(0xFF9B2335),
     roxoClaro: Color(0xFFFF9AA2),
     fundo: Color(0xFF0D0708),
-    painel: Color(0xEB181012),
-    painel2: Color(0xFF221518),
-    borda: Color(0xFF38232A),
+    painel: Color(0xF00E090A),
+    painel2: Color(0xFF1C1214),
+    borda: Color(0xFF37222A),
     degradeTopo: Color(0xFFEC4A55),
     degradeMeio: Color(0xFF3A1219),
     degradeBase: Color(0xFF7A1029),
@@ -174,7 +174,18 @@ class Fontes {
   static const texto = 'Barlow';
   /// Números, rótulos, abas e botões.
   static const condensada = 'BarlowCondensed';
+  /// Máquina de escrever: números de arquivo, carimbos, anotações.
+  static const maquina = 'SpecialElite';
 }
+
+/// Texto de máquina de escrever (dossiê).
+TextStyle estiloMaquina(double tamanho, {Color? cor, double espaco = 0.6}) => TextStyle(
+      fontFamily: Fontes.maquina,
+      fontSize: tamanho,
+      color: cor,
+      letterSpacing: espaco,
+      height: 1.2,
+    );
 
 /// Título em Cinzel. A fonte é variável: o peso vai também como variação.
 TextStyle estiloTitulo(double tamanho,
@@ -245,7 +256,7 @@ ThemeData temaCris() {
     displayColor: Cores.texto,
   );
   final linha = UnderlineInputBorder(borderSide: BorderSide(color: Cores.borda));
-  const cantos = RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12)));
+  const cantos = RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4)));
   final botao = estiloRotulo(16, peso: FontWeight.w700, espaco: 0.9);
   return base.copyWith(
     // As telas são transparentes: o fundo vem da transição de página.
@@ -286,7 +297,7 @@ ThemeData temaCris() {
       elevation: 0,
       margin: const EdgeInsets.symmetric(vertical: 6),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(4),
         side: BorderSide(color: Cores.borda),
       ),
     ),
@@ -295,7 +306,7 @@ ThemeData temaCris() {
       surfaceTintColor: Colors.transparent,
       titleTextStyle: estiloTitulo(19, cor: Cores.texto),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(6),
         side: BorderSide(color: Cores.borda),
       ),
     ),
@@ -305,7 +316,7 @@ ThemeData temaCris() {
       showDragHandle: true,
       dragHandleColor: Cores.textoFraco.withValues(alpha: 0.5),
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(12))),
     ),
     // Campos como no CRIS original: só a linha de baixo.
     inputDecorationTheme: InputDecorationTheme(
@@ -361,7 +372,7 @@ ThemeData temaCris() {
       hoverElevation: 4,
       highlightElevation: 4,
       extendedTextStyle: estiloRotulo(16, peso: FontWeight.w700, espaco: 1),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
     ),
     segmentedButtonTheme: SegmentedButtonThemeData(
       style: ButtonStyle(
@@ -377,7 +388,6 @@ ThemeData temaCris() {
       indicatorSize: TabBarIndicatorSize.label,
       indicator: UnderlineTabIndicator(
         borderSide: BorderSide(color: Cores.destaque, width: 2.5),
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(3)),
       ),
       dividerColor: Cores.linha,
       dividerHeight: 1,
@@ -390,6 +400,7 @@ ThemeData temaCris() {
       surfaceTintColor: Colors.transparent,
       height: 66,
       indicatorColor: Cores.destaque.withValues(alpha: 0.16),
+      indicatorShape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
       iconTheme: WidgetStateProperty.resolveWith((s) => IconThemeData(
           color: s.contains(WidgetState.selected) ? Cores.destaque : Cores.textoFraco)),
       labelTextStyle: WidgetStateProperty.resolveWith((s) => estiloRotulo(13,
@@ -410,7 +421,7 @@ ThemeData temaCris() {
       selectedColor: Cores.destaque.withValues(alpha: 0.22),
       side: BorderSide(color: Cores.borda),
       labelStyle: estiloRotulo(14, cor: Cores.texto, espaco: 0.4),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
     ),
     listTileTheme: ListTileThemeData(
       iconColor: Cores.textoFraco,
@@ -438,19 +449,19 @@ ThemeData temaCris() {
       actionTextColor: Cores.destaque,
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12), side: BorderSide(color: Cores.borda)),
+          borderRadius: BorderRadius.circular(4), side: BorderSide(color: Cores.borda)),
     ),
     popupMenuTheme: PopupMenuThemeData(
       color: Cores.painel2,
       surfaceTintColor: Colors.transparent,
       textStyle: const TextStyle(fontFamily: Fontes.texto, fontSize: 15, color: Cores.texto),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14), side: BorderSide(color: Cores.borda)),
+          borderRadius: BorderRadius.circular(6), side: BorderSide(color: Cores.borda)),
     ),
     tooltipTheme: TooltipThemeData(
       decoration: BoxDecoration(
         color: Cores.painel2,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(4),
         border: Border.all(color: Cores.borda),
       ),
       textStyle: const TextStyle(fontFamily: Fontes.texto, fontSize: 13, color: Cores.texto),

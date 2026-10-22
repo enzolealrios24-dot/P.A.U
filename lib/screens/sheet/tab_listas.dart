@@ -707,7 +707,7 @@ class TabRituais extends StatelessWidget {
       for (var i = 0; i < l.length; i++)
         Card(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(4),
             side: BorderSide(color: Cores.elemento(asStr(l[i]['elemento']))),
           ),
           child: Padding(
@@ -957,7 +957,7 @@ class TabQuadro extends StatelessWidget {
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           InkWell(
             onTap: () => abrirQuadroFicha(context, ctx),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(4),
             child: MiniQuadro(quadro: raiz),
           ),
           const SizedBox(height: 10),

@@ -132,7 +132,7 @@ class _PickerState extends State<_Picker> {
                       return Card(
                         margin: const EdgeInsets.symmetric(vertical: 3),
                         child: InkWell(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(4),
                           onTap: () =>
                               setState(() => _aberto = aberto ? null : ref),
                           child: Padding(

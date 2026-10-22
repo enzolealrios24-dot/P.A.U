@@ -99,7 +99,7 @@ class _LinhaPericia extends StatelessWidget {
           Tooltip(
             message: 'Outros bônus',
             child: InkWell(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(4),
               onTap: () async {
                 final v = await pedirNumero(context, 'Outros bônus: ${p.nome}', outros);
                 if (v != null) Repo.set(f.id, 'pericias.${p.nome}.bonus', v);
@@ -109,7 +109,7 @@ class _LinhaPericia extends StatelessWidget {
                 height: 30,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(4),
                   border: Border.all(color: Cores.borda),
                 ),
                 child: Text(outros == 0 ? '±' : (outros > 0 ? '+$outros' : '$outros'),
@@ -154,7 +154,7 @@ class _ChipGrau extends StatelessWidget {
         height: 30,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(4),
           border: Border.all(color: cor.withValues(alpha: grau == 0 ? 0.35 : 0.7)),
           color: cor.withValues(alpha: grau == 0 ? 0.04 : 0.12),
         ),

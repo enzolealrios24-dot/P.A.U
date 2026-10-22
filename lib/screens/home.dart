@@ -6,6 +6,7 @@ import '../core/theme.dart';
 import '../data/models.dart';
 import '../data/repo.dart';
 import '../widgets/common.dart';
+import '../widgets/efeitos.dart';
 import '../widgets/imagem.dart';
 import '../widgets/importar_cris.dart';
 import '../widgets/logo.dart';
@@ -164,10 +165,13 @@ class _ListaAgentes extends StatelessWidget {
             final colunas = cons.maxWidth >= 1150 ? 3 : (cons.maxWidth >= 760 ? 2 : 1);
             final largura = (cons.maxWidth - 32 - 12 * (colunas - 1)) / colunas;
             final cartoes = [
-              for (final f in l)
-                CartaoAgente(
-                    ficha: f,
-                    formas: todas.where((t) => t.transformacaoDe == f.id).toList()),
+              for (final (i, f) in l.indexed)
+                Surgir(
+                  ordem: i,
+                  child: CartaoAgente(
+                      ficha: f,
+                      formas: todas.where((t) => t.transformacaoDe == f.id).toList()),
+                ),
             ];
             return ListView(
               padding: const EdgeInsets.fromLTRB(16, 4, 16, 100),
@@ -202,7 +206,16 @@ class CartaoAgente extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = Calc(ficha, regras);
     final detalhes = [ficha.classe, ficha.trilha, ficha.origem].where((s) => s.isNotEmpty).join(' · ');
-    return Card(
+    // cartão de arquivo: painel preto com um bloco de cor deslocado atrás
+    return Padding(
+      padding: const EdgeInsets.only(top: 6, bottom: 12, right: 6),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          boxShadow: [BoxShadow(color: Cores.roxo.withValues(alpha: 0.55), offset: const Offset(5, 5))],
+        ),
+        child: Card(
+      margin: EdgeInsets.zero,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () => Navigator.push(context,
@@ -216,6 +229,7 @@ class CartaoAgente extends StatelessWidget {
                 nome: ficha.nome,
                 ajuste: ficha.fotoAjuste,
                 largura: 78,
+                heroi: 'retrato-${ficha.id}',
               ),
               const SizedBox(width: 14),
               Expanded(
@@ -272,20 +286,22 @@ class CartaoAgente extends StatelessWidget {
           ]),
         ),
       ),
+    ),
+      ),
     );
   }
 
   Widget _chipForma(BuildContext context, Ficha t) {
     final ativa = ficha.formaAtiva == t.id;
     return InkWell(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(4),
       onTap: () => Navigator.push(context,
           MaterialPageRoute(builder: (_) => TelaFicha(fichaId: t.id))),
       child: Container(
         padding: const EdgeInsets.fromLTRB(4, 4, 12, 4),
         decoration: BoxDecoration(
           color: ativa ? Cores.roxo.withValues(alpha: 0.32) : Cores.painel2,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(4),
           border: Border.all(color: ativa ? Cores.roxoClaro.withValues(alpha: 0.7) : Cores.borda),
         ),
         child: Row(mainAxisSize: MainAxisSize.min, children: [
@@ -378,8 +394,10 @@ class _ListaMesas extends StatelessWidget {
                     'Você ainda não está em nenhuma mesa.\nCrie uma como mestre ou entre com o código que o mestre te passar.',
                     textAlign: TextAlign.center),
               ),
-            for (final c in l)
-              Card(
+            for (final (i, c) in l.indexed)
+              Surgir(
+                ordem: i,
+                child: Card(
                 clipBehavior: Clip.antiAlias,
                 child: ListTile(
                   contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
@@ -389,7 +407,7 @@ class _ListaMesas extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: (c.masterUid == Repo.uid ? Cores.destaque : Cores.roxoClaro)
                           .withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(4),
                       border: Border.all(
                           color: (c.masterUid == Repo.uid ? Cores.destaque : Cores.roxoClaro)
                               .withValues(alpha: 0.4)),
@@ -410,6 +428,7 @@ class _ListaMesas extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (_) => TelaCampanha(campanhaId: c.id))),
                 ),
+              ),
               ),
           ],
         );

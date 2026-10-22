@@ -296,7 +296,7 @@ class _CartaoAmeaca extends StatelessWidget {
     return Card(
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(4),
         side: BorderSide(
             color: elem.isEmpty || elem == 'Nenhum' ? Cores.borda : cor),
       ),

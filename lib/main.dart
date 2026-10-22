@@ -10,6 +10,7 @@ import 'data/repo.dart';
 import 'firebase_options.dart';
 import 'screens/home.dart';
 import 'screens/login.dart';
+import 'widgets/efeitos.dart';
 
 final mensageiro = GlobalKey<ScaffoldMessengerState>();
 
@@ -17,6 +18,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Catalogo.instance.carregar();
   await TemaApp.carregar();
+  await Texturas.carregar();
   String? erroInit;
   if (FirebaseConfig.configurado) {
     try {

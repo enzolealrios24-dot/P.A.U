@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import '../core/theme.dart';
+import 'efeitos.dart';
 
 /// Sigilo no estilo dos círculos rituais de Conhecimento: anéis com runas,
 /// um triângulo e um olho no centro. Desenho original do app.
@@ -181,22 +182,42 @@ class FundoCris extends StatelessWidget {
             }),
           ),
         ),
+        // grão de papel gasto por cima de tudo, bem de leve
+        const Positioned.fill(
+          child: IgnorePointer(child: RepaintBoundary(child: CustomPaint(painter: PintorGrao()))),
+        ),
         child,
       ]),
     );
   }
 }
 
-/// Transição padrão das páginas, já com o fundo do app atrás de cada tela.
+/// Transição das páginas: a tela nova sobe um pouco e acende; a de trás
+/// recua de leve. Cada tela já vem com o fundo do app atrás.
 class TransicaoComFundo extends PageTransitionsBuilder {
   const TransicaoComFundo();
-  static const _base = ZoomPageTransitionsBuilder();
 
   @override
   Widget buildTransitions<T>(PageRoute<T> route, BuildContext context,
-          Animation<double> animation, Animation<double> secondaryAnimation, Widget child) =>
-      _base.buildTransitions(
-          route, context, animation, secondaryAnimation, FundoCris(child: child));
+      Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+    return AnimatedBuilder(
+      animation: Listenable.merge([animation, secondaryAnimation]),
+      child: FundoCris(child: child),
+      builder: (context, child) {
+        final entra = Curves.easeOutCubic.transform(animation.value);
+        final recua = Curves.easeOutCubic.transform(secondaryAnimation.value);
+        Widget w = child!;
+        if (recua > 0) w = Transform.scale(scale: 1 - 0.035 * recua, child: w);
+        if (entra < 1) {
+          w = Opacity(
+            opacity: entra,
+            child: Transform.translate(offset: Offset(0, 36 * (1 - entra)), child: w),
+          );
+        }
+        return w;
+      },
+    );
+  }
 }
 
 /// Linha fina embaixo do topo das telas: acende no meio e some nas pontas.

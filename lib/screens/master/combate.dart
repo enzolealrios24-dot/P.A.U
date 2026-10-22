@@ -280,7 +280,7 @@ class _LinhaIniciativa extends StatelessWidget {
     return Card(
       color: vez ? Cores.destaque.withValues(alpha: 0.18) : null,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(4),
         side: BorderSide(color: vez ? Cores.destaque : Cores.borda),
       ),
       child: Padding(
@@ -298,7 +298,7 @@ class _LinhaIniciativa extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 6),
                 decoration: BoxDecoration(
                     color: Cores.painel2,
-                    borderRadius: BorderRadius.circular(6)),
+                    borderRadius: BorderRadius.circular(4)),
                 child: Text('${asInt(entrada['valor'])}',
                     textAlign: TextAlign.center,
                     style: const TextStyle(

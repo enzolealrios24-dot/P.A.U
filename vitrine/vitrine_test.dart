@@ -7,6 +7,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:cris_ficha/core/dice.dart';
 import 'package:cris_ficha/core/rules.dart';
 import 'package:cris_ficha/core/theme.dart';
 import 'package:cris_ficha/data/catalogo.dart';
@@ -18,6 +19,8 @@ import 'package:cris_ficha/screens/login.dart';
 import 'package:cris_ficha/screens/quadro/quadro_screen.dart';
 import 'package:cris_ficha/data/quadro.dart';
 import 'package:cris_ficha/screens/sheet/sheet_screen.dart';
+import 'package:cris_ficha/widgets/common.dart';
+import 'package:cris_ficha/widgets/efeitos.dart';
 import 'package:cris_ficha/widgets/imagem.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
@@ -39,6 +42,7 @@ void main() {
   });
 
   testWidgets('vitrine', (tester) async {
+    await tester.runAsync(Texturas.carregar);
     // sombras de verdade (no teste elas viram blocos pretos)
     debugDisableShadows = false;
     final tema = Platform.environment['VITRINE_TEMA'] ?? 'amarelo';
@@ -55,6 +59,17 @@ void main() {
     escolherEnquadramento(tester.element(find.byType(TabBarView)),
         foto: 'foto1', nome: 'Rafael Moraes');
     await _salvar(tester, 'enquadrar_foto');
+    await _print(tester, 'ficha_agente', const TelaFicha(fichaId: 'a1'));
+    mostrarRolagem(
+        tester.element(find.byType(TabBarView)),
+        Rolagem(
+            titulo: 'Rafael Moraes: Ocultismo',
+            detalhe: '2d20 (19, 7) + 10',
+            total: 29,
+            critico: true,
+            danoTotal: 14,
+            danoDetalhe: '2d6 (5, 6) + 3'));
+    await _salvar(tester, 'rolagem');
     await _print(tester, 'ficha_agente', const TelaFicha(fichaId: 'a1'));
     await _rolar(tester, 600);
     await _salvar(tester, 'ficha_agente_2');
@@ -90,7 +105,8 @@ Future<void> _print(WidgetTester tester, String nome, Widget tela,
 }
 
 Future<void> _salvar(WidgetTester tester, String nome) async {
-  for (var i = 0; i < 8; i++) {
+  // espera as animações de entrada terminarem
+  for (var i = 0; i < 14; i++) {
     await tester.pump(const Duration(milliseconds: 120));
   }
   await _imagensProntas(tester);
@@ -159,6 +175,7 @@ Future<void> _carregarFontes() async {
     for (final p in ['Regular', 'Italic', 'Medium', 'SemiBold', 'Bold'])
       'assets/fonts/Barlow-$p.ttf'
   ]);
+  await carregar('SpecialElite', ['assets/fonts/SpecialElite-Regular.ttf']);
   await carregar('BarlowCondensed', [
     for (final p in ['Medium', 'SemiBold', 'Bold'])
       'assets/fonts/BarlowCondensed-$p.ttf'

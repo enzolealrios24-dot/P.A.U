@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../core/dice.dart';
 import '../core/theme.dart';
+import 'efeitos.dart';
 
 /// Campo de texto que salva sozinho (com atraso) e nao "pula" enquanto voce
 /// digita, mesmo recebendo atualizacoes em tempo real.
@@ -163,13 +165,19 @@ class BarraStatus extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             color: cor.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(4),
             border: Border.all(color: cor.withValues(alpha: 0.35)),
           ),
           child: Stack(fit: StackFit.expand, children: [
-            FractionallySizedBox(
-              alignment: Alignment.centerLeft,
-              widthFactor: frac,
+            TweenAnimationBuilder<double>(
+              tween: Tween(end: frac),
+              duration: const Duration(milliseconds: 520),
+              curve: Curves.easeOutCubic,
+              builder: (context, v, child) => FractionallySizedBox(
+                alignment: Alignment.centerLeft,
+                widthFactor: v,
+                child: child,
+              ),
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -277,7 +285,7 @@ class Selo extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
       decoration: BoxDecoration(
         color: c.withValues(alpha: cheio ? 0.95 : 0.12),
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(2),
         border: Border.all(color: c.withValues(alpha: cheio ? 1 : 0.4)),
       ),
       child: Row(mainAxisSize: MainAxisSize.min, children: [
@@ -375,47 +383,106 @@ void mostrarRolagem(BuildContext context, Rolagem r) {
   showDialog<void>(
     context: context,
     builder: (ctx) => AlertDialog(
-      backgroundColor: Cores.painel,
+      backgroundColor: Cores.painel2,
       title: Text(r.titulo, textAlign: TextAlign.center),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text('${r.total}',
-              style: TextStyle(
-                  fontSize: 56,
-                  fontWeight: FontWeight.w900,
-                  color: r.critico
-                      ? Cores.ok
-                      : (r.falhaCritica ? Cores.destaque : Cores.texto))),
-          if (r.critico)
-            const Text('CRÍTICO!',
-                style: TextStyle(color: Cores.ok, fontWeight: FontWeight.bold)),
-          if (r.falhaCritica)
-            Text('Resultado natural 1',
-                style: TextStyle(color: Cores.destaque)),
-          const SizedBox(height: 8),
-          Text(r.detalhe,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Cores.textoFraco)),
-          if (r.danoTotal != null) ...[
-            const Divider(height: 24),
-            Text('Dano: ${r.danoTotal}',
-                style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w800,
-                    color: Cores.destaque)),
-            Text(r.danoDetalhe ?? '',
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: Cores.textoFraco)),
-          ],
-        ],
-      ),
+      content: _ResultadoRolagem(r: r),
       actions: [
         TextButton(
             onPressed: () => Navigator.pop(ctx), child: const Text('Fechar'))
       ],
     ),
   );
+}
+
+class _ResultadoRolagem extends StatefulWidget {
+  final Rolagem r;
+  const _ResultadoRolagem({required this.r});
+  @override
+  State<_ResultadoRolagem> createState() => _ResultadoRolagemState();
+}
+
+class _ResultadoRolagemState extends State<_ResultadoRolagem> with SingleTickerProviderStateMixin {
+  late final AnimationController _c =
+      AnimationController(vsync: this, duration: const Duration(milliseconds: 1100))..forward();
+
+  @override
+  void dispose() {
+    _c.dispose();
+    super.dispose();
+  }
+
+  /// Números que passam enquanto o dado "rola".
+  int _sorteio(int k) {
+    final teto = widget.r.total > 20 ? widget.r.total + 6 : 20;
+    return (k * 7919 + widget.r.total * 31 + k * k * 13) % teto + 1;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final r = widget.r;
+    final cor = r.critico ? Cores.ok : (r.falhaCritica ? Cores.pv : Cores.destaque);
+    return AnimatedBuilder(
+      animation: _c,
+      builder: (context, _) {
+        final t = _c.value;
+        const parada = 0.5;
+        final rolando = t < parada;
+        final depois = rolando ? 0.0 : ((t - parada) / (1 - parada)).clamp(0.0, 1.0);
+        final pulo = rolando ? 0.0 : Curves.elasticOut.transform(depois);
+        final numero = rolando ? _sorteio((t * 30).floor()) : r.total;
+        final destaque = !rolando && (r.critico || r.falhaCritica);
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Transform.rotate(
+              angle: rolando ? sin(t * 40) * 0.12 : 0,
+              child: Container(
+                width: 116,
+                height: 116,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(4),
+                  border: Border.all(color: cor.withValues(alpha: rolando ? 0.35 : 1), width: 2),
+                  boxShadow: [
+                    BoxShadow(color: Cores.roxo.withValues(alpha: 0.9), offset: const Offset(6, 6)),
+                    if (destaque) BoxShadow(color: cor.withValues(alpha: 0.55), blurRadius: 28),
+                  ],
+                ),
+                child: Center(
+                  child: Transform.scale(
+                    scale: rolando ? 0.9 : 0.55 + 0.45 * pulo,
+                    child: Text('$numero',
+                        style: estiloNumero(60, cor: rolando ? Cores.textoFraco : (destaque ? cor : Cores.texto))),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 14),
+            Opacity(
+              opacity: depois,
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                if (r.critico) const RotuloArquivo('Crítico!', cor: Cores.ok, tamanho: 14),
+                if (r.falhaCritica) const RotuloArquivo('Resultado natural 1', cor: Cores.pv, tamanho: 13),
+                if (r.critico || r.falhaCritica) const SizedBox(height: 10),
+                Text(r.detalhe,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Cores.textoFraco)),
+                if (r.danoTotal != null) ...[
+                  const Divider(height: 24),
+                  Text('DANO', style: estiloRotulo(13, cor: Cores.pv, peso: FontWeight.w700, espaco: 2.4)),
+                  const SizedBox(height: 2),
+                  Text('${r.danoTotal}', style: estiloNumero(40, cor: Cores.texto)),
+                  Text(r.danoDetalhe ?? '',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Cores.textoFraco)),
+                ],
+              ]),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
 class Secao extends StatelessWidget {
@@ -425,32 +492,113 @@ class Secao extends StatelessWidget {
   const Secao(
       {super.key, required this.titulo, required this.child, this.acoes = const []});
   @override
-  Widget build(BuildContext context) => Card(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 12, 12, 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              ConstrainedBox(
-                constraints: const BoxConstraints(minHeight: 32),
-                child: Row(children: [
-                  const Losango(),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Text(titulo, style: estiloTitulo(15, cor: Cores.destaque, espaco: 0.8)),
-                  ),
-                  ...acoes,
-                ]),
-              ),
-              const SizedBox(height: 10),
-              Padding(padding: const EdgeInsets.only(right: 4), child: child),
-            ],
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(top: 14, bottom: 6),
+        child: Stack(clipBehavior: Clip.none, children: [
+          // Material (e não só uma caixa) para as listas de dentro terem o
+          // efeito de toque
+          Material(
+            color: Cores.painel,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+              side: BorderSide(color: Cores.borda),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 28, 16, 16),
+              child: child,
+            ),
           ),
-        ),
+          Positioned(left: 12, top: -11, child: RotuloArquivo(titulo)),
+          // os botões da seção ficam presos na borda, do lado oposto da etiqueta
+          if (acoes.isNotEmpty)
+            Positioned(
+              right: 10,
+              top: -15,
+              child: Material(
+                color: Cores.painel2,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  side: BorderSide(color: Cores.borda),
+                ),
+                child: TextButtonTheme(
+                  data: TextButtonThemeData(
+                    style: TextButton.styleFrom(
+                      foregroundColor: Cores.destaque,
+                      minimumSize: const Size(0, 30),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      visualDensity: VisualDensity.compact,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      textStyle: estiloRotulo(14.5, peso: FontWeight.w700, espaco: 0.6),
+                    ),
+                  ),
+                  child: IconButtonTheme(
+                    data: IconButtonThemeData(
+                      style: IconButton.styleFrom(
+                        minimumSize: const Size(30, 30),
+                        padding: const EdgeInsets.all(4),
+                        visualDensity: VisualDensity.compact,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                    ),
+                    child: Row(mainAxisSize: MainAxisSize.min, children: acoes),
+                  ),
+                ),
+              ),
+            ),
+        ]),
       );
 }
 
-/// Losango pequeno que marca os títulos das seções.
+/// Etiqueta de arquivo: caixa sólida com letras espaçadas e um bloco
+/// deslocado atrás, como "SUMÁRIO" e "O ANFITRIÃO" nos livros.
+class RotuloArquivo extends StatelessWidget {
+  final String texto;
+  final Color? cor;
+  final double tamanho;
+  const RotuloArquivo(this.texto, {super.key, this.cor, this.tamanho = 13});
+  @override
+  Widget build(BuildContext context) {
+    final c = cor ?? Cores.destaque;
+    final frente = c == Cores.destaque ? Cores.sobreDestaque : (c.computeLuminance() > 0.45 ? Colors.black : Colors.white);
+    return Stack(clipBehavior: Clip.none, children: [
+      Positioned(
+        left: 3,
+        top: 3,
+        right: -3,
+        bottom: -3,
+        child: ColoredBox(color: Cores.roxo.withValues(alpha: 0.9)),
+      ),
+      Container(
+        color: c,
+        padding: EdgeInsets.fromLTRB(tamanho * 0.7, tamanho * 0.3, tamanho * 0.75, tamanho * 0.3),
+        child: Text(texto.toUpperCase(),
+            style: estiloRotulo(tamanho, cor: frente, peso: FontWeight.w700, espaco: tamanho * 0.17)),
+      ),
+    ]);
+  }
+}
+
+/// Etiqueta pequena de tipo (ORIGEM, CLASSE...), sólida e de canto reto.
+class Etiqueta extends StatelessWidget {
+  final String texto;
+  final Color? cor;
+  const Etiqueta(this.texto, {super.key, this.cor});
+  @override
+  Widget build(BuildContext context) {
+    final c = cor ?? Cores.destaque;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+      color: c.withValues(alpha: 0.9),
+      child: Text(texto,
+          style: estiloRotulo(10.5,
+              cor: c.computeLuminance() > 0.4 ? Colors.black : Colors.white,
+              peso: FontWeight.w700,
+              espaco: 1.3)),
+    );
+  }
+}
+
+/// Losango pequeno que marca títulos.
 class Losango extends StatelessWidget {
   final double tamanho;
   final Color? cor;
@@ -514,7 +662,8 @@ String formatarHora(int ms) {
   return '${two(d.hour)}:${two(d.minute)}';
 }
 
-/// Título grande no alto das listas (Agentes, Mesas...).
+/// Título grande no alto das listas (Agentes, Mesas...): letras gastas, e
+/// embaixo uma linha de máquina de escrever.
 class TituloPagina extends StatelessWidget {
   final String titulo;
   final String? subtitulo;
@@ -522,16 +671,19 @@ class TituloPagina extends StatelessWidget {
   const TituloPagina({super.key, required this.titulo, this.subtitulo, this.acoes = const []});
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.fromLTRB(4, 12, 4, 14),
+        padding: const EdgeInsets.fromLTRB(4, 14, 4, 12),
         child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
           Expanded(
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(titulo, style: estiloTitulo(26, cor: Cores.texto)),
+              Gasto(child: Text(titulo.toUpperCase(), style: estiloTitulo(30, cor: Cores.texto, peso: FontWeight.w800, espaco: 1.5))),
               if (subtitulo != null)
                 Padding(
-                  padding: const EdgeInsets.only(top: 3),
-                  child: Text(subtitulo!,
-                      style: estiloRotulo(14.5, cor: Cores.textoFraco, peso: FontWeight.w500, espaco: 0.5)),
+                  padding: const EdgeInsets.only(top: 6),
+                  child: Row(children: [
+                    Container(width: 26, height: 3, color: Cores.destaque),
+                    const SizedBox(width: 10),
+                    Flexible(child: Text(subtitulo!, style: estiloMaquina(13.5, cor: Cores.textoFraco))),
+                  ]),
                 ),
             ]),
           ),

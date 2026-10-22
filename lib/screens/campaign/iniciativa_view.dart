@@ -25,7 +25,7 @@ class IniciativaView extends StatelessWidget {
               color: i == turno
                   ? Cores.destaque.withValues(alpha: 0.25)
                   : Cores.painel2,
-              borderRadius: BorderRadius.circular(6),
+              borderRadius: BorderRadius.circular(4),
               border: Border.all(
                   color: i == turno ? Cores.destaque : Cores.borda),
             ),

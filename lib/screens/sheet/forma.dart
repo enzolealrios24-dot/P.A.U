@@ -164,7 +164,7 @@ class FaixaForma extends StatelessWidget {
           Cores.roxo.withValues(alpha: 0.38),
           Cores.roxo.withValues(alpha: 0.12),
         ]),
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(4),
         border: Border.all(color: Cores.roxoClaro.withValues(alpha: 0.35)),
       ),
       child: Row(children: [
@@ -250,7 +250,7 @@ class _LinhaTransformacao extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: ativa ? Cores.roxo.withValues(alpha: 0.30) : Cores.painel2,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(4),
         border: Border.all(color: ativa ? Cores.roxoClaro : Cores.borda),
       ),
       child: Row(children: [

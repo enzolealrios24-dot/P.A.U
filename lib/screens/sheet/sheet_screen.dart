@@ -305,13 +305,40 @@ class BarrasTopo extends StatelessWidget {
   }
 }
 
-class _PainelRecurso extends StatelessWidget {
+class _PainelRecurso extends StatefulWidget {
   final _Recurso r;
   final VoidCallback aoAbrir;
   const _PainelRecurso({required this.r, required this.aoAbrir});
+  @override
+  State<_PainelRecurso> createState() => _PainelRecursoState();
+}
+
+class _PainelRecursoState extends State<_PainelRecurso> with SingleTickerProviderStateMixin {
+  // Pisca vermelho ao perder pontos e verde ao ganhar.
+  late final AnimationController _pulso =
+      AnimationController(vsync: this, duration: const Duration(milliseconds: 700), value: 1);
+  Color _corPulso = Cores.pv;
+  bool _subiu = false;
+
+  @override
+  void didUpdateWidget(covariant _PainelRecurso old) {
+    super.didUpdateWidget(old);
+    if (widget.r.atual != old.r.atual) {
+      _subiu = widget.r.atual > old.r.atual;
+      _corPulso = _subiu ? Cores.ok : Cores.pv;
+      _pulso.forward(from: 0);
+    }
+  }
+
+  @override
+  void dispose() {
+    _pulso.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final r = widget.r;
     final frac = r.max <= 0 ? 0.0 : (r.atual / r.max).clamp(0.0, 1.0);
     final fracTemp = r.tempMax <= 0 ? 0.0 : (r.temp / r.tempMax).clamp(0.0, 1.0);
     return LayoutBuilder(builder: (context, cons) {
@@ -325,15 +352,40 @@ class _PainelRecurso extends StatelessWidget {
               child: Icon(icone, size: 18, color: r.cor.withValues(alpha: 0.9)),
             ),
           );
-      return Material(
-        color: r.cor.withValues(alpha: 0.07),
-        clipBehavior: Clip.antiAlias,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
-          side: BorderSide(color: r.cor.withValues(alpha: 0.28)),
+      final numero = AnimatedSwitcher(
+        duration: const Duration(milliseconds: 260),
+        transitionBuilder: (child, a) => FadeTransition(
+          opacity: a,
+          child: SlideTransition(
+            position: Tween(begin: Offset(0, _subiu ? 0.45 : -0.45), end: Offset.zero).animate(a),
+            child: child,
+          ),
         ),
+        child: Text.rich(
+          key: ValueKey(r.atual),
+          TextSpan(children: [
+            TextSpan(text: '${r.atual}', style: estiloNumero(24, cor: Cores.texto)),
+            TextSpan(text: '/${r.max}', style: estiloNumero(14, cor: Cores.textoFraco, peso: FontWeight.w600)),
+          ]),
+        ),
+      );
+      return AnimatedBuilder(
+        animation: _pulso,
+        builder: (context, child) {
+          final k = 1 - Curves.easeOut.transform(_pulso.value);
+          return Material(
+            color: Color.lerp(r.cor.withValues(alpha: 0.07), _corPulso.withValues(alpha: 0.30), k),
+            clipBehavior: Clip.antiAlias,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+              side: BorderSide(
+                  color: Color.lerp(r.cor.withValues(alpha: 0.30), _corPulso, k)!, width: 1 + k),
+            ),
+            child: child,
+          );
+        },
         child: InkWell(
-          onTap: aoAbrir,
+          onTap: widget.aoAbrir,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(4, 8, 4, 9),
             child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -342,38 +394,27 @@ class _PainelRecurso extends StatelessWidget {
                 Text(r.rotulo, style: estiloRotulo(12.5, cor: r.cor, peso: FontWeight.w700, espaco: 1.8)),
                 const Spacer(),
                 if (r.temp > 0)
-                  Text('+${r.temp}',
-                      style: estiloNumero(13, cor: r.corTemp ?? r.cor, peso: FontWeight.w700)),
+                  Text('+${r.temp}', style: estiloNumero(13, cor: r.corTemp ?? r.cor, peso: FontWeight.w700)),
                 const SizedBox(width: 6),
               ]),
               Row(children: [
                 if (largo) botao(Icons.keyboard_double_arrow_left, -5),
                 botao(Icons.remove, -1),
-                Expanded(
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text.rich(TextSpan(children: [
-                      TextSpan(text: '${r.atual}', style: estiloNumero(24, cor: Cores.texto)),
-                      TextSpan(
-                          text: '/${r.max}',
-                          style: estiloNumero(14, cor: Cores.textoFraco, peso: FontWeight.w600)),
-                    ])),
-                  ),
-                ),
+                Expanded(child: FittedBox(fit: BoxFit.scaleDown, child: numero)),
                 botao(Icons.add, 1),
                 if (largo) botao(Icons.keyboard_double_arrow_right, 5),
               ]),
               const SizedBox(height: 4),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 6),
-                child: _Trilho(frac: frac, cor: r.cor, altura: 5),
+                child: _TrilhoAnimado(frac: frac, cor: r.cor, altura: 5),
               ),
               // a linha dos temporários ocupa lugar sempre, para os painéis
               // ficarem da mesma altura
               Padding(
                 padding: const EdgeInsets.fromLTRB(6, 3, 6, 0),
                 child: r.temp > 0
-                    ? _Trilho(frac: fracTemp, cor: r.corTemp ?? r.cor, altura: 3)
+                    ? _TrilhoAnimado(frac: fracTemp, cor: r.corTemp ?? r.cor, altura: 3)
                     : const SizedBox(height: 3),
               ),
             ]),
@@ -382,6 +423,21 @@ class _PainelRecurso extends StatelessWidget {
       );
     });
   }
+}
+
+/// Trilho que corre até o valor novo.
+class _TrilhoAnimado extends StatelessWidget {
+  final double frac;
+  final Color cor;
+  final double altura;
+  const _TrilhoAnimado({required this.frac, required this.cor, required this.altura});
+  @override
+  Widget build(BuildContext context) => TweenAnimationBuilder<double>(
+        tween: Tween(end: frac),
+        duration: const Duration(milliseconds: 520),
+        curve: Curves.easeOutCubic,
+        builder: (context, v, _) => _Trilho(frac: v, cor: cor, altura: altura),
+      );
 }
 
 class _Trilho extends StatelessWidget {
@@ -435,7 +491,7 @@ Future<void> _ajustarRecurso(
                   ])),
                 ]),
                 const SizedBox(height: 10),
-                _Trilho(frac: r.max <= 0 ? 0 : (r.atual / r.max).clamp(0.0, 1.0), cor: r.cor, altura: 8),
+                _TrilhoAnimado(frac: r.max <= 0 ? 0 : (r.atual / r.max).clamp(0.0, 1.0), cor: r.cor, altura: 8),
                 const SizedBox(height: 16),
                 Row(children: [
                   for (final d in const [-5, -1]) ...[
@@ -509,12 +565,12 @@ class _BotaoValor extends StatelessWidget {
   Widget build(BuildContext context) => Material(
         color: cor.withValues(alpha: 0.12),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(4),
           side: BorderSide(color: cor.withValues(alpha: 0.35)),
         ),
         child: InkWell(
           onTap: aoTocar,
-          customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           child: SizedBox(
             height: 46,
             width: 52,

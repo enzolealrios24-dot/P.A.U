@@ -180,6 +180,8 @@ class RetratoFicha extends StatelessWidget {
   final VoidCallback? aoTocar;
   /// Algo preso no canto de baixo (ex.: o botão da câmera).
   final Widget? canto;
+  /// Liga este retrato ao de outra tela, para a foto "voar" entre elas.
+  final String? heroi;
   const RetratoFicha({
     super.key,
     required this.foto,
@@ -191,12 +193,13 @@ class RetratoFicha extends StatelessWidget {
     this.transformacao = false,
     this.aoTocar,
     this.canto,
+    this.heroi,
   });
 
   @override
   Widget build(BuildContext context) {
     final altura = largura * proporcao;
-    final r = raio ?? (largura * 0.12).clamp(6.0, 18.0);
+    final r = raio ?? 3.0;
     final grande = largura >= 60;
     final moldura = transformacao ? Cores.roxoClaro : Cores.destaque;
     Widget retrato = Container(
@@ -240,6 +243,7 @@ class RetratoFicha extends StatelessWidget {
         ]),
       ),
     );
+    if (heroi != null) retrato = Hero(tag: heroi!, child: retrato);
     if (canto != null) {
       retrato = Stack(clipBehavior: Clip.none, children: [
         retrato,
@@ -313,7 +317,7 @@ class AvatarFicha extends StatelessWidget {
         ajuste: ajuste,
         largura: tamanho,
         proporcao: 1,
-        raio: tamanho * 0.3,
+        raio: tamanho * 0.14,
         transformacao: transformacao,
         aoTocar: aoTocar,
       );

@@ -9,6 +9,7 @@ import '../../data/models.dart';
 import '../../data/quadro.dart';
 import '../../data/repo.dart';
 import '../../widgets/common.dart';
+import '../../widgets/efeitos.dart';
 import '../../widgets/imagem.dart';
 import '../../widgets/sigilos.dart';
 import '../campaign/campaign_screen.dart';
@@ -166,8 +167,8 @@ class PainelAoVivo extends StatelessWidget {
               ),
             ),
           Wrap(spacing: 12, runSpacing: 12, children: [
-            for (final f in fichas)
-              SizedBox(width: w, child: _CartaoPainel(ficha: f, camp: camp)),
+            for (final (i, f) in fichas.indexed)
+              SizedBox(width: w, child: Surgir(ordem: i, child: _CartaoPainel(ficha: f, camp: camp))),
           ]),
         ]);
       },
@@ -326,7 +327,7 @@ class _CartaoPainel extends StatelessWidget {
     return Card(
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(4),
         side: BorderSide(color: morrendo ? Cores.destaque : Cores.borda),
       ),
       child: Padding(
@@ -707,7 +708,7 @@ class _AbaMesa extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: abrir,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(4),
                     child: MiniQuadro(quadro: raiz),
                   ),
                   const SizedBox(height: 10),

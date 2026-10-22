@@ -9,9 +9,11 @@ import '../../data/catalogo.dart';
 import '../../data/models.dart';
 import '../../data/repo.dart';
 import '../../widgets/common.dart';
+import '../../widgets/efeitos.dart';
 import '../../widgets/imagem.dart';
 import '../../widgets/sigilos.dart';
 import 'forma.dart';
+import 'habilidades.dart';
 import 'rolar.dart';
 
 class TabAgente extends StatelessWidget {
@@ -265,7 +267,7 @@ class TabAgente extends StatelessWidget {
 
     final dossie = _Dossie(ctx: ctx);
     final transformacoes = SecaoTransformacoes(ctx: ctx);
-    final habilidades = _secaoHabilidades(context, c);
+    final habilidades = SecaoHabilidades(ctx: ctx);
     final alteracoes = c.modoNivel ? _secaoAlteracoes(c) : null;
 
     final condicoes = Secao(
@@ -351,97 +353,36 @@ class TabAgente extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Expanded(
-              child: Column(
-                  children: [dossie, identidade, transformacoes, modos, habilidades, if (alteracoes != null) alteracoes, historia])),
+              child: Column(children: [
+            for (final (i, w) in [dossie, identidade, transformacoes, modos, habilidades, if (alteracoes != null) alteracoes, historia].indexed)
+              Surgir(ordem: i, child: w),
+          ])),
           const SizedBox(width: 12),
-          Expanded(child: Column(children: [atributos, stats, condicoes, bonus])),
+          Expanded(
+              child: Column(children: [
+            for (final (i, w) in [atributos, stats, condicoes, bonus].indexed) Surgir(ordem: i + 1, child: w),
+          ])),
         ]),
       );
     }
     return ListView(
       padding: const EdgeInsets.all(12),
       children: [
-        dossie,
-        atributos,
-        stats,
-        identidade,
-        transformacoes,
-        modos,
-        habilidades,
-        if (alteracoes != null) alteracoes,
-        condicoes,
-        bonus,
-        historia
+        for (final (i, w) in [
+          dossie,
+          atributos,
+          stats,
+          identidade,
+          transformacoes,
+          modos,
+          habilidades,
+          if (alteracoes != null) alteracoes,
+          condicoes,
+          bonus,
+          historia,
+        ].indexed)
+          Surgir(ordem: i, child: w),
       ],
-    );
-  }
-
-  Widget _secaoHabilidades(BuildContext context, Calc c) {
-    final f = ctx.f;
-    final linhas = <Widget>[];
-    void hab(String titulo, String resumo, {String? origem}) {
-      linhas.add(Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(titulo, style: const TextStyle(fontWeight: FontWeight.w800)),
-          Text(resumo, style: const TextStyle(fontSize: 13)),
-          if (origem != null)
-            Text(origem,
-                style: const TextStyle(fontSize: 11, color: Cores.textoFraco)),
-        ]),
-      ));
-    }
-
-    final o = c.origemDados;
-    if (o != null) {
-      final p = asMap(o['poder']);
-      hab('${asStr(p['nome'])} (origem ${asStr(o['nome'])})', asStr(p['resumo']),
-          origem: Catalogo.fonteCurta(o));
-    }
-    final cd = c.classeDados;
-    if (cd != null) {
-      final limite = c.sobrevivente ? f.estagio : c.nexClasse;
-      for (final h in asMapList(cd['habilidades'])) {
-        if (asInt(h['nex']) > limite) continue;
-        hab(asStr(h['nome']), asStr(h['resumo']), origem: Catalogo.fonteCurta(cd));
-      }
-    }
-    final t = c.trilhaDados;
-    if (t != null) {
-      for (final h in asMapList(t['habilidades'])) {
-        if (!c.trilhaLiberada(asInt(h['nex']))) continue;
-        final rotulo = c.sobrevivente ? 'estágio ${asInt(h['nex'])}' : 'NEX ${asInt(h['nex'])}%';
-        hab('${asStr(h['nome'])} (${asStr(t['nome'])}, $rotulo)', asStr(h['resumo']),
-            origem: Catalogo.fonteCurta(t));
-      }
-    }
-    final prog = c.progressaoAtual;
-    return Secao(
-      titulo: 'Habilidades',
-      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        if (linhas.isEmpty)
-          const Text('Escolha classe, origem e trilha para ver as habilidades.',
-              style: TextStyle(color: Cores.textoFraco)),
-        ...linhas,
-        if (prog.isNotEmpty)
-          Card(
-            color: Cores.painel2,
-            margin: const EdgeInsets.only(top: 8),
-            child: ExpansionTile(
-              dense: true,
-              title: const Text('Progressão recebida',
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
-              childrenPadding: const EdgeInsets.fromLTRB(12, 0, 12, 10),
-              children: [
-                for (final p in prog)
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(p, style: const TextStyle(fontSize: 12)),
-                  ),
-              ],
-            ),
-          ),
-      ]),
     );
   }
 
@@ -589,7 +530,7 @@ class _CirculoAtributos extends StatelessWidget {
                 top: meio + anel * sin(-pi / 2 + 2 * pi * i / 5) - raio,
                 width: raio * 2,
                 height: raio * 2,
-                child: _BolhaAtributo(ctx: ctx, chave: _ordem[i], lado: lado),
+                child: Surgir(crescer: true, ordem: i + 2, child: _BolhaAtributo(ctx: ctx, chave: _ordem[i], lado: lado)),
               ),
           ]),
         ),
@@ -699,7 +640,7 @@ class _Stat extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
       decoration: BoxDecoration(
         color: alerta ? Cores.destaque.withValues(alpha: 0.16) : Cores.painel2.withValues(alpha: 0.7),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(4),
         border: Border.all(color: alerta ? Cores.destaque.withValues(alpha: 0.7) : Cores.borda),
       ),
       child: Column(children: [
@@ -729,8 +670,17 @@ class _Grade extends StatelessWidget {
       });
 }
 
-/// Topo da aba AGENTE: retrato grande, nome e o essencial, com a própria
-/// foto desfocada ao fundo.
+/// Número de arquivo fixo para cada ficha (só decoração, como nos dossiês).
+String numeroArquivo(String id) {
+  var h = 0;
+  for (final c in id.codeUnits) {
+    h = (h * 31 + c) & 0x7fffffff;
+  }
+  return (h % 10000).toString().padLeft(4, '0');
+}
+
+/// Topo da aba AGENTE, como uma ficha de arquivo da Ordem: retrato preso com
+/// fita, número de arquivo, nome gasto e o NEX num selo hexagonal.
 class _Dossie extends StatelessWidget {
   final CtxFicha ctx;
   const _Dossie({required this.ctx});
@@ -740,10 +690,17 @@ class _Dossie extends StatelessWidget {
     final f = ctx.f;
     final c = ctx.calc;
     final detalhes = [f.classe, f.trilha].where((s) => s.isNotEmpty).join(' · ');
+    // o que vai no selo hexagonal, conforme o modo de progressão
+    final (rotuloSelo, valorSelo) = c.sobrevivente
+        ? ('ESTÁGIO', '${f.estagio}')
+        : c.modoPatente
+            ? ('PP', '${f.pp}')
+            : c.modoNivel
+                ? ('NÍVEL', '${c.nivel}')
+                : ('NEX', '${f.nex}%');
     final camera = Material(
       color: Cores.destaque,
       shape: const CircleBorder(),
-      elevation: 0,
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: () => opcoesFoto(context, f),
@@ -754,83 +711,117 @@ class _Dossie extends StatelessWidget {
         ),
       ),
     );
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: Stack(children: [
-        if (f.foto.isNotEmpty) ...[
-          Positioned.fill(
-            child: ImageFiltered(
-              imageFilter: ImageFilter.blur(sigmaX: 26, sigmaY: 26, tileMode: TileMode.decal),
-              child: Opacity(opacity: 0.55, child: FotoEnquadrada(id: f.foto, ajuste: f.fotoAjuste)),
+    return Container(
+      margin: const EdgeInsets.fromLTRB(0, 8, 7, 12),
+      clipBehavior: Clip.none,
+      decoration: BoxDecoration(
+        color: Cores.painel,
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: Cores.borda),
+        boxShadow: [
+          BoxShadow(
+              color: (f.eTransformacao ? Cores.roxoClaro : Cores.roxo).withValues(alpha: 0.6),
+              offset: const Offset(7, 7)),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(4),
+        child: Stack(children: [
+          if (f.foto.isNotEmpty) ...[
+            Positioned.fill(
+              child: ImageFiltered(
+                imageFilter: ImageFilter.blur(sigmaX: 26, sigmaY: 26, tileMode: TileMode.decal),
+                child: Opacity(opacity: 0.5, child: FotoEnquadrada(id: f.foto, ajuste: f.fotoAjuste)),
+              ),
             ),
-          ),
-          Positioned.fill(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Cores.painel.withValues(alpha: 0.35), Cores.painel.withValues(alpha: 0.92)],
+            Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Cores.painel.withValues(alpha: 0.35), Cores.painel.withValues(alpha: 0.94)],
+                  ),
                 ),
               ),
             ),
-          ),
-        ] else
-          Positioned(
-            right: -60,
-            top: -50,
-            child: SigiloConhecimento(
-                tamanho: 220, cor: Cores.destaque.withValues(alpha: 0.07), espessura: 1),
-          ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 18),
-          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            RetratoFicha(
-              foto: f.foto,
-              nome: f.nome,
-              ajuste: f.fotoAjuste,
-              largura: 112,
-              transformacao: f.eTransformacao,
-              aoTocar: () => opcoesFoto(context, f),
-              canto: camera,
+          ] else
+            Positioned(
+              right: -60,
+              top: -50,
+              child: SigiloConhecimento(
+                  tamanho: 220, cor: Cores.destaque.withValues(alpha: 0.07), espessura: 1),
             ),
-            const SizedBox(width: 18),
-            Expanded(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                if (f.eTransformacao)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 6),
-                    child: Selo('Transformação', cor: Cores.roxoClaro, icone: Icons.auto_awesome),
+          if (f.eTransformacao)
+            Positioned(
+              right: 14,
+              bottom: 14,
+              child: Transform.rotate(
+                angle: -0.14,
+                child: Gasto(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    decoration: BoxDecoration(border: Border.all(color: Cores.roxoClaro, width: 2)),
+                    child: Text('TRANSFORMAÇÃO', style: estiloMaquina(14, cor: Cores.roxoClaro, espaco: 1.5)),
                   ),
-                Text(f.nome, style: estiloTitulo(23, cor: Cores.texto, altura: 1.1)),
-                if (detalhes.isNotEmpty) ...[
-                  const SizedBox(height: 6),
-                  Text(detalhes,
-                      style: estiloRotulo(16, cor: Cores.textoFraco, peso: FontWeight.w500, espaco: 0.4)),
-                ],
-                const SizedBox(height: 12),
-                Wrap(spacing: 6, runSpacing: 6, children: [
-                  Selo(c.resumoProgressao, cheio: true),
-                  Selo(c.patente.nome, cor: Cores.roxoClaro),
-                  if (f.origem.isNotEmpty) Selo(f.origem, cor: Cores.textoFraco),
+                ),
+              ),
+            ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(18, 22, 16, 20),
+            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Transform.rotate(
+                angle: -0.035,
+                child: Stack(clipBehavior: Clip.none, children: [
+                  RetratoFicha(
+                    foto: f.foto,
+                    nome: f.nome,
+                    ajuste: f.fotoAjuste,
+                    largura: 112,
+                    transformacao: f.eTransformacao,
+                    aoTocar: () => opcoesFoto(context, f),
+                    canto: camera,
+                    heroi: 'retrato-${f.id}',
+                  ),
+                  const Positioned(top: -11, left: 26, child: Fita(largura: 58)),
                 ]),
-                if (f.jogador.isNotEmpty) ...[
+              ),
+              const SizedBox(width: 20),
+              Expanded(
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text('ARQUIVO Nº ${numeroArquivo(f.id)}',
+                      style: estiloMaquina(12.5, cor: Cores.textoFraco, espaco: 1)),
+                  const SizedBox(height: 6),
+                  Gasto(child: Text(f.nome, style: estiloTitulo(24, cor: Cores.texto, peso: FontWeight.w800, altura: 1.1))),
+                  if (detalhes.isNotEmpty) ...[
+                    const SizedBox(height: 6),
+                    Text(detalhes,
+                        style: estiloRotulo(16, cor: Cores.textoFraco, peso: FontWeight.w500, espaco: 0.4)),
+                  ],
                   const SizedBox(height: 12),
-                  Row(children: [
-                    const Icon(Icons.person_outline, size: 16, color: Cores.textoFraco),
-                    const SizedBox(width: 5),
-                    Flexible(
-                      child: Text(f.jogador,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontSize: 13.5, color: Cores.textoFraco)),
+                  Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                    Hexagono(valorSelo, rotulo: rotuloSelo, tamanho: 54),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Wrap(spacing: 6, runSpacing: 6, children: [
+                        if (c.modoNivel) Selo('NEX ${f.nex}%'),
+                        Selo(c.patente.nome, cor: Cores.roxoClaro),
+                        if (f.origem.isNotEmpty) Selo(f.origem, cor: Cores.textoFraco),
+                      ]),
                     ),
                   ]),
-                ],
-              ]),
-            ),
-          ]),
-        ),
-      ]),
+                  if (f.jogador.isNotEmpty) ...[
+                    const SizedBox(height: 12),
+                    Text('JOGADOR: ${f.jogador}',
+                        overflow: TextOverflow.ellipsis,
+                        style: estiloMaquina(12.5, cor: Cores.textoFraco, espaco: 0.8)),
+                  ],
+                ]),
+              ),
+            ]),
+          ),
+        ]),
+      ),
     );
   }
 }
