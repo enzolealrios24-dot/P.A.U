@@ -1743,7 +1743,7 @@ class _BarraFerramentas extends StatelessWidget {
         top: false,
         child: SizedBox(
           height: 64,
-          child: ListView(scrollDirection: Axis.horizontal, padding: const EdgeInsets.symmetric(horizontal: 6), children: [
+          child: FaixaRolavel(padding: const EdgeInsets.symmetric(horizontal: 6), children: [
             for (final b in botoes)
               _BotaoFerramenta(icone: b.$2, rotulo: TiposQuadro.nomes[b.$1]!, aoTocar: () => aoAdicionar(b.$1)),
             const VerticalDivider(width: 12),
@@ -1816,7 +1816,7 @@ class _BarraSelecao extends StatelessWidget {
       color: Cores.painel2,
       child: SizedBox(
         height: 48,
-        child: ListView(scrollDirection: Axis.horizontal, children: [
+        child: FaixaRolavel(children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
             child: Text(TiposQuadro.nomes[item.tipo] ?? '',
@@ -1869,8 +1869,7 @@ class _BarraCaneta extends StatelessWidget {
       color: Cores.painel2,
       child: SizedBox(
         height: 52,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
+        child: FaixaRolavel(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           children: [
             for (final c in coresCaneta)

@@ -8,6 +8,12 @@ class Rolagem {
   final bool falhaCritica;
   final String? danoDetalhe;
   final int? danoTotal;
+  /// Teste de d20: os dados rolados, o que valeu (natural) e o bônus somado.
+  /// Só servem para a animação; o registro da mesa usa o detalhe.
+  final List<int> dados;
+  final int? natural;
+  final int bonus;
+  final bool pegouMenor;
   Rolagem({
     required this.titulo,
     required this.detalhe,
@@ -16,6 +22,10 @@ class Rolagem {
     this.falhaCritica = false,
     this.danoDetalhe,
     this.danoTotal,
+    this.dados = const [],
+    this.natural,
+    this.bonus = 0,
+    this.pegouMenor = false,
   });
 
   Map<String, dynamic> toMap() => {
@@ -60,6 +70,10 @@ class Dados {
       total: total,
       critico: t.escolhido >= margemCritico,
       falhaCritica: t.escolhido == 1,
+      dados: t.dados,
+      natural: t.escolhido,
+      bonus: bonus,
+      pegouMenor: t.pegouMenor,
     );
   }
 

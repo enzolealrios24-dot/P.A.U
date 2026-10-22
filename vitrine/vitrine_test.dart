@@ -66,9 +66,15 @@ void main() {
             titulo: 'Rafael Moraes: Ocultismo',
             detalhe: '2d20 (19, 7) + 10',
             total: 29,
+            dados: [19, 7],
+            natural: 19,
+            bonus: 10,
             critico: true,
             danoTotal: 14,
             danoDetalhe: '2d6 (5, 6) + 3'));
+    await tester.pump(const Duration(milliseconds: 380));
+    await _imagensProntas(tester);
+    await expectLater(find.byType(MaterialApp), matchesGoldenFile('prints/rolagem_girando.png'));
     await _salvar(tester, 'rolagem');
     await _print(tester, 'ficha_agente', const TelaFicha(fichaId: 'a1'));
     await _rolar(tester, 600);

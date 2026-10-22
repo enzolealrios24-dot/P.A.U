@@ -74,6 +74,10 @@ class CtxFicha {
       total: teste.total,
       critico: teste.critico,
       falhaCritica: teste.falhaCritica,
+      dados: teste.dados,
+      natural: teste.natural,
+      bonus: teste.bonus,
+      pegouMenor: teste.pegouMenor,
       danoTotal: dano.total + extra,
       danoDetalhe:
           '${dano.detalhe}${extra != 0 ? ' ${extra > 0 ? '+' : '-'} ${extra.abs()}' : ''}${teste.critico ? '  (crítico x${crit.mult})' : ''}',

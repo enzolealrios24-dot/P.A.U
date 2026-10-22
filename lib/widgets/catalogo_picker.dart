@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'common.dart';
+
 import '../core/theme.dart';
 import '../data/catalogo.dart';
 import '../data/models.dart';
@@ -96,11 +98,10 @@ class _PickerState extends State<_Picker> {
             onChanged: (_) => setState(() {}),
           ),
           if (widget.filtros.isNotEmpty)
-            SizedBox(
-              height: 44,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
+            FaixaRolavel(
+              altura: 50,
+              quebrarAcima: 520,
+              children: [
                   for (var i = 0; i < widget.filtros.length; i++)
                     Padding(
                       padding: const EdgeInsets.only(right: 6, top: 6),
@@ -110,8 +111,7 @@ class _PickerState extends State<_Picker> {
                         onSelected: (_) => setState(() => _filtro = i),
                       ),
                     ),
-                ],
-              ),
+              ],
             ),
           const SizedBox(height: 4),
           Align(

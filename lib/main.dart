@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'core/tema_app.dart';
@@ -61,6 +62,7 @@ class CrisApp extends StatelessWidget {
       key: ValueKey(tema),
       title: 'P.A.U',
       debugShowCheckedModeBanner: false,
+      scrollBehavior: const _RolagemComMouse(),
       theme: temaCris(),
       scaffoldMessengerKey: mensageiro,
       home: erroInit != null
@@ -84,4 +86,11 @@ class CrisApp extends StatelessWidget {
             ),
     );
   }
+}
+
+/// No computador, arrastar com o mouse também rola listas, abas e fileiras.
+class _RolagemComMouse extends MaterialScrollBehavior {
+  const _RolagemComMouse();
+  @override
+  Set<PointerDeviceKind> get dragDevices => PointerDeviceKind.values.toSet();
 }

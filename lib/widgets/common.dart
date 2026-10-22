@@ -1,12 +1,14 @@
 import 'dart:async';
-import 'dart:math';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../core/dice.dart';
 import '../core/theme.dart';
 import 'efeitos.dart';
+import 'rolagem_dados.dart';
 
 /// Campo de texto que salva sozinho (com atraso) e nao "pula" enquanto voce
 /// digita, mesmo recebendo atualizacoes em tempo real.
@@ -379,111 +381,8 @@ Future<bool> confirmar(BuildContext context, String texto) async {
   return r ?? false;
 }
 
-void mostrarRolagem(BuildContext context, Rolagem r) {
-  showDialog<void>(
-    context: context,
-    builder: (ctx) => AlertDialog(
-      backgroundColor: Cores.painel2,
-      title: Text(r.titulo, textAlign: TextAlign.center),
-      content: _ResultadoRolagem(r: r),
-      actions: [
-        TextButton(
-            onPressed: () => Navigator.pop(ctx), child: const Text('Fechar'))
-      ],
-    ),
-  );
-}
-
-class _ResultadoRolagem extends StatefulWidget {
-  final Rolagem r;
-  const _ResultadoRolagem({required this.r});
-  @override
-  State<_ResultadoRolagem> createState() => _ResultadoRolagemState();
-}
-
-class _ResultadoRolagemState extends State<_ResultadoRolagem> with SingleTickerProviderStateMixin {
-  late final AnimationController _c =
-      AnimationController(vsync: this, duration: const Duration(milliseconds: 1100))..forward();
-
-  @override
-  void dispose() {
-    _c.dispose();
-    super.dispose();
-  }
-
-  /// Números que passam enquanto o dado "rola".
-  int _sorteio(int k) {
-    final teto = widget.r.total > 20 ? widget.r.total + 6 : 20;
-    return (k * 7919 + widget.r.total * 31 + k * k * 13) % teto + 1;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final r = widget.r;
-    final cor = r.critico ? Cores.ok : (r.falhaCritica ? Cores.pv : Cores.destaque);
-    return AnimatedBuilder(
-      animation: _c,
-      builder: (context, _) {
-        final t = _c.value;
-        const parada = 0.5;
-        final rolando = t < parada;
-        final depois = rolando ? 0.0 : ((t - parada) / (1 - parada)).clamp(0.0, 1.0);
-        final pulo = rolando ? 0.0 : Curves.elasticOut.transform(depois);
-        final numero = rolando ? _sorteio((t * 30).floor()) : r.total;
-        final destaque = !rolando && (r.critico || r.falhaCritica);
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Transform.rotate(
-              angle: rolando ? sin(t * 40) * 0.12 : 0,
-              child: Container(
-                width: 116,
-                height: 116,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(4),
-                  border: Border.all(color: cor.withValues(alpha: rolando ? 0.35 : 1), width: 2),
-                  boxShadow: [
-                    BoxShadow(color: Cores.roxo.withValues(alpha: 0.9), offset: const Offset(6, 6)),
-                    if (destaque) BoxShadow(color: cor.withValues(alpha: 0.55), blurRadius: 28),
-                  ],
-                ),
-                child: Center(
-                  child: Transform.scale(
-                    scale: rolando ? 0.9 : 0.55 + 0.45 * pulo,
-                    child: Text('$numero',
-                        style: estiloNumero(60, cor: rolando ? Cores.textoFraco : (destaque ? cor : Cores.texto))),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 14),
-            Opacity(
-              opacity: depois,
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
-                if (r.critico) const RotuloArquivo('Crítico!', cor: Cores.ok, tamanho: 14),
-                if (r.falhaCritica) const RotuloArquivo('Resultado natural 1', cor: Cores.pv, tamanho: 13),
-                if (r.critico || r.falhaCritica) const SizedBox(height: 10),
-                Text(r.detalhe,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(color: Cores.textoFraco)),
-                if (r.danoTotal != null) ...[
-                  const Divider(height: 24),
-                  Text('DANO', style: estiloRotulo(13, cor: Cores.pv, peso: FontWeight.w700, espaco: 2.4)),
-                  const SizedBox(height: 2),
-                  Text('${r.danoTotal}', style: estiloNumero(40, cor: Cores.texto)),
-                  Text(r.danoDetalhe ?? '',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(color: Cores.textoFraco)),
-                ],
-              ]),
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
+/// Mostra uma rolagem com o d20 animado (janela em rolagem_dados.dart).
+void mostrarRolagem(BuildContext context, Rolagem r) => mostrarDados(context, r);
 
 class Secao extends StatelessWidget {
   final String titulo;
@@ -690,4 +589,74 @@ class TituloPagina extends StatelessWidget {
           ...acoes,
         ]),
       );
+}
+
+/// Fileira que rola para o lado também com o mouse: arrastando, com a
+/// rodinha ou pela barra. Com [quebrarAcima], quando a largura passa desse
+/// valor, as opções quebram em linhas e aparecem todas de uma vez.
+class FaixaRolavel extends StatefulWidget {
+  final List<Widget> children;
+  final EdgeInsetsGeometry? padding;
+  /// Altura da fileira quando ela rola (sem altura, usa a do pai).
+  final double? altura;
+  final double? quebrarAcima;
+  const FaixaRolavel(
+      {super.key, required this.children, this.padding, this.altura, this.quebrarAcima});
+  @override
+  State<FaixaRolavel> createState() => _FaixaRolavelState();
+}
+
+class _FaixaRolavelState extends State<FaixaRolavel> {
+  final _c = ScrollController();
+
+  @override
+  void dispose() {
+    _c.dispose();
+    super.dispose();
+  }
+
+  /// A rodinha (que rola na vertical) passa a andar para o lado.
+  void _rodinha(PointerSignalEvent e) {
+    if (e is! PointerScrollEvent || !_c.hasClients || e.scrollDelta.dx != 0) return;
+    final p = _c.position;
+    final novo = (p.pixels + e.scrollDelta.dy).clamp(p.minScrollExtent, p.maxScrollExtent);
+    if (novo == p.pixels) return;
+    GestureBinding.instance.pointerSignalResolver.register(e, (_) => _c.jumpTo(novo));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final computador = !kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.macOS ||
+            defaultTargetPlatform == TargetPlatform.linux);
+    Widget rolavel = Listener(
+      onPointerSignal: _rodinha,
+      child: ScrollConfiguration(
+        behavior: ScrollConfiguration.of(context).copyWith(dragDevices: PointerDeviceKind.values.toSet()),
+        child: Scrollbar(
+          controller: _c,
+          thumbVisibility: computador,
+          thickness: 3,
+          child: ListView(
+            controller: _c,
+            scrollDirection: Axis.horizontal,
+            padding: widget.padding,
+            children: widget.children,
+          ),
+        ),
+      ),
+    );
+    if (widget.altura != null) rolavel = SizedBox(height: widget.altura, child: rolavel);
+    final limite = widget.quebrarAcima;
+    if (limite == null) return rolavel;
+    return LayoutBuilder(
+      builder: (context, c) => c.maxWidth >= limite
+          ? Padding(
+              padding: widget.padding ?? EdgeInsets.zero,
+              child: Align(alignment: Alignment.centerLeft, child: Wrap(children: widget.children)),
+            )
+          : rolavel,
+    );
+  }
 }
