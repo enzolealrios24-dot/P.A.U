@@ -1299,7 +1299,8 @@ class _CartaoQuadro extends StatelessWidget {
   Widget build(BuildContext context) {
     final i = item;
     final semFundo = i.tipo == TiposQuadro.titulo || i.tipo == TiposQuadro.desenho;
-    final cor = Color(i.cor ?? coresCartao.first);
+    // sem cor escolhida, o cartão pega o tom da afinidade da ficha
+    final cor = i.cor != null ? Color(i.cor!) : Color.lerp(Color(coresCartao.first), Cores.destaque, 0.14)!;
     final conteudo = conteudoCartao(context, i, aoMarcar);
     final n = i.comentarios.length;
     return Container(

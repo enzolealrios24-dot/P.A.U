@@ -7,7 +7,6 @@ import '../../data/catalogo.dart';
 import '../../data/models.dart';
 import '../../data/quadro.dart';
 import '../../data/repo.dart';
-import '../../widgets/common.dart';
 import '../../widgets/catalogo_picker.dart';
 import '../../widgets/form_dialog.dart';
 import '../quadro/quadro_screen.dart';
@@ -622,41 +621,7 @@ String _espacosTexto(dynamic v) {
 void abrirQuadroFicha(BuildContext context, CtxFicha ctx) => Navigator.push(
     context,
     MaterialPageRoute(
-        builder: (_) => TelaQuadro(fonte: FonteQuadro.ficha(ctx.f.id))));
+        // com o tema da afinidade da ficha (as cores já estão aplicadas)
+        builder: (_) => Theme(data: temaCris(), child: TelaQuadro(fonte: FonteQuadro.ficha(ctx.f.id)))));
 
-/// Aba QUADRO da ficha: miniatura e botão para abrir o quadro.
-class TabQuadro extends StatelessWidget {
-  final CtxFicha ctx;
-  const TabQuadro({super.key, required this.ctx});
-  @override
-  Widget build(BuildContext context) {
-    final quadros = asMap(asMap(ctx.f.d['quadro'])['quadros']);
-    final raiz = quadros[FonteQuadro.raiz] is Map
-        ? Quadro(FonteQuadro.raiz, asMap(quadros[FonteQuadro.raiz]))
-        : null;
-    final n = raiz?.itens.length ?? 0;
-    return ListView(padding: const EdgeInsets.all(12), children: [
-      Secao(
-        titulo: 'Quadro de anotações',
-        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          InkWell(
-            onTap: () => abrirQuadroFicha(context, ctx),
-            borderRadius: BorderRadius.circular(4),
-            child: MiniQuadro(quadro: raiz),
-          ),
-          const SizedBox(height: 10),
-          FilledButton.icon(
-            onPressed: () => abrirQuadroFicha(context, ctx),
-            icon: const Icon(Icons.dashboard_outlined),
-            label: Text(n == 0 ? 'Abrir quadro' : 'Abrir quadro ($n cartões)'),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'Como o Milanote: notas, títulos, listas de tarefas, links, imagens do aparelho, desenhos à mão, fichas, cores, colunas, quadros dentro de quadros, setas e comentários. O mestre da mesa também vê e edita.',
-            style: TextStyle(fontSize: 12, color: Cores.textoFraco),
-          ),
-        ]),
-      ),
-    ]);
-  }
-}
+// A aba QUADRO (mural) fica em tab_quadro.dart.

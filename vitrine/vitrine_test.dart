@@ -111,6 +111,8 @@ void main() {
       await _salvar(tester, 'poderes_${af.toLowerCase()}');
       await _rolar(tester, 800);
       await _salvar(tester, 'poderes_${af.toLowerCase()}_2');
+      await _abrirAba(tester, 'QUADRO');
+      await _salvar(tester, 'mural_${af.toLowerCase()}');
       await _abrirAba(tester, 'RITUAIS');
       await _salvar(tester, 'rituais_${af.toLowerCase()}');
       await _rolar(tester, 900);
