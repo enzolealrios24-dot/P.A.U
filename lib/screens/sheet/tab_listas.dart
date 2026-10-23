@@ -585,82 +585,15 @@ void editarRitual(BuildContext context, CtxFicha ctx, int indice) => _editarNaLi
 
 // ---------------- INVENTARIO ----------------
 
-class TabInventario extends StatelessWidget {
-  final CtxFicha ctx;
-  const TabInventario({super.key, required this.ctx});
-  @override
-  Widget build(BuildContext context) {
-    final l = ctx.f.inventario;
-    final c = ctx.calc;
-    final usados = c.itensPorCategoria;
-    final lim = c.patente.limites;
-    const romanos = ['I', 'II', 'III', 'IV'];
-    return ListView(padding: const EdgeInsets.all(12), children: [
-      Secao(
-        titulo: 'Carga e limites da patente (${c.patente.nome})',
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('Carga: ${c.cargaAtual} / ${c.cargaMax} espaços',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: c.sobrecarregado ? Cores.destaque : null)),
-          if (c.sobrecarregado)
-            Text(
-                'Sobrecarregado: -5 em Defesa e perícias de carga, -3 m de deslocamento.',
-                style: TextStyle(color: Cores.destaque, fontSize: 12)),
-          const SizedBox(height: 6),
-          Wrap(spacing: 8, children: [
-            for (var i = 0; i < 4; i++)
-              Chip(
-                label: Text('Cat. ${romanos[i]}: ${usados[i]}/${lim[i]}'),
-                backgroundColor: usados[i] > lim[i]
-                    ? Cores.destaque.withValues(alpha: 0.3)
-                    : null,
-              ),
-          ]),
-          Text('Crédito: ${c.patente.credito}',
-              style: const TextStyle(color: Cores.textoFraco, fontSize: 12)),
-        ]),
-      ),
-      _botoesAdicionar(context, ctx,
-          campo: 'inventario',
-          titulo: 'Novo item',
-          campos: camposItem,
-          padrao: itemPadrao,
-          tipoBiblio: 'item'),
-      const SizedBox(height: 8),
-      for (var i = 0; i < l.length; i++)
-        Card(
-          child: ListTile(
-            leading: Icon(
-              asStr(l[i]['tipo']) == 'arma'
-                  ? Icons.gps_fixed
-                  : asStr(l[i]['tipo']) == 'protecao'
-                      ? Icons.shield_outlined
-                      : Icons.inventory_2_outlined,
-              color: Cores.textoFraco,
-            ),
-            title: Text(
-                '${asStr(l[i]['nome'], 'Item')}${asInt(l[i]['qtd'], 1) > 1 ? ' x${asInt(l[i]['qtd'], 1)}' : ''}'),
-            subtitle: Text(
-                'Cat. ${asInt(l[i]['categoria']) == 0 ? '0' : romanos[(asInt(l[i]['categoria']).clamp(1, 4)) - 1]} • ${_espacosTexto(l[i]['espacos'])} espaço(s)${nomesModificacoes(l[i]).isNotEmpty ? ' • ${nomesModificacoes(l[i])}' : ''}${asStr(l[i]['descricao']).isNotEmpty ? ' • ${asStr(l[i]['descricao'])}' : ''}',
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis),
-            trailing: IconButton(
-              tooltip: 'Modificações e maldições',
-              icon: const Icon(Icons.tune),
-              onPressed: () => editarModificacoes(context, ctx, i),
-            ),
-            onTap: () => _editarNaLista(context, ctx,
-                campo: 'inventario',
-                titulo: 'Editar item',
-                campos: camposItem,
-                padrao: itemPadrao,
-                indice: i),
-          ),
-        ),
-    ]);
-  }
-}
+// A aba fica em tab_inventario.dart; aqui ficam os atalhos que ela usa.
+
+Widget botoesAdicionarItem(BuildContext context, CtxFicha ctx) => _botoesAdicionar(context, ctx,
+    campo: 'inventario', titulo: 'Novo item', campos: camposItem, padrao: itemPadrao, tipoBiblio: 'item');
+
+void editarItem(BuildContext context, CtxFicha ctx, int indice) => _editarNaLista(context, ctx,
+    campo: 'inventario', titulo: 'Editar item', campos: camposItem, padrao: itemPadrao, indice: indice);
+
+String espacosTexto(dynamic v) => _espacosTexto(v);
 
 // ---------------- PODERES & NOTAS ----------------
 

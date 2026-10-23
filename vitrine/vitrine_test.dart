@@ -103,6 +103,10 @@ void main() {
       await _salvar(tester, 'pericias_${af.toLowerCase()}');
       await _abrirAba(tester, 'COMBATE');
       await _salvar(tester, 'combate_${af.toLowerCase()}');
+      await _abrirAba(tester, 'INVENTÁRIO');
+      await _salvar(tester, 'inventario_${af.toLowerCase()}');
+      await _rolar(tester, 760);
+      await _salvar(tester, 'inventario_${af.toLowerCase()}_2');
       await _abrirAba(tester, 'RITUAIS');
       await _salvar(tester, 'rituais_${af.toLowerCase()}');
       await _rolar(tester, 900);
@@ -264,6 +268,13 @@ Future<void> _prepararDados() async {
     'peAtual': 9,
     'sanAtual': 18,
     'condicoes': ['Abalado'],
+    'inventario': [
+      {'id': 'i1', 'nome': 'Pistola', 'tipo': 'arma', 'categoriaLivro': 'arma', 'categoria': 1, 'espacos': 1, 'qtd': 1, 'dano': '1d12', 'critico': '18/x2', 'pericia': 'Pontaria'},
+      {'id': 'i2', 'nome': 'Colete leve', 'tipo': 'protecao', 'categoriaLivro': 'protecao', 'categoria': 1, 'espacos': 2, 'defesa': 5},
+      {'id': 'i3', 'nome': 'Componentes ritualísticos de Conhecimento', 'tipo': 'geral', 'categoriaLivro': 'paranormal', 'categoria': 0, 'espacos': 1, 'qtd': 2},
+      {'id': 'i4', 'nome': 'Amuleto de Sangue', 'tipo': 'geral', 'categoriaLivro': 'amaldicoado', 'elemento': 'Sangue', 'categoria': 2, 'espacos': 1, 'descricao': 'Pulsa quando há sangue por perto.'},
+      {'id': 'i5', 'nome': 'Lanterna tática', 'tipo': 'geral', 'categoriaLivro': 'operacional', 'categoria': 0, 'espacos': 1},
+    ],
     'rituais': [
       {'id': 'r1', 'nome': 'Terceiro Olho', 'elemento': 'Conhecimento', 'circulo': 1, 'execucao': 'Padrão', 'alcance': 'Pessoal', 'duracao': 'Cena', 'descricao': 'Você vê manifestações paranormais.', 'custoDiscente': 2},
       {'id': 'r2', 'nome': 'Eletrocussão', 'elemento': 'Energia', 'circulo': 1, 'execucao': 'Padrão', 'alcance': 'Curto', 'alvo': '1 ser', 'descricao': 'Corrente voltaica eletrocuta o alvo.'},

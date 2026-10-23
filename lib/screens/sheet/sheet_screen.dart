@@ -12,6 +12,7 @@ import 'paleta_ficha.dart';
 import 'rolar.dart';
 import 'tab_agente.dart';
 import 'tab_combate.dart';
+import 'tab_inventario.dart';
 import 'tab_listas.dart';
 import 'tab_pericias.dart';
 import 'tab_rituais.dart';
