@@ -258,6 +258,17 @@ class Fontes {
   static const maquina = 'SpecialElite';
 }
 
+/// Letra à mão (caderno de campo). A fonte é variável: o peso vai também
+/// como variação.
+TextStyle estiloMao(double tamanho, {Color? cor, FontWeight peso = FontWeight.w500}) => TextStyle(
+      fontFamily: 'Caveat',
+      fontSize: tamanho,
+      fontWeight: peso,
+      fontVariations: [FontVariation.weight(peso.value.toDouble())],
+      color: cor,
+      height: 1.05,
+    );
+
 /// Texto de máquina de escrever (dossiê).
 TextStyle estiloMaquina(double tamanho, {Color? cor, double espaco = 0.6}) => TextStyle(
       fontFamily: Fontes.maquina,

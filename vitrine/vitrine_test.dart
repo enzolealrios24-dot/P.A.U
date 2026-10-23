@@ -99,6 +99,8 @@ void main() {
       await _print(tester, 'afinidade_${af.toLowerCase()}', const TelaFicha(fichaId: 'a1'));
       await _rolar(tester, 520);
       await _salvar(tester, 'afinidade_${af.toLowerCase()}_2');
+      await _abrirAba(tester, 'PERÍCIAS');
+      await _salvar(tester, 'pericias_${af.toLowerCase()}');
     }
     debugDisableShadows = true;
   });
@@ -194,6 +196,7 @@ Future<void> _carregarFontes() async {
   await carregar('ChakraPetch', ['assets/fonts/ChakraPetch-Bold.ttf']);
   await carregar('IMFellEnglishSC', ['assets/fonts/IMFellEnglishSC-Regular.ttf']);
   await carregar('MetalMania', ['assets/fonts/MetalMania-Regular.ttf']);
+  await carregar('Caveat', ['assets/fonts/Caveat-Variavel.ttf']);
   await carregar('BarlowCondensed', [
     for (final p in ['Medium', 'SemiBold', 'Bold'])
       'assets/fonts/BarlowCondensed-$p.ttf'

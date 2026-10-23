@@ -720,7 +720,7 @@ class _Dossie extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(0, 8, 7, 12),
       clipBehavior: Clip.none,
       decoration: BoxDecoration(
-        color: Cores.painel,
+        color: Color.alphaBlend(Cores.painel, Cores.fundo),
         borderRadius: BorderRadius.circular(4),
         border: Border.all(color: Cores.borda),
         boxShadow: [

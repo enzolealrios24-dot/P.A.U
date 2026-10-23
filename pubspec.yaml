@@ -66,6 +66,10 @@ flutter:
     - family: MetalMania
       fonts:
         - asset: assets/fonts/MetalMania-Regular.ttf
+    # letra à mão do caderno de campo (perícias)
+    - family: Caveat
+      fonts:
+        - asset: assets/fonts/Caveat-Variavel.ttf
   assets:
     - assets/data/oprpg/
     - assets/data/sah/
