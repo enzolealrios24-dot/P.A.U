@@ -107,6 +107,10 @@ void main() {
       await _salvar(tester, 'inventario_${af.toLowerCase()}');
       await _rolar(tester, 760);
       await _salvar(tester, 'inventario_${af.toLowerCase()}_2');
+      await _abrirAba(tester, 'PODERES & NOTAS');
+      await _salvar(tester, 'poderes_${af.toLowerCase()}');
+      await _rolar(tester, 800);
+      await _salvar(tester, 'poderes_${af.toLowerCase()}_2');
       await _abrirAba(tester, 'RITUAIS');
       await _salvar(tester, 'rituais_${af.toLowerCase()}');
       await _rolar(tester, 900);
@@ -268,6 +272,13 @@ Future<void> _prepararDados() async {
     'peAtual': 9,
     'sanAtual': 18,
     'condicoes': ['Abalado'],
+    'poderes': [
+      {'id': 'p1', 'nome': 'Escolhido pelo Outro Lado', 'tipo': 'Classe', 'descricao': 'Conjura rituais de 1º círculo e aprende novos conforme o NEX aumenta.'},
+      {'id': 'p2', 'nome': 'Potencial Aprimorado', 'tipo': 'Trilha', 'descricao': 'Seus PE máximos aumentam em +1 por NEX.'},
+      {'id': 'p3', 'nome': 'Sensitivo', 'tipo': 'Paranormal', 'elemento': 'Conhecimento', 'afinidade': true, 'descricao': 'Você sente emoções e intenções e recebe +5 em Diplomacia, Intimidação e Intuição.'},
+      {'id': 'p4', 'nome': 'Sangue de Ferro', 'tipo': 'Paranormal', 'elemento': 'Sangue', 'descricao': 'Você recebe +2 PV por NEX e +5 em Fortitude.'},
+      {'id': 'p5', 'nome': 'Treinamento em Perícia', 'tipo': 'Geral', 'descricao': 'Escolha duas perícias: você se torna treinado nelas.'},
+    ],
     'inventario': [
       {'id': 'i1', 'nome': 'Pistola', 'tipo': 'arma', 'categoriaLivro': 'arma', 'categoria': 1, 'espacos': 1, 'qtd': 1, 'dano': '1d12', 'critico': '18/x2', 'pericia': 'Pontaria'},
       {'id': 'i2', 'nome': 'Colete leve', 'tipo': 'protecao', 'categoriaLivro': 'protecao', 'categoria': 1, 'espacos': 2, 'defesa': 5},

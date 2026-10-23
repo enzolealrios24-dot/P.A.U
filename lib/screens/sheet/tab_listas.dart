@@ -597,75 +597,19 @@ String espacosTexto(dynamic v) => _espacosTexto(v);
 
 // ---------------- PODERES & NOTAS ----------------
 
-class TabPoderes extends StatelessWidget {
-  final CtxFicha ctx;
-  const TabPoderes({super.key, required this.ctx});
-  @override
-  Widget build(BuildContext context) {
-    final l = ctx.f.poderes;
-    return ListView(padding: const EdgeInsets.all(12), children: [
-      _botoesAdicionar(context, ctx,
-          campo: 'poderes',
-          titulo: 'Novo poder/habilidade',
-          campos: camposPoder,
-          padrao: poderPadrao,
-          tipoBiblio: 'poder'),
-      const SizedBox(height: 8),
-      for (var i = 0; i < l.length; i++)
-        Card(
-          child: ListTile(
-            title: Text(asStr(l[i]['nome'], 'Poder'),
-                style: const TextStyle(fontWeight: FontWeight.bold)),
-            subtitle: Text(
-                '${asStr(l[i]['tipo'])}${asStr(l[i]['descricao']).isNotEmpty ? '\n${asStr(l[i]['descricao'])}' : ''}'),
-            isThreeLine: asStr(l[i]['descricao']).isNotEmpty,
-            trailing: asStr(Catalogo.instance.porRef(asStr(l[i]['ref']))?['afinidade'])
-                    .isEmpty
-                ? null
-                : IconButton(
-                    tooltip: asBool(l[i]['afinidade'])
-                        ? 'Com afinidade (toque para tirar)'
-                        : 'Escolher de novo com afinidade',
-                    icon: Icon(
-                        asBool(l[i]['afinidade'])
-                            ? Icons.star
-                            : Icons.star_border,
-                        color: Cores.elemento(asStr(l[i]['elemento']))),
-                    onPressed: () {
-                      final lista = asMapList(ctx.f.d['poderes']);
-                      lista[i] = {
-                        ...lista[i],
-                        'afinidade': !asBool(lista[i]['afinidade'])
-                      };
-                      _salvarLista(ctx, 'poderes', lista);
-                    },
-                  ),
-            onTap: () => _editarNaLista(context, ctx,
-                campo: 'poderes',
-                titulo: 'Editar poder',
-                campos: camposPoder,
-                padrao: poderPadrao,
-                indice: i),
-          ),
-        ),
-      const SizedBox(height: 12),
-      Secao(
-        titulo: 'Anotações',
-        acoes: [
-          TextButton.icon(
-            onPressed: () => abrirQuadroFicha(context, ctx),
-            icon: const Icon(Icons.dashboard_outlined, size: 18),
-            label: const Text('Quadro'),
-          ),
-        ],
-        child: CampoSync(
-            valor: ctx.f.notas,
-            maxLinhas: 14,
-            dica: 'Pistas, NPCs, segredos...',
-            aoSalvar: (v) => Repo.set(ctx.f.id, 'notas', v)),
-      ),
-    ]);
-  }
+// A aba fica em tab_poderes.dart; aqui ficam os atalhos que ela usa.
+
+Widget botoesAdicionarPoder(BuildContext context, CtxFicha ctx) => _botoesAdicionar(context, ctx,
+    campo: 'poderes', titulo: 'Novo poder/habilidade', campos: camposPoder, padrao: poderPadrao, tipoBiblio: 'poder');
+
+void editarPoder(BuildContext context, CtxFicha ctx, int indice) => _editarNaLista(context, ctx,
+    campo: 'poderes', titulo: 'Editar poder', campos: camposPoder, padrao: poderPadrao, indice: indice);
+
+/// Liga ou desliga o benefício de afinidade de um poder paranormal.
+void alternarAfinidadePoder(CtxFicha ctx, int indice) {
+  final lista = asMapList(ctx.f.d['poderes']);
+  lista[indice] = {...lista[indice], 'afinidade': !asBool(lista[indice]['afinidade'])};
+  _salvarLista(ctx, 'poderes', lista);
 }
 
 /// Espaços com fração (0,5) sem perder o meio espaço.

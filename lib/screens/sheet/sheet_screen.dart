@@ -15,6 +15,7 @@ import 'tab_combate.dart';
 import 'tab_inventario.dart';
 import 'tab_listas.dart';
 import 'tab_pericias.dart';
+import 'tab_poderes.dart';
 import 'tab_rituais.dart';
 
 class TelaFicha extends StatelessWidget {
