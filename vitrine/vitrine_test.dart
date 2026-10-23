@@ -103,6 +103,10 @@ void main() {
       await _salvar(tester, 'pericias_${af.toLowerCase()}');
       await _abrirAba(tester, 'COMBATE');
       await _salvar(tester, 'combate_${af.toLowerCase()}');
+      await _abrirAba(tester, 'RITUAIS');
+      await _salvar(tester, 'rituais_${af.toLowerCase()}');
+      await _rolar(tester, 900);
+      await _salvar(tester, 'rituais_${af.toLowerCase()}_2');
     }
     mostrarRolagem(
         tester.element(find.byType(TabBarView)),
@@ -260,6 +264,10 @@ Future<void> _prepararDados() async {
     'peAtual': 9,
     'sanAtual': 18,
     'condicoes': ['Abalado'],
+    'rituais': [
+      {'id': 'r1', 'nome': 'Terceiro Olho', 'elemento': 'Conhecimento', 'circulo': 1, 'execucao': 'Padrão', 'alcance': 'Pessoal', 'duracao': 'Cena', 'descricao': 'Você vê manifestações paranormais.', 'custoDiscente': 2},
+      {'id': 'r2', 'nome': 'Eletrocussão', 'elemento': 'Energia', 'circulo': 1, 'execucao': 'Padrão', 'alcance': 'Curto', 'alvo': '1 ser', 'descricao': 'Corrente voltaica eletrocuta o alvo.'},
+    ],
     'transformacoes': {
       't1': {'pv': false, 'pe': true, 'san': true}
     },

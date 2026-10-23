@@ -171,7 +171,8 @@ Widget _botoesAdicionar(BuildContext context, CtxFicha ctx,
     required String titulo,
     required List<CampoDef> campos,
     required Map<String, dynamic> padrao,
-    required String tipoBiblio}) {
+    required String tipoBiblio,
+    bool doLivro = true}) {
   final camp = ctx.camp;
   return Wrap(spacing: 8, runSpacing: 8, children: [
     FilledButton.icon(
@@ -180,6 +181,7 @@ Widget _botoesAdicionar(BuildContext context, CtxFicha ctx,
       icon: const Icon(Icons.add),
       label: const Text('Adicionar'),
     ),
+    if (doLivro)
     FilledButton.tonalIcon(
       onPressed: () => adicionarDoLivro(context, ctx, tipoBiblio),
       icon: const Icon(Icons.auto_stories_outlined),
@@ -242,15 +244,7 @@ Future<void> adicionarDoLivro(
       detalhes: detalhesRitual,
     );
     if (e == null) return;
-    novo = {
-      for (final k in const [
-        'nome', 'elemento', 'circulo', 'execucao', 'alcance', 'alvo', 'duracao',
-        'resistencia', 'dano', 'custoDiscente', 'danoDiscente',
-        'custoVerdadeiro', 'danoVerdadeiro', 'fonte', 'pag', 'ref'
-      ])
-        if (e[k] != null) k: e[k],
-      'descricao': textoRitual(e),
-    };
+    novo = ritualDoLivro(e);
   } else if (tipoBiblio == 'poder') {
     campo = 'poderes';
     final minhaClasse = Catalogo.normalizar(f.classe);
@@ -560,104 +554,34 @@ String nomesModificacoes(Map<String, dynamic> item) {
 void editarArma(BuildContext context, CtxFicha ctx, int indice) => _editarNaLista(context, ctx,
     campo: 'inventario', titulo: 'Editar arma', campos: camposItem, padrao: itemPadrao, indice: indice);
 
-// ---------------- RITUAIS ----------------
+// ---------------- RITUAIS (a aba fica em tab_rituais.dart) ----------------
 
-class TabRituais extends StatelessWidget {
-  final CtxFicha ctx;
-  const TabRituais({super.key, required this.ctx});
-  @override
-  Widget build(BuildContext context) {
-    final l = ctx.f.rituais;
-    final c = ctx.calc;
-    return ListView(padding: const EdgeInsets.all(12), children: [
-      Text(
-          'DT dos seus rituais: ${c.dtRitual}   •   Limite de PE/turno: ${c.limitePE}',
-          style: const TextStyle(fontWeight: FontWeight.bold)),
-      const SizedBox(height: 8),
-      _botoesAdicionar(context, ctx,
-          campo: 'rituais',
-          titulo: 'Novo ritual',
-          campos: camposRitual,
-          padrao: ritualPadrao,
-          tipoBiblio: 'ritual'),
-      const SizedBox(height: 8),
-      if (l.isEmpty)
-        const Padding(
-          padding: EdgeInsets.all(16),
-          child: Text('Nenhum ritual conhecido.',
-              style: TextStyle(color: Cores.textoFraco)),
-        ),
-      for (var i = 0; i < l.length; i++)
-        Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4),
-            side: BorderSide(color: Cores.elemento(asStr(l[i]['elemento']))),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(children: [
-                  Expanded(
-                    child: Text(asStr(l[i]['nome'], 'Ritual'),
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w800)),
-                  ),
-                  Text(
-                      '${asStr(l[i]['elemento'])} • ${asInt(l[i]['circulo'], 1)}º',
-                      style: TextStyle(
-                          color: Cores.elemento(asStr(l[i]['elemento'])),
-                          fontWeight: FontWeight.bold)),
-                  IconButton(
-                    icon: const Icon(Icons.edit_outlined, size: 18),
-                    onPressed: () => _editarNaLista(context, ctx,
-                        campo: 'rituais',
-                        titulo: 'Editar ritual',
-                        campos: camposRitual,
-                        padrao: ritualPadrao,
-                        indice: i),
-                  ),
-                ]),
-                Text(
-                  [
-                    for (final k in const [
-                      'execucao',
-                      'alcance',
-                      'alvo',
-                      'duracao',
-                      'resistencia'
-                    ])
-                      if (asStr(l[i][k]).isNotEmpty) asStr(l[i][k])
-                  ].join(' • '),
-                  style: const TextStyle(color: Cores.textoFraco, fontSize: 12),
-                ),
-                if (asStr(l[i]['descricao']).isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 6),
-                    child: Text(asStr(l[i]['descricao'])),
-                  ),
-                const SizedBox(height: 8),
-                Wrap(spacing: 6, runSpacing: 6, children: [
-                  for (final forma in const ['Padrão', 'Discente', 'Verdadeiro'])
-                    if (forma == 'Padrão' ||
-                        asInt(l[i][forma == 'Discente'
-                                ? 'custoDiscente'
-                                : 'custoVerdadeiro']) >
-                            0)
-                      OutlinedButton(
-                        onPressed: () =>
-                            ctx.conjurar(context, l[i], forma: forma),
-                        child: Text('Conjurar ${forma.toLowerCase()}'),
-                      ),
-                ]),
-              ],
-            ),
-          ),
-        ),
-    ]);
-  }
+/// Ritual do livro no formato da ficha. [elemento] escolhe o elemento dos
+/// rituais de elemento variável (ex.: Amaldiçoar Arma).
+Map<String, dynamic> ritualDoLivro(Map<String, dynamic> e, {String? elemento}) => {
+      for (final k in const [
+        'nome', 'elemento', 'circulo', 'execucao', 'alcance', 'alvo', 'duracao',
+        'resistencia', 'dano', 'custoDiscente', 'danoDiscente',
+        'custoVerdadeiro', 'danoVerdadeiro', 'fonte', 'pag', 'ref'
+      ])
+        if (e[k] != null) k: e[k],
+      if (elemento != null) 'elemento': elemento,
+      'descricao': textoRitual(e),
+    };
+
+/// Aprende um ritual do livro (acrescenta na ficha).
+void aprenderRitual(BuildContext context, CtxFicha ctx, Map<String, dynamic> e, {String? elemento}) {
+  final lista = asMapList(ctx.f.d['rituais'])..add({...ritualDoLivro(e, elemento: elemento), 'id': novoId()});
+  _salvarLista(ctx, 'rituais', lista);
+  ScaffoldMessenger.of(context)
+      .showSnackBar(SnackBar(content: Text('${asStr(e['nome'])} aprendido.')));
 }
+
+Widget botoesAdicionarRitual(BuildContext context, CtxFicha ctx) => _botoesAdicionar(context, ctx,
+    campo: 'rituais', titulo: 'Novo ritual', campos: camposRitual, padrao: ritualPadrao, tipoBiblio: 'ritual', doLivro: false);
+
+void editarRitual(BuildContext context, CtxFicha ctx, int indice) => _editarNaLista(context, ctx,
+    campo: 'rituais', titulo: 'Editar ritual', campos: camposRitual, padrao: ritualPadrao, indice: indice);
 
 // ---------------- INVENTARIO ----------------
 
