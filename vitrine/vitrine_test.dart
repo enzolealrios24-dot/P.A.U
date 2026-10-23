@@ -101,7 +101,25 @@ void main() {
       await _salvar(tester, 'afinidade_${af.toLowerCase()}_2');
       await _abrirAba(tester, 'PERÍCIAS');
       await _salvar(tester, 'pericias_${af.toLowerCase()}');
+      await _abrirAba(tester, 'COMBATE');
+      await _salvar(tester, 'combate_${af.toLowerCase()}');
     }
+    mostrarRolagem(
+        tester.element(find.byType(TabBarView)),
+        Rolagem(
+            titulo: 'Rafael Moraes: Dado do destino',
+            detalhe: '1d20 [20] → 20 + 5',
+            total: 25,
+            dados: [20],
+            natural: 20,
+            bonus: 5,
+            critico: true));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    await tester.pump(const Duration(milliseconds: 400));
+    await expectLater(find.byType(MaterialApp), matchesGoldenFile('prints/destino_girando.png'));
+    await tester.pump(const Duration(milliseconds: 2400));
+    await expectLater(find.byType(MaterialApp), matchesGoldenFile('prints/destino.png'));
     debugDisableShadows = true;
   });
 }

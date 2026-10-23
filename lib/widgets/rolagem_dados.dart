@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../core/dice.dart';
 import '../core/theme.dart';
 import 'common.dart';
+import 'dado3d.dart';
 import 'efeitos.dart';
 
 /// Janela de rolagem: uma moldura ornamentada com o d20 que cai, gira e quica
@@ -34,10 +35,10 @@ class _JanelaDados extends StatefulWidget {
 
 class _JanelaDadosState extends State<_JanelaDados> with SingleTickerProviderStateMixin {
   late final AnimationController _c =
-      AnimationController(vsync: this, duration: const Duration(milliseconds: 1900))..forward();
+      AnimationController(vsync: this, duration: const Duration(milliseconds: 2700))..forward();
 
-  // Momento em que o dado para (o resto é a revelação do resultado).
-  static const _pousa = 0.6;
+  // Momento em que o dado para (1,9 s de 2,7 s; o resto revela o resultado).
+  static const _pousa = 0.7;
 
   @override
   void dispose() {
@@ -95,7 +96,11 @@ class _JanelaDadosState extends State<_JanelaDados> with SingleTickerProviderSta
                       overflow: TextOverflow.ellipsis,
                       style: estiloTitulo(20, cor: Cores.texto)),
                   const SizedBox(height: 12),
-                  Expanded(child: _arena(p, valorDado, destaque ? corResultado : null)),
+                  Expanded(
+                    child: r.natural != null
+                        ? _arena3D(r.natural!)
+                        : _arena(p, valorDado, destaque ? corResultado : null),
+                  ),
                   const SizedBox(height: 12),
                   Opacity(opacity: depois, child: _resultado(depois, corResultado)),
                   const SizedBox(height: 6),
@@ -109,7 +114,24 @@ class _JanelaDadosState extends State<_JanelaDados> with SingleTickerProviderSta
     );
   }
 
-  /// Fundo escuro onde o dado cai.
+  /// Teste de d20: o dado 3D cai e para na face tirada.
+  Widget _arena3D(int natural) => Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Cores.destaque.withValues(alpha: 0.25)),
+          gradient: RadialGradient(
+            center: const Alignment(0, 0.35),
+            radius: 0.9,
+            colors: [Color.lerp(Cores.painel2, Cores.roxo, 0.18)!, Colors.black],
+          ),
+        ),
+        child: LayoutBuilder(
+          builder: (context, c) => Center(
+            child: Dado3D(resultado: natural, tamanho: min(c.maxWidth, c.maxHeight) * 0.86),
+          ),
+        ),
+      );
+
+  /// Fundo escuro onde o dado cai (rolagens que não são de d20).
   Widget _arena(double p, int valor, Color? brilho) {
     // queda com quiques e giro que perde força até parar
     final queda = Curves.bounceOut.transform(p);

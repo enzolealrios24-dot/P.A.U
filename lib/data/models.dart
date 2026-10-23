@@ -79,6 +79,8 @@ class Ficha {
   /// vale a afinidade das regras, se houver.
   String get elementoVisual => asStr(d['elementoVisual']);
   String get elementoDaFicha => elementoVisual.isNotEmpty ? elementoVisual : afinidade;
+  /// Modificador do dado do destino (aba COMBATE).
+  int get modDestino => asInt(d['modDestino'], 5);
   /// Círculo da runa do selo (1 a 4).
   int get seloCirculo => asInt(d['seloCirculo'], 2).clamp(1, 4);
   int get pp => asInt(d['pp']);

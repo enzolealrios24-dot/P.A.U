@@ -19,6 +19,13 @@ class CtxFicha {
     if (c != null) Repo.registrarRolagem(c.id, r, personagem: f.nome);
   }
 
+  /// Dado do destino: 1d20 + [modificador]. 20 natural é acerto crítico e
+  /// 1 é falha crítica.
+  void rolarDestino(BuildContext context, int modificador) {
+    final r = Dados.rolarTeste(titulo: '${f.nome}: Dado do destino', nDados: 1, bonus: modificador);
+    _publicar(context, r);
+  }
+
   void rolarPericia(BuildContext context, String pericia,
       {int dadosExtra = 0, int bonusExtra = 0}) {
     final r = Dados.rolarTeste(
