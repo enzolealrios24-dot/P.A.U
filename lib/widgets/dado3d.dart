@@ -1,5 +1,7 @@
 import 'dart:math';
+import 'dart:ui' as ui;
 
+import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter/material.dart';
 
 import '../core/theme.dart';
@@ -149,6 +151,53 @@ class _CoresDado {
   }
 }
 
+/// Números das faces já desenhados (em branco) como imagem. Girar a imagem
+/// é barato; refazer o texto a cada quadro deixava a rolagem engasgada.
+class _Numeros {
+  static final _feitos = <String, (ui.Image, Size)>{};
+
+  /// [resolucao]: quantos pixels da imagem por unidade do texto.
+  static (ui.Image, Size) de(String texto, double tamanho, double resolucao) {
+    final estilo = estiloNumero(tamanho, cor: Colors.white);
+    return _feitos['${estilo.fontFamily}|$texto|$tamanho|$resolucao'] ??= _desenhar(texto, estilo, resolucao);
+  }
+
+  static (ui.Image, Size) _desenhar(String texto, TextStyle estilo, double resolucao) {
+    final tp = TextPainter(text: TextSpan(text: texto, style: estilo), textDirection: TextDirection.ltr)..layout();
+    final tam = tp.size;
+    final gravador = ui.PictureRecorder();
+    tp.paint(Canvas(gravador)..scale(resolucao), Offset.zero);
+    tp.dispose();
+    final figura = gravador.endRecording();
+    final imagem = figura.toImageSync((tam.width * resolucao).ceil(), (tam.height * resolucao).ceil());
+    figura.dispose();
+    return (imagem, tam);
+  }
+}
+
+/// Sombra do dado no chão: um oval escuro que some nas bordas.
+class _PintorSombra extends CustomPainter {
+  final double forca;
+  _PintorSombra(this.forca);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final raio = size.width / 2;
+    canvas.translate(size.width / 2, size.height / 2);
+    canvas.scale(1, size.height / size.width);
+    canvas.drawCircle(
+      Offset.zero,
+      raio,
+      Paint()
+        ..shader = ui.Gradient.radial(Offset.zero, raio,
+            [Colors.black.withValues(alpha: forca), Colors.black.withValues(alpha: 0)], [0.3, 1]),
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _PintorSombra old) => old.forca != forca;
+}
+
 /// d20 desenhado em 3D. [rotacao] gira o dado; [destaqueFace] acende a
 /// face de frente (crítico ou falha).
 class _PintorDado3D extends CustomPainter {
@@ -172,13 +221,19 @@ class _PintorDado3D extends CustomPainter {
       return centro + Offset(v.x * escala * k, -v.y * escala * k);
     }
 
-    // brilho atrás do dado
+    // brilho atrás do dado (gradiente; um desfoque a cada quadro pesava)
+    final corBrilho = (destaqueFace ?? cor).withValues(alpha: destaqueFace != null ? 0.55 : 0.22);
+    final raioBrilho = escala * 1.6;
     canvas.drawCircle(
       centro,
-      escala * 0.95,
+      raioBrilho,
       Paint()
-        ..color = (destaqueFace ?? cor).withValues(alpha: destaqueFace != null ? 0.55 : 0.22)
-        ..maskFilter = MaskFilter.blur(BlurStyle.normal, escala * 0.35),
+        ..shader = ui.Gradient.radial(
+          centro,
+          raioBrilho,
+          [corBrilho, corBrilho, corBrilho.withValues(alpha: corBrilho.a * 0.45), corBrilho.withValues(alpha: 0)],
+          [0, 0.4, 0.6, 1],
+        ),
     );
 
     final visiveis = <(_Face, _V, double)>[];
@@ -216,12 +271,12 @@ class _PintorDado3D extends CustomPainter {
 
       // número na face, deitado sobre ela (só nas que estão bem de frente)
       if (n.z < 0.32) continue;
-      _numero(canvas, f.numero, pa, pb, pc, n.z, luz, cores, deFrente);
+      _numero(canvas, f.numero, pa, pb, pc, n.z, luz, cores, deFrente, escala);
     }
   }
 
   void _numero(Canvas canvas, int numero, Offset pa, Offset pb, Offset pc, double frente, double luz,
-      _CoresDado cores, bool destaque) {
+      _CoresDado cores, bool destaque, double escala) {
     // triângulo de referência (vértice "a" em cima) e o projetado na tela
     const ra = Offset(0, -1), rb = Offset(-0.866, 0.5), rc = Offset(0.866, 0.5);
     final u = rb - ra, v = rc - ra;
@@ -236,37 +291,37 @@ class _PintorDado3D extends CustomPainter {
     final corNumero = luz > 0.62 && cores.numero == Colors.white
         ? Colors.white
         : (cores.numero == Colors.white ? Colors.white.withValues(alpha: 0.9) : cores.numero);
-    final texto = TextPainter(
-      text: TextSpan(
-        text: numero == 6 || numero == 9 ? '$numero.' : '$numero',
-        style: estiloNumero(numero >= 10 ? 52 : 60,
-            cor: corNumero.withValues(alpha: ((frente - 0.32) / 0.4).clamp(0.0, 1.0))),
-      ),
-      textDirection: TextDirection.ltr,
-    )..layout();
+    // imagem pronta do número, com resolução pelo tamanho do dado na tela
+    final resolucao = ((escala / 42) * 2).roundToDouble().clamp(2.0, 6.0) / 2;
+    final (imagem, tam) =
+        _Numeros.de(numero == 6 || numero == 9 ? '$numero.' : '$numero', numero >= 10 ? 52 : 60, resolucao);
+    final origem = Offset.zero & Size(imagem.width.toDouble(), imagem.height.toDouble());
+    final destino = Rect.fromLTWH(-tam.width / 2, -tam.height * 0.42, tam.width, tam.height);
+    Paint tinta(Color c) => Paint()
+      ..colorFilter = ColorFilter.mode(c, BlendMode.srcIn)
+      ..filterQuality = FilterQuality.medium;
     canvas.save();
     canvas.transform(Matrix4(m00, m10, 0, 0, m01, m11, 0, 0, 0, 0, 1, 0, tx, ty, 0, 1).storage);
     canvas.scale(0.01);
     if (destaque) {
-      final sombra = TextPainter(
-        text: TextSpan(
-            text: '$numero',
-            style: estiloNumero(numero >= 10 ? 52 : 60, cor: Colors.black.withValues(alpha: 0.5))),
-        textDirection: TextDirection.ltr,
-      )..layout();
-      sombra.paint(canvas, Offset(-sombra.width / 2 + 3, -sombra.height * 0.42 + 3));
+      canvas.drawImageRect(imagem, origem, destino.shift(const Offset(3, 3)), tinta(Colors.black.withValues(alpha: 0.5)));
     }
-    texto.paint(canvas, Offset(-texto.width / 2, -texto.height * 0.42));
+    canvas.drawImageRect(
+        imagem, origem, destino, tinta(corNumero.withValues(alpha: ((frente - 0.32) / 0.4).clamp(0.0, 1.0))));
     canvas.restore();
   }
 
   @override
-  bool shouldRepaint(covariant _PintorDado3D old) => true;
+  bool shouldRepaint(covariant _PintorDado3D old) =>
+      !listEquals(old.rotacao.m, rotacao.m) ||
+      old.cor != cor ||
+      old.destaqueFace != destaqueFace ||
+      old.faceDeFrente != faceDeFrente;
 }
 
-/// Dado 3D animado. Ao receber um [resultado] novo, cai, gira com
-/// desaceleração (ease-out cúbico) por ~1,9 s, quica e para com essa face de
-/// frente. Sem resultado, fica girando devagar.
+/// Dado 3D animado. Ao receber um [resultado] novo, cai, gira perdendo força
+/// por ~1,2 s, quica e para com essa face de frente. Sem resultado, fica
+/// girando devagar.
 class Dado3D extends StatefulWidget {
   final int? resultado;
   /// Muda a cada rolagem (para rolar de novo o mesmo número).
@@ -278,7 +333,7 @@ class Dado3D extends StatefulWidget {
   const Dado3D({super.key, this.resultado, this.rodada = 0, this.tamanho = 180, this.cor, this.aoParar});
 
   /// Duração da rolagem.
-  static const duracao = Duration(milliseconds: 1900);
+  static const duracao = Duration(milliseconds: 1200);
 
   @override
   State<Dado3D> createState() => _Dado3DState();
@@ -290,10 +345,10 @@ class _Dado3DState extends State<Dado3D> with TickerProviderStateMixin {
       if (s == AnimationStatus.completed) widget.aoParar?.call();
     });
   late final AnimationController _ocioso =
-      AnimationController(vsync: this, duration: const Duration(seconds: 14))..repeat();
+      AnimationController(vsync: this, duration: const Duration(seconds: 14));
   final _r = Random();
   _V _eixo = const _V(0.3, 1, 0.2);
-  double _voltas = 5;
+  double _voltas = 2;
 
   @override
   void initState() {
@@ -302,16 +357,35 @@ class _Dado3DState extends State<Dado3D> with TickerProviderStateMixin {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _ajustarOcioso();
+  }
+
+  @override
   void didUpdateWidget(covariant Dado3D old) {
     super.didUpdateWidget(old);
     if (widget.resultado != null && (widget.rodada != old.rodada || widget.resultado != old.resultado)) {
       _comecar();
     }
+    _ajustarOcioso();
+  }
+
+  /// O giro lento só roda sem resultado e com a tela na frente: com a janela
+  /// de rolagem aberta por cima, o dado da aba para de gastar quadros.
+  void _ajustarOcioso() {
+    final girar = widget.resultado == null && (ModalRoute.of(context)?.isCurrent ?? true);
+    if (girar && !_ocioso.isAnimating) {
+      _ocioso.repeat();
+    } else if (!girar && _ocioso.isAnimating) {
+      _ocioso.stop();
+    }
   }
 
   void _comecar() {
     _eixo = _V(_r.nextDouble() * 2 - 1, _r.nextDouble() * 2 - 1, _r.nextDouble() - 0.5).unitario;
-    _voltas = 4 + _r.nextDouble() * 2.5;
+    // poucas voltas: rápido demais o dado parece pular de uma face para outra
+    _voltas = 1.8 + _r.nextDouble() * 0.7;
     _rolar.forward(from: 0);
   }
 
@@ -332,56 +406,54 @@ class _Dado3DState extends State<Dado3D> with TickerProviderStateMixin {
     final cor = widget.cor ?? Cores.destaque;
     return SizedBox.square(
       dimension: widget.tamanho,
-      child: AnimatedBuilder(
-        animation: Listenable.merge([_rolar, _ocioso]),
-        builder: (context, _) {
-          final res = widget.resultado;
-          if (res == null || (!_rolar.isAnimating && _rolar.value == 0)) {
-            return CustomPaint(painter: _PintorDado3D(_rotacaoOciosa(), cor));
-          }
-          final t = _rolar.value;
-          final giro = Curves.easeOutCubic.transform(t);
-          // gira em volta do eixo sorteado e termina exatamente com a face
-          // do resultado de frente
-          final fim = _d20.deFrente(res);
-          final resto = _M.eixo(_eixo, (1 - giro) * _voltas * 2 * pi);
-          final rot = fim.vezesM(resto);
-          // queda com quiques e um leve deslize lateral
-          final queda = Curves.bounceOut.transform((t / 0.8).clamp(0.0, 1.0));
-          final dy = (1 - queda) * -widget.tamanho * 0.55;
-          final dx = (1 - giro) * widget.tamanho * 0.25;
-          final achatar = t > 0.25 && t < 0.8 ? 1 - 0.06 * sin((t - 0.25) / 0.55 * pi * 3).abs() : 1.0;
-          final parado = t >= 1;
-          final destaque = parado && (res == 20 || res == 1) ? (res == 20 ? Cores.ok : Cores.pv) : null;
-          return Stack(clipBehavior: Clip.none, alignment: Alignment.center, children: [
-            // sombra no chão
-            Positioned(
-              bottom: widget.tamanho * 0.02,
-              child: Opacity(
-                opacity: (0.25 + 0.5 * queda).clamp(0.0, 1.0),
-                child: Container(
-                  width: widget.tamanho * (0.45 + 0.25 * queda),
-                  height: widget.tamanho * 0.08,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.elliptical(widget.tamanho, widget.tamanho * 0.1)),
-                    boxShadow: const [BoxShadow(color: Colors.black, blurRadius: 16, spreadRadius: 1)],
+      // só o dado é redesenhado a cada quadro, não a tela em volta
+      child: RepaintBoundary(
+        child: AnimatedBuilder(
+          animation: Listenable.merge([_rolar, _ocioso]),
+          builder: (context, _) {
+            final res = widget.resultado;
+            if (res == null || (!_rolar.isAnimating && _rolar.value == 0)) {
+              return CustomPaint(painter: _PintorDado3D(_rotacaoOciosa(), cor));
+            }
+            final t = _rolar.value;
+            // ease-out quadrático: perde força até parar, sem ficar quase
+            // parado no fim
+            final giro = Curves.easeOutQuad.transform(t);
+            // gira em volta do eixo sorteado e termina exatamente com a face
+            // do resultado de frente
+            final fim = _d20.deFrente(res);
+            final resto = _M.eixo(_eixo, (1 - giro) * _voltas * 2 * pi);
+            final rot = fim.vezesM(resto);
+            // queda com quiques e um leve deslize lateral
+            final queda = Curves.bounceOut.transform((t / 0.75).clamp(0.0, 1.0));
+            final dy = (1 - queda) * -widget.tamanho * 0.55;
+            final dx = (1 - giro) * widget.tamanho * 0.25;
+            final achatar = t > 0.25 && t < 0.75 ? 1 - 0.06 * sin((t - 0.25) / 0.5 * pi * 3).abs() : 1.0;
+            final parado = t >= 1;
+            final destaque = parado && (res == 20 || res == 1) ? (res == 20 ? Cores.ok : Cores.pv) : null;
+            return Stack(clipBehavior: Clip.none, alignment: Alignment.center, children: [
+              // sombra no chão
+              Positioned(
+                bottom: -widget.tamanho * 0.02,
+                child: CustomPaint(
+                  size: Size(widget.tamanho * (0.55 + 0.28 * queda), widget.tamanho * 0.16),
+                  painter: _PintorSombra((0.25 + 0.5 * queda).clamp(0.0, 1.0)),
+                ),
+              ),
+              Transform.translate(
+                offset: Offset(dx, dy),
+                child: Transform.scale(
+                  scaleY: achatar,
+                  scaleX: 2 - achatar,
+                  child: CustomPaint(
+                    size: Size.square(widget.tamanho),
+                    painter: _PintorDado3D(rot, cor, destaqueFace: destaque, faceDeFrente: parado ? res : null),
                   ),
                 ),
               ),
-            ),
-            Transform.translate(
-              offset: Offset(dx, dy),
-              child: Transform.scale(
-                scaleY: achatar,
-                scaleX: 2 - achatar,
-                child: CustomPaint(
-                  size: Size.square(widget.tamanho),
-                  painter: _PintorDado3D(rot, cor, destaqueFace: destaque, faceDeFrente: parado ? res : null),
-                ),
-              ),
-            ),
-          ]);
-        },
+            ]);
+          },
+        ),
       ),
     );
   }

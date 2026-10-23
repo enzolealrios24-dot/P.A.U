@@ -34,11 +34,14 @@ class _JanelaDados extends StatefulWidget {
 }
 
 class _JanelaDadosState extends State<_JanelaDados> with SingleTickerProviderStateMixin {
-  late final AnimationController _c =
-      AnimationController(vsync: this, duration: const Duration(milliseconds: 2700))..forward();
+  // O dado gira por Dado3D.duracao; depois o resultado aparece em _revelar.
+  static const _revelar = Duration(milliseconds: 450);
+  static final _total = Dado3D.duracao + _revelar;
 
-  // Momento em que o dado para (1,9 s de 2,7 s; o resto revela o resultado).
-  static const _pousa = 0.7;
+  // Momento em que o dado para (fração da animação toda).
+  static final _pousa = Dado3D.duracao.inMilliseconds / _total.inMilliseconds;
+
+  late final AnimationController _c = AnimationController(vsync: this, duration: _total)..forward();
 
   @override
   void dispose() {
@@ -74,39 +77,42 @@ class _JanelaDadosState extends State<_JanelaDados> with SingleTickerProviderSta
           painter: _PintorMoldura(Cores.destaque),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(26, 26, 26, 18),
-            child: AnimatedBuilder(
-              animation: _c,
-              builder: (context, _) {
-                final t = _c.value;
-                final p = (t / _pousa).clamp(0.0, 1.0);
-                final parado = p >= 1;
-                final depois = ((t - _pousa) / (1 - _pousa)).clamp(0.0, 1.0);
-                final valorDado = parado ? (r.natural ?? r.total) : _sorteio((t * 34).floor());
-                final destaque = parado && (r.critico || r.falhaCritica);
-                return Column(children: [
-                  Text(rotulo.toUpperCase(),
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: estiloRotulo(13, cor: Cores.destaque, peso: FontWeight.w700, espaco: 2.6)),
-                  const SizedBox(height: 4),
-                  Text(titulo,
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: estiloTitulo(20, cor: Cores.texto)),
-                  const SizedBox(height: 12),
-                  Expanded(
-                    child: r.natural != null
-                        ? _arena3D(r.natural!)
-                        : _arena(p, valorDado, destaque ? corResultado : null),
-                  ),
-                  const SizedBox(height: 12),
-                  Opacity(opacity: depois, child: _resultado(depois, corResultado)),
-                  const SizedBox(height: 6),
-                  TextButton(onPressed: () => Navigator.pop(context), child: const Text('FECHAR')),
-                ]);
-              },
+            // a moldura fica fora da área redesenhada a cada quadro
+            child: RepaintBoundary(
+              child: AnimatedBuilder(
+                animation: _c,
+                builder: (context, _) {
+                  final t = _c.value;
+                  final p = (t / _pousa).clamp(0.0, 1.0);
+                  final parado = p >= 1;
+                  final depois = ((t - _pousa) / (1 - _pousa)).clamp(0.0, 1.0);
+                  final valorDado = parado ? (r.natural ?? r.total) : _sorteio((t * 34).floor());
+                  final destaque = parado && (r.critico || r.falhaCritica);
+                  return Column(children: [
+                    Text(rotulo.toUpperCase(),
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: estiloRotulo(13, cor: Cores.destaque, peso: FontWeight.w700, espaco: 2.6)),
+                    const SizedBox(height: 4),
+                    Text(titulo,
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: estiloTitulo(20, cor: Cores.texto)),
+                    const SizedBox(height: 12),
+                    Expanded(
+                      child: r.natural != null
+                          ? _arena3D(r.natural!)
+                          : _arena(p, valorDado, destaque ? corResultado : null),
+                    ),
+                    const SizedBox(height: 12),
+                    Opacity(opacity: depois, child: _resultado(depois, corResultado)),
+                    const SizedBox(height: 6),
+                    TextButton(onPressed: () => Navigator.pop(context), child: const Text('FECHAR')),
+                  ]);
+                },
+              ),
             ),
           ),
         ),

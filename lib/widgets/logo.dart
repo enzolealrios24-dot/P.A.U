@@ -80,8 +80,11 @@ class _SigiloGirandoState extends State<_SigiloGirando> with SingleTickerProvide
   }
 
   @override
-  Widget build(BuildContext context) => RotationTransition(
-        turns: _c,
-        child: SigiloConhecimento(tamanho: widget.tamanho, espessura: 1.3),
+  Widget build(BuildContext context) => RepaintBoundary(
+        child: RotationTransition(
+          turns: _c,
+          // o sigilo é desenhado uma vez; o giro só move a imagem pronta
+          child: RepaintBoundary(child: SigiloConhecimento(tamanho: widget.tamanho, espessura: 1.3)),
+        ),
       );
 }
