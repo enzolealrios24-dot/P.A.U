@@ -8,6 +8,9 @@ class TemaApp {
   static const _chave = 'tema_cores';
   static final atual = ValueNotifier<String>(temasCores.first.id);
 
+  /// Tema do app (fora das fichas).
+  static TemaCores get tema => _porId(atual.value);
+
   static TemaCores _porId(String id) =>
       temasCores.firstWhere((t) => t.id == id, orElse: () => temasCores.first);
 

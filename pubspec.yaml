@@ -55,6 +55,17 @@ flutter:
     - family: SpecialElite
       fonts:
         - asset: assets/fonts/SpecialElite-Regular.ttf
+    # títulos de cada afinidade: Energia, Morte e Sangue (Conhecimento usa Cinzel)
+    - family: ChakraPetch
+      fonts:
+        - asset: assets/fonts/ChakraPetch-Bold.ttf
+          weight: 700
+    - family: IMFellEnglishSC
+      fonts:
+        - asset: assets/fonts/IMFellEnglishSC-Regular.ttf
+    - family: MetalMania
+      fonts:
+        - asset: assets/fonts/MetalMania-Regular.ttf
   assets:
     - assets/data/oprpg/
     - assets/data/sah/

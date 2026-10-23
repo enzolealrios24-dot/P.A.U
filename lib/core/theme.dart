@@ -22,6 +22,8 @@ class TemaCores {
   final Color degradeTopo;
   final Color degradeMeio;
   final Color degradeBase;
+  /// Fonte dos títulos (nomes, títulos de tela e de janelas).
+  final String fonteTitulo;
   const TemaCores({
     required this.id,
     required this.nome,
@@ -37,6 +39,7 @@ class TemaCores {
     required this.degradeTopo,
     required this.degradeMeio,
     required this.degradeBase,
+    this.fonteTitulo = 'Cinzel',
   });
 }
 
@@ -107,7 +110,82 @@ const temasCores = <TemaCores>[
   ),
 ];
 
+/// Paletas da ficha conforme a afinidade escolhida no dossiê. Os painéis são
+/// translúcidos, para o fundo aparecer por trás.
+const temasAfinidade = <String, TemaCores>{
+  'Conhecimento': TemaCores(
+    id: 'af-conhecimento',
+    nome: 'Dourado',
+    elemento: 'Conhecimento',
+    destaque: Color(0xFFD6A72B),
+    sobreDestaque: Color(0xFF17110A),
+    roxo: Color(0xFF7A5CE0),
+    roxoClaro: Color(0xFFB8A4FF),
+    fundo: Color(0xFF0B0A0F),
+    painel: Color(0xB00E0C12),
+    painel2: Color(0xFF1A1720),
+    borda: Color(0xFF332C3E),
+    degradeTopo: Color(0xFFD6A72B),
+    degradeMeio: Color(0xFF2A2340),
+    degradeBase: Color(0xFF5B3FC0),
+  ),
+  'Energia': TemaCores(
+    id: 'af-energia',
+    nome: 'Roxo',
+    elemento: 'Energia',
+    destaque: Color(0xFF9B5CFF),
+    sobreDestaque: Color(0xFFFFFFFF),
+    roxo: Color(0xFF1FC8E0),
+    roxoClaro: Color(0xFF8DF3FF),
+    fundo: Color(0xFF0A0812),
+    painel: Color(0xB00D0A18),
+    painel2: Color(0xFF181428),
+    borda: Color(0xFF332A52),
+    degradeTopo: Color(0xFF9B5CFF),
+    degradeMeio: Color(0xFF2B1F4D),
+    degradeBase: Color(0xFF1FC8E0),
+    fonteTitulo: 'ChakraPetch',
+  ),
+  'Morte': TemaCores(
+    id: 'af-morte',
+    nome: 'Preto e branco',
+    elemento: 'Morte',
+    destaque: Color(0xFFF2F2F2),
+    sobreDestaque: Color(0xFF060606),
+    roxo: Color(0xFF5C5C5C),
+    roxoClaro: Color(0xFFC9C9C9),
+    fundo: Color(0xFF060606),
+    painel: Color(0xB00B0B0B),
+    painel2: Color(0xFF151515),
+    borda: Color(0xFF2E2E2E),
+    degradeTopo: Color(0xFFF2F2F2),
+    degradeMeio: Color(0xFF1A1A1A),
+    degradeBase: Color(0xFF3A3A3A),
+    fonteTitulo: 'IMFellEnglishSC',
+  ),
+  'Sangue': TemaCores(
+    id: 'af-sangue',
+    nome: 'Vermelho',
+    elemento: 'Sangue',
+    destaque: Color(0xFFFF3B4F),
+    sobreDestaque: Color(0xFFFFFFFF),
+    roxo: Color(0xFF8B1022),
+    roxoClaro: Color(0xFFFF8F9B),
+    fundo: Color(0xFF0D0606),
+    painel: Color(0xB0120909),
+    painel2: Color(0xFF1E1013),
+    borda: Color(0xFF3E2229),
+    degradeTopo: Color(0xFFFF3B4F),
+    degradeMeio: Color(0xFF3A1219),
+    degradeBase: Color(0xFF7A1029),
+    fonteTitulo: 'MetalMania',
+  ),
+};
+
 class Cores {
+  /// Tema aplicado agora (o do app, ou o da afinidade quando uma ficha está
+  /// aberta).
+  static TemaCores atual = temasCores.first;
   // Cores do tema escolhido (mudam com aplicar). As demais são fixas.
   static Color fundo = temasCores.first.fundo;
   static Color painel = temasCores.first.painel;
@@ -122,6 +200,8 @@ class Cores {
   static Color degradeBase = temasCores.first.degradeBase;
 
   static void aplicar(TemaCores t) {
+    atual = t;
+    Fontes.titulo = t.fonteTitulo;
     fundo = t.fundo;
     painel = t.painel;
     painel2 = t.painel2;
@@ -170,7 +250,7 @@ class Cores {
 /// Famílias de fonte do app.
 class Fontes {
   /// Títulos e nomes: letras romanas, com minúsculas em versalete.
-  static const titulo = 'Cinzel';
+  static String titulo = 'Cinzel';
   static const texto = 'Barlow';
   /// Números, rótulos, abas e botões.
   static const condensada = 'BarlowCondensed';

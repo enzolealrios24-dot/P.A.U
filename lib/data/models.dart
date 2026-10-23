@@ -75,6 +75,12 @@ class Ficha {
   String get modoSanidade => asStr(d['modoSanidade'], 'san');
   String get modoProgressao => asStr(d['modoProgressao'], 'nex');
   String get afinidade => asStr(d['afinidade']);
+  /// Afinidade do dossiê (só visual: cores, fontes, runas e dado). Sem ela,
+  /// vale a afinidade das regras, se houver.
+  String get elementoVisual => asStr(d['elementoVisual']);
+  String get elementoDaFicha => elementoVisual.isNotEmpty ? elementoVisual : afinidade;
+  /// Círculo da runa do selo (1 a 4).
+  int get seloCirculo => asInt(d['seloCirculo'], 2).clamp(1, 4);
   int get pp => asInt(d['pp']);
 
   Map<String, dynamic> get atributos => asMap(d['atributos']);

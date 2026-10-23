@@ -22,6 +22,7 @@ import 'package:cris_ficha/screens/sheet/sheet_screen.dart';
 import 'package:cris_ficha/widgets/common.dart';
 import 'package:cris_ficha/widgets/efeitos.dart';
 import 'package:cris_ficha/widgets/imagem.dart';
+import 'package:cris_ficha/widgets/runa.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +50,7 @@ void main() {
     Cores.aplicar(temasCores.firstWhere((t) => t.id == tema));
     await _prepararDados();
 
+    await _print(tester, 'runas', const Scaffold(body: SingleChildScrollView(padding: EdgeInsets.all(16), child: AmostraRunas())));
     await _print(tester, 'login', const TelaLogin());
     await _print(tester, 'inicio', const TelaInicio());
     await _print(tester, 'ficha_agente', const TelaFicha(fichaId: 'a1'));
@@ -91,6 +93,13 @@ void main() {
     await _print(tester, 'quadro', TelaQuadro(fonte: FonteQuadro.ficha('a1')));
     await _print(tester, 'ficha_pc', const TelaFicha(fichaId: 'a1'), tamanho: _pc);
     await _print(tester, 'inicio_pc', const TelaInicio(), tamanho: _pc);
+    // a ficha em cada afinidade do dossiê
+    for (final af in ['Conhecimento', 'Energia', 'Morte', 'Sangue']) {
+      await Repo.db.collection('characters').doc('a1').update({'elementoVisual': af, 'seloCirculo': 3});
+      await _print(tester, 'afinidade_${af.toLowerCase()}', const TelaFicha(fichaId: 'a1'));
+      await _rolar(tester, 520);
+      await _salvar(tester, 'afinidade_${af.toLowerCase()}_2');
+    }
     debugDisableShadows = true;
   });
 }
@@ -182,6 +191,9 @@ Future<void> _carregarFontes() async {
       'assets/fonts/Barlow-$p.ttf'
   ]);
   await carregar('SpecialElite', ['assets/fonts/SpecialElite-Regular.ttf']);
+  await carregar('ChakraPetch', ['assets/fonts/ChakraPetch-Bold.ttf']);
+  await carregar('IMFellEnglishSC', ['assets/fonts/IMFellEnglishSC-Regular.ttf']);
+  await carregar('MetalMania', ['assets/fonts/MetalMania-Regular.ttf']);
   await carregar('BarlowCondensed', [
     for (final p in ['Medium', 'SemiBold', 'Bold'])
       'assets/fonts/BarlowCondensed-$p.ttf'

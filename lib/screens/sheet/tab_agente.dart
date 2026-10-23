@@ -12,6 +12,8 @@ import '../../widgets/common.dart';
 import '../../widgets/efeitos.dart';
 import '../../widgets/imagem.dart';
 import '../../widgets/sigilos.dart';
+import '../../widgets/runa.dart';
+import 'afinidade.dart';
 import 'forma.dart';
 import 'habilidades.dart';
 import 'rolar.dart';
@@ -266,6 +268,7 @@ class TabAgente extends StatelessWidget {
     );
 
     final dossie = _Dossie(ctx: ctx);
+    final afinidade = SecaoAfinidade(ctx: ctx);
     final transformacoes = SecaoTransformacoes(ctx: ctx);
     final habilidades = SecaoHabilidades(ctx: ctx);
     final alteracoes = c.modoNivel ? _secaoAlteracoes(c) : null;
@@ -354,7 +357,7 @@ class TabAgente extends StatelessWidget {
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Expanded(
               child: Column(children: [
-            for (final (i, w) in [dossie, identidade, transformacoes, modos, habilidades, if (alteracoes != null) alteracoes, historia].indexed)
+            for (final (i, w) in [dossie, afinidade, identidade, transformacoes, modos, habilidades, if (alteracoes != null) alteracoes, historia].indexed)
               Surgir(ordem: i, child: w),
           ])),
           const SizedBox(width: 12),
@@ -370,6 +373,7 @@ class TabAgente extends StatelessWidget {
       children: [
         for (final (i, w) in [
           dossie,
+          afinidade,
           atributos,
           stats,
           identidade,
@@ -690,6 +694,7 @@ class _Dossie extends StatelessWidget {
     final f = ctx.f;
     final c = ctx.calc;
     final detalhes = [f.classe, f.trilha].where((s) => s.isNotEmpty).join(' · ');
+    final elemento = f.elementoDaFicha;
     // o que vai no selo hexagonal, conforme o modo de progressão
     final (rotuloSelo, valorSelo) = c.sobrevivente
         ? ('ESTÁGIO', '${f.estagio}')
@@ -745,13 +750,38 @@ class _Dossie extends StatelessWidget {
                 ),
               ),
             ),
-          ] else
-            Positioned(
-              right: -60,
-              top: -50,
-              child: SigiloConhecimento(
-                  tamanho: 220, cor: Cores.destaque.withValues(alpha: 0.07), espessura: 1),
+          ],
+          // runa grande e apagada da afinidade, como marca-d'água
+          Positioned(
+            right: -130,
+            bottom: -125,
+            child: Runa(
+              elemento: elemento.isEmpty ? 'medo' : elemento,
+              circulo: f.seloCirculo,
+              semente: f.nome,
+              cor: Cores.destaque.withValues(alpha: 0.06),
+              tamanho: 260,
+              espessura: 1.3,
             ),
+          ),
+          // selo do agente no canto
+          Positioned(
+            top: 14,
+            right: 14,
+            child: Column(children: [
+              Runa(
+                elemento: elemento.isEmpty ? 'medo' : elemento,
+                circulo: f.seloCirculo,
+                semente: f.nome,
+                cor: elemento.isEmpty ? Cores.textoFraco : Cores.destaque,
+                tamanho: 52,
+              ),
+              const SizedBox(height: 3),
+              Text(elemento.isEmpty ? 'SEM AFINIDADE' : elemento.toUpperCase(),
+                  style: estiloRotulo(10, cor: elemento.isEmpty ? Cores.textoFraco : Cores.destaque,
+                      peso: FontWeight.w700, espaco: 1.4)),
+            ]),
+          ),
           if (f.eTransformacao)
             Positioned(
               right: 14,
@@ -788,7 +818,9 @@ class _Dossie extends StatelessWidget {
               ),
               const SizedBox(width: 20),
               Expanded(
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 52),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text('ARQUIVO Nº ${numeroArquivo(f.id)}',
                       style: estiloMaquina(12.5, cor: Cores.textoFraco, espaco: 1)),
                   const SizedBox(height: 6),
@@ -817,6 +849,7 @@ class _Dossie extends StatelessWidget {
                         style: estiloMaquina(12.5, cor: Cores.textoFraco, espaco: 0.8)),
                   ],
                 ]),
+                ),
               ),
             ]),
           ),

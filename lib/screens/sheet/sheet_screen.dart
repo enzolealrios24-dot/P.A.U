@@ -8,6 +8,7 @@ import '../../data/repo.dart';
 import '../../widgets/common.dart';
 import '../../widgets/imagem.dart';
 import 'forma.dart';
+import 'paleta_ficha.dart';
 import 'rolar.dart';
 import 'tab_agente.dart';
 import 'tab_listas.dart';
@@ -53,8 +54,12 @@ class _Ficha extends StatelessWidget {
   final CtxFicha ctx;
   const _Ficha({required this.ctx});
 
+  // As cores, a fonte e o dado seguem a afinidade escolhida no dossiê.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) =>
+      PaletaFicha(elemento: ctx.f.elementoDaFicha, child: Builder(builder: _montar));
+
+  Widget _montar(BuildContext context) {
     final f = ctx.f;
     final calc = ctx.calc;
     final dono = f.ownerUid == Repo.uid;
