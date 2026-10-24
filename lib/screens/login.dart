@@ -36,6 +36,8 @@ class _TelaLoginState extends State<TelaLogin> {
         return 'Senha fraca (mínimo 6 caracteres).';
       case 'network-request-failed':
         return 'Sem conexão com a internet.';
+      case 'too-many-requests':
+        return 'Muitas tentativas seguidas. Espere alguns minutos e tente de novo.';
       case 'operation-not-allowed':
         return 'Ative o login por E-mail/senha no console do Firebase.';
       default:
@@ -80,11 +82,26 @@ class _TelaLoginState extends State<TelaLogin> {
       setState(() => _erro = 'Digite seu e-mail para recuperar a senha.');
       return;
     }
+    setState(() {
+      _carregando = true;
+      _erro = null;
+    });
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: e);
-      setState(() => _erro = 'Enviamos um e-mail de recuperação para $e.');
+      // O Firebase não diz se o e-mail tem conta (proteção contra quem tenta
+      // descobrir contas), então o aviso já explica o que fazer se não chegar.
+      setState(() => _erro = 'Pedido enviado para $e.\n\n'
+          'Se esse e-mail tiver conta no P.A.U, chega em alguns minutos um link '
+          'para criar uma senha nova (remetente: noreply@ferramenta-op.firebaseapp.com).\n\n'
+          'Não chegou? Procure em Spam e em "Todos os e-mails", confira se o e-mail '
+          'está escrito certo e tente com os outros e-mails que você usa. '
+          'A senha antiga não pode ser vista, só trocada por uma nova.');
     } on FirebaseAuthException catch (x) {
-      setState(() => _erro = _traduzir(x));
+      setState(() => _erro = x.code == 'user-not-found'
+          ? 'Nenhuma conta usa $e. Confira se está escrito certo ou tente outro e-mail.'
+          : _traduzir(x));
+    } finally {
+      if (mounted) setState(() => _carregando = false);
     }
   }
 
@@ -170,7 +187,7 @@ class _TelaLoginState extends State<TelaLogin> {
                         ),
                         if (!_criando)
                           TextButton(
-                            onPressed: _esqueci,
+                            onPressed: _carregando ? null : _esqueci,
                             style: TextButton.styleFrom(foregroundColor: Cores.textoFraco),
                             child: const Text('Esqueci a senha'),
                           ),
