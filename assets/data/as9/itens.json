@@ -182,7 +182,13 @@
   "arremesso": true,
   "fonte": "AS9",
   "pag": 47,
-  "resumo": "Ágil e arremessável. +2 no ataque de contra-ataque; no bloqueio, 2 PE e sacrificar o machado somam +20 à RD."
+  "resumo": "Ágil e arremessável. +2 no ataque de contra-ataque; no bloqueio, 2 PE e sacrificar o machado somam +20 à RD.",
+  "efeitos": [
+   {
+    "alvo": "extraBloqueio",
+    "texto": "2 PE e sacrificar o machado: +20 na RD."
+   }
+  ]
  },
  {
   "id": "pistola_taser",

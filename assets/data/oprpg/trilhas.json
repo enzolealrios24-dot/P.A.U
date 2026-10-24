@@ -11,7 +11,7 @@
     {"nex": 99, "nome": "Oficial Comandante", "resumo": "Ação padrão e 5 PE: cada aliado visível em alcance médio ganha uma ação padrão extra no próximo turno."}]},
   {"id": "guerreiro", "nome": "Guerreiro", "classe": "combatente", "fonte": "OPRPG", "pag": 27, "habilidades": [
     {"nex": 10, "nome": "Técnica Letal", "resumo": "+2 na margem de ameaça em todos os ataques corpo a corpo."},
-    {"nex": 40, "nome": "Revidar", "resumo": "Ao bloquear, reação e 2 PE para atacar corpo a corpo quem o atacou."},
+    {"nex": 40, "nome": "Revidar", "resumo": "Ao bloquear, reação e 2 PE para atacar corpo a corpo quem o atacou.", "efeitos": [{"alvo": "extraBloqueio", "texto": "Reação e 2 PE: ataque corpo a corpo em quem atacou."}]},
     {"nex": 65, "nome": "Força Opressora", "resumo": "Ao acertar corpo a corpo, 1 PE para derrubar ou empurrar como ação livre (+5 no empurrão a cada 10 de dano); se derrubar, 1 PE para atacar o alvo caído."},
     {"nex": 99, "nome": "Potência Máxima", "resumo": "Com Ataque Especial em armas corpo a corpo, todos os bônus numéricos dobram."}]},
   {"id": "operacoes_especiais", "nome": "Operações Especiais", "classe": "combatente", "fonte": "OPRPG", "pag": 27, "habilidades": [
@@ -20,7 +20,7 @@
     {"nex": 65, "nome": "Surto de Adrenalina", "resumo": "1x por rodada, gaste 5 PE para uma ação padrão ou de movimento extra."},
     {"nex": 99, "nome": "Sempre Alerta", "resumo": "Uma ação padrão extra no início de cada cena de combate."}]},
   {"id": "tropa_choque", "nome": "Tropa de Choque", "classe": "combatente", "fonte": "OPRPG", "pag": 27, "habilidades": [
-    {"nex": 10, "nome": "Casca Grossa", "resumo": "+1 PV a cada 5% de NEX; ao bloquear, soma seu Vigor à RD.", "efeitos": [{"alvo": "pv", "valor": 1, "por": "nivel"}]},
+    {"nex": 10, "nome": "Casca Grossa", "resumo": "+1 PV a cada 5% de NEX; ao bloquear, soma seu Vigor à RD.", "efeitos": [{"alvo": "rdBloqueio", "attr": "vig"}, {"alvo": "pv", "valor": 1, "por": "nivel"}]},
     {"nex": 40, "nome": "Cai Dentro", "resumo": "Quando um oponente em alcance curto ataca um aliado, reação e 1 PE: ele faz Vontade (DT Vig) ou tem de atacar você."},
     {"nex": 65, "nome": "Duro de Matar", "resumo": "Reação e 2 PE para reduzir à metade um dano não paranormal (em 85%, também paranormal)."},
     {"nex": 99, "nome": "Inquebrável", "resumo": "Machucado: +5 Defesa e RD 5. Morrendo: não fica indefeso e continua agindo.", "efeitos": [{"alvo": "rd", "tipo": "geral", "valor": 5, "se": "machucado"}]}]},

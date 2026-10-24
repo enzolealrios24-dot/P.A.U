@@ -47,7 +47,8 @@ const itemPadrao = {
   'qtd': 1,
   'pericia': 'Luta',
   'critico': '20/x2',
-  'equipado': true,
+  // itens novos começam guardados; a chave da etiqueta equipa
+  'equipado': false,
 };
 
 const camposRitual = [
@@ -304,7 +305,7 @@ Future<void> adicionarDoLivro(
       'categoria': asInt(e['categoria']),
       'espacos': e['espacos'] is num ? e['espacos'] : 1,
       'qtd': 1,
-      'equipado': true,
+      'equipado': false,
       for (final k in const [
         'dano', 'critico', 'alcance', 'ataque', 'agil', 'somaFor', 'tipoDano',
         'defesa', 'rd', 'elemento', 'fonte', 'pag', 'ref', 'bonusAtaque'
@@ -609,6 +610,14 @@ void alternarAfinidadePoder(CtxFicha ctx, int indice) {
   final lista = asMapList(ctx.f.d['poderes']);
   lista[indice] = {...lista[indice], 'afinidade': !asBool(lista[indice]['afinidade'])};
   _salvarLista(ctx, 'poderes', lista);
+}
+
+/// Equipa ou guarda um item do inventário. Só os equipados contam na
+/// ficha (Defesa, RD, bloqueio, esquiva e os outros bônus).
+void alternarEquipado(CtxFicha ctx, int indice) {
+  final lista = asMapList(ctx.f.d['inventario']);
+  lista[indice] = {...lista[indice], 'equipado': !asBool(lista[indice]['equipado'], true)};
+  _salvarLista(ctx, 'inventario', lista);
 }
 
 /// Espaços com fração (0,5) sem perder o meio espaço.

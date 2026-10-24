@@ -168,6 +168,12 @@ Future<void> _salvar(WidgetTester tester, String nome) async {
 /// Resistência a dano: ajuste de um tipo, a janela de sofrer dano e o
 /// resultado (com o painel de RD já na tela).
 Future<void> _telasRd(WidgetTester tester) async {
+  await tester.ensureVisible(find.text('BLOQUEIO'));
+  await tester.pump();
+  await tester.tap(find.text('BLOQUEIO'));
+  await _salvar(tester, 'bloqueio_detalhe');
+  Navigator.of(tester.element(find.text('DE ONDE VEM'))).pop();
+  await tester.pump(const Duration(milliseconds: 400));
   await tester.ensureVisible(find.text('Fogo'));
   await tester.pump();
   await tester.tap(find.text('Fogo'));
@@ -178,7 +184,9 @@ Future<void> _telasRd(WidgetTester tester) async {
   await tester.pump();
   await tester.tap(find.text('SOFRER DANO'));
   await tester.pump(const Duration(milliseconds: 400));
+  await tester.pump(const Duration(milliseconds: 400));
   await tester.enterText(find.byType(TextField).last, '12');
+  await tester.tap(find.textContaining('Bloqueei'));
   await _salvar(tester, 'rd_sofrer');
   await tester.tap(find.text('APLICAR DANO'));
   await _salvar(tester, 'rd_aplicado');
@@ -289,6 +297,8 @@ Future<void> _prepararDados() async {
       'Investigação': {'grau': 5},
       'Vontade': {'grau': 5},
       'Ciências': {'grau': 5},
+      'Fortitude': {'grau': 5},
+      'Reflexos': {'grau': 5},
     },
     'pvAtual': 14,
     'pvTemp': 5,
@@ -306,11 +316,13 @@ Future<void> _prepararDados() async {
       {'id': 'p5', 'nome': 'Treinamento em Perícia', 'tipo': 'Geral', 'descricao': 'Escolha duas perícias: você se torna treinado nelas.'},
     ],
     'inventario': [
-      {'id': 'i1', 'nome': 'Pistola', 'tipo': 'arma', 'categoriaLivro': 'arma', 'categoria': 1, 'espacos': 1, 'qtd': 1, 'dano': '1d12', 'critico': '18/x2', 'pericia': 'Pontaria'},
+      {'id': 'i1', 'nome': 'Pistola', 'tipo': 'arma', 'categoriaLivro': 'arma', 'categoria': 1, 'espacos': 1, 'qtd': 1, 'dano': '1d12', 'critico': '18/x2', 'pericia': 'Pontaria', 'equipado': true},
       {'id': 'i2', 'nome': 'Colete leve', 'tipo': 'protecao', 'categoriaLivro': 'protecao', 'categoria': 1, 'espacos': 2, 'defesa': 5, 'maldicoes': ['oprpg/mal.cinetica']},
-      {'id': 'i3', 'nome': 'Componentes ritualísticos de Conhecimento', 'tipo': 'geral', 'categoriaLivro': 'paranormal', 'categoria': 0, 'espacos': 1, 'qtd': 2},
-      {'id': 'i4', 'nome': 'Amuleto de Sangue', 'tipo': 'geral', 'categoriaLivro': 'amaldicoado', 'elemento': 'Sangue', 'categoria': 2, 'espacos': 1, 'descricao': 'Pulsa quando há sangue por perto.'},
-      {'id': 'i5', 'nome': 'Lanterna tática', 'tipo': 'geral', 'categoriaLivro': 'operacional', 'categoria': 0, 'espacos': 1},
+      {'id': 'i3', 'nome': 'Componentes ritualísticos de Conhecimento', 'tipo': 'geral', 'categoriaLivro': 'paranormal', 'categoria': 0, 'espacos': 1, 'qtd': 2, 'equipado': false},
+      {'id': 'i4', 'nome': 'Amuleto de Sangue', 'tipo': 'geral', 'categoriaLivro': 'amaldicoado', 'elemento': 'Sangue', 'categoria': 2, 'espacos': 1, 'descricao': 'Pulsa quando há sangue por perto.', 'equipado': false},
+      {'id': 'i5', 'nome': 'Lanterna tática', 'tipo': 'geral', 'categoriaLivro': 'operacional', 'categoria': 0, 'espacos': 1, 'equipado': false},
+      {'id': 'i6', 'nome': 'Braçadeira reforçada', 'tipo': 'geral', 'ref': 'sah/bracadeira_reforcada', 'categoriaLivro': 'operacional', 'categoria': 1, 'espacos': 1, 'equipado': true},
+      {'id': 'i7', 'nome': 'Bastão policial', 'tipo': 'arma', 'ref': 'sah/bastao_policial', 'categoriaLivro': 'arma', 'categoria': 1, 'espacos': 1, 'dano': '1d6', 'pericia': 'Luta', 'equipado': false},
     ],
     'rituais': [
       {'id': 'r1', 'nome': 'Terceiro Olho', 'elemento': 'Conhecimento', 'circulo': 1, 'execucao': 'Padrão', 'alcance': 'Pessoal', 'duracao': 'Cena', 'descricao': 'Você vê manifestações paranormais.', 'custoDiscente': 2},

@@ -545,11 +545,11 @@ class Calc {
 
   bool get sobrecarregado => cargaAtual > cargaMax;
 
-  static bool _pesada(Map<String, dynamic> i) =>
+  static bool protecaoPesada(Map<String, dynamic> i) =>
       asBool(i['pesada']) || asStr(i['ref']).endsWith('/protecao_pesada');
 
   bool get usandoProtecaoPesada => f.inventario.any((i) =>
-      asStr(i['tipo']) == 'protecao' && asBool(i['equipado'], true) && _pesada(i));
+      asStr(i['tipo']) == 'protecao' && asBool(i['equipado'], true) && protecaoPesada(i));
 
   /// Machucado: com metade ou menos dos PV totais.
   bool get machucado => f.pvAtual * 2 <= pvMax;
@@ -569,8 +569,7 @@ class Calc {
     for (final e in efeitos) {
       if (asStr(e['alvo']) != 'rd') continue;
       if (asStr(e['se']) == 'machucado' && !machucado) continue;
-      final v = e['attr'] != null ? attr(asStr(e['attr'])) * asInt(e['valor'], 1) : _mult(e);
-      add(asStr(e['tipo']), v, asStr(e['fonte']));
+      add(asStr(e['tipo']), _valorEfeito(e), asStr(e['fonte']));
     }
     // proteções: a RD delas vale para os quatro tipos físicos (pesada: 2,
     // Blindada sobe para 5, Tanque de Guerra soma +2); a maldição Cinética
@@ -578,7 +577,7 @@ class Calc {
     for (final i in f.inventario) {
       if (asStr(i['tipo']) != 'protecao' || !asBool(i['equipado'], true)) continue;
       final nome = asStr(i['nome']).isEmpty ? 'Proteção' : asStr(i['nome']);
-      final pesada = _pesada(i);
+      final pesada = protecaoPesada(i);
       var v = i['rd'] != null ? asInt(i['rd']) : (pesada ? 2 : 0);
       if (pesada && v < 5 && asStrList(i['mods']).any((m) => m.endsWith('mod.blindada'))) v = 5;
       if (pesada && v > 0) v += soma('rdProtecaoPesada');
@@ -621,6 +620,50 @@ class Calc {
     if (tiposParanormais.contains(tipo)) t += rdDe(rdParanormal.id);
     return t;
   }
+
+  /// Valor de um efeito: fixo, por nível ou igual a um atributo ('attr').
+  int _valorEfeito(Map<String, dynamic> e) =>
+      e['attr'] != null ? attr(asStr(e['attr'])) * asInt(e['valor'], 1) : _mult(e);
+
+  // ---------------- bloqueio e esquiva ----------------
+
+  /// Bloqueio (OPRPG p. 88): exige Fortitude treinada; reação contra um
+  /// ataque corpo a corpo que dá RD igual ao bônus de Fortitude.
+  bool get podeBloquear => f.grau('Fortitude') >= 5;
+
+  /// Esquiva (OPRPG p. 88): exige Reflexos treinado; reação contra um
+  /// ataque que soma o bônus de Reflexos na Defesa.
+  bool get podeEsquivar => f.grau('Reflexos') >= 5;
+
+  /// De onde vem a RD do bloqueio: Fortitude, itens e habilidades equipados
+  /// ('rdBloqueio') e o bônus anotado na ficha.
+  late final List<({String fonte, int valor})> partesBloqueio = [
+    (fonte: 'Fortitude', valor: bonusPericia('Fortitude')),
+    for (final e in efeitos)
+      if (asStr(e['alvo']) == 'rdBloqueio') (fonte: asStr(e['fonte']), valor: _valorEfeito(e)),
+    if (asInt(f.d['bonusBloqueio']) != 0) (fonte: 'Anotado', valor: asInt(f.d['bonusBloqueio'])),
+  ];
+
+  int get rdBloqueio => partesBloqueio.fold(0, (s, p) => s + p.valor);
+
+  /// De onde vem a Defesa da esquiva: Defesa, Reflexos, itens ('esquiva') e
+  /// o bônus anotado.
+  late final List<({String fonte, int valor})> partesEsquiva = [
+    (fonte: 'Defesa', valor: defesa),
+    (fonte: 'Reflexos', valor: bonusPericia('Reflexos')),
+    for (final e in efeitos)
+      if (asStr(e['alvo']) == 'esquiva') (fonte: asStr(e['fonte']), valor: _valorEfeito(e)),
+    if (asInt(f.d['bonusEsquiva']) != 0) (fonte: 'Anotado', valor: asInt(f.d['bonusEsquiva'])),
+  ];
+
+  int get defesaEsquiva => partesEsquiva.fold(0, (s, p) => s + p.valor);
+
+  /// Opções com custo que itens e habilidades dão ao bloquear ou esquivar
+  /// ('extraBloqueio'/'extraEsquiva'), com a fonte e o texto.
+  List<({String fonte, String texto})> extrasDefesa(String alvo) => [
+        for (final e in efeitos)
+          if (asStr(e['alvo']) == alvo) (fonte: asStr(e['fonte']), texto: asStr(e['texto'])),
+      ];
 
   int get defesa {
     var d = 10 + agi + f.b('defesa') + soma('defesa');

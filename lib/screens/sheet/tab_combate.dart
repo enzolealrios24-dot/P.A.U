@@ -78,6 +78,11 @@ class _TabCombateState extends State<TabCombate> {
       ),
       const SizedBox(height: 12),
       _PainelCortado(
+        titulo: 'Bloqueio e esquiva',
+        child: _ReacoesDefesa(ctx: ctx),
+      ),
+      const SizedBox(height: 12),
+      _PainelCortado(
         titulo: 'Resistência a dano',
         acao: _BotaoSofrerDano(ctx: ctx),
         child: _Resistencias(ctx: ctx),
@@ -654,6 +659,7 @@ class _SofrerDanoState extends State<_SofrerDano> {
   final _valor = TextEditingController();
   String _tipo = _ultimoTipoDano;
   bool _metade = false;
+  bool _bloqueou = false;
 
   @override
   void dispose() {
@@ -668,7 +674,9 @@ class _SofrerDanoState extends State<_SofrerDano> {
     final dano = int.tryParse(_valor.text) ?? 0;
     final vida = _tipo == 'vida';
     final mental = _tipo == 'mental';
-    final rd = vida ? 0 : c.rdContra(_tipo);
+    // bloqueio: a RD dele soma contra este ataque (não vale para dano mental)
+    final bloqueio = c.podeBloquear && _bloqueou && !vida && !mental ? c.rdBloqueio : 0;
+    final rd = vida ? 0 : c.rdContra(_tipo) + bloqueio;
     final sofrido = vida ? (_metade ? dano ~/ 2 : dano) : danoFinal(dano, rd, metade: _metade);
     final recurso = mental ? (c.determinacao ? 'PD' : 'SAN') : 'PV';
     final corRecurso = mental ? (c.determinacao ? Cores.pd : Cores.san) : Cores.pv;
@@ -742,6 +750,15 @@ class _SofrerDanoState extends State<_SofrerDano> {
                 ),
               ),
             ]),
+            if (c.podeBloquear && !vida && !mental)
+              CheckboxListTile(
+                value: _bloqueou,
+                onChanged: (v) => setState(() => _bloqueou = v ?? false),
+                contentPadding: EdgeInsets.zero,
+                dense: true,
+                controlAffinity: ListTileControlAffinity.leading,
+                title: Text('Bloqueei: RD +${c.rdBloqueio} contra este ataque'),
+              ),
             const SizedBox(height: 12),
             Text('TIPO', style: estiloRotulo(12.5, cor: Cores.textoFraco, peso: FontWeight.w700, espaco: 1.6)),
             const SizedBox(height: 6),
@@ -760,7 +777,7 @@ class _SofrerDanoState extends State<_SofrerDano> {
                     [
                       '$dano de $nomeTipo',
                       if (_metade) 'metade: ${dano ~/ 2}',
-                      vida ? 'ignora RD' : 'RD $rd',
+                      vida ? 'ignora RD' : (bloqueio > 0 ? 'RD $rd (bloqueio $bloqueio)' : 'RD $rd'),
                     ].join(' · '),
                     style: const TextStyle(fontSize: 13.5, color: Cores.textoFraco),
                   ),
@@ -798,3 +815,226 @@ class _SofrerDanoState extends State<_SofrerDano> {
     );
   }
 }
+
+// ---------------- bloqueio e esquiva ----------------
+
+/// Bloqueio e esquiva (reações de defesa), já calculados com os itens
+/// equipados e as habilidades. Tocar mostra de onde vem cada parte.
+class _ReacoesDefesa extends StatelessWidget {
+  final CtxFicha ctx;
+  const _ReacoesDefesa({required this.ctx});
+
+  @override
+  Widget build(BuildContext context) {
+    final c = ctx.calc;
+    final extras = [
+      for (final e in c.extrasDefesa('extraBloqueio')) ('Bloqueio', e),
+      for (final e in c.extrasDefesa('extraEsquiva')) ('Esquiva', e),
+    ];
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      Row(children: [
+        Expanded(
+          child: _Reacao(
+            rotulo: 'Bloqueio',
+            icone: Icons.shield_outlined,
+            valor: '+${c.rdBloqueio}',
+            unidade: 'RD',
+            detalhe: c.podeBloquear ? 'contra corpo a corpo' : 'exige Fortitude treinada',
+            ativo: c.podeBloquear,
+            aoTocar: () => _detalharReacao(context, ctx, bloqueio: true),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: _Reacao(
+            rotulo: 'Esquiva',
+            icone: Icons.directions_run,
+            valor: '${c.defesaEsquiva}',
+            unidade: 'DEFESA',
+            detalhe: c.podeEsquivar ? 'contra um ataque' : 'exige Reflexos treinado',
+            ativo: c.podeEsquivar,
+            aoTocar: () => _detalharReacao(context, ctx, bloqueio: false),
+          ),
+        ),
+      ]),
+      for (final (qual, e) in extras)
+        Padding(
+          padding: const EdgeInsets.only(top: 6),
+          child: Text.rich(
+            TextSpan(children: [
+              TextSpan(
+                  text: '$qual · ${e.fonte}: ',
+                  style: estiloRotulo(13, cor: Cores.destaque, peso: FontWeight.w700, espaco: 0.3)),
+              TextSpan(text: e.texto),
+            ]),
+            style: const TextStyle(fontSize: 12.5, color: Cores.textoFraco),
+          ),
+        ),
+      const SizedBox(height: 6),
+      const Text('Uma reação de defesa por rodada, escolhida antes de o atacante rolar.',
+          style: TextStyle(fontSize: 12, color: Cores.textoFraco)),
+    ]);
+  }
+}
+
+class _Reacao extends StatelessWidget {
+  final String rotulo, valor, unidade, detalhe;
+  final IconData icone;
+  final bool ativo;
+  final VoidCallback aoTocar;
+  const _Reacao({
+    required this.rotulo,
+    required this.icone,
+    required this.valor,
+    required this.unidade,
+    required this.detalhe,
+    required this.ativo,
+    required this.aoTocar,
+  });
+  @override
+  Widget build(BuildContext context) {
+    final cor = ativo ? Cores.destaque : Cores.textoFraco;
+    return Material(
+      color: ativo ? Cores.destaque.withValues(alpha: 0.08) : Colors.black.withValues(alpha: 0.3),
+      shape: _Corte(corte: 10, cor: ativo ? Cores.destaque.withValues(alpha: 0.5) : Cores.borda),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: aoTocar,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 9, 12, 10),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(children: [
+              Icon(icone, size: 16, color: cor),
+              const SizedBox(width: 6),
+              Text(rotulo.toUpperCase(), style: estiloRotulo(12.5, cor: cor, peso: FontWeight.w700, espaco: 1.6)),
+            ]),
+            const SizedBox(height: 2),
+            Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+              Text(valor, style: estiloNumero(28, cor: ativo ? Cores.texto : Cores.textoFraco)),
+              const SizedBox(width: 6),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Text(unidade, style: estiloRotulo(12, cor: Cores.textoFraco, peso: FontWeight.w700, espaco: 1)),
+              ),
+            ]),
+            Text(detalhe, maxLines: 1, overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontSize: 12, color: Cores.textoFraco)),
+          ]),
+        ),
+      ),
+    );
+  }
+}
+
+/// De onde vem o bloqueio (ou a esquiva), as opções com custo e o bônus
+/// anotado à mão. Acompanha a ficha ao vivo enquanto está aberto.
+Future<void> _detalharReacao(BuildContext context, CtxFicha ctx, {required bool bloqueio}) =>
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => StreamBuilder<Ficha?>(
+        stream: Repo.ficha(ctx.f.id),
+        initialData: ctx.f,
+        builder: (context, s) {
+          final f = s.data;
+          if (f == null) return const SizedBox(height: 200);
+          final c = Calc(f, ctx.camp?.regras);
+          final campo = bloqueio ? 'bonusBloqueio' : 'bonusEsquiva';
+          final anotado = asInt(f.d[campo]);
+          final partes = [
+            for (final p in bloqueio ? c.partesBloqueio : c.partesEsquiva)
+              if (p.fonte != 'Anotado') p
+          ];
+          final extras = c.extrasDefesa(bloqueio ? 'extraBloqueio' : 'extraEsquiva');
+          final pode = bloqueio ? c.podeBloquear : c.podeEsquivar;
+          final cor = pode ? Cores.destaque : Cores.textoFraco;
+          return SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+              child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                  Icon(bloqueio ? Icons.shield_outlined : Icons.directions_run, size: 22, color: cor),
+                  const SizedBox(width: 10),
+                  Expanded(child: Text(bloqueio ? 'Bloqueio' : 'Esquiva', style: estiloTitulo(20, cor: cor))),
+                  Text(bloqueio ? '+${c.rdBloqueio}' : '${c.defesaEsquiva}', style: estiloNumero(34, cor: Cores.texto)),
+                  const SizedBox(width: 6),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 6),
+                    child: Text(bloqueio ? 'RD' : 'DEFESA',
+                        style: estiloRotulo(13, cor: Cores.textoFraco, peso: FontWeight.w700, espaco: 1)),
+                  ),
+                ]),
+                const SizedBox(height: 4),
+                Text(
+                  bloqueio
+                      ? 'Reação ao ser alvo de um ataque corpo a corpo: você recebe essa RD contra ele. '
+                          'Exige Fortitude treinada.'
+                      : 'Reação ao ser alvo de um ataque: você usa essa Defesa contra ele. '
+                          'Exige Reflexos treinado.',
+                  style: const TextStyle(fontSize: 12.5, color: Cores.textoFraco),
+                ),
+                if (!pode)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 6),
+                    child: Text(
+                        bloqueio
+                            ? 'Esta ficha não é treinada em Fortitude, então ainda não pode bloquear.'
+                            : 'Esta ficha não é treinada em Reflexos, então ainda não pode se esquivar.',
+                        style: TextStyle(fontSize: 12.5, color: Cores.pv)),
+                  ),
+                const SizedBox(height: 16),
+                Text('DE ONDE VEM', style: estiloRotulo(13, cor: cor, peso: FontWeight.w700, espaco: 1.6)),
+                const SizedBox(height: 4),
+                for (final p in partes)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 3),
+                    child: Row(children: [
+                      Expanded(
+                        child: Text(p.fonte.isEmpty ? 'Efeito da ficha' : p.fonte,
+                            style: const TextStyle(fontSize: 14.5, color: Cores.texto)),
+                      ),
+                      Text(p.valor >= 0 && p.fonte != 'Defesa' ? '+${p.valor}' : '${p.valor}',
+                          style: estiloNumero(18, cor: cor)),
+                    ]),
+                  ),
+                if (extras.isNotEmpty) ...[
+                  const SizedBox(height: 14),
+                  Text('OPÇÕES COM CUSTO', style: estiloRotulo(13, cor: cor, peso: FontWeight.w700, espaco: 1.6)),
+                  const SizedBox(height: 4),
+                  for (final e in extras)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 3),
+                      child: Text.rich(TextSpan(children: [
+                        TextSpan(text: '${e.fonte}: ', style: const TextStyle(color: Cores.texto, fontWeight: FontWeight.w600)),
+                        TextSpan(text: e.texto),
+                      ]), style: const TextStyle(fontSize: 13.5, color: Cores.textoFraco)),
+                    ),
+                ],
+                const SizedBox(height: 18),
+                Row(children: [
+                  Expanded(
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Text('ANOTADO', style: estiloRotulo(13, cor: cor, peso: FontWeight.w700, espaco: 1.6)),
+                      const Text('Bônus que o app não calcula sozinho.',
+                          style: TextStyle(fontSize: 12.5, color: Cores.textoFraco)),
+                    ]),
+                  ),
+                  _BotaoRd('−1', Cores.destaque, () => Repo.set(f.id, campo, anotado - 1)),
+                  SizedBox(
+                    width: 52,
+                    child: InkWell(
+                      onTap: () async {
+                        final v = await pedirNumero(context, bloqueio ? 'Bônus no bloqueio' : 'Bônus na esquiva', anotado);
+                        if (v != null) Repo.set(f.id, campo, v);
+                      },
+                      child: Center(child: Text('$anotado', style: estiloNumero(24, cor: Cores.texto))),
+                    ),
+                  ),
+                  _BotaoRd('+1', Cores.destaque, () => Repo.set(f.id, campo, anotado + 1)),
+                ]),
+              ]),
+            ),
+          );
+        },
+      ),
+    );

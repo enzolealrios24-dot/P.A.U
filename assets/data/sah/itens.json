@@ -85,7 +85,13 @@
   "arremesso": true,
   "fonte": "SaH",
   "pag": 37,
-  "resumo": "Ágil e arremessável; +2 para contra-atacar; no bloqueio, 2 PE e sacrifique a faca para +20 de RD."
+  "resumo": "Ágil e arremessável; +2 para contra-atacar; no bloqueio, 2 PE e sacrifique a faca para +20 de RD.",
+  "efeitos": [
+   {
+    "alvo": "extraBloqueio",
+    "texto": "2 PE e sacrificar a faca: +20 na RD."
+   }
+  ]
  },
  {
   "id": "gancho_carne",
@@ -119,7 +125,13 @@
   "agil": true,
   "fonte": "SaH",
   "pag": 37,
-  "resumo": "Arma ágil; ao se esquivar com ele, +1 extra na Defesa."
+  "resumo": "Arma ágil; ao se esquivar com ele, +1 extra na Defesa.",
+  "efeitos": [
+   {
+    "alvo": "esquiva",
+    "valor": 1
+   }
+  ]
  },
  {
   "id": "picareta",
@@ -366,7 +378,13 @@
   "espacos": 1,
   "fonte": "SaH",
   "pag": 42,
-  "resumo": "+2 na RD de bloqueios."
+  "resumo": "+2 na RD de bloqueios.",
+  "efeitos": [
+   {
+    "alvo": "rdBloqueio",
+    "valor": 2
+   }
+  ]
  },
  {
   "id": "cao_adestrado",

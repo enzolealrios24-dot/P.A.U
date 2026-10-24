@@ -34,7 +34,13 @@
   "prereq": "Vig 2",
   "fonte": "AS2",
   "pag": 47,
-  "resumo": "Pode fazer uma segunda reação especial de defesa na rodada, se for um bloqueio."
+  "resumo": "Pode fazer uma segunda reação especial de defesa na rodada, se for um bloqueio.",
+  "efeitos": [
+   {
+    "alvo": "extraBloqueio",
+    "texto": "Pode bloquear como segunda reação de defesa na rodada."
+   }
+  ]
  },
  {
   "id": "c.golpes_arena",
@@ -62,7 +68,13 @@
   "prereq": "Agi 2",
   "fonte": "AS2",
   "pag": 53,
-  "resumo": "Pode fazer uma segunda reação especial de defesa na rodada, se for uma esquiva."
+  "resumo": "Pode fazer uma segunda reação especial de defesa na rodada, se for uma esquiva.",
+  "efeitos": [
+   {
+    "alvo": "extraEsquiva",
+    "texto": "Pode esquivar como segunda reação de defesa na rodada."
+   }
+  ]
  },
  {
   "id": "e.assassinato_furtivo",
