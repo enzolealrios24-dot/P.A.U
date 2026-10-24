@@ -10,7 +10,7 @@
     "periciasLivres": 1,
     "proficiencias": "Armas simples.",
     "habilidades": [
-      {"nex": 1, "nome": "Empenho", "resumo": "Gaste 1 PE para +2 num teste de perícia."},
+      {"nex": 1, "nome": "Empenho", "resumo": "Gaste 1 PE para +2 num teste de perícia.", "custo": 1},
       {"nex": 2, "nome": "Trilha", "resumo": "Escolha uma trilha de sobrevivente (Durão, Esperto ou Esotérico); segunda habilidade no estágio 4."},
       {"nex": 3, "nome": "Aumento de Atributo", "resumo": "+1 em um atributo (máximo 3)."},
       {"nex": 5, "nome": "Cicatrizado", "resumo": "Escolha um perigo paranormal que enfrentou: −1d20 em resistência contra ele. 1x por sessão, como reação, sacrifique 1 PV permanente para ignorar dano mental ou gasto de PE, ou 1 PE permanente para reduzir um dano físico à metade."}

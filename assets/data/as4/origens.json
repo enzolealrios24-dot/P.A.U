@@ -10,7 +10,8 @@
   ],
   "poder": {
    "nome": "Registrar o Paranormal",
-   "resumo": "1x por cena, ação padrão e 2 PE para registrar (foto, vídeo) uma criatura ou ritual da cena: +5 contra a Presença Perturbadora de criaturas registradas; no interlúdio, memoriza um ritual registrado e pode conjurá-lo até o próximo interlúdio se tiver o NEX do círculo."
+   "resumo": "1x por cena, ação padrão e 2 PE para registrar (foto, vídeo) uma criatura ou ritual da cena: +5 contra a Presença Perturbadora de criaturas registradas; no interlúdio, memoriza um ritual registrado e pode conjurá-lo até o próximo interlúdio se tiver o NEX do círculo.",
+   "custo": 2
   }
  },
  {

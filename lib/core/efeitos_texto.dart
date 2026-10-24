@@ -60,6 +60,14 @@ String? descreverEfeito(Map<String, dynamic> e) {
         _ => 'testes',
       }}',
     'margem' => 'margem de ameaça$escopo $valor',
+    'treino' =>
+      'treinado em ${asStr(e['pericia'])}${asInt(e['grau'], 5) > 5 ? ' (veterano)' : ''} (se já for: ${e['ouDados'] != null ? '+${asInt(e['ouDados'])}d20' : '+${asInt(e['ou'])}'})',
+    'treinoCascata' => 'treino em ${asStrList(e['pericias']).join(' ou ')} (com todas: +${asInt(e['ou'])})',
+    'todasPericias' => 'todas as perícias $valor',
+    'atributoPericia' => '${asStr(e['pericia'])} pode usar $sigla',
+    'atributoPE' => 'PE podem usar $sigla',
+    'atributoDefesa' => 'Defesa pode usar $sigla',
+    'atributoDT' => 'DT de rituais pode usar $sigla',
     'multiplicador' => 'multiplicador de crítico$escopo $valor',
     'dadosDano' => '${sinal(v)} dado de dano$escopo',
     _ => '',
@@ -69,6 +77,7 @@ String? descreverEfeito(Map<String, dynamic> e) {
     'machucado' => ' (machucado)',
     'protecaoPesada' => ' (com proteção pesada)',
     'semProtecao' => ' (sem proteção)',
+    'protecaoLeve' => ' (com proteção leve)',
     _ => '',
   };
   return '$texto$se';

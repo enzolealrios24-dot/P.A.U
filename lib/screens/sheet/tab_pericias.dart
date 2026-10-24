@@ -24,10 +24,10 @@ class _TabPericiasState extends State<TabPericias> {
 
   @override
   Widget build(BuildContext context) {
-    final f = widget.ctx.f;
-    final treinadas = periciasDef.where((p) => f.grau(p.nome) > 0).length;
+    final c = widget.ctx.calc;
+    final treinadas = periciasDef.where((p) => c.grau(p.nome) > 0).length;
     final lista = periciasDef.where((p) {
-      final t = f.grau(p.nome) > 0;
+      final t = c.grau(p.nome) > 0;
       return switch (_filtro) {
         _Filtro.todas => true,
         _Filtro.treinadas => t,
@@ -41,7 +41,7 @@ class _TabPericiasState extends State<TabPericias> {
           Expanded(
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text('Caderno de campo', style: estiloMao(30, cor: Cores.texto, peso: FontWeight.w700)),
-              Text('${f.nome} · $treinadas treinadas',
+              Text('${widget.ctx.f.nome} · $treinadas treinadas',
                   style: estiloMaquina(12, cor: Cores.textoFraco)),
             ]),
           ),
@@ -161,7 +161,7 @@ class _LinhaPericia extends StatelessWidget {
   Widget build(BuildContext context) {
     final f = ctx.f;
     final c = ctx.calc;
-    final treinada = f.grau(p.nome) > 0;
+    final treinada = c.grau(p.nome) > 0;
     final bonus = c.bonusPericia(p.nome);
     final dados = c.dadosPericia(p.nome);
     final outros = f.bonusPericia(p.nome);
@@ -198,7 +198,7 @@ class _LinhaPericia extends StatelessWidget {
                   const Icon(Icons.backpack_outlined, size: 13, color: Cores.textoFraco),
                 ],
               ]),
-              Text('${atributosSigla[p.attr]} · ${dados <= 0 ? 2 - dados : dados}d20${dados <= 0 ? ' (pior)' : ''}',
+              Text('${atributosSigla[c.atributoDaPericia(p.nome)]} · ${dados <= 0 ? 2 - dados : dados}d20${dados <= 0 ? ' (pior)' : ''}',
                   style: estiloMaquina(10.5, cor: Cores.textoFraco, espaco: 0.4)),
             ]),
           ),
@@ -210,7 +210,8 @@ class _LinhaPericia extends StatelessWidget {
             ),
           ),
           _CarimboGrau(
-            grau: f.grau(p.nome),
+            // o grau que vale (com o treino que poderes dão)
+            grau: c.grau(p.nome),
             aoMudar: (g) => Repo.set(f.id, 'pericias.${p.nome}.grau', g),
           ),
           const SizedBox(width: 4),

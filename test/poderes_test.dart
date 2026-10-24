@@ -76,6 +76,88 @@ void main() {
     expect(Calc(ficha({'classe': 'Combatente', 'nex': 90})).custoPoder(ataque), 5);
   });
 
+  test('Treino em perícia: quem não era treinado passa a ser; quem era ganha +2', () {
+    final base = {'classe': 'Combatente', 'poderes': [poder('ac', 'sah/g.acrobatico')]};
+    final semTreino = Calc(ficha(base));
+    expect(semTreino.grau('Acrobacia'), 5);
+    final treinado = Calc(ficha({...base, 'pericias': {'Acrobacia': {'grau': 5}}}));
+    expect(treinado.grau('Acrobacia'), 5);
+    expect(treinado.bonusPericia('Acrobacia') - semTreino.bonusPericia('Acrobacia'), 2);
+  });
+
+  test('Instinto de Fuga ativo dá +2 em todas as perícias', () {
+    final base = {'classe': 'Combatente', 'poderes': [poder('if', 'sah/c.instinto_fuga')]};
+    final parado = Calc(ficha(base));
+    final fugindo = Calc(ficha({...base, 'ativos': ['poder:if']}));
+    for (final p in ['Atletismo', 'Furtividade', 'Vontade']) {
+      expect(fugindo.bonusPericia(p) - parado.bonusPericia(p), 2);
+    }
+  });
+
+  test('Valentão usa Força em Intimidação e Racionalidade usa Intelecto nos PE', () {
+    final c = Calc(ficha({
+      'classe': 'Especialista',
+      'atributos': {'agi': 1, 'for': 3, 'int': 3, 'pre': 1, 'vig': 1},
+      'poderes': [poder('va', 'sah/c.valentao'), poder('ri', 'sah/g.racionalidade_inflexivel')],
+    }));
+    expect(c.atributoDaPericia('Intimidação'), 'for');
+    expect(c.dadosPericia('Intimidação'), 3);
+    expect(c.atributoPE, 'int');
+  });
+
+  test('Monstruoso (Conhecimento): Int na Defesa e RD que cresce no Ser Macabro', () {
+    final base = {
+      'classe': 'Combatente',
+      'trilha': 'Monstruoso',
+      'atributos': {'agi': 1, 'for': 1, 'int': 3, 'pre': 1, 'vig': 1},
+      'escolhasPoder': {'trilha:Monstruoso:Ser Amaldiçoado': ['Conhecimento']},
+    };
+    final nex10 = Calc(ficha({...base, 'nex': 10}));
+    final semEscolha = Calc(ficha({'classe': 'Combatente', 'trilha': 'Monstruoso', 'nex': 10,
+        'atributos': {'agi': 1, 'for': 1, 'int': 3, 'pre': 1, 'vig': 1}}));
+    expect(nex10.defesa - semEscolha.defesa, 3);
+    expect(nex10.rdContra('balistico'), 5);
+    expect(nex10.rdContra('corte'), 0);
+    final nex40 = Calc(ficha({...base, 'nex': 40}));
+    expect(nex40.rdContra('balistico'), 10);
+    expect(nex40.rdContra('conhecimento'), 10);
+  });
+
+  test('CQB: treina Pontaria; com Pontaria, treina Luta; com as duas, +2 nelas', () {
+    Calc c(Map<String, dynamic> pericias) =>
+        Calc(ficha({'classe': 'Combatente', 'trilha': 'Incursor', 'nex': 10, 'pericias': pericias}));
+    expect(c({}).grau('Pontaria'), 5);
+    expect(c({}).grau('Luta'), 0);
+    expect(c({'Pontaria': {'grau': 5}}).grau('Luta'), 5);
+    final ambas = c({'Pontaria': {'grau': 5}, 'Luta': {'grau': 5}});
+    final nada = Calc(ficha({'classe': 'Combatente', 'pericias': {'Pontaria': {'grau': 5}, 'Luta': {'grau': 5}}}));
+    expect(ambas.bonusPericia('Luta') - nada.bonusPericia('Luta'), 2);
+  });
+
+  test('Exorcizado: RD 5 contra o elemento escolhido', () {
+    final c = Calc(ficha({
+      'classe': 'Ocultista',
+      'origem': 'Exorcizado',
+      'escolhasPoder': {'origem:Exorcizado': ['Sangue']},
+    }));
+    expect(c.rdContra('sangue'), 5);
+    expect(c.rdContra('morte'), 0);
+  });
+
+  test('Treinado pela Hell Hunters: PV só com Luta e Fortitude treinadas', () {
+    final base = {'classe': 'Combatente', 'origem': 'Treinado pela Hell Hunters', 'nex': 20};
+    final sem = Calc(ficha(base));
+    final com = Calc(ficha({...base, 'pericias': {'Luta': {'grau': 5}, 'Fortitude': {'grau': 5}}}));
+    expect(com.pvMax - sem.pvMax, 2 + 2);
+  });
+
+  test('Ensaio: +1 na margem e cada habilidade seguinte da trilha soma +1 enquanto vale', () {
+    final base = {'classe': 'Combatente', 'trilha': 'Performático', 'nex': 65};
+    expect(Calc(ficha(base)).margemAtaque(corpo: true), 0);
+    final ensaiado = Calc(ficha({...base, 'ativos': ['trilha:Performático:Ensaio']}));
+    expect(ensaiado.margemAtaque(corpo: true), 3);
+  });
+
   test('Habilidade oculta não conta na ficha', () {
     final base = {'classe': 'Combatente', 'origem': 'Policial'};
     final normal = Calc(ficha(base));

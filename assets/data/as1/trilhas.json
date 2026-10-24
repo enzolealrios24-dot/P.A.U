@@ -9,12 +9,14 @@
    {
     "nex": 10,
     "nome": "Identificação Macabra",
-    "resumo": "1 PE para +1d10 ao identificar itens amaldiçoados ou rituais; identificar item como ação completa só dá −1d20."
+    "resumo": "1 PE para +1d10 ao identificar itens amaldiçoados ou rituais; identificar item como ação completa só dá −1d20.",
+    "custo": 1
    },
    {
     "nex": 40,
     "nome": "Compreensão de Maldições",
-    "resumo": "Interlúdio e 3 PE com Ocultismo (DT 10 + 5 por categoria): aprende o ritual de um item (consumindo-o) ou transfere suas maldições para outro item ou uma tatuagem; custa SAN."
+    "resumo": "Interlúdio e 3 PE com Ocultismo (DT 10 + 5 por categoria): aprende o ritual de um item (consumindo-o) ou transfere suas maldições para outro item ou uma tatuagem; custa SAN.",
+    "custo": 3
    },
    {
     "nex": 65,

@@ -46,7 +46,8 @@
   "tipo": "especialista",
   "fonte": "AS5",
   "pag": 55,
-  "resumo": "2 PE para usar Intelecto em vez de Agilidade em Iniciativa ou Reflexos."
+  "resumo": "2 PE para usar Intelecto em vez de Agilidade em Iniciativa ou Reflexos.",
+  "custo": 2
  },
  {
   "id": "o.catalogo_criaturas",
@@ -63,7 +64,14 @@
   "prereq": "Agi 2",
   "fonte": "AS5",
   "pag": 56,
-  "resumo": "Treino em Pilotagem (ou +2); +1d20 para proteger o veículo; com Veículos Operacionais, uma regalia extra."
+  "resumo": "Treino em Pilotagem (ou +2); +1d20 para proteger o veículo; com Veículos Operacionais, uma regalia extra.",
+  "efeitos": [
+   {
+    "alvo": "treino",
+    "pericia": "Pilotagem",
+    "ou": 2
+   }
+  ]
  },
  {
   "id": "g.meditacao_ocultista",
@@ -79,7 +87,8 @@
   "tipo": "geral",
   "fonte": "AS5",
   "pag": 56,
-  "resumo": "Reação e 4 PE quando um alvo próximo recebe bônus ou penalidade em dados: inverte o efeito até o fim da cena."
+  "resumo": "Reação e 4 PE quando um alvo próximo recebe bônus ou penalidade em dados: inverte o efeito até o fim da cena.",
+  "custo": 4
  },
  {
   "id": "g.desafiar_ego",
@@ -88,7 +97,8 @@
   "prereq": "Pre 2",
   "fonte": "AS5",
   "pag": 56,
-  "resumo": "1x por rodada, reação e 1 PE no ataque de um aliado: se acertar, causa dano extra igual à sua Presença; se errar, devolve o PE."
+  "resumo": "1x por rodada, reação e 1 PE no ataque de um aliado: se acertar, causa dano extra igual à sua Presença; se errar, devolve o PE.",
+  "custo": 1
  },
  {
   "id": "g.direcao_defensiva",
@@ -96,7 +106,28 @@
   "tipo": "geral",
   "fonte": "AS5",
   "pag": 56,
-  "resumo": "Treino em Pilotagem (ou +2); dirigindo, todos no veículo ganham +2 na Defesa e em resistências (e o veículo +2 na Defesa)."
+  "resumo": "Treino em Pilotagem (ou +2); dirigindo, todos no veículo ganham +2 na Defesa e em resistências (e o veículo +2 na Defesa).",
+  "efeitos": [
+   {
+    "alvo": "treino",
+    "pericia": "Pilotagem",
+    "ou": 2
+   }
+  ],
+  "ativavel": {
+   "custo": 0,
+   "rotulo": "Dirigindo",
+   "efeitos": [
+    {
+     "alvo": "defesa",
+     "valor": 2
+    },
+    {
+     "alvo": "resistencias",
+     "valor": 2
+    }
+   ]
+  }
  },
  {
   "id": "p.acido_corrosivo",
@@ -106,7 +137,12 @@
   "fonte": "AS5",
   "pag": 57,
   "resumo": "1 PE: até o fim da cena, +2 no ataque e +5 no dano desarmado (químico); pode aplicar numa arma corpo a corpo, que é destruída no fim da cena se não for amaldiçoada.",
-  "afinidade": "+4 no ataque e +10 no dano."
+  "afinidade": "+4 no ataque e +10 no dano.",
+  "ativavel": {
+   "custo": 1,
+   "rotulo": "Até o fim da cena: +2 no ataque e +5 de dano químico desarmado",
+   "efeitos": []
+  }
  },
  {
   "id": "p.dead_man_switch",
@@ -146,6 +182,7 @@
   "prereq": "Conectar-se ao Sino de Transmissão; só funciona com outro ser com o mesmo poder",
   "fonte": "AS5",
   "pag": 62,
-  "resumo": "Reação e 3 PE: os sincronizados compartilham Iniciativa, sabem os itens e ações uns dos outros, usam PE uns dos outros e podem receber o dano de outro."
+  "resumo": "Reação e 3 PE: os sincronizados compartilham Iniciativa, sabem os itens e ações uns dos outros, usam PE uns dos outros e podem receber o dano de outro.",
+  "custo": 3
  }
 ]

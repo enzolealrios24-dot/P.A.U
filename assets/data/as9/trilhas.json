@@ -9,22 +9,36 @@
    {
     "nex": 10,
     "nome": "CQB",
-    "resumo": "Treino em Pontaria (se já tiver, em Luta; se tiver as duas, +2 nelas). 1 PE para anular o −5 de Pontaria contra alvo engajado corpo a corpo."
+    "resumo": "Treino em Pontaria (se já tiver, em Luta; se tiver as duas, +2 nelas). 1 PE para anular o −5 de Pontaria contra alvo engajado corpo a corpo.",
+    "custo": 1,
+    "efeitos": [
+     {
+      "alvo": "treinoCascata",
+      "pericias": [
+       "Pontaria",
+       "Luta"
+      ],
+      "ou": 2
+     }
+    ]
    },
    {
     "nex": 40,
     "nome": "Entrada Explosiva",
-    "resumo": "+5 em testes para implantar ou usar explosivos (incluindo ataques com granadas); 1 PE para implantar mina antipessoal ou carga de arrombamento como movimento."
+    "resumo": "+5 em testes para implantar ou usar explosivos (incluindo ataques com granadas); 1 PE para implantar mina antipessoal ou carga de arrombamento como movimento.",
+    "custo": 1
    },
    {
     "nex": 65,
     "nome": "Proteger Reféns",
-    "resumo": "A até 3m de um refém que protege, reação e 2 PE para receber no lugar dele um efeito negativo; se for dano, mais 2 PE o reduzem à metade. Vale para até três reféns."
+    "resumo": "A até 3m de um refém que protege, reação e 2 PE para receber no lugar dele um efeito negativo; se for dano, mais 2 PE o reduzem à metade. Vale para até três reféns.",
+    "custo": 2
    },
    {
     "nex": 99,
     "nome": "Alvo-prioritário",
-    "resumo": "O mestre informa o VD dos inimigos que você vê. 5 PE para marcar um alvo: com VD até 200, qualquer dano seu zera os PV dele; acima disso, +5 na margem de ameaça contra ele. Dura até ele cair ou você marcar outro."
+    "resumo": "O mestre informa o VD dos inimigos que você vê. 5 PE para marcar um alvo: com VD até 200, qualquer dano seu zera os PV dele; acima disso, +5 na margem de ameaça contra ele. Dura até ele cair ou você marcar outro.",
+    "custo": 5
    }
   ]
  },
@@ -43,12 +57,14 @@
    {
     "nex": 40,
     "nome": "Protetor dos Drones",
-    "resumo": "Uma modificação no drone que não conta no limite de categoria; 3 PE para o drone evitar um efeito negativo."
+    "resumo": "Uma modificação no drone que não conta no limite de categoria; 3 PE para o drone evitar um efeito negativo.",
+    "custo": 3
    },
    {
     "nex": 65,
     "nome": "Ás dos Drones",
-    "resumo": "Mais duas modificações (3 no total) fora do limite de categoria; ao falhar num teste feito com o drone, 3 PE para rolar de novo (uma vez)."
+    "resumo": "Mais duas modificações (3 no total) fora do limite de categoria; ao falhar num teste feito com o drone, 3 PE para rolar de novo (uma vez).",
+    "custo": 3
    },
    {
     "nex": 99,

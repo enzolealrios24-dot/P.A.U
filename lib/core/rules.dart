@@ -396,8 +396,14 @@ class Calc {
         if (ligado) ...asMapList(ativavel['efeitos']),
         if (ligado && afinidade) ...asMapList(ativavel['efeitosAfinidade']),
       ];
-      final escolhas = escolhasDe(chave);
+      // "escolhaDe": usa a escolha de outra habilidade da mesma trilha
+      final de = asStr(meta['escolhaDe']);
+      final escolhas = escolhasDe(de.isEmpty ? chave : '${chave.substring(0, chave.lastIndexOf(':') + 1)}$de');
+
+      String irma(String nome) => '${chave.substring(0, chave.lastIndexOf(':') + 1)}$nome';
       for (final e in efs) {
+        final seAtivo = asStr(e['seAtivo']);
+        if (seAtivo.isNotEmpty && !ativos.contains(irma(seAtivo))) continue;
         for (final x in comEscolhas(e, escolhas)) {
           l.add({...x, 'fonte': fonte, 'chave': chave});
         }
@@ -407,7 +413,8 @@ class Calc {
     final o = origemDados;
     if (o != null) {
       final poder = asMap(o['poder']);
-      addHabilidade(poder, chaveOrigem(o), asStr(poder['nome'], asStr(o['nome'])), base: o['efeitos']);
+      addHabilidade(poder, chaveOrigem(o), asStr(poder['nome'], asStr(o['nome'])),
+          base: [...asMapList(o['efeitos']), ...asMapList(poder['efeitos'])]);
     }
     final cd = classeDados;
     if (cd != null) {
@@ -456,6 +463,12 @@ class Calc {
   /// Troca "@escolha" pelo que a pessoa escolheu (um efeito por escolha).
   /// Sem escolha feita, o efeito ainda não vale.
   static Iterable<Map<String, dynamic>> comEscolhas(Map<String, dynamic> e, List<String> escolhas) sync* {
+    // "seEscolha": só vale se essa opção foi a escolhida (ex.: o elemento)
+    final se = e['seEscolha'];
+    if (se != null) {
+      if (!escolhas.contains(asStr(se))) return;
+      e = {...e}..remove('seEscolha');
+    }
     final campos = [for (final k in e.keys) if (e[k] == '@escolha') k];
     if (campos.isEmpty) {
       yield e;
@@ -473,6 +486,13 @@ class Calc {
         'protecaoPesada' => usandoProtecaoPesada,
         'semProtecao' =>
           !f.inventario.any((i) => asStr(i['tipo']) == 'protecao' && asBool(i['equipado'], true)),
+        'protecaoLeve' => f.inventario.any((i) =>
+            asStr(i['tipo']) == 'protecao' &&
+            asBool(i['equipado'], true) &&
+            !protecaoPesada(i) &&
+            !asStr(i['nome']).toLowerCase().contains('escudo')),
+        // "treinado:Luta+Fortitude": treinado nessas (pelo grau da ficha)
+        final s when s.startsWith('treinado:') => s.substring(9).split('+').every((p) => f.grau(p) >= 5),
         _ => false,
       };
 
@@ -581,7 +601,7 @@ class Calc {
   }
 
   int get peMax {
-    final p = attrBase('pre');
+    final p = attrBase(atributoPE);
     return c('peIni') +
         p +
         (nivel - 1) * (c('peNex') + (_somaAttr ? p : 0)) +
@@ -602,7 +622,7 @@ class Calc {
   }
 
   int get pdMax {
-    final p = attrBase('pre');
+    final p = attrBase(atributoPE);
     if (modoPatente && !sobrevivente) {
       final pd = _patenteClasse('pd');
       return pd[0] + p + indicePat * (pd[1] + p) + soma('pe') + soma('pd') + f.b('pd');
@@ -678,7 +698,9 @@ class Calc {
 
     for (final e in efeitos) {
       if (asStr(e['alvo']) != 'rd') continue;
-      add(asStr(e['tipo']), _valorEfeito(e), asStr(e['fonte']));
+      final tipo = asStr(e['tipo']);
+      final id = tipoDanoPorId(tipo) != null ? tipo : tipoDanoDoTexto(tipo);
+      add(id.isEmpty ? tipo : id, _valorEfeito(e), asStr(e['fonte']));
     }
     // proteções: a RD delas vale para os quatro tipos físicos (pesada: 2,
     // Blindada sobe para 5, Tanque de Guerra soma +2); a maldição Cinética
@@ -738,11 +760,11 @@ class Calc {
 
   /// Bloqueio (OPRPG p. 88): exige Fortitude treinada; reação contra um
   /// ataque corpo a corpo que dá RD igual ao bônus de Fortitude.
-  bool get podeBloquear => f.grau('Fortitude') >= 5;
+  bool get podeBloquear => grau('Fortitude') >= 5;
 
   /// Esquiva (OPRPG p. 88): exige Reflexos treinado; reação contra um
   /// ataque que soma o bônus de Reflexos na Defesa.
-  bool get podeEsquivar => f.grau('Reflexos') >= 5;
+  bool get podeEsquivar => grau('Reflexos') >= 5;
 
   /// De onde vem a RD do bloqueio: Fortitude, itens e habilidades equipados
   /// ('rdBloqueio') e o bônus anotado na ficha.
@@ -775,7 +797,7 @@ class Calc {
       ];
 
   int get defesa {
-    var d = 10 + agi + f.b('defesa') + soma('defesa');
+    var d = 10 + attr(_melhorAtributo('agi', 'atributoDefesa')) + f.b('defesa') + soma('defesa');
     for (final i in f.inventario) {
       if (asStr(i['tipo']) == 'protecao' && asBool(i['equipado'], true)) {
         d += asInt(i['defesa']);
@@ -795,11 +817,18 @@ class Calc {
 
   int bonusPericia(String nome) {
     final def = periciaPorNome(nome);
-    var b = f.grau(nome) + f.bonusPericia(nome);
+    var b = grau(nome) + f.bonusPericia(nome);
     for (final e in efeitos) {
       final alvo = asStr(e['alvo']);
-      if (alvo == 'pericia' && asStr(e['pericia']) == nome) {
-        if (asBool(e['seTreinado']) && f.grau(nome) < 5) continue;
+      if (alvo == 'treino' && asStr(e['pericia']) == nome) {
+        // já treinado (ou acima) por conta própria: ganha o "ou +2"
+        if (f.grau(nome) >= asInt(e['grau'], 5)) b += asInt(e['ou']);
+      } else if (alvo == 'treinoCascata' && asStrList(e['pericias']).contains(nome)) {
+        if (asStrList(e['pericias']).every((p) => f.grau(p) >= 5)) b += asInt(e['ou']);
+      } else if (alvo == 'todasPericias' && !asStrList(e['exceto']).contains(nome)) {
+        b += _valorEfeito(e);
+      } else if (alvo == 'pericia' && asStr(e['pericia']) == nome) {
+        if (asBool(e['seTreinado']) && grau(nome) < 5) continue;
         b += _valorEfeito(e);
       } else if (alvo == 'resistencias' && periciasResistencia.contains(nome)) {
         b += _valorEfeito(e);
@@ -823,13 +852,22 @@ class Calc {
         (pericia == null ? null : periciaPorNome(pericia)?.attr);
     var t = 0;
     for (final e in efeitos) {
-      if (asStr(e['alvo']) != 'dados') continue;
+      final alvoE = asStr(e['alvo']);
+      // "treino ... ou +1d20": quem já tinha o grau ganha o dado
+      if (alvoE == 'treino') {
+        if (pericia != null && asStr(e['pericia']) == pericia && f.grau(pericia) >= asInt(e['grau'], 5)) {
+          t += asInt(e['ouDados']);
+        }
+        continue;
+      }
+      if (alvoE != 'dados') continue;
       final esc = asStr(e['escopo']);
       bool vale;
       if (esc == 'todos') {
         vale = true;
       } else if (esc == 'pericia') {
-        vale = pericia != null;
+        // sem "pericia": vale em todas; com ela, só nessa
+        vale = pericia != null && (e['pericia'] == null || asStr(e['pericia']) == pericia);
       } else if (esc == 'ataque') {
         vale = ataque;
       } else if (esc == 'ataqueCorpo') {
@@ -846,9 +884,50 @@ class Calc {
     return t;
   }
 
-  int dadosPericia(String nome) {
-    final def = periciaPorNome(nome);
-    return attr(def?.attr ?? 'agi') + modDados(pericia: nome);
+  int dadosPericia(String nome) => attr(atributoDaPericia(nome)) + modDados(pericia: nome);
+
+  /// Grau de treinamento contando o que os poderes dão ("treino em X":
+  /// quem não era treinado passa a ser; quem já era ganha o bônus "ou").
+  int grau(String nome) {
+    final base = f.grau(nome);
+    var g = base;
+    for (final e in efeitos) {
+      if (asStr(e['alvo']) == 'treinoCascata') {
+        final ps = asStrList(e['pericias']);
+        final primeira = ps.where((p) => f.grau(p) < 5).firstOrNull;
+        if (primeira == nome && g < 5) g = 5;
+        continue;
+      }
+      if (asStr(e['alvo']) != 'treino' || asStr(e['pericia']) != nome) continue;
+      final alvo = asInt(e['grau'], 5);
+      if (base < alvo && g < alvo) g = alvo;
+    }
+    return g;
+  }
+
+  /// Atributo usado numa perícia: o do livro ou outro que um poder permita
+  /// usar no lugar (fica o maior).
+  String atributoDaPericia(String nome) {
+    var a = periciaPorNome(nome)?.attr ?? 'agi';
+    for (final e in efeitos) {
+      if (asStr(e['alvo']) == 'atributoPericia' && asStr(e['pericia']) == nome) {
+        final b = asStr(e['attr']);
+        if (attr(b) > attr(a)) a = b;
+      }
+    }
+    return a;
+  }
+
+  /// Atributo dos PE (ou PD): Presença ou outro que um poder permita usar
+  /// no lugar (fica o maior).
+  String get atributoPE {
+    var a = 'pre';
+    for (final e in efeitos) {
+      if (asStr(e['alvo']) != 'atributoPE') continue;
+      final b = asStr(e['attr']);
+      if (attrBase(b) > attrBase(a)) a = b;
+    }
+    return a;
   }
 
   /// Bonus de dano por tipo de ataque: 'corpo', 'disparo' ou 'fogo'.
@@ -874,7 +953,19 @@ class Calc {
     return t;
   }
 
-  int get dtRitual => 10 + limiteBase + pre + f.b('dtRitual') + soma('dtRitual');
+  int get dtRitual => 10 + limiteBase + attr(_melhorAtributo('pre', 'atributoDT')) + f.b('dtRitual') + soma('dtRitual');
+
+  /// O atributo do livro ou outro que um efeito ([alvo]) permita usar no
+  /// lugar (fica o maior).
+  String _melhorAtributo(String base, String alvo) {
+    var a = base;
+    for (final e in efeitos) {
+      if (asStr(e['alvo']) != alvo) continue;
+      final b = asStr(e['attr']);
+      if (attr(b) > attr(a)) a = b;
+    }
+    return a;
+  }
 
   /// DT dos rituais de um elemento (Especialista em Elemento soma só nele).
   int dtRitualDe(String elemento) {

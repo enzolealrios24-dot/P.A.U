@@ -15,7 +15,8 @@
   "prereq": "Veterano em Luta ou Pontaria e em Sobrevivência",
   "fonte": "AS2",
   "pag": 41,
-  "resumo": "1x por rodada, 5 PE para uma ação padrão extra que tenha intenção de causar dano."
+  "resumo": "1x por rodada, 5 PE para uma ação padrão extra que tenha intenção de causar dano.",
+  "custo": 5
  },
  {
   "id": "p.predador_sangue",
@@ -25,7 +26,8 @@
   "fonte": "AS2",
   "pag": 41,
   "resumo": "Ação padrão e 3 PE com uma fonte do odor: +1d20 para rastrear, perceber e atacar essa vítima (uma por vez).",
-  "afinidade": "Memoriza até três vítimas."
+  "afinidade": "Memoriza até três vítimas.",
+  "custo": 3
  },
  {
   "id": "g.corpo_fechado",
@@ -49,7 +51,8 @@
   "prereq": "Treinado em Luta",
   "fonte": "AS2",
   "pag": 47,
-  "resumo": "Ao acertar corpo a corpo, 2 PE para outro ataque corpo a corpo ou uma manobra contra o mesmo alvo."
+  "resumo": "Ao acertar corpo a corpo, 2 PE para outro ataque corpo a corpo ou uma manobra contra o mesmo alvo.",
+  "custo": 2
  },
  {
   "id": "p.pressao_atmosferica",
@@ -59,7 +62,8 @@
   "fonte": "AS2",
   "pag": 47,
   "resumo": "Ao acertar corpo a corpo um alvo agarrado, 3 PE: +1d10 de Energia e atordoado 1 rodada (Fort DT For evita; 1x por cena por alvo).",
-  "afinidade": "O alvo também fica caído e sangrando."
+  "afinidade": "O alvo também fica caído e sangrando.",
+  "custo": 3
  },
  {
   "id": "g.esquiva_tatica",
@@ -83,7 +87,8 @@
   "prereq": "Ataque Furtivo",
   "fonte": "AS2",
   "pag": 53,
-  "resumo": "Ataque Furtivo causa +1d6; ao acertar um furtivo, 2 PE para os dados furtivos virarem d8."
+  "resumo": "Ataque Furtivo causa +1d6; ao acertar um furtivo, 2 PE para os dados furtivos virarem d8.",
+  "custo": 2
  },
  {
   "id": "p.zona_sussurros",
@@ -93,7 +98,8 @@
   "fonte": "AS2",
   "pag": 53,
   "resumo": "Ação completa e 3 PE para marcar um cômodo: nele, +5 nos ataques e sem penalidade de Furtividade após atacar (máximo três áreas).",
-  "afinidade": "Contra alvo desprevenido ou flanqueado, rola de novo dados de dano 1 ou 2."
+  "afinidade": "Contra alvo desprevenido ou flanqueado, rola de novo dados de dano 1 ou 2.",
+  "custo": 3
  },
  {
   "id": "g.palpite_confiante",
@@ -102,7 +108,8 @@
   "prereq": "Int 2",
   "fonte": "AS2",
   "pag": 59,
-  "resumo": "Em testes de perícia de Intelecto ou Presença, 1 PE para somar seu Intelecto."
+  "resumo": "Em testes de perícia de Intelecto ou Presença, 1 PE para somar seu Intelecto.",
+  "custo": 1
  },
  {
   "id": "e.especialista_matar",
@@ -111,7 +118,13 @@
   "prereq": "Agi 2 ou For 2, treinado em Luta ou Pontaria",
   "fonte": "AS2",
   "pag": 59,
-  "resumo": "Ao atacar, 2 PE para +4 no ataque ou dano; 3 PE/+8 (NEX 25%), 4 PE/+12 (55%), 5 PE/+16 (85%), cada +4 em ataque ou dano."
+  "resumo": "Ao atacar, 2 PE para +4 no ataque ou dano; 3 PE/+8 (NEX 25%), 4 PE/+12 (55%), 5 PE/+16 (85%), cada +4 em ataque ou dano.",
+  "custoNex": {
+   "5": 2,
+   "25": 3,
+   "55": 4,
+   "85": 5
+  }
  },
  {
   "id": "p.disparo_morte",
@@ -121,7 +134,8 @@
   "fonte": "AS2",
   "pag": 59,
   "resumo": "Antes de atacar com arma de fogo ou de disparo, 3 PE para +2 na margem de ameaça.",
-  "afinidade": "O ataque ignora cobertura e 10 de RD."
+  "afinidade": "O ataque ignora cobertura e 10 de RD.",
+  "custo": 3
  },
  {
   "id": "g.especialista_correntes",
@@ -139,7 +153,8 @@
   "prereq": "For 2 ou Agi 2, treinado em Luta",
   "fonte": "AS2",
   "pag": 70,
-  "resumo": "Ao acertar com corrente, chicote ou corda, 2 PE para puxar o alvo para perto; se ele se afastar, −1d20 nos ataques contra outros por 1 rodada. (No livro aparece também como Especialista em Correntes.)"
+  "resumo": "Ao acertar com corrente, chicote ou corda, 2 PE para puxar o alvo para perto; se ele se afastar, −1d20 nos ataques contra outros por 1 rodada. (No livro aparece também como Especialista em Correntes.)",
+  "custo": 2
  },
  {
   "id": "g.pratica_materiais",
@@ -167,7 +182,8 @@
   "prereq": "Agi 2",
   "fonte": "AS2",
   "pag": 78,
-  "resumo": "1x por rodada, machucado, 2 PE para uma ação de movimento extra."
+  "resumo": "1x por rodada, machucado, 2 PE para uma ação de movimento extra.",
+  "custo": 2
  },
  {
   "id": "g.kian_vai_nos_salvar",
@@ -185,7 +201,11 @@
   "prereq": "Int 2, treinado em Medicina",
   "fonte": "AS2",
   "pag": 79,
-  "resumo": "Ação padrão e 2 PE: 2d10+10 PV temporários num ser ao toque; quando acabam, ele fica fraco (1x por cena por alvo)."
+  "resumo": "Ação padrão e 2 PE: 2d10+10 PV temporários num ser ao toque; quando acabam, ele fica fraco (1x por cena por alvo).",
+  "custo": 2,
+  "aoUsar": {
+   "pvTemp": "2d10+10"
+  }
  },
  {
   "id": "g.arte_musica_macabra",
@@ -193,7 +213,8 @@
   "tipo": "geral",
   "fonte": "AS2",
   "pag": 83,
-  "resumo": "Ação padrão e 2 PE: um ser em alcance curto que o ouça recebe no próximo uso +5 no dano, +2 na margem, +5 no ataque ou +9m de alcance."
+  "resumo": "Ação padrão e 2 PE: um ser em alcance curto que o ouça recebe no próximo uso +5 no dano, +2 na margem, +5 no ataque ou +9m de alcance.",
+  "custo": 2
  },
  {
   "id": "g.sintonizacao_arma",
@@ -202,7 +223,8 @@
   "prereq": "Int 2 ou Pre 2, treinado em Ocultismo, conjura rituais",
   "fonte": "AS2",
   "pag": 83,
-  "resumo": "Ação de interlúdio e 3 PE: até o próximo interlúdio a arma usa um atributo à sua escolha em ataque e dano."
+  "resumo": "Ação de interlúdio e 3 PE: até o próximo interlúdio a arma usa um atributo à sua escolha em ataque e dano.",
+  "custo": 3
  },
  {
   "id": "g.sintonizacao_protecao",
@@ -211,7 +233,22 @@
   "prereq": "Int 2 ou Pre 2, treinado em Ocultismo, conjura rituais",
   "fonte": "AS2",
   "pag": 83,
-  "resumo": "Ação de interlúdio e 3 PE: até o próximo interlúdio a Defesa usa um atributo à sua escolha no lugar da Agilidade."
+  "resumo": "Ação de interlúdio e 3 PE: até o próximo interlúdio a Defesa usa um atributo à sua escolha no lugar da Agilidade.",
+  "escolha": {
+   "tipo": "atributo",
+   "quantas": 1,
+   "rotulo": "Atributo da Defesa"
+  },
+  "ativavel": {
+   "custo": 3,
+   "rotulo": "Até o próximo interlúdio",
+   "efeitos": [
+    {
+     "alvo": "atributoDefesa",
+     "attr": "@escolha"
+    }
+   ]
+  }
  },
  {
   "id": "g.movimentacao_tatica",
@@ -220,7 +257,8 @@
   "prereq": "For 2, treinado em Atletismo e Tática",
   "fonte": "AS2",
   "pag": 87,
-  "resumo": "Indo até uma cobertura ou um inimigo, 1 PE para andar o dobro do deslocamento."
+  "resumo": "Indo até uma cobertura ou um inimigo, 1 PE para andar o dobro do deslocamento.",
+  "custo": 1
  },
  {
   "id": "g.sentido_tatico_militar",
@@ -229,7 +267,8 @@
   "prereq": "Pre 2, treinado em Percepção e Tática",
   "fonte": "AS2",
   "pag": 87,
-  "resumo": "Imune a desprevenido; ao ferir um alvo, 2 PE para ele falhar em Furtividade contra você por 1 rodada."
+  "resumo": "Imune a desprevenido; ao ferir um alvo, 2 PE para ele falhar em Furtividade contra você por 1 rodada.",
+  "custo": 2
  },
  {
   "id": "c.marteladas",
@@ -238,7 +277,8 @@
   "prereq": "For 2, treinado em Luta, Artista Marcial",
   "fonte": "AS2",
   "pag": 87,
-  "resumo": "Ação completa e 3 PE: três ataques desarmados somados como uma só fonte de dano (Fortitude DT For reduz à metade)."
+  "resumo": "Ação completa e 3 PE: três ataques desarmados somados como uma só fonte de dano (Fortitude DT For reduz à metade).",
+  "custo": 3
  },
  {
   "id": "o.liturgia_fortalecimento",
@@ -247,7 +287,8 @@
   "prereq": "Int 2 e Pre 2",
   "fonte": "AS2",
   "pag": 93,
-  "resumo": "Ação de interlúdio e 2 PE: +2 na DT de um ritual seu até o próximo interlúdio."
+  "resumo": "Ação de interlúdio e 2 PE: +2 na DT de um ritual seu até o próximo interlúdio.",
+  "custo": 2
  },
  {
   "id": "p.engolir_sangue",

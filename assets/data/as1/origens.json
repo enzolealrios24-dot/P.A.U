@@ -24,7 +24,14 @@
   ],
   "poder": {
    "nome": "Sofrimento de Sangue",
-   "resumo": "RD mental 2, +1 para cada dois rituais ou poderes de Sangue; pesadelos deixam o descanso uma categoria pior."
+   "resumo": "RD mental 2, +1 para cada dois rituais ou poderes de Sangue; pesadelos deixam o descanso uma categoria pior.",
+   "efeitos": [
+    {
+     "alvo": "rd",
+     "tipo": "mental",
+     "valor": 2
+    }
+   ]
   }
  }
 ]

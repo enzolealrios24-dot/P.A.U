@@ -10,7 +10,25 @@
   ],
   "poder": {
    "nome": "O Que Restou",
-   "resumo": "Escolha um elemento (exceto Medo): RD 5 contra ele, mas perde 2 SAN no primeiro contato com esse elemento em cada cena."
+   "resumo": "Escolha um elemento (exceto Medo): RD 5 contra ele, mas perde 2 SAN no primeiro contato com esse elemento em cada cena.",
+   "escolha": {
+    "tipo": "elemento",
+    "quantas": 1,
+    "opcoes": [
+     "Sangue",
+     "Morte",
+     "Conhecimento",
+     "Energia"
+    ],
+    "rotulo": "Elemento"
+   },
+   "efeitos": [
+    {
+     "alvo": "rd",
+     "tipo": "@escolha",
+     "valor": 5
+    }
+   ]
   }
  },
  {

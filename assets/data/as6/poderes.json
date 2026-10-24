@@ -6,7 +6,8 @@
   "prereq": "Treinado em Luta ou Pontaria",
   "fonte": "AS6",
   "pag": 67,
-  "resumo": "2 PE para usar Luta ou Pontaria ao investigar ações violentas (marcas de ataque, rastros de combate, arma do crime)."
+  "resumo": "2 PE para usar Luta ou Pontaria ao investigar ações violentas (marcas de ataque, rastros de combate, arma do crime).",
+  "custo": 2
  },
  {
   "id": "c.especialista_protecao_leve",
@@ -14,7 +15,20 @@
   "tipo": "combatente",
   "fonte": "AS6",
   "pag": 67,
-  "resumo": "Usando proteção leve, +2 na Defesa e em Reflexos."
+  "resumo": "Usando proteção leve, +2 na Defesa e em Reflexos.",
+  "efeitos": [
+   {
+    "alvo": "defesa",
+    "valor": 2,
+    "se": "protecaoLeve"
+   },
+   {
+    "alvo": "pericia",
+    "pericia": "Reflexos",
+    "valor": 2,
+    "se": "protecaoLeve"
+   }
+  ]
  },
  {
   "id": "e.doutor_emergencias",
@@ -32,7 +46,8 @@
   "prereq": "Treinado em Medicina e Profissão (químico ou similar)",
   "fonte": "AS6",
   "pag": 68,
-  "resumo": "No interlúdio, um uso do kit de medicina e 2 PE + 2 por categoria para fabricar um cicatrizante ou remédio (o kit se gasta após 3 usos)."
+  "resumo": "No interlúdio, um uso do kit de medicina e 2 PE + 2 por categoria para fabricar um cicatrizante ou remédio (o kit se gasta após 3 usos).",
+  "custo": 2
  },
  {
   "id": "e.medico_salvacao",
@@ -41,7 +56,8 @@
   "prereq": "Paramédico",
   "fonte": "AS6",
   "pag": 68,
-  "resumo": "Paramédico usa d12; 1x por rodada, 3 PE para usá-lo como ação de movimento."
+  "resumo": "Paramédico usa d12; 1x por rodada, 3 PE para usá-lo como ação de movimento.",
+  "custo": 3
  },
  {
   "id": "e.resgatar_morte",
@@ -50,7 +66,8 @@
   "prereq": "Paramédico, Equipe de Trauma, Resgate",
   "fonte": "AS6",
   "pag": 68,
-  "resumo": "2 PE para passar automaticamente em primeiros socorros (1x por cena por pessoa)."
+  "resumo": "2 PE para passar automaticamente em primeiros socorros (1x por cena por pessoa).",
+  "custo": 2
  },
  {
   "id": "e.veterano_equipe_trauma",
@@ -77,7 +94,8 @@
   "prereq": "Mestre em Elemento no elemento escolhido, NEX 60%",
   "fonte": "AS6",
   "pag": 69,
-  "resumo": "Ao conjurar ritual do elemento, 1 PE para um efeito num alvo: Sangue (+2d4 de dano ao aliado ou inimigo debilitado), Morte (2d8+2 PV temporários ou lento), Conhecimento (+2 em perícias ou esmorecido), Energia (+6m ou desprevenido)."
+  "resumo": "Ao conjurar ritual do elemento, 1 PE para um efeito num alvo: Sangue (+2d4 de dano ao aliado ou inimigo debilitado), Morte (2d8+2 PV temporários ou lento), Conhecimento (+2 em perícias ou esmorecido), Energia (+6m ou desprevenido).",
+  "custo": 1
  },
  {
   "id": "g.adaptacao_climatica",
@@ -129,7 +147,8 @@
   "fonte": "AS6",
   "pag": 71,
   "resumo": "1x por rodada, reação e 2 PE: RD 20 contra uma munição (que vira cinzas) ou RD 10 contra arma corpo a corpo (que envelhece); não vale contra Energia.",
-  "afinidade": "Pode usar mais de uma vez por rodada."
+  "afinidade": "Pode usar mais de uma vez por rodada.",
+  "custo": 2
  },
  {
   "id": "p.grilhoes_lodo",
@@ -139,7 +158,12 @@
   "fonte": "AS6",
   "pag": 71,
   "resumo": "2 PE: área de 9m ao seu redor até o fim da cena; seres nela sofrem 3d6 de Morte e ficam lentos (Fortitude reduz e evita por 1 rodada).",
-  "afinidade": "6d6 e enredado."
+  "afinidade": "6d6 e enredado.",
+  "ativavel": {
+   "custo": 2,
+   "rotulo": "Área de 9m ao seu redor até o fim da cena",
+   "efeitos": []
+  }
  },
  {
   "id": "p.salto_dados",
@@ -150,6 +174,7 @@
   "fonte": "AS6",
   "pag": 71,
   "resumo": "2 PE para marcar um símbolo (dura 1 dia); reação e 3 PE para voltar ao estado de quando marcou (PV, PE, condições), perdendo as memórias desde então (frustrado).",
-  "afinidade": "O símbolo dura 1 ano."
+  "afinidade": "O símbolo dura 1 ano.",
+  "custo": 2
  }
 ]

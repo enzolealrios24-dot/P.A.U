@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/dice.dart';
 import '../../core/efeitos_texto.dart';
 import '../../core/rules.dart';
 import '../../core/theme.dart';
@@ -98,7 +99,7 @@ List<EntradaPoder> entradasPoder(CtxFicha ctx) {
   final o = c.origemDados;
   if (o != null) {
     final poder = asMap(o['poder']);
-    doLivro(Calc.chaveOrigem(o), 'Origem', {...poder, if (o['efeitos'] != null) 'efeitos': o['efeitos']},
+    doLivro(Calc.chaveOrigem(o), 'Origem', {...poder, 'efeitos': [...asMapList(o['efeitos']), ...asMapList(poder['efeitos'])]},
         asStr(poder['nome'], asStr(o['nome'])), Catalogo.fonteCurta(o),
         detalhe: 'origem ${asStr(o['nome'])}');
   }
@@ -189,8 +190,19 @@ void _ativar(BuildContext context, CtxFicha ctx, EntradaPoder e) {
 void _usar(BuildContext context, CtxFicha ctx, EntradaPoder e) {
   final n = ctx.calc.custoPoder(e.meta) ?? 0;
   if (!gastarPontos(context, ctx, n)) return;
+  // "aoUsar": PV temporários (dados ou atributo × multiplicador); não somam
+  // com os que já tem, fica o maior
+  final ao = asMap(e.meta['aoUsar']);
+  var extra = '';
+  if (ao.isNotEmpty) {
+    final temp = ao['pvTemp'] != null
+        ? Dados.expressao(asStr(ao['pvTemp'])).total
+        : ctx.calc.attr(asStr(ao['pvTempAttr'])) * asInt(ao['mult'], 1);
+    if (temp > ctx.f.pvTemp) Repo.mudarTemporario(ctx.f, 'pvTemp', temp);
+    extra = ' $temp PV temporários.';
+  }
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('${e.nome}: ${n == 0 ? 'usado' : '−$n ${ctx.calc.determinacao ? 'PD' : 'PE'}'}.')));
+      content: Text('${e.nome}: ${n == 0 ? 'usado' : '−$n ${ctx.calc.determinacao ? 'PD' : 'PE'}'}.$extra')));
 }
 
 /// Escolhas de um poder (perícias para treinar, atributo, elemento, ritual).
@@ -202,12 +214,20 @@ Future<void> _escolher(BuildContext context, CtxFicha ctx, EntradaPoder e) async
   final quantas = asInt(esc['quantas'], 1);
   final opcoes = <(String, String)>[
     if (tipo == 'pericia' || tipo == 'treino')
-      for (final p in periciasDef) (p.nome, p.nome)
+      for (final p in periciasDef)
+        // "opcoes": só essas; "attrs": perícias desses atributos; "exceto"
+        if ((asStrList(esc['opcoes']).isEmpty || asStrList(esc['opcoes']).contains(p.nome)) &&
+            (asStrList(esc['attrs']).isEmpty || asStrList(esc['attrs']).contains(p.attr)) &&
+            !asStrList(esc['exceto']).contains(p.nome))
+          (p.nome, p.nome)
     else if (tipo == 'atributo')
       for (final a in asStrList(esc['opcoes']).isEmpty ? atributosChaves : asStrList(esc['opcoes']))
         (a, atributosNomes[a] ?? a)
     else if (tipo == 'elemento')
-      for (final el in const ['Conhecimento', 'Energia', 'Morte', 'Sangue', 'Medo']) (el, el)
+      for (final el in asStrList(esc['opcoes']).isEmpty
+          ? const ['Conhecimento', 'Energia', 'Morte', 'Sangue', 'Medo']
+          : asStrList(esc['opcoes']))
+        (el, el)
     else if (tipo == 'ritual')
       for (final r in f.rituais) (asStr(r['nome']), asStr(r['nome'])),
   ];

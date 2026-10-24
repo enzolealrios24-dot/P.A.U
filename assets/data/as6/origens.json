@@ -10,7 +10,8 @@
   ],
   "poder": {
    "nome": "Existe uma Explicação",
-   "resumo": "Em testes de Ocultismo, 2 PE para usar Ciências no lugar."
+   "resumo": "Em testes de Ocultismo, 2 PE para usar Ciências no lugar.",
+   "custo": 2
   }
  },
  {
@@ -24,7 +25,8 @@
   ],
   "poder": {
    "nome": "Técnicas de Contenção",
-   "resumo": "Em manobras de combate, 2 PE para +5 no teste."
+   "resumo": "Em manobras de combate, 2 PE para +5 no teste.",
+   "custo": 2
   }
  },
  {
@@ -38,7 +40,8 @@
   ],
   "poder": {
    "nome": "Forças para Enfrentar",
-   "resumo": "Cenas ligadas ao seu trauma o deixam abalado, mas aí você pode gastar 2 PE para ficar imune a efeitos de medo até o fim da cena."
+   "resumo": "Cenas ligadas ao seu trauma o deixam abalado, mas aí você pode gastar 2 PE para ficar imune a efeitos de medo até o fim da cena.",
+   "custo": 2
   }
  }
 ]

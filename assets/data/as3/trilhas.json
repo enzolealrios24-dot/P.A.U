@@ -15,22 +15,64 @@
    {
     "nex": 10,
     "nome": "Ensaio",
-    "resumo": "Ação de interlúdio ensaiar combate: +1 na margem de ameaça até o próximo interlúdio (+2 em 40%, +3 em 65%, +4 em 99%); quem ensaiar junto ganha o mesmo."
+    "resumo": "Ação de interlúdio ensaiar combate: +1 na margem de ameaça até o próximo interlúdio (+2 em 40%, +3 em 65%, +4 em 99%); quem ensaiar junto ganha o mesmo.",
+    "ativavel": {
+     "custo": 0,
+     "rotulo": "Ensaiado (até o próximo interlúdio)",
+     "efeitos": [
+      {
+       "alvo": "margem",
+       "valor": 1
+      }
+     ]
+    }
    },
    {
     "nex": 40,
     "nome": "Frase de Efeito",
-    "resumo": "Quando você ou aliado próximo faz um crítico, 2 PE para o multiplicador virar sua Presença (ou +1 se já for maior)."
+    "resumo": "Quando você ou aliado próximo faz um crítico, 2 PE para o multiplicador virar sua Presença (ou +1 se já for maior).",
+    "custo": 2,
+    "efeitos": [
+     {
+      "alvo": "margem",
+      "valor": 1,
+      "seAtivo": "Ensaio"
+     }
+    ]
    },
    {
     "nex": 65,
     "nome": "Mosh Pit",
-    "resumo": "Flanqueando um alvo, você e aliados ao redor dele ganham +1d6 de dano por aliado cercando-o (até +5d6)."
+    "resumo": "Flanqueando um alvo, você e aliados ao redor dele ganham +1d6 de dano por aliado cercando-o (até +5d6).",
+    "efeitos": [
+     {
+      "alvo": "margem",
+      "valor": 1,
+      "seAtivo": "Ensaio"
+     }
+    ]
    },
    {
     "nex": 99,
     "nome": "Ritmo Contagiante",
-    "resumo": "No início do combate, você e aliados em alcance médio ganham +5 na Defesa até o fim; cada crítico seu soma +1."
+    "resumo": "No início do combate, você e aliados em alcance médio ganham +5 na Defesa até o fim; cada crítico seu soma +1.",
+    "efeitos": [
+     {
+      "alvo": "margem",
+      "valor": 1,
+      "seAtivo": "Ensaio"
+     }
+    ],
+    "ativavel": {
+     "custo": 0,
+     "rotulo": "Em combate",
+     "efeitos": [
+      {
+       "alvo": "defesa",
+       "valor": 5
+      }
+     ]
+    }
    }
   ]
  }

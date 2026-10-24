@@ -7,7 +7,8 @@
   "repetivel": true,
   "fonte": "AS3",
   "pag": 108,
-  "resumo": "Reação e 2 PE para receber no lugar de um aliado adjacente um ataque ou habilidade de alvo único; se não o afetar, recupera 1 SAN. Escolhendo de novo, o alcance vira curto."
+  "resumo": "Reação e 2 PE para receber no lugar de um aliado adjacente um ataque ou habilidade de alvo único; se não o afetar, recupera 1 SAN. Escolhendo de novo, o alcance vira curto.",
+  "custo": 2
  },
  {
   "id": "c.vitalidade_sofrida",
@@ -55,7 +56,18 @@
   "prereq": "For 2 ou Agi 2, treinado em Luta",
   "fonte": "AS3",
   "pag": 108,
-  "resumo": "Com duas armas (uma leve), ataca com as duas sofrendo −1d20; se já tem Combater com Duas Armas, sem penalidade e pode usar duas armas de uma mão."
+  "resumo": "Com duas armas (uma leve), ataca com as duas sofrendo −1d20; se já tem Combater com Duas Armas, sem penalidade e pode usar duas armas de uma mão.",
+  "ativavel": {
+   "custo": 0,
+   "rotulo": "Lutando com duas armas",
+   "efeitos": [
+    {
+     "alvo": "dados",
+     "escopo": "ataque",
+     "valor": -1
+    }
+   ]
+  }
  },
  {
   "id": "g.entrada_triunfal",
@@ -73,7 +85,8 @@
   "prereq": "Pre 2",
   "fonte": "AS3",
   "pag": 109,
-  "resumo": "1 PE para +5 num teste de Presença para seduzir; se passar, o alvo fica apaixonado (e pode virar um problema)."
+  "resumo": "1 PE para +5 num teste de Presença para seduzir; se passar, o alvo fica apaixonado (e pode virar um problema).",
+  "custo": 1
  },
  {
   "id": "p.direcao_precognitiva",
@@ -102,7 +115,8 @@
   "prereq": "Sacrifício do Orgulho (Hexatombe)",
   "fonte": "AS3",
   "pag": 110,
-  "resumo": "Ação padrão e 3 PE: alguém em alcance médio faz Vontade (DT Pre +5) ou comete uma imprudência no próximo turno; se passar, sofre 2d6 mental."
+  "resumo": "Ação padrão e 3 PE: alguém em alcance médio faz Vontade (DT Pre +5) ou comete uma imprudência no próximo turno; se passar, sofre 2d6 mental.",
+  "custo": 3
  },
  {
   "id": "s.causar_culpa",
@@ -111,7 +125,8 @@
   "prereq": "Sacrifício da Culpa (Hexatombe)",
   "fonte": "AS3",
   "pag": 110,
-  "resumo": "Ação padrão e 3 PE: alguém em alcance curto faz Vontade (DT Pre +5) ou fica indefeso pela culpa até se libertar."
+  "resumo": "Ação padrão e 3 PE: alguém em alcance curto faz Vontade (DT Pre +5) ou fica indefeso pela culpa até se libertar.",
+  "custo": 3
  },
  {
   "id": "s.despertar_obsessao",
@@ -120,7 +135,8 @@
   "prereq": "Sacrifício da Obsessão (Hexatombe)",
   "fonte": "AS3",
   "pag": 110,
-  "resumo": "Ação padrão e 3 PE encarando alguém: se desviar, fica desprevenido; se encarar e falhar em Vontade, passa 1 rodada adorando você ou se ferindo."
+  "resumo": "Ação padrão e 3 PE encarando alguém: se desviar, fica desprevenido; se encarar e falhar em Vontade, passa 1 rodada adorando você ou se ferindo.",
+  "custo": 3
  },
  {
   "id": "s.estimular_hedonismo",
@@ -129,7 +145,8 @@
   "prereq": "Sacrifício do Prazer (Hexatombe)",
   "fonte": "AS3",
   "pag": 111,
-  "resumo": "Ação padrão e 3 PE: alguém em alcance curto faz Vontade (DT Pre +5) ou fica indefeso por 1 rodada, tomado de prazer."
+  "resumo": "Ação padrão e 3 PE: alguém em alcance curto faz Vontade (DT Pre +5) ou fica indefeso por 1 rodada, tomado de prazer.",
+  "custo": 3
  },
  {
   "id": "s.fruto_ambicao",
@@ -147,6 +164,7 @@
   "prereq": "Sacrifício do Rancor (Hexatombe)",
   "fonte": "AS3",
   "pag": 111,
-  "resumo": "Ação completa e 3 PE: seres em alcance curto fazem Fortitude e Reflexos (DT Pre +5) contra seu dano corpo a corpo e à distância; depois você fica exausto."
+  "resumo": "Ação completa e 3 PE: seres em alcance curto fazem Fortitude e Reflexos (DT Pre +5) contra seu dano corpo a corpo e à distância; depois você fica exausto.",
+  "custo": 3
  }
 ]

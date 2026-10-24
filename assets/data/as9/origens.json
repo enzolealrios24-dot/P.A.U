@@ -8,7 +8,31 @@
   "periciasTexto": "Luta e Fortitude, ou Pontaria e Reflexos",
   "poder": {
    "nome": "Resistência do Treinamento",
-   "resumo": "Com Luta e Fortitude: +2 PV em NEX 5% e +1 PV a cada 10% de NEX. Com Pontaria e Reflexos: +1 PE em NEX 5% e +1 PE a cada 10% de NEX."
+   "resumo": "Com Luta e Fortitude: +2 PV em NEX 5% e +1 PV a cada 10% de NEX. Com Pontaria e Reflexos: +1 PE em NEX 5% e +1 PE a cada 10% de NEX.",
+   "efeitos": [
+    {
+     "alvo": "pv",
+     "valor": 2,
+     "se": "treinado:Luta+Fortitude"
+    },
+    {
+     "alvo": "pv",
+     "valor": 1,
+     "por": "nivelMetade",
+     "se": "treinado:Luta+Fortitude"
+    },
+    {
+     "alvo": "pe",
+     "valor": 1,
+     "se": "treinado:Pontaria+Reflexos"
+    },
+    {
+     "alvo": "pe",
+     "valor": 1,
+     "por": "nivelMetade",
+     "se": "treinado:Pontaria+Reflexos"
+    }
+   ]
   }
  },
  {
@@ -22,7 +46,8 @@
   ],
   "poder": {
    "nome": "Full Metal Jacket",
-   "resumo": "Num teste de Luta ou Pontaria com penalidade, 2 PE para ignorar a penalidade nesse teste."
+   "resumo": "Num teste de Luta ou Pontaria com penalidade, 2 PE para ignorar a penalidade nesse teste.",
+   "custo": 2
   }
  }
 ]

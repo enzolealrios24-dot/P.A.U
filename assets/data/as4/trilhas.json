@@ -19,12 +19,14 @@
    {
     "nex": 65,
     "nome": "O Calor do Momento",
-    "resumo": "Ação completa e 4 PE para fabricar um explosivo autoral às pressas (25% de explodir na sua mão)."
+    "resumo": "Ação completa e 4 PE para fabricar um explosivo autoral às pressas (25% de explodir na sua mão).",
+    "custo": 4
    },
    {
     "nex": 99,
     "nome": "Memória Muscular",
-    "resumo": "Seus explosivos podem ser empunhados como ação livre; 4 PE para usar um como ação de movimento; causam o dobro de dados de dano."
+    "resumo": "Seus explosivos podem ser empunhados como ação livre; 4 PE para usar um como ação de movimento; causam o dobro de dados de dano.",
+    "custo": 4
    }
   ]
  }

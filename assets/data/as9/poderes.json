@@ -15,7 +15,8 @@
   "prereq": "Agi 2, treinado em Luta",
   "fonte": "AS9",
   "pag": 39,
-  "resumo": "Alvo de ataque corpo a corpo, antes do resultado: reação especial de defesa e 2 PE para contra-atacar com +5 na Defesa contra esse ataque; se ele errar, +5 no ataque do contra-ataque."
+  "resumo": "Alvo de ataque corpo a corpo, antes do resultado: reação especial de defesa e 2 PE para contra-atacar com +5 na Defesa contra esse ataque; se ele errar, +5 no ataque do contra-ataque.",
+  "custo": 2
  },
  {
   "id": "c.tatica_abordagem",
@@ -33,6 +34,7 @@
   "prereq": "Veterano em Pontaria",
   "fonte": "AS9",
   "pag": 39,
-  "resumo": "Ataque à distância sem mirar: 2 PE para +2 na margem de ameaça desse ataque."
+  "resumo": "Ataque à distância sem mirar: 2 PE para +2 na margem de ameaça desse ataque.",
+  "custo": 2
  }
 ]

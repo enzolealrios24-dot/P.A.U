@@ -45,7 +45,8 @@
   "tipo": "especialista",
   "fonte": "AS4",
   "pag": 65,
-  "resumo": "1x por missão, ação completa e 4 PE: desmonta um item e monta um item operacional de categoria e espaços iguais ou menores."
+  "resumo": "1x por missão, ação completa e 4 PE: desmonta um item e monta um item operacional de categoria e espaços iguais ou menores.",
+  "custo": 4
  },
  {
   "id": "e.quase_novo",
@@ -61,7 +62,8 @@
   "tipo": "ocultista",
   "fonte": "AS4",
   "pag": 66,
-  "resumo": "1x por cena, 2 PE para saber o estado da Membrana; se danificada ou pior, perde 1 SAN e seus rituais custam −1 PE."
+  "resumo": "1x por cena, 2 PE para saber o estado da Membrana; se danificada ou pior, perde 1 SAN e seus rituais custam −1 PE.",
+  "custo": 2
  },
  {
   "id": "o.sinestesia_paranormal",
@@ -93,7 +95,8 @@
   "tipo": "geral",
   "fonte": "AS4",
   "pag": 66,
-  "resumo": "Em lugar movimentado, +1d6 em Investigação e Percepção; 1x por cena, 1 PE para captar uma conversa útil."
+  "resumo": "Em lugar movimentado, +1d6 em Investigação e Percepção; 1x por cena, 1 PE para captar uma conversa útil.",
+  "custo": 1
  },
  {
   "id": "g.ultima_olhada",
@@ -101,7 +104,8 @@
   "tipo": "geral",
   "fonte": "AS4",
   "pag": 67,
-  "resumo": "Na última rodada de uma investigação, 2 PE para ganhar mais uma rodada (1x por cena)."
+  "resumo": "Na última rodada de uma investigação, 2 PE para ganhar mais uma rodada (1x por cena).",
+  "custo": 2
  },
  {
   "id": "p.foco_gravitacional",
@@ -121,7 +125,8 @@
   "fonte": "AS4",
   "pag": 67,
   "resumo": "No início da rodada, 2 PE e 1d20: par soma à Iniciativa, ímpar subtrai.",
-  "afinidade": "Rola 2d20 e escolhe um."
+  "afinidade": "Rola 2d20 e escolhe um.",
+  "custo": 2
  },
  {
   "id": "p.traco_inconsistencia",
@@ -131,6 +136,7 @@
   "fonte": "AS4",
   "pag": 67,
   "resumo": "Reação e 2 PE para esconder sua identidade em fotos e vídeos digitais.",
-  "afinidade": "Nunca aparece em imagens digitais e sua voz fica distorcida em gravações."
+  "afinidade": "Nunca aparece em imagens digitais e sua voz fica distorcida em gravações.",
+  "custo": 2
  }
 ]
