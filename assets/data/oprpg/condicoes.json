@@ -32,7 +32,7 @@
   {"id": "paralisado", "nome": "Paralisado", "categoria": "paralisia", "resumo": "Imóvel e indefeso; só ações mentais.", "inclui": ["imovel", "indefeso"]},
   {"id": "pasmo", "nome": "Pasmo", "categoria": "mental", "resumo": "Não pode fazer ações."},
   {"id": "perturbado", "nome": "Perturbado", "automatica": true, "resumo": "Menos da metade da Sanidade; na primeira vez na cena, ganha um efeito de insanidade."},
-  {"id": "petrificado", "nome": "Petrificado", "resumo": "Inconsciente com RD 10.", "inclui": ["inconsciente"]},
+  {"id": "petrificado", "nome": "Petrificado", "resumo": "Inconsciente com RD 10.", "efeitos": [{"alvo": "rd", "tipo": "geral", "valor": 10}], "inclui": ["inconsciente"]},
   {"id": "sangrando", "nome": "Sangrando", "resumo": "No início do turno, Vigor DT 20: passa estabiliza; falha perde 1d6 PV. Medicina DT 20 (ação completa) também estabiliza."},
   {"id": "surdo", "nome": "Surdo", "categoria": "sentidos", "resumo": "Não ouve, −2d20 em Iniciativa e conjura em condição ruim.", "efeitos": [{"alvo": "dados", "escopo": "pericia:Iniciativa", "valor": -2}]},
   {"id": "surpreendido", "nome": "Surpreendido", "resumo": "Desprevenido e sem ações.", "inclui": ["desprevenido"]},

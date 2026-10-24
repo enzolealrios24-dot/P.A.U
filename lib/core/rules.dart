@@ -1,5 +1,6 @@
 import '../data/catalogo.dart';
 import '../data/models.dart';
+import 'dano.dart';
 
 /// Tudo que e "regra do livro" fica aqui ou nos dados de assets/data, e pode
 /// ser sobrescrito por campanha (aba Regras do mestre).
@@ -328,42 +329,46 @@ class Calc {
   List<Map<String, dynamic>> _coletarEfeitos() {
     final cat = Catalogo.instance;
     final l = <Map<String, dynamic>>[];
-    void add(dynamic efs, {bool soPersonagem = false}) {
+    // [fonte] fica gravada no efeito para a ficha mostrar de onde ele vem
+    void add(dynamic efs, {bool soPersonagem = false, String fonte = ''}) {
       for (final e in asMapList(efs)) {
         if (soPersonagem && _alvosDeItem.contains(asStr(e['alvo']))) continue;
-        l.add(e);
+        l.add(fonte.isEmpty ? e : {...e, 'fonte': fonte});
       }
     }
 
-    add(origemDados?['efeitos']);
+    add(origemDados?['efeitos'],
+        fonte: asStr(asMap(origemDados?['poder'])['nome'], asStr(origemDados?['nome'])));
     for (final p in f.poderes) {
       final c = cat.porRef(asStr(p['ref']));
       if (c == null) continue;
-      add(c['efeitos']);
-      if (asBool(p['afinidade'])) add(c['efeitosAfinidade']);
+      add(c['efeitos'], fonte: asStr(c['nome']));
+      if (asBool(p['afinidade'])) add(c['efeitosAfinidade'], fonte: asStr(c['nome']));
     }
     final t = trilhaDados;
     if (t != null) {
       for (final h in asMapList(t['habilidades'])) {
-        if (trilhaLiberada(asInt(h['nex']))) add(h['efeitos']);
+        if (trilhaLiberada(asInt(h['nex']))) add(h['efeitos'], fonte: asStr(h['nome']));
       }
     }
     for (final i in f.inventario) {
       if (!asBool(i['equipado'], true)) continue;
       final c = cat.porRef(asStr(i['ref']));
       if (c != null && asStr(c['tipo']) != 'modificacao') {
-        add(c['efeitos'], soPersonagem: true);
+        add(c['efeitos'], soPersonagem: true, fonte: asStr(i['nome'], asStr(c['nome'])));
       }
       for (final m in asStrList(i['maldicoes'])) {
-        add(cat.porRef(m)?['efeitos'], soPersonagem: true);
+        final mal = cat.porRef(m);
+        add(mal?['efeitos'], soPersonagem: true, fonte: '${asStr(i['nome'])} (${asStr(mal?['nome'])})');
       }
     }
     for (final id in condicoesAtivas) {
-      add(cat.condicao(id)?['efeitos']);
+      final c = cat.condicao(id);
+      add(c?['efeitos'], fonte: asStr(c?['nome']));
     }
     if (modoNivel) {
       for (final a in alteracoesNex) {
-        add(a['efeitos']);
+        add(a['efeitos'], fonte: asStr(a['nome']));
       }
     }
     return l;
@@ -540,10 +545,82 @@ class Calc {
 
   bool get sobrecarregado => cargaAtual > cargaMax;
 
+  static bool _pesada(Map<String, dynamic> i) =>
+      asBool(i['pesada']) || asStr(i['ref']).endsWith('/protecao_pesada');
+
   bool get usandoProtecaoPesada => f.inventario.any((i) =>
-      asStr(i['tipo']) == 'protecao' &&
-      asBool(i['equipado'], true) &&
-      (asBool(i['pesada']) || asStr(i['ref']).endsWith('/protecao_pesada')));
+      asStr(i['tipo']) == 'protecao' && asBool(i['equipado'], true) && _pesada(i));
+
+  /// Machucado: com metade ou menos dos PV totais.
+  bool get machucado => f.pvAtual * 2 <= pvMax;
+
+  // ---------------- resistência a dano ----------------
+
+  /// RD que a ficha recebe sozinha (proteções, poderes, origem, trilha,
+  /// itens, maldições e condições), com o tipo, o valor e a fonte.
+  late final List<({String tipo, int valor, String fonte})> rdAutomatica = _rdAutomatica();
+
+  List<({String tipo, int valor, String fonte})> _rdAutomatica() {
+    final r = <({String tipo, int valor, String fonte})>[];
+    void add(String tipo, int valor, String fonte) {
+      if (valor != 0) r.add((tipo: tipo, valor: valor, fonte: fonte));
+    }
+
+    for (final e in efeitos) {
+      if (asStr(e['alvo']) != 'rd') continue;
+      if (asStr(e['se']) == 'machucado' && !machucado) continue;
+      final v = e['attr'] != null ? attr(asStr(e['attr'])) * asInt(e['valor'], 1) : _mult(e);
+      add(asStr(e['tipo']), v, asStr(e['fonte']));
+    }
+    // proteções: a RD delas vale para os quatro tipos físicos (pesada: 2,
+    // Blindada sobe para 5, Tanque de Guerra soma +2); a maldição Cinética
+    // dá RD a todos os danos
+    for (final i in f.inventario) {
+      if (asStr(i['tipo']) != 'protecao' || !asBool(i['equipado'], true)) continue;
+      final nome = asStr(i['nome']).isEmpty ? 'Proteção' : asStr(i['nome']);
+      final pesada = _pesada(i);
+      var v = i['rd'] != null ? asInt(i['rd']) : (pesada ? 2 : 0);
+      if (pesada && v < 5 && asStrList(i['mods']).any((m) => m.endsWith('mod.blindada'))) v = 5;
+      if (pesada && v > 0) v += soma('rdProtecaoPesada');
+      for (final t in tiposFisicos) {
+        add(t, v, nome);
+      }
+      if (asStrList(i['maldicoes']).any((m) => m.endsWith('mal.cinetica'))) {
+        add(rdGeral.id, pesada ? 5 : 2, '$nome (Cinética)');
+      }
+    }
+    // Resistir a Elemento: 10 (20 com afinidade) contra o elemento do poder
+    for (final p in f.poderes) {
+      if (!asStr(p['ref']).endsWith('p.resistir_elemento')) continue;
+      final t = tipoDanoDoTexto(asStr(p['elemento']));
+      if (tiposParanormais.contains(t)) {
+        add(t, asBool(p['afinidade']) ? 20 : 10, asStr(p['nome'], 'Resistir a Elemento'));
+      }
+    }
+    return r;
+  }
+
+  /// RD anotada à mão na ficha (rituais, itens de outros livros...).
+  int rdManual(String tipo) => asInt(asMap(f.d['rd'])[tipo]);
+
+  /// RD de um tipo (ou 'geral'/'paranormal'): automática mais a anotada.
+  int rdDe(String tipo) {
+    var t = rdManual(tipo);
+    for (final r in rdAutomatica) {
+      if (r.tipo == tipo) t += r.valor;
+    }
+    return t;
+  }
+
+  /// RD que vale contra um tipo de dano. Fontes diferentes se somam: a do
+  /// tipo, a geral (que não reduz dano mental) e, nos cinco elementos, a
+  /// paranormal.
+  int rdContra(String tipo) {
+    if (tipo == 'mental') return rdDe('mental');
+    var t = rdDe(rdGeral.id) + rdDe(tipo);
+    if (tiposParanormais.contains(tipo)) t += rdDe(rdParanormal.id);
+    return t;
+  }
 
   int get defesa {
     var d = 10 + agi + f.b('defesa') + soma('defesa');

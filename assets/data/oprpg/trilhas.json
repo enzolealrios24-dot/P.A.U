@@ -23,7 +23,7 @@
     {"nex": 10, "nome": "Casca Grossa", "resumo": "+1 PV a cada 5% de NEX; ao bloquear, soma seu Vigor à RD.", "efeitos": [{"alvo": "pv", "valor": 1, "por": "nivel"}]},
     {"nex": 40, "nome": "Cai Dentro", "resumo": "Quando um oponente em alcance curto ataca um aliado, reação e 1 PE: ele faz Vontade (DT Vig) ou tem de atacar você."},
     {"nex": 65, "nome": "Duro de Matar", "resumo": "Reação e 2 PE para reduzir à metade um dano não paranormal (em 85%, também paranormal)."},
-    {"nex": 99, "nome": "Inquebrável", "resumo": "Machucado: +5 Defesa e RD 5. Morrendo: não fica indefeso e continua agindo."}]},
+    {"nex": 99, "nome": "Inquebrável", "resumo": "Machucado: +5 Defesa e RD 5. Morrendo: não fica indefeso e continua agindo.", "efeitos": [{"alvo": "rd", "tipo": "geral", "valor": 5, "se": "machucado"}]}]},
 
   {"id": "atirador_elite", "nome": "Atirador de Elite", "classe": "especialista", "fonte": "OPRPG", "pag": 30, "habilidades": [
     {"nex": 10, "nome": "Mira de Elite", "resumo": "Proficiência com armas de fogo de balas longas; soma Int no dano delas."},
@@ -69,7 +69,7 @@
   {"id": "intuitivo", "nome": "Intuitivo", "classe": "ocultista", "fonte": "OPRPG", "pag": 35, "habilidades": [
     {"nex": 10, "nome": "Mente Sã", "resumo": "Resistência paranormal +5 (+5 em testes de resistência contra efeitos paranormais)."},
     {"nex": 40, "nome": "Presença Poderosa", "resumo": "Soma Presença ao limite de PE por turno, só para conjurar rituais (não afeta DT)."},
-    {"nex": 65, "nome": "Inabalável", "resumo": "RD mental e paranormal 10; se passar em Vontade contra dano paranormal que reduz à metade, não sofre dano."},
+    {"nex": 65, "nome": "Inabalável", "resumo": "RD mental e paranormal 10; se passar em Vontade contra dano paranormal que reduz à metade, não sofre dano.", "efeitos": [{"alvo": "rd", "tipo": "mental", "valor": 10}, {"alvo": "rd", "tipo": "paranormal", "valor": 10}]},
     {"nex": 99, "nome": "Presença do Medo", "resumo": "Aprende o ritual Presença do Medo."}]},
   {"id": "lamina_paranormal", "nome": "Lâmina Paranormal", "classe": "ocultista", "fonte": "OPRPG", "pag": 35, "habilidades": [
     {"nex": 10, "nome": "Lâmina Maldita", "resumo": "Aprende Amaldiçoar Arma (se já conhece, +1 PE para conjurar como movimento) e pode atacar com Ocultismo usando a arma amaldiçoada."},

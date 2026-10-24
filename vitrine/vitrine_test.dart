@@ -103,6 +103,9 @@ void main() {
       await _salvar(tester, 'pericias_${af.toLowerCase()}');
       await _abrirAba(tester, 'COMBATE');
       await _salvar(tester, 'combate_${af.toLowerCase()}');
+      await _rolar(tester, 900);
+      await _salvar(tester, 'combate_rd_${af.toLowerCase()}');
+      if (af == 'Sangue') await _telasRd(tester);
       await _abrirAba(tester, 'INVENTÁRIO');
       await _salvar(tester, 'inventario_${af.toLowerCase()}');
       await _rolar(tester, 760);
@@ -160,6 +163,23 @@ Future<void> _salvar(WidgetTester tester, String nome) async {
   }
   await _imagensProntas(tester);
   await expectLater(find.byType(MaterialApp), matchesGoldenFile('prints/$nome.png'));
+}
+
+/// Resistência a dano: ajuste de um tipo, a janela de sofrer dano e o
+/// resultado (com o painel de RD já na tela).
+Future<void> _telasRd(WidgetTester tester) async {
+  await tester.tap(find.text('Fogo'));
+  await _salvar(tester, 'rd_editar');
+  Navigator.of(tester.element(find.text('ANOTADA'))).pop();
+  await tester.pump(const Duration(milliseconds: 400));
+  await tester.ensureVisible(find.text('SOFRER DANO'));
+  await tester.pump();
+  await tester.tap(find.text('SOFRER DANO'));
+  await tester.pump(const Duration(milliseconds: 400));
+  await tester.enterText(find.byType(TextField).last, '12');
+  await _salvar(tester, 'rd_sofrer');
+  await tester.tap(find.text('APLICAR DANO'));
+  await _salvar(tester, 'rd_aplicado');
 }
 
 Future<void> _rolar(WidgetTester tester, double quanto) async {
@@ -274,7 +294,9 @@ Future<void> _prepararDados() async {
     'peAtual': 9,
     'sanAtual': 18,
     'condicoes': ['Abalado'],
+    'rd': {'fogo': 5, 'mental': 3},
     'poderes': [
+      {'id': 'p6', 'nome': 'Resistir a Elemento', 'tipo': 'Paranormal', 'ref': 'oprpg/p.resistir_elemento', 'elemento': 'Sangue', 'descricao': 'Resistência 10 contra Sangue.'},
       {'id': 'p1', 'nome': 'Escolhido pelo Outro Lado', 'tipo': 'Classe', 'descricao': 'Conjura rituais de 1º círculo e aprende novos conforme o NEX aumenta.'},
       {'id': 'p2', 'nome': 'Potencial Aprimorado', 'tipo': 'Trilha', 'descricao': 'Seus PE máximos aumentam em +1 por NEX.'},
       {'id': 'p3', 'nome': 'Sensitivo', 'tipo': 'Paranormal', 'elemento': 'Conhecimento', 'afinidade': true, 'descricao': 'Você sente emoções e intenções e recebe +5 em Diplomacia, Intimidação e Intuição.'},
@@ -283,7 +305,7 @@ Future<void> _prepararDados() async {
     ],
     'inventario': [
       {'id': 'i1', 'nome': 'Pistola', 'tipo': 'arma', 'categoriaLivro': 'arma', 'categoria': 1, 'espacos': 1, 'qtd': 1, 'dano': '1d12', 'critico': '18/x2', 'pericia': 'Pontaria'},
-      {'id': 'i2', 'nome': 'Colete leve', 'tipo': 'protecao', 'categoriaLivro': 'protecao', 'categoria': 1, 'espacos': 2, 'defesa': 5},
+      {'id': 'i2', 'nome': 'Colete leve', 'tipo': 'protecao', 'categoriaLivro': 'protecao', 'categoria': 1, 'espacos': 2, 'defesa': 5, 'maldicoes': ['oprpg/mal.cinetica']},
       {'id': 'i3', 'nome': 'Componentes ritualísticos de Conhecimento', 'tipo': 'geral', 'categoriaLivro': 'paranormal', 'categoria': 0, 'espacos': 1, 'qtd': 2},
       {'id': 'i4', 'nome': 'Amuleto de Sangue', 'tipo': 'geral', 'categoriaLivro': 'amaldicoado', 'elemento': 'Sangue', 'categoria': 2, 'espacos': 1, 'descricao': 'Pulsa quando há sangue por perto.'},
       {'id': 'i5', 'nome': 'Lanterna tática', 'tipo': 'geral', 'categoriaLivro': 'operacional', 'categoria': 0, 'espacos': 1},

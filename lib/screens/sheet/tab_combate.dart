@@ -1,6 +1,11 @@
-import 'package:flutter/material.dart';
+import 'dart:math';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import '../../core/dano.dart';
 import '../../core/dice.dart';
+import '../../core/rules.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/repo.dart';
@@ -70,6 +75,11 @@ class _TabCombateState extends State<TabCombate> {
               aoTocar: () => ctx.rolarPericia(context, p),
             ),
         ]),
+      ),
+      const SizedBox(height: 12),
+      _PainelCortado(
+        titulo: 'Resistência a dano',
+        child: _Resistencias(ctx: ctx),
       ),
       const SizedBox(height: 12),
       _PainelCortado(
@@ -390,5 +400,412 @@ class _DadoDestino extends StatelessWidget {
         ]),
       ),
     ]);
+  }
+}
+
+// ---------------- resistência a dano ----------------
+
+Color _corDano(String id) {
+  if (tiposParanormais.contains(id)) return Runa.corDo(id);
+  if (id == 'mental') return Cores.san;
+  return Cores.destaque;
+}
+
+/// Ícone do tipo de dano; os cinco elementos usam a runa de cada um.
+class _IconeDano extends StatelessWidget {
+  final String id;
+  final double tamanho;
+  final Color cor;
+  const _IconeDano(this.id, {required this.tamanho, required this.cor});
+  @override
+  Widget build(BuildContext context) {
+    if (tiposParanormais.contains(id)) {
+      return Runa(elemento: id, circulo: 1, semente: 'rd $id', cor: cor, tamanho: tamanho + 4);
+    }
+    final icone = switch (id) {
+      'geral' => Icons.shield_outlined,
+      'balistico' => Icons.gps_fixed,
+      'corte' => Icons.content_cut,
+      'impacto' => Icons.gavel,
+      'perfuracao' => Icons.north_east,
+      'eletricidade' => Icons.bolt,
+      'fogo' => Icons.local_fire_department_outlined,
+      'frio' => Icons.ac_unit,
+      'quimico' => Icons.science_outlined,
+      'mental' => Icons.psychology_outlined,
+      'vida' => Icons.favorite_border,
+      _ => Icons.auto_awesome,
+    };
+    return Icon(icone, size: tamanho, color: cor);
+  }
+}
+
+String _tituloRd(TipoDano t) => switch (t.id) {
+      'geral' => 'RD geral',
+      'paranormal' => 'RD paranormal',
+      'mental' => 'RD mental',
+      _ => 'RD a ${tiposParanormais.contains(t.id) ? t.nome : t.nome.toLowerCase()}',
+    };
+
+/// Quadros de RD por tipo de dano do livro. Cada quadro mostra quanto a
+/// ficha ignora daquele tipo (já somando a geral e a paranormal); tocar abre
+/// o ajuste. O botão de sofrer dano desconta a RD sozinho.
+class _Resistencias extends StatelessWidget {
+  final CtxFicha ctx;
+  const _Resistencias({required this.ctx});
+
+  @override
+  Widget build(BuildContext context) {
+    final c = ctx.calc;
+    Widget grupo(String titulo, List<TipoDano> tipos, int Function(String) valor) => Padding(
+          padding: const EdgeInsets.only(top: 12),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            Text(titulo.toUpperCase(),
+                style: estiloRotulo(11.5, cor: Cores.textoFraco, peso: FontWeight.w700, espaco: 1.8)),
+            const SizedBox(height: 6),
+            LayoutBuilder(builder: (context, lim) {
+              const vao = 6.0;
+              final colunas = max(3, (lim.maxWidth / 80).floor());
+              final largura = (lim.maxWidth - vao * (colunas - 1)) / colunas;
+              return Wrap(spacing: vao, runSpacing: vao, children: [
+                for (final t in tipos)
+                  SizedBox(
+                    width: largura,
+                    child: _QuadroRd(tipo: t, valor: valor(t.id), aoTocar: () => _editarRd(context, ctx, t)),
+                  ),
+              ]);
+            }),
+          ]),
+        );
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      Row(children: [
+        const Expanded(
+          child: Text('Toque num tipo para ajustar. Ao sofrer dano por aqui, a RD já é descontada.',
+              style: TextStyle(fontSize: 12.5, color: Cores.textoFraco)),
+        ),
+        const SizedBox(width: 10),
+        FilledButton.icon(
+          onPressed: () => showModalBottomSheet<void>(
+            context: context,
+            isScrollControlled: true,
+            builder: (_) => _SofrerDano(ctx: ctx),
+          ),
+          icon: const Icon(Icons.heart_broken_outlined, size: 18),
+          label: const Text('SOFRER DANO'),
+        ),
+      ]),
+      grupo('Para vários tipos', const [rdGeral, rdParanormal], c.rdDe),
+      for (final g in gruposDano) grupo(g, [for (final t in tiposDano) if (t.grupo == g) t], c.rdContra),
+    ]);
+  }
+}
+
+class _QuadroRd extends StatelessWidget {
+  final TipoDano tipo;
+  final int valor;
+  final VoidCallback aoTocar;
+  const _QuadroRd({required this.tipo, required this.valor, required this.aoTocar});
+  @override
+  Widget build(BuildContext context) {
+    final cor = _corDano(tipo.id);
+    final tem = valor != 0;
+    return Material(
+      color: tem ? cor.withValues(alpha: 0.14) : Colors.black.withValues(alpha: 0.3),
+      shape: _Corte(corte: 8, cor: tem ? cor.withValues(alpha: 0.7) : Cores.borda),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: aoTocar,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(8, 7, 8, 7),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(children: [
+              _IconeDano(tipo.id, tamanho: 15, cor: tem ? cor : Cores.textoFraco),
+              const Spacer(),
+              Text('$valor',
+                  style: estiloNumero(22, cor: tem ? Cores.texto : Cores.textoFraco.withValues(alpha: 0.6))),
+            ]),
+            const SizedBox(height: 2),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Text(tipo.nome,
+                  style: estiloRotulo(12.5, cor: tem ? cor : Cores.textoFraco, peso: FontWeight.w700, espaco: 0.4)),
+            ),
+          ]),
+        ),
+      ),
+    );
+  }
+}
+
+class _BotaoRd extends StatelessWidget {
+  final String texto;
+  final Color cor;
+  final VoidCallback aoTocar;
+  const _BotaoRd(this.texto, this.cor, this.aoTocar);
+  @override
+  Widget build(BuildContext context) => Material(
+        color: cor.withValues(alpha: 0.12),
+        shape: _Corte(corte: 8, cor: cor.withValues(alpha: 0.45)),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: aoTocar,
+          child: SizedBox(height: 44, width: 50, child: Center(child: Text(texto, style: estiloNumero(19, cor: cor)))),
+        ),
+      );
+}
+
+/// Ajuste da RD de um tipo: o que a ficha já dá (e de onde vem) e o valor
+/// anotado à mão. Acompanha a ficha ao vivo enquanto está aberto.
+Future<void> _editarRd(BuildContext context, CtxFicha ctx, TipoDano t) => showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => StreamBuilder<Ficha?>(
+        stream: Repo.ficha(ctx.f.id),
+        initialData: ctx.f,
+        builder: (context, s) {
+          final f = s.data;
+          if (f == null) return const SizedBox(height: 200);
+          final c = Calc(f, ctx.camp?.regras);
+          final cor = _corDano(t.id);
+          final amplo = t.id == rdGeral.id || t.id == rdParanormal.id;
+          final manual = c.rdManual(t.id);
+          final fontes = [for (final r in c.rdAutomatica) if (r.tipo == t.id) r];
+          void mudar(int v) => Repo.set(f.id, 'rd', {...asMap(f.d['rd']), t.id: v < 0 ? 0 : v});
+
+          // de onde sai o total contra este tipo
+          final partes = <String>[
+            if (!amplo && t.id != 'mental' && c.rdDe(rdGeral.id) != 0) 'geral ${c.rdDe(rdGeral.id)}',
+            if (tiposParanormais.contains(t.id) && c.rdDe(rdParanormal.id) != 0)
+              'paranormal ${c.rdDe(rdParanormal.id)}',
+            if (!amplo && c.rdDe(t.id) != 0) '${t.nome.toLowerCase()} ${c.rdDe(t.id)}',
+          ];
+          final explicacao = switch (t.id) {
+            'geral' => 'Vale para todos os tipos de dano, menos o mental.',
+            'paranormal' => 'Vale para os cinco elementos: Conhecimento, Energia, Medo, Morte e Sangue.',
+            'mental' => c.determinacao
+                ? 'Diminui o dano mental, que tira PD. A RD geral não vale contra ele.'
+                : 'Diminui o dano mental, que tira SAN em vez de PV. A RD geral não vale contra ele.',
+            _ => partes.length > 1
+                ? 'Contra ${t.nome.toLowerCase()}: ${partes.join(' + ')}.'
+                : 'Diminui todo dano de ${t.nome.toLowerCase()} que você sofre.',
+          };
+          return SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+              child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                Row(children: [
+                  _IconeDano(t.id, tamanho: 22, cor: cor),
+                  const SizedBox(width: 10),
+                  Expanded(child: Text(_tituloRd(t), style: estiloTitulo(19, cor: cor))),
+                  Text('${amplo ? c.rdDe(t.id) : c.rdContra(t.id)}', style: estiloNumero(34, cor: Cores.texto)),
+                ]),
+                const SizedBox(height: 4),
+                Text(explicacao, style: const TextStyle(fontSize: 12.5, color: Cores.textoFraco)),
+                const SizedBox(height: 16),
+                Text('DA FICHA', style: estiloRotulo(13, cor: cor, peso: FontWeight.w700, espaco: 1.6)),
+                const SizedBox(height: 4),
+                if (fontes.isEmpty)
+                  const Text('Nenhum item, poder, trilha ou condição da ficha dá esta RD.',
+                      style: TextStyle(fontSize: 13.5, color: Cores.textoFraco)),
+                for (final r in fontes)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 3),
+                    child: Row(children: [
+                      Expanded(
+                        child: Text(r.fonte.isEmpty ? 'Efeito da ficha' : r.fonte,
+                            style: const TextStyle(fontSize: 14.5, color: Cores.texto)),
+                      ),
+                      Text('+${r.valor}', style: estiloNumero(18, cor: cor)),
+                    ]),
+                  ),
+                const SizedBox(height: 18),
+                Row(children: [
+                  Expanded(
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Text('ANOTADA', style: estiloRotulo(13, cor: cor, peso: FontWeight.w700, espaco: 1.6)),
+                      const Text('Rituais, itens de outros livros ou o que o mestre der.',
+                          style: TextStyle(fontSize: 12.5, color: Cores.textoFraco)),
+                    ]),
+                  ),
+                  _BotaoRd('−1', cor, () => mudar(manual - 1)),
+                  SizedBox(
+                    width: 52,
+                    child: InkWell(
+                      onTap: () async {
+                        final v = await pedirNumero(context, 'RD anotada: ${t.nome}', manual);
+                        if (v != null) mudar(v);
+                      },
+                      child: Center(child: Text('$manual', style: estiloNumero(24, cor: Cores.texto))),
+                    ),
+                  ),
+                  _BotaoRd('+1', cor, () => mudar(manual + 1)),
+                ]),
+              ]),
+            ),
+          );
+        },
+      ),
+    );
+
+/// Último tipo escolhido ao sofrer dano (a próxima janela abre nele).
+String _ultimoTipoDano = 'corte';
+
+/// Sofrer dano: valor, tipo e metade por teste de resistência. A metade vem
+/// antes da RD, como no livro; perda de vida ignora RD; dano mental sai da
+/// SAN (ou dos PD). Os pontos temporários são gastos primeiro.
+class _SofrerDano extends StatefulWidget {
+  final CtxFicha ctx;
+  const _SofrerDano({required this.ctx});
+  @override
+  State<_SofrerDano> createState() => _SofrerDanoState();
+}
+
+class _SofrerDanoState extends State<_SofrerDano> {
+  final _valor = TextEditingController();
+  String _tipo = _ultimoTipoDano;
+  bool _metade = false;
+
+  @override
+  void dispose() {
+    _valor.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final f = widget.ctx.f;
+    final c = widget.ctx.calc;
+    final dano = int.tryParse(_valor.text) ?? 0;
+    final vida = _tipo == 'vida';
+    final mental = _tipo == 'mental';
+    final rd = vida ? 0 : c.rdContra(_tipo);
+    final sofrido = vida ? (_metade ? dano ~/ 2 : dano) : danoFinal(dano, rd, metade: _metade);
+    final recurso = mental ? (c.determinacao ? 'PD' : 'SAN') : 'PV';
+    final corRecurso = mental ? (c.determinacao ? Cores.pd : Cores.san) : Cores.pv;
+    final atual = mental ? (c.determinacao ? f.pdAtual : f.sanAtual) : f.pvAtual;
+    final temp = mental ? (c.determinacao ? f.peTemp : 0) : f.pvTemp;
+    final doTemp = min(sofrido, temp);
+    final depois = max(0, atual - (sofrido - doTemp));
+    final nomeTipo = vida ? 'perda de vida' : (tipoDanoPorId(_tipo)?.nome.toLowerCase() ?? _tipo);
+
+    void aplicar() {
+      _ultimoTipoDano = _tipo;
+      if (sofrido > 0) {
+        if (mental && !c.determinacao) {
+          Repo.mudarRecursos(f, {'sanAtual': depois});
+        } else {
+          // o valor alvo faz mudarPontos gastar os temporários antes e
+          // parar em zero (não existem PV negativos)
+          final campo = mental ? 'pdAtual' : 'pvAtual';
+          Repo.mudarPontos(f, campo, atual - min(sofrido, atual + temp));
+        }
+      }
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(sofrido > 0
+            ? '${f.nome} perdeu $sofrido $recurso ($nomeTipo${vida ? '' : ', RD $rd'}).'
+            : 'A RD $rd de ${f.nome} absorveu todo o dano de $nomeTipo.'),
+      ));
+    }
+
+    Widget opcao(String id, String nome) {
+      final cor = id == 'vida' ? Cores.pv : _corDano(id);
+      return ChoiceChip(
+        avatar: _IconeDano(id, tamanho: 15, cor: _tipo == id ? cor : Cores.textoFraco),
+        label: Text(nome),
+        selected: _tipo == id,
+        showCheckmark: false,
+        onSelected: (_) => setState(() => _tipo = id),
+      );
+    }
+
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
+      child: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+          child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            Text('Sofrer dano', style: estiloTitulo(20, cor: Cores.pv)),
+            const SizedBox(height: 12),
+            Row(children: [
+              SizedBox(
+                width: 110,
+                child: TextField(
+                  controller: _valor,
+                  autofocus: true,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  style: estiloNumero(24, cor: Cores.texto),
+                  decoration: const InputDecoration(labelText: 'Dano'),
+                  onChanged: (_) => setState(() {}),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: CheckboxListTile(
+                  value: _metade,
+                  onChanged: (v) => setState(() => _metade = v ?? false),
+                  contentPadding: EdgeInsets.zero,
+                  dense: true,
+                  controlAffinity: ListTileControlAffinity.leading,
+                  title: const Text('Passou no teste: metade'),
+                ),
+              ),
+            ]),
+            const SizedBox(height: 12),
+            Text('TIPO', style: estiloRotulo(12.5, cor: Cores.textoFraco, peso: FontWeight.w700, espaco: 1.6)),
+            const SizedBox(height: 6),
+            Wrap(spacing: 6, runSpacing: 6, children: [
+              for (final t in tiposDano) opcao(t.id, t.nome),
+              opcao('vida', 'Perda de vida'),
+            ]),
+            const SizedBox(height: 14),
+            Material(
+              color: corRecurso.withValues(alpha: 0.1),
+              shape: _Corte(corte: 10, cor: corRecurso.withValues(alpha: 0.5)),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(14, 10, 14, 12),
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(
+                    [
+                      '$dano de $nomeTipo',
+                      if (_metade) 'metade: ${dano ~/ 2}',
+                      vida ? 'ignora RD' : 'RD $rd',
+                    ].join(' · '),
+                    style: const TextStyle(fontSize: 13.5, color: Cores.textoFraco),
+                  ),
+                  const SizedBox(height: 4),
+                  Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                    Text('$sofrido', style: estiloNumero(34, cor: corRecurso)),
+                    const SizedBox(width: 8),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 5),
+                      child: Text('de $recurso', style: estiloRotulo(15, cor: corRecurso, peso: FontWeight.w700)),
+                    ),
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 4),
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                        Text('$recurso fica em $depois', style: estiloNumero(16, cor: Cores.texto, peso: FontWeight.w600)),
+                        if (doTemp > 0)
+                          Text('$doTemp saem dos temporários',
+                              style: const TextStyle(fontSize: 12, color: Cores.textoFraco)),
+                      ]),
+                    ),
+                  ]),
+                ]),
+              ),
+            ),
+            const SizedBox(height: 14),
+            FilledButton(
+              onPressed: dano > 0 ? aplicar : null,
+              style: FilledButton.styleFrom(backgroundColor: Cores.pv, minimumSize: const Size(0, 48)),
+              child: const Text('APLICAR DANO'),
+            ),
+          ]),
+        ),
+      ),
+    );
   }
 }
