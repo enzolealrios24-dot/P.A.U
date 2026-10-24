@@ -103,7 +103,7 @@ void main() {
       await _salvar(tester, 'pericias_${af.toLowerCase()}');
       await _abrirAba(tester, 'COMBATE');
       await _salvar(tester, 'combate_${af.toLowerCase()}');
-      await _rolar(tester, 900);
+      await _rolar(tester, 650);
       await _salvar(tester, 'combate_rd_${af.toLowerCase()}');
       if (af == 'Sangue') await _telasRd(tester);
       await _abrirAba(tester, 'INVENTÁRIO');
@@ -168,6 +168,8 @@ Future<void> _salvar(WidgetTester tester, String nome) async {
 /// Resistência a dano: ajuste de um tipo, a janela de sofrer dano e o
 /// resultado (com o painel de RD já na tela).
 Future<void> _telasRd(WidgetTester tester) async {
+  await tester.ensureVisible(find.text('Fogo'));
+  await tester.pump();
   await tester.tap(find.text('Fogo'));
   await _salvar(tester, 'rd_editar');
   Navigator.of(tester.element(find.text('ANOTADA'))).pop();

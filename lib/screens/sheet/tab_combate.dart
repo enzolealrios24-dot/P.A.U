@@ -79,6 +79,7 @@ class _TabCombateState extends State<TabCombate> {
       const SizedBox(height: 12),
       _PainelCortado(
         titulo: 'Resistência a dano',
+        acao: _BotaoSofrerDano(ctx: ctx),
         child: _Resistencias(ctx: ctx),
       ),
       const SizedBox(height: 12),
@@ -245,7 +246,9 @@ class _Corte extends ShapeBorder {
 class _PainelCortado extends StatelessWidget {
   final String titulo;
   final Widget child;
-  const _PainelCortado({required this.titulo, required this.child});
+  /// Botão no canto direito do título (opcional).
+  final Widget? acao;
+  const _PainelCortado({required this.titulo, required this.child, this.acao});
   @override
   Widget build(BuildContext context) => Material(
         color: Cores.painel,
@@ -257,8 +260,11 @@ class _PainelCortado extends StatelessWidget {
             Row(children: [
               Container(width: 4, height: 16, color: Cores.destaque),
               const SizedBox(width: 8),
-              Text(titulo.toUpperCase(),
-                  style: estiloRotulo(14, cor: Cores.destaque, peso: FontWeight.w700, espaco: 2)),
+              Expanded(
+                child: Text(titulo.toUpperCase(),
+                    style: estiloRotulo(14, cor: Cores.destaque, peso: FontWeight.w700, espaco: 2)),
+              ),
+              if (acao != null) acao!,
             ]),
             const SizedBox(height: 10),
             child,
@@ -447,9 +453,9 @@ String _tituloRd(TipoDano t) => switch (t.id) {
       _ => 'RD a ${tiposParanormais.contains(t.id) ? t.nome : t.nome.toLowerCase()}',
     };
 
-/// Quadros de RD por tipo de dano do livro. Cada quadro mostra quanto a
-/// ficha ignora daquele tipo (já somando a geral e a paranormal); tocar abre
-/// o ajuste. O botão de sofrer dano desconta a RD sozinho.
+/// RD por tipo de dano do livro, em fichas compactas como as dos testes
+/// rápidos. Cada uma mostra quanto a ficha ignora daquele tipo (já somando a
+/// geral e a paranormal); tocar abre o ajuste.
 class _Resistencias extends StatelessWidget {
   final CtxFicha ctx;
   const _Resistencias({required this.ctx});
@@ -457,80 +463,63 @@ class _Resistencias extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = ctx.calc;
-    Widget grupo(String titulo, List<TipoDano> tipos, int Function(String) valor) => Padding(
-          padding: const EdgeInsets.only(top: 12),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            Text(titulo.toUpperCase(),
-                style: estiloRotulo(11.5, cor: Cores.textoFraco, peso: FontWeight.w700, espaco: 1.8)),
-            const SizedBox(height: 6),
-            LayoutBuilder(builder: (context, lim) {
-              const vao = 6.0;
-              final colunas = max(3, (lim.maxWidth / 80).floor());
-              final largura = (lim.maxWidth - vao * (colunas - 1)) / colunas;
-              return Wrap(spacing: vao, runSpacing: vao, children: [
-                for (final t in tipos)
-                  SizedBox(
-                    width: largura,
-                    child: _QuadroRd(tipo: t, valor: valor(t.id), aoTocar: () => _editarRd(context, ctx, t)),
-                  ),
-              ]);
-            }),
-          ]),
-        );
-    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      Row(children: [
-        const Expanded(
-          child: Text('Toque num tipo para ajustar. Ao sofrer dano por aqui, a RD já é descontada.',
-              style: TextStyle(fontSize: 12.5, color: Cores.textoFraco)),
-        ),
-        const SizedBox(width: 10),
-        FilledButton.icon(
-          onPressed: () => showModalBottomSheet<void>(
-            context: context,
-            isScrollControlled: true,
-            builder: (_) => _SofrerDano(ctx: ctx),
-          ),
-          icon: const Icon(Icons.heart_broken_outlined, size: 18),
-          label: const Text('SOFRER DANO'),
-        ),
-      ]),
-      grupo('Para vários tipos', const [rdGeral, rdParanormal], c.rdDe),
-      for (final g in gruposDano) grupo(g, [for (final t in tiposDano) if (t.grupo == g) t], c.rdContra),
+    return Wrap(spacing: 6, runSpacing: 6, children: [
+      for (final t in const [rdGeral, rdParanormal])
+        _ChipRd(tipo: t, valor: c.rdDe(t.id), aoTocar: () => _editarRd(context, ctx, t)),
+      for (final t in tiposDano)
+        _ChipRd(tipo: t, valor: c.rdContra(t.id), aoTocar: () => _editarRd(context, ctx, t)),
     ]);
   }
 }
 
-class _QuadroRd extends StatelessWidget {
+/// Botão do título do painel de RD: abre a janela de sofrer dano.
+class _BotaoSofrerDano extends StatelessWidget {
+  final CtxFicha ctx;
+  const _BotaoSofrerDano({required this.ctx});
+  @override
+  Widget build(BuildContext context) => FilledButton.icon(
+        onPressed: () => showModalBottomSheet<void>(
+          context: context,
+          isScrollControlled: true,
+          builder: (_) => _SofrerDano(ctx: ctx),
+        ),
+        style: FilledButton.styleFrom(
+          visualDensity: VisualDensity.compact,
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          minimumSize: const Size(0, 32),
+        ),
+        icon: const Icon(Icons.heart_broken_outlined, size: 16),
+        label: const Text('SOFRER DANO'),
+      );
+}
+
+class _ChipRd extends StatelessWidget {
   final TipoDano tipo;
   final int valor;
   final VoidCallback aoTocar;
-  const _QuadroRd({required this.tipo, required this.valor, required this.aoTocar});
+  const _ChipRd({required this.tipo, required this.valor, required this.aoTocar});
   @override
   Widget build(BuildContext context) {
     final cor = _corDano(tipo.id);
     final tem = valor != 0;
     return Material(
-      color: tem ? cor.withValues(alpha: 0.14) : Colors.black.withValues(alpha: 0.3),
-      shape: _Corte(corte: 8, cor: tem ? cor.withValues(alpha: 0.7) : Cores.borda),
+      color: Colors.black.withValues(alpha: 0.3),
+      shape: _Corte(corte: 8, cor: tem ? cor.withValues(alpha: 0.55) : Cores.borda),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: aoTocar,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(8, 7, 8, 7),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(children: [
-              _IconeDano(tipo.id, tamanho: 15, cor: tem ? cor : Cores.textoFraco),
-              const Spacer(),
-              Text('$valor',
-                  style: estiloNumero(22, cor: tem ? Cores.texto : Cores.textoFraco.withValues(alpha: 0.6))),
-            ]),
-            const SizedBox(height: 2),
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              alignment: Alignment.centerLeft,
-              child: Text(tipo.nome,
-                  style: estiloRotulo(12.5, cor: tem ? cor : Cores.textoFraco, peso: FontWeight.w700, espaco: 0.4)),
+          padding: const EdgeInsets.fromLTRB(10, 8, 12, 8),
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            // mesma altura para ícone e runa, para as fichas ficarem alinhadas
+            SizedBox.square(
+              dimension: 17,
+              child: FittedBox(child: _IconeDano(tipo.id, tamanho: 16, cor: tem ? cor : Cores.textoFraco)),
             ),
+            const SizedBox(width: 6),
+            Text(tipo.nome, style: estiloRotulo(15, cor: tem ? Cores.texto : Cores.textoFraco, espaco: 0.3)),
+            const SizedBox(width: 6),
+            Text('$valor', style: estiloNumero(15, cor: tem ? Cores.destaque : Cores.textoFraco)),
           ]),
         ),
       ),
