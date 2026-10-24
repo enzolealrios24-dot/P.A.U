@@ -7,6 +7,8 @@ import '../../data/models.dart';
 import '../../data/repo.dart';
 import '../../widgets/common.dart';
 import '../../widgets/imagem.dart';
+import '../../widgets/sigilos.dart';
+import '../pastas.dart';
 import 'forma.dart';
 import 'paleta_ficha.dart';
 import 'rolar.dart';
@@ -18,37 +20,67 @@ import 'tab_poderes.dart';
 import 'tab_quadro.dart';
 import 'tab_rituais.dart';
 
+/// Abre uma ficha. A rota tem nome para a transição não pôr um segundo fundo
+/// atrás (a ficha desenha o dela, nas cores da afinidade).
+Route<void> rotaFicha(String id) => MaterialPageRoute(
+    settings: const RouteSettings(name: TelaFicha.rota), builder: (_) => TelaFicha(fichaId: id));
+
+/// Deixa passar só o que mudou: o banco costuma mandar de novo a mesma
+/// ficha que a tela já mostra, e remontar tudo no meio da animação de
+/// entrada era o que engasgava a abertura.
+Stream<T?> semRepetir<T>(Stream<T?> s, T? inicial, Map<String, dynamic> Function(T) dados) {
+  String? ultimo = inicial == null ? null : dados(inicial).toString();
+  return s.where((v) {
+    final k = v == null ? null : dados(v).toString();
+    if (k != null && k == ultimo) return false;
+    ultimo = k;
+    return true;
+  });
+}
+
 class TelaFicha extends StatelessWidget {
   final String fichaId;
   const TelaFicha({super.key, required this.fichaId});
 
+  static const rota = '/ficha';
+
+  // Enquanto o banco não responde: só o fundo e o topo (sem "carregando"
+  // no meio da animação de entrada).
+  static Widget _aviso(String? texto) => FundoCris(
+        key: ValueKey(texto),
+        child: Scaffold(
+          appBar: AppBar(),
+          body: texto == null ? const SizedBox.expand() : Center(child: Text(texto, textAlign: TextAlign.center)),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Ficha?>(
-      stream: Repo.ficha(fichaId),
+      // a última versão conhecida já monta a ficha no primeiro quadro
+      initialData: Repo.fichaConhecida(fichaId),
+      stream: semRepetir(Repo.ficha(fichaId), Repo.fichaConhecida(fichaId), (f) => f.d),
       builder: (context, snap) {
-        if (snap.hasError) {
-          return Scaffold(
-              appBar: AppBar(),
-              body: Center(child: Text('Sem acesso a esta ficha.\n${snap.error}')));
-        }
-        if (!snap.hasData) {
-          return Scaffold(
-              appBar: AppBar(),
-              body: const Center(child: CircularProgressIndicator()));
-        }
+        final Widget tela;
         final f = snap.data;
-        if (f == null) {
-          return Scaffold(
-              appBar: AppBar(),
-              body: const Center(child: Text('Ficha não encontrada.')));
+        if (snap.hasError) {
+          tela = _aviso('Sem acesso a esta ficha.\n${snap.error}');
+        } else if (f == null) {
+          tela = _aviso(snap.connectionState == ConnectionState.waiting ? null : 'Ficha não encontrada.');
+        } else {
+          final cid = f.campaignId;
+          tela = KeyedSubtree(
+            key: const ValueKey('ficha'),
+            child: cid == null
+                ? _Ficha(ctx: CtxFicha(f, null))
+                : StreamBuilder<Campanha?>(
+                    initialData: Repo.campanhaConhecida(cid),
+                    stream: semRepetir(Repo.campanha(cid), Repo.campanhaConhecida(cid), (c) => c.d),
+                    builder: (context, cs) => _Ficha(ctx: CtxFicha(f, cs.data)),
+                  ),
+          );
         }
-        final cid = f.campaignId;
-        if (cid == null) return _Ficha(ctx: CtxFicha(f, null));
-        return StreamBuilder<Campanha?>(
-          stream: Repo.campanha(cid),
-          builder: (context, cs) => _Ficha(ctx: CtxFicha(f, cs.data)),
-        );
+        return AnimatedSwitcher(duration: const Duration(milliseconds: 220), child: tela);
       },
     );
   }
@@ -112,8 +144,7 @@ class _Ficha extends StatelessWidget {
                   if (context.mounted) {
                     Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(
-                            builder: (_) => TelaFicha(fichaId: id)));
+                        rotaFicha(id));
                   }
                 } else if (v == 'cris') {
                   if (!await confirmar(context,
@@ -134,6 +165,9 @@ class _Ficha extends StatelessWidget {
                           .showSnackBar(SnackBar(content: Text(e.mensagem)));
                     }
                   }
+                } else if (v == 'pasta') {
+                  final pastas = await Repo.minhasPastas().first;
+                  if (context.mounted) await moverAgente(context, f, pastas);
                 } else if (v == 'sairMesa') {
                   Repo.desvincularFicha(f);
                 } else if (v == 'apagar') {
@@ -157,6 +191,10 @@ class _Ficha extends StatelessWidget {
                 if (dono && !f.eTransformacao)
                   const PopupMenuItem(
                       value: 'transformar', child: Text('Nova transformação')),
+                if (dono && !f.eTransformacao)
+                  PopupMenuItem(
+                      value: 'pasta',
+                      child: Text(f.pasta == null ? 'Mover para uma pasta' : 'Mudar de pasta')),
                 if (!f.eTransformacao)
                   const PopupMenuItem(value: 'dup', child: Text('Duplicar ficha')),
                 if (dono && asStr(f.d['crisId']).isNotEmpty)

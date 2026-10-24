@@ -126,60 +126,63 @@ class FundoCris extends StatelessWidget {
       child: Stack(children: [
         Positioned.fill(
           child: IgnorePointer(
-            child: LayoutBuilder(builder: (context, c) {
-              final grande = c.maxWidth * 0.8 > 560 ? 560.0 : c.maxWidth * 0.8;
-              return Stack(clipBehavior: Clip.hardEdge, children: [
-                Positioned.fill(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      gradient: RadialGradient(
-                        center: const Alignment(0.2, -1.25),
-                        radius: 1.25,
-                        colors: [
-                          Cores.degradeTopo.withValues(alpha: 0.20),
-                          Cores.degradeTopo.withValues(alpha: 0.05),
-                          Colors.transparent,
-                        ],
-                        stops: const [0, 0.45, 1],
+            // camada própria: o fundo não é redesenhado quando algo da tela anima
+            child: RepaintBoundary(
+              child: LayoutBuilder(builder: (context, c) {
+                final grande = c.maxWidth * 0.8 > 560 ? 560.0 : c.maxWidth * 0.8;
+                return Stack(clipBehavior: Clip.hardEdge, children: [
+                  Positioned.fill(
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: RadialGradient(
+                          center: const Alignment(0.2, -1.25),
+                          radius: 1.25,
+                          colors: [
+                            Cores.degradeTopo.withValues(alpha: 0.20),
+                            Cores.degradeTopo.withValues(alpha: 0.05),
+                            Colors.transparent,
+                          ],
+                          stops: const [0, 0.45, 1],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Positioned.fill(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      gradient: RadialGradient(
-                        center: const Alignment(-0.9, 1.3),
-                        radius: 1.35,
-                        colors: [
-                          Cores.degradeBase.withValues(alpha: 0.24),
-                          Cores.degradeBase.withValues(alpha: 0.06),
-                          Colors.transparent,
-                        ],
-                        stops: const [0, 0.5, 1],
+                  Positioned.fill(
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: RadialGradient(
+                          center: const Alignment(-0.9, 1.3),
+                          radius: 1.35,
+                          colors: [
+                            Cores.degradeBase.withValues(alpha: 0.24),
+                            Cores.degradeBase.withValues(alpha: 0.06),
+                            Colors.transparent,
+                          ],
+                          stops: const [0, 0.5, 1],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Positioned(
-                  top: -grande * 0.34,
-                  right: -grande * 0.34,
-                  child: SigiloConhecimento(
-                      tamanho: grande,
-                      cor: Cores.destaque.withValues(alpha: 0.06),
-                      espessura: 1.2),
-                ),
-                Positioned(
-                  bottom: -grande * 0.38,
-                  left: -grande * 0.32,
-                  child: SigiloConhecimento(
-                      tamanho: grande * 0.9,
-                      cor: Cores.roxoClaro.withValues(alpha: 0.06),
-                      espessura: 1.2,
-                      variante: 1),
-                ),
-              ]);
-            }),
+                  Positioned(
+                    top: -grande * 0.34,
+                    right: -grande * 0.34,
+                    child: SigiloConhecimento(
+                        tamanho: grande,
+                        cor: Cores.destaque.withValues(alpha: 0.06),
+                        espessura: 1.2),
+                  ),
+                  Positioned(
+                    bottom: -grande * 0.38,
+                    left: -grande * 0.32,
+                    child: SigiloConhecimento(
+                        tamanho: grande * 0.9,
+                        cor: Cores.roxoClaro.withValues(alpha: 0.06),
+                        espessura: 1.2,
+                        variante: 1),
+                  ),
+                ]);
+              }),
+            ),
           ),
         ),
         // grão de papel gasto por cima de tudo, bem de leve
@@ -197,28 +200,35 @@ class FundoCris extends StatelessWidget {
 class TransicaoComFundo extends PageTransitionsBuilder {
   const TransicaoComFundo();
 
+  static final _sobe = Tween(begin: const Offset(0, 0.035), end: Offset.zero)
+      .chain(CurveTween(curve: Curves.easeOutCubic));
+  static final _acende = CurveTween(curve: Curves.easeOut);
+  static final _recua = Tween(begin: 1.0, end: 0.965).chain(CurveTween(curve: Curves.easeOutCubic));
+
   @override
   Widget buildTransitions<T>(PageRoute<T> route, BuildContext context,
       Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
-    return AnimatedBuilder(
-      animation: Listenable.merge([animation, secondaryAnimation]),
-      child: FundoCris(child: child),
-      builder: (context, child) {
-        final entra = Curves.easeOutCubic.transform(animation.value);
-        final recua = Curves.easeOutCubic.transform(secondaryAnimation.value);
-        Widget w = child!;
-        if (recua > 0) w = Transform.scale(scale: 1 - 0.035 * recua, child: w);
-        if (entra < 1) {
-          w = Opacity(
-            opacity: entra,
-            child: Transform.translate(offset: Offset(0, 36 * (1 - entra)), child: w),
-          );
-        }
-        return w;
-      },
+    // Os mesmos três invólucros do começo ao fim: se a árvore mudasse de
+    // forma quando a animação acaba, a tela inteira seria montada de novo
+    // (era o tranco no fim da abertura). O fundo fica numa camada própria e
+    // não é redesenhado a cada quadro; a ficha desenha o fundo dela.
+    final fundoProprio = rotasComFundoProprio.contains(route.settings.name);
+    return ScaleTransition(
+      scale: secondaryAnimation.drive(_recua),
+      child: FadeTransition(
+        opacity: animation.drive(_acende),
+        child: SlideTransition(
+          position: animation.drive(_sobe),
+          child: RepaintBoundary(child: fundoProprio ? child : FundoCris(child: child)),
+        ),
+      ),
     );
   }
 }
+
+/// Rotas cuja tela já desenha o próprio fundo (a ficha, nas cores da
+/// afinidade); a transição não põe outro atrás.
+const rotasComFundoProprio = {'/ficha'};
 
 /// Linha fina embaixo do topo das telas: acende no meio e some nas pontas.
 class LinhaCris extends StatelessWidget implements PreferredSizeWidget {

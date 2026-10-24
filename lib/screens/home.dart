@@ -13,6 +13,7 @@ import '../widgets/logo.dart';
 import '../widgets/sigilos.dart';
 import '../widgets/tema_picker.dart';
 import 'campaign/campaign_screen.dart';
+import 'pastas.dart';
 import 'sheet/sheet_screen.dart';
 
 class TelaInicio extends StatefulWidget {
@@ -123,12 +124,14 @@ class _ListaAgentes extends StatelessWidget {
         onPressed: () {
           final id = Repo.criarFicha();
           Navigator.push(context,
-              MaterialPageRoute(builder: (_) => TelaFicha(fichaId: id)));
+              rotaFicha(id));
         },
         icon: const Icon(Icons.add),
         label: const Text('Novo agente'),
       ),
-      body: StreamBuilder<List<Ficha>>(
+      body: StreamBuilder<List<Pasta>>(
+        stream: Repo.minhasPastas(),
+        builder: (context, ps) => StreamBuilder<List<Ficha>>(
         stream: Repo.fichasEditaveis(),
         builder: (context, snap) {
           if (snap.hasError) return Center(child: Text('${snap.error}'));
@@ -139,7 +142,11 @@ class _ListaAgentes extends StatelessWidget {
           final l = todas
               .where((f) => f.ownerUid == Repo.uid && !f.eTransformacao)
               .toList();
-          if (l.isEmpty) {
+          final pastas = ps.data ?? const <Pasta>[];
+          final idsPastas = {for (final p in pastas) p.id};
+          // agentes numa pasta aparecem só dentro dela
+          final soltos = l.where((f) => !idsPastas.contains(f.pasta)).toList();
+          if (l.isEmpty && pastas.isEmpty) {
             return Center(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(24),
@@ -164,22 +171,64 @@ class _ListaAgentes extends StatelessWidget {
           return LayoutBuilder(builder: (context, cons) {
             final colunas = cons.maxWidth >= 1150 ? 3 : (cons.maxWidth >= 760 ? 2 : 1);
             final largura = (cons.maxWidth - 32 - 12 * (colunas - 1)) / colunas;
+            final colunasPasta = cons.maxWidth >= 1150 ? 4 : (cons.maxWidth >= 760 ? 3 : 2);
+            final larguraPasta = (cons.maxWidth - 32 - 12 * (colunasPasta - 1)) / colunasPasta;
             final cartoes = [
-              for (final (i, f) in l.indexed)
-                Surgir(
-                  ordem: i,
-                  child: CartaoAgente(
+              for (final (i, f) in soltos.indexed)
+                AgenteArrastavel(
+                  ficha: f,
+                  child: Surgir(
+                    ordem: i + pastas.length,
+                    child: CartaoAgente(
                       ficha: f,
-                      formas: todas.where((t) => t.transformacaoDe == f.id).toList()),
+                      formas: todas.where((t) => t.transformacaoDe == f.id).toList(),
+                      aoMover: () => moverAgente(context, f, pastas),
+                    ),
+                  ),
                 ),
             ];
+            Widget rotulo(String texto) => Padding(
+                  padding: const EdgeInsets.fromLTRB(4, 4, 4, 10),
+                  child: Text(texto,
+                      style: estiloRotulo(13, cor: Cores.textoFraco, peso: FontWeight.w700, espaco: 2)),
+                );
             return ListView(
               padding: const EdgeInsets.fromLTRB(16, 4, 16, 100),
               children: [
                 TituloPagina(
                   titulo: 'Agentes',
-                  subtitulo: l.length == 1 ? '1 agente na sua pasta' : '${l.length} agentes na sua pasta',
+                  subtitulo: [
+                    l.length == 1 ? '1 agente' : '${l.length} agentes',
+                    if (pastas.isNotEmpty) pastas.length == 1 ? '1 pasta' : '${pastas.length} pastas',
+                  ].join(' · '),
+                  acoes: [
+                    TextButton.icon(
+                      onPressed: () => criarPasta(context),
+                      icon: const Icon(Icons.create_new_folder_outlined, size: 20),
+                      label: const Text('Nova pasta'),
+                    ),
+                  ],
                 ),
+                if (pastas.isNotEmpty) ...[
+                  rotulo('PASTAS'),
+                  Wrap(spacing: 12, runSpacing: 12, children: [
+                    for (final (i, p) in pastas.indexed)
+                      SizedBox(
+                        width: larguraPasta,
+                        child: Surgir(
+                          ordem: i,
+                          child: CartaoPasta(
+                            pasta: p,
+                            agentes: l.where((f) => f.pasta == p.id).toList(),
+                            aoAbrir: () => Navigator.push(
+                                context, MaterialPageRoute(builder: (_) => TelaPasta(pastaId: p.id))),
+                          ),
+                        ),
+                      ),
+                  ]),
+                  const SizedBox(height: 18),
+                  if (soltos.isNotEmpty) rotulo('SEM PASTA'),
+                ],
                 if (colunas == 1)
                   ...cartoes
                 else
@@ -191,6 +240,7 @@ class _ListaAgentes extends StatelessWidget {
           });
         },
       ),
+      ),
     );
   }
 }
@@ -200,8 +250,10 @@ class CartaoAgente extends StatelessWidget {
   final Map<String, dynamic>? regras;
   /// Transformações do agente, mostradas embaixo dele.
   final List<Ficha> formas;
+  /// Mostra o botão de mover para uma pasta (na tela inicial).
+  final VoidCallback? aoMover;
   const CartaoAgente(
-      {super.key, required this.ficha, this.regras, this.formas = const []});
+      {super.key, required this.ficha, this.regras, this.formas = const [], this.aoMover});
   @override
   Widget build(BuildContext context) {
     final c = Calc(ficha, regras);
@@ -219,7 +271,7 @@ class CartaoAgente extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () => Navigator.push(context,
-            MaterialPageRoute(builder: (_) => TelaFicha(fichaId: ficha.id))),
+            rotaFicha(ficha.id)),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -243,6 +295,15 @@ class CartaoAgente extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     Selo(c.resumoProgressao),
+                    if (aoMover != null)
+                      IconButton(
+                        tooltip: 'Mover para uma pasta',
+                        visualDensity: VisualDensity.compact,
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(minWidth: 32, minHeight: 28),
+                        onPressed: aoMover,
+                        icon: const Icon(Icons.drive_file_move_outline, size: 20, color: Cores.textoFraco),
+                      ),
                   ]),
                   const SizedBox(height: 4),
                   Text(detalhes,
@@ -296,7 +357,7 @@ class CartaoAgente extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(4),
       onTap: () => Navigator.push(context,
-          MaterialPageRoute(builder: (_) => TelaFicha(fichaId: t.id))),
+          rotaFicha(t.id)),
       child: Container(
         padding: const EdgeInsets.fromLTRB(4, 4, 12, 4),
         decoration: BoxDecoration(

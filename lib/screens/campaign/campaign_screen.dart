@@ -238,4 +238,4 @@ class LogRolagens extends StatelessWidget {
 }
 
 void abrirFicha(BuildContext context, String id) => Navigator.push(
-    context, MaterialPageRoute(builder: (_) => TelaFicha(fichaId: id)));
+    context, rotaFicha(id));

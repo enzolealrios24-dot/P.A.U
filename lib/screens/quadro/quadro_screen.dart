@@ -441,7 +441,7 @@ class _TelaQuadroState extends State<TelaQuadro> {
   void _abrirFicha(ItemQuadro i) {
     if (i.ficha.isEmpty) return;
     Navigator.push(
-        context, MaterialPageRoute(builder: (_) => TelaFicha(fichaId: i.ficha)));
+        context, rotaFicha(i.ficha));
   }
 
   // ---------------- ações do cartão selecionado ----------------

@@ -60,6 +60,12 @@ class Ficha {
     return (t is String && t.isNotEmpty) ? t : null;
   }
 
+  /// Pasta da tela inicial onde o dono guardou o agente (null: sem pasta).
+  String? get pasta {
+    final p = d['pasta'];
+    return (p is String && p.isNotEmpty) ? p : null;
+  }
+
   /// No agente: id de cada transformação e o que ela divide com ele.
   Map<String, dynamic> get transformacoes => asMap(d['transformacoes']);
 
@@ -115,6 +121,30 @@ class Ficha {
 }
 
 /// Campanha (documento em /campaigns/{id}).
+/// Pasta para organizar os agentes na tela inicial. Fica no documento do
+/// usuário (users/{uid}.pastas); cada agente guarda o id em "pasta".
+class Pasta {
+  final String id;
+  final String nome;
+  /// Data da pasta (começa com a de criação; o jogador pode trocar).
+  final DateTime data;
+  const Pasta(this.id, this.nome, this.data);
+
+  factory Pasta.de(Map<String, dynamic> m) => Pasta(
+        asStr(m['id']),
+        asStr(m['nome'], 'Pasta'),
+        DateTime.fromMillisecondsSinceEpoch(asInt(m['data'])),
+      );
+
+  Map<String, dynamic> get json => {'id': id, 'nome': nome, 'data': data.millisecondsSinceEpoch};
+
+  Pasta copiar({String? nome, DateTime? data}) => Pasta(id, nome ?? this.nome, data ?? this.data);
+
+  /// "24/10/2026"
+  String get dataTexto =>
+      '${data.day.toString().padLeft(2, '0')}/${data.month.toString().padLeft(2, '0')}/${data.year}';
+}
+
 class Campanha {
   final String id;
   final Map<String, dynamic> d;

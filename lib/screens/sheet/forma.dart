@@ -192,7 +192,7 @@ class FaixaForma extends StatelessWidget {
 /// Troca a ficha aberta por outra (agente <-> transformação).
 void abrirOutraFicha(BuildContext context, String id) =>
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (_) => TelaFicha(fichaId: id)));
+        context, rotaFicha(id));
 
 /// Seção da aba AGENTE: as transformações do agente, ou, numa
 /// transformação, o que ela divide com o agente.
@@ -400,5 +400,5 @@ Future<void> novaTransformacao(BuildContext context, Ficha agente) async {
   final id = Repo.criarTransformacao(agente,
       copiar: copiar, nome: nome.text.trim());
   Navigator.push(
-      context, MaterialPageRoute(builder: (_) => TelaFicha(fichaId: id)));
+      context, rotaFicha(id));
 }

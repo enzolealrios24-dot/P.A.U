@@ -16,6 +16,7 @@ import 'package:cris_ficha/data/repo.dart';
 import 'package:cris_ficha/screens/campaign/campaign_screen.dart';
 import 'package:cris_ficha/screens/home.dart';
 import 'package:cris_ficha/screens/login.dart';
+import 'package:cris_ficha/screens/pastas.dart';
 import 'package:cris_ficha/screens/quadro/quadro_screen.dart';
 import 'package:cris_ficha/data/quadro.dart';
 import 'package:cris_ficha/screens/sheet/sheet_screen.dart';
@@ -53,6 +54,15 @@ void main() {
     await _print(tester, 'runas', const Scaffold(body: SingleChildScrollView(padding: EdgeInsets.all(16), child: AmostraRunas())));
     await _print(tester, 'login', const TelaLogin());
     await _print(tester, 'inicio', const TelaInicio());
+    await tester.tap(find.byTooltip('Mover para uma pasta').first);
+    await _salvar(tester, 'pasta_mover');
+    Navigator.of(tester.element(find.text('Nova pasta…'))).pop();
+    await tester.pump(const Duration(milliseconds: 400));
+    await tester.tap(find.text('Nova pasta'));
+    await _salvar(tester, 'pasta_nova');
+    await tester.tap(find.text('Cancelar'));
+    await tester.pump(const Duration(milliseconds: 400));
+    await _print(tester, 'pasta', const TelaPasta(pastaId: 'pa1'));
     await _print(tester, 'ficha_agente', const TelaFicha(fichaId: 'a1'));
     // ajuste de PV: toque no número do painel
     await tester.tap(find.textContaining('/31', findRichText: true).first);
@@ -371,6 +381,7 @@ Future<void> _prepararDados() async {
     'classe': 'Especialista',
     'origem': 'Investigadora',
     'nex': 20,
+    'pasta': 'pa1',
     'pvAtual': 16,
     'peAtual': 6,
     'sanAtual': 14,
@@ -381,10 +392,17 @@ Future<void> _prepararDados() async {
     'origem': 'Militar',
     'nex': 50,
     'foto': 'foto2',
+    'pasta': 'pa1',
     'pvAtual': 2,
     'peAtual': 1,
     'sanAtual': 5,
   }));
+  await db.collection('users').doc(_uid).set({
+    'pastas': [
+      {'id': 'pa1', 'nome': 'Operação Sangue Velho', 'data': DateTime(2026, 10, 12).millisecondsSinceEpoch},
+      {'id': 'pa2', 'nome': 'Arquivo morto', 'data': DateTime(2026, 3, 2).millisecondsSinceEpoch},
+    ],
+  });
   await db.collection('campaigns').doc('c1').set({
     'nome': 'Operação Sangue Velho',
     'masterUid': _uid,

@@ -22,6 +22,10 @@ class _PaletaFichaState extends State<PaletaFicha> {
   // Fichas abertas agora (agente e transformação podem se trocar na pilha).
   static int _abertas = 0;
 
+  // Um tema por paleta: montar o ThemeData (com a paleta de cores gerada)
+  // a cada atualização da ficha custava caro.
+  static final _temas = Expando<ThemeData>();
+
   @override
   void initState() {
     super.initState();
@@ -31,7 +35,8 @@ class _PaletaFichaState extends State<PaletaFicha> {
   @override
   void dispose() {
     _abertas--;
-    if (_abertas == 0) {
+    // só refaz as telas de trás se a ficha estava com outra paleta
+    if (_abertas == 0 && !identical(Cores.atual, TemaApp.tema)) {
       Cores.aplicar(TemaApp.tema);
       // as telas de trás podem ter sido redesenhadas com as cores da ficha
       WidgetsBinding.instance.addPostFrameCallback((_) => _reconstruirTudo());
@@ -44,7 +49,7 @@ class _PaletaFichaState extends State<PaletaFicha> {
   Widget build(BuildContext context) {
     final t = PaletaFicha.temaDe(widget.elemento);
     if (!identical(Cores.atual, t)) Cores.aplicar(t);
-    return Theme(data: temaCris(), child: FundoCris(child: widget.child));
+    return Theme(data: _temas[t] ??= temaCris(), child: FundoCris(child: widget.child));
   }
 }
 

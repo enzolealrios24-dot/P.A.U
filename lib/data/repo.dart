@@ -32,6 +32,46 @@ class Repo {
     });
   }
 
+  // Última versão conhecida de cada ficha e mesa: as telas abrem com ela já
+  // no primeiro quadro, sem esperar o banco (a animação de entrada não fica
+  // com um "carregando" no meio).
+  static final _fichas = <String, Ficha>{};
+  static final _campanhas = <String, Campanha>{};
+  static String? _cacheDe;
+  static void _conferirCache() {
+    final u = auth.currentUser?.uid;
+    if (u == _cacheDe) return;
+    _fichas.clear();
+    _campanhas.clear();
+    _cacheDe = u;
+  }
+
+  static Ficha? fichaConhecida(String id) {
+    _conferirCache();
+    return _fichas[id];
+  }
+
+  static Campanha? campanhaConhecida(String id) {
+    _conferirCache();
+    return _campanhas[id];
+  }
+
+  static List<Ficha> _lembrarFichas(List<Ficha> l) {
+    _conferirCache();
+    for (final f in l) {
+      _fichas[f.id] = f;
+    }
+    return l;
+  }
+
+  static List<Campanha> _lembrarCampanhas(List<Campanha> l) {
+    _conferirCache();
+    for (final c in l) {
+      _campanhas[c.id] = c;
+    }
+    return l;
+  }
+
   // ---------------- Fichas ----------------
   static CollectionReference<Json> get chars => db.collection('characters');
 
@@ -39,8 +79,8 @@ class Repo {
   static Stream<List<Ficha>> fichasEditaveis() => chars
       .where('editors', arrayContains: uid)
       .snapshots()
-      .map((s) => s.docs.map((d) => Ficha(d.id, d.data())).toList()
-        ..sort((a, b) => a.nome.toLowerCase().compareTo(b.nome.toLowerCase())));
+      .map((s) => _lembrarFichas(s.docs.map((d) => Ficha(d.id, d.data())).toList()
+        ..sort((a, b) => a.nome.toLowerCase().compareTo(b.nome.toLowerCase()))));
 
   /// Meus agentes (as transformações aparecem dentro de cada agente).
   static Stream<List<Ficha>> minhasFichas() => fichasEditaveis().map((l) =>
@@ -76,8 +116,11 @@ class Repo {
       fichasEditaveis().map(
           (l) => l.where((f) => f.transformacaoDe == agenteId).toList());
 
-  static Stream<Ficha?> ficha(String id) => chars.doc(id).snapshots().map(
-      (s) => s.exists && s.data() != null ? Ficha(s.id, s.data()!) : null);
+  static Stream<Ficha?> ficha(String id) => chars.doc(id).snapshots().map((s) {
+        final f = s.exists && s.data() != null ? Ficha(s.id, s.data()!) : null;
+        if (f != null) _lembrarFichas([f]);
+        return f;
+      });
 
   static String criarFicha() {
     final ref = chars.doc();
@@ -106,6 +149,41 @@ class Repo {
     }
     return ref.id;
   }
+
+  // ---------------- Pastas de agentes ----------------
+
+  static DocumentReference<Json> get _eu => db.collection('users').doc(uid);
+
+  /// Minhas pastas, das mais novas para as mais antigas.
+  static Stream<List<Pasta>> minhasPastas() => _eu.snapshots().map((s) => [
+        for (final m in asMapList(s.data()?['pastas'])) Pasta.de(m),
+      ]..sort((a, b) => b.data.compareTo(a.data)));
+
+  static Future<void> _gravarPastas(List<Pasta> Function(List<Pasta>) mudar) async {
+    final s = await _eu.get();
+    final atuais = [for (final m in asMapList(s.data()?['pastas'])) Pasta.de(m)];
+    await _eu.set({'pastas': [for (final p in mudar(atuais)) p.json]}, SetOptions(merge: true));
+  }
+
+  /// Cria a pasta (com a data de hoje, se não vier outra) e devolve o id.
+  static String criarPasta(String nome, [DateTime? data]) {
+    final id = db.collection('users').doc().id;
+    _w(_gravarPastas((l) => [...l, Pasta(id, nome, data ?? DateTime.now())]));
+    return id;
+  }
+
+  static void mudarPasta(Pasta p) =>
+      _w(_gravarPastas((l) => [for (final x in l) x.id == p.id ? p : x]));
+
+  /// Apaga a pasta; os agentes dela voltam para fora (não são apagados).
+  static void apagarPasta(Pasta p, List<Ficha> agentes) {
+    for (final f in agentes) {
+      if (f.pasta == p.id) set(f.id, 'pasta', null);
+    }
+    _w(_gravarPastas((l) => [for (final x in l) if (x.id != p.id) x]));
+  }
+
+  static void moverParaPasta(Ficha f, String? pastaId) => set(f.id, 'pasta', pastaId);
 
   // ---------------- Transformações ----------------
   // Uma transformação é uma ficha completa e separada, ligada ao agente pelo
@@ -305,10 +383,13 @@ class Repo {
   static Stream<List<Campanha>> minhasCampanhas() => camps
       .where('memberUids', arrayContains: uid)
       .snapshots()
-      .map((s) => s.docs.map((d) => Campanha(d.id, d.data())).toList());
+      .map((s) => _lembrarCampanhas(s.docs.map((d) => Campanha(d.id, d.data())).toList()));
 
-  static Stream<Campanha?> campanha(String id) => camps.doc(id).snapshots().map(
-      (s) => s.exists && s.data() != null ? Campanha(s.id, s.data()!) : null);
+  static Stream<Campanha?> campanha(String id) => camps.doc(id).snapshots().map((s) {
+        final c = s.exists && s.data() != null ? Campanha(s.id, s.data()!) : null;
+        if (c != null) _lembrarCampanhas([c]);
+        return c;
+      });
 
   static String _gerarCodigo() {
     const abc = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
