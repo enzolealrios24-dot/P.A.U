@@ -55,7 +55,13 @@ class CtxFicha {
         ? tipoAtaque
         : (pericia == 'Luta' ? 'corpo' : 'disparo');
     final agil = asBool(arma['agil']) && pericia == 'Luta';
-    final crit = Dados.critico(asStr(arma['critico'], '20/x2'));
+    final critArma = Dados.critico(asStr(arma['critico'], '20/x2'));
+    // poderes que mexem na margem, no multiplicador e nos dados de dano
+    final corpo = ataque == 'corpo';
+    final crit = (
+      margem: (critArma.margem - calc.margemAtaque(corpo: corpo)).clamp(2, 20),
+      mult: critArma.mult + calc.multAtaque(corpo: corpo),
+    );
     final attrAtaque = agil
         ? (calc.agi > calc.forca ? calc.agi : calc.forca)
         : calc.attr(periciaPorNome(pericia)?.attr ?? 'for');
@@ -67,7 +73,7 @@ class CtxFicha {
       bonus: calc.bonusPericia(pericia) + asInt(arma['bonusAtaque']) + bonusExtra,
       margemCritico: crit.margem,
     );
-    final danoExpr = asStr(arma['dano'], '1d4');
+    final danoExpr = comDadosExtras(asStr(arma['dano'], '1d4'), calc.dadosDanoArma(corpo: corpo));
     // corpo a corpo (e arremesso) soma FOR ao dano; armas ageis podem usar AGI
     final somaFor = asBool(arma['somaFor'], ataque == 'corpo');
     final attrDano = agil && calc.agi > calc.forca ? calc.agi : calc.forca;
@@ -99,6 +105,7 @@ class CtxFicha {
     if (custo <= 0) custo = calc.custoRitual(circulo);
     if (forma == 'Discente') custo += asInt(ritual['custoDiscente']);
     if (forma == 'Verdadeiro') custo += asInt(ritual['custoVerdadeiro']);
+    custo = calc.custoRitualFinal(ritual, custo);
     if (custo > calc.limitePE) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(
@@ -122,7 +129,7 @@ class CtxFicha {
     final r = Rolagem(
       titulo: '${f.nome} conjura ${asStr(ritual['nome'], 'ritual')}',
       detalhe:
-          '$forma • ${circulo}º círculo • ${asStr(ritual['elemento'])} • gastou $custo ${calc.determinacao ? 'PD' : 'PE'} • DT ${calc.dtRitual}',
+          '$forma • ${circulo}º círculo • ${asStr(ritual['elemento'])} • gastou $custo ${calc.determinacao ? 'PD' : 'PE'} • DT ${calc.dtRitualDe(asStr(ritual['elemento']))}',
       total: custo,
       danoTotal: d == null ? null : d.total + extraRitual,
       danoDetalhe: d == null
@@ -131,6 +138,14 @@ class CtxFicha {
     );
     _publicar(context, r);
   }
+}
+
+/// Soma [n] dados ao primeiro grupo "XdY" da expressão (Golpe Pesado: +1
+/// dado do mesmo tipo).
+String comDadosExtras(String expr, int n) {
+  if (n == 0) return expr;
+  return expr.replaceFirstMapped(
+      RegExp(r'(\d*)d(\d+)'), (m) => '${(int.tryParse(m[1]!) ?? 1) + n}d${m[2]}');
 }
 
 /// Dialogo de modificadores (segurar o botao de rolar).

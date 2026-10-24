@@ -131,6 +131,20 @@ void main() {
       await _rolar(tester, 900);
       await _salvar(tester, 'rituais_${af.toLowerCase()}_2');
     }
+    // carta de habilidade de origem aberta (custo e o que faz na ficha)
+    await _print(tester, 'poderes_ficha', const TelaFicha(fichaId: 'a1'));
+    DefaultTabController.of(tester.element(find.byType(TabBarView))).index = 5;
+    for (var i = 0; i < 10; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    await _rolar(tester, 700);
+    await _salvar(tester, 'poderes_cartas');
+    await tester.ensureVisible(find.text('Saber é Poder', skipOffstage: false).first);
+    await tester.pump();
+    await tester.tap(find.text('Saber é Poder').first);
+    await _salvar(tester, 'poder_aberto');
+    Navigator.of(tester.element(find.textContaining('Usar ('))).pop();
+    await tester.pump(const Duration(milliseconds: 400));
     mostrarRolagem(
         tester.element(find.byType(TabBarView)),
         Rolagem(
@@ -317,12 +331,14 @@ Future<void> _prepararDados() async {
     'sanAtual': 18,
     'condicoes': ['Abalado'],
     'rd': {'fogo': 5, 'mental': 3},
+    'ativos': ['poder:p7'],
     'poderes': [
       {'id': 'p6', 'nome': 'Resistir a Elemento', 'tipo': 'Paranormal', 'ref': 'oprpg/p.resistir_elemento', 'elemento': 'Sangue', 'descricao': 'Resistência 10 contra Sangue.'},
       {'id': 'p1', 'nome': 'Escolhido pelo Outro Lado', 'tipo': 'Classe', 'descricao': 'Conjura rituais de 1º círculo e aprende novos conforme o NEX aumenta.'},
-      {'id': 'p2', 'nome': 'Potencial Aprimorado', 'tipo': 'Trilha', 'descricao': 'Seus PE máximos aumentam em +1 por NEX.'},
-      {'id': 'p3', 'nome': 'Sensitivo', 'tipo': 'Paranormal', 'elemento': 'Conhecimento', 'afinidade': true, 'descricao': 'Você sente emoções e intenções e recebe +5 em Diplomacia, Intimidação e Intuição.'},
+      {'id': 'p2', 'nome': 'Potencial Aprimorado', 'tipo': 'Paranormal', 'elemento': 'Morte', 'ref': 'oprpg/p.potencial_aprimorado', 'descricao': 'Seus PE máximos aumentam em +1 por NEX.'},
+      {'id': 'p3', 'nome': 'Sensitivo', 'ref': 'oprpg/p.sensitivo', 'tipo': 'Paranormal', 'elemento': 'Conhecimento', 'afinidade': true, 'descricao': 'Você sente emoções e intenções e recebe +5 em Diplomacia, Intimidação e Intuição.'},
       {'id': 'p4', 'nome': 'Sangue de Ferro', 'tipo': 'Paranormal', 'elemento': 'Sangue', 'descricao': 'Você recebe +2 PV por NEX e +5 em Fortitude.'},
+      {'id': 'p7', 'nome': 'Encarar a Morte', 'tipo': 'Paranormal', 'elemento': 'Morte', 'ref': 'oprpg/p.encarar_morte', 'descricao': 'Em cenas de ação, seu limite de PE por turno aumenta em 1.'},
       {'id': 'p5', 'nome': 'Treinamento em Perícia', 'tipo': 'Geral', 'descricao': 'Escolha duas perícias: você se torna treinado nelas.'},
     ],
     'inventario': [

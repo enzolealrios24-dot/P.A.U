@@ -7,7 +7,7 @@
     "periciasLivres": 1,
     "proficiencias": "Armas simples, armas táticas e proteções leves.",
     "habilidades": [
-      {"nex": 5, "nome": "Ataque Especial", "resumo": "Ao atacar, gaste 2 PE para +5 no ataque ou no dano. Sobe para 3 PE/+10 (25%), 4 PE/+15 (55%) e 5 PE/+20 (85%); cada +5 vai em ataque ou dano."},
+      {"nex": 5, "nome": "Ataque Especial", "resumo": "Ao atacar, gaste 2 PE para +5 no ataque ou no dano. Sobe para 3 PE/+10 (25%), 4 PE/+15 (55%) e 5 PE/+20 (85%); cada +5 vai em ataque ou dano.", "custoNex": {"5": 2, "25": 3, "55": 4, "85": 5}},
       {"nex": 10, "nome": "Habilidade de Trilha", "resumo": "Escolha uma trilha de combatente; novas habilidades em NEX 40%, 65% e 99%."},
       {"nex": 15, "nome": "Poder de Combatente", "resumo": "Um poder de combatente à escolha em 15%, 30%, 45%, 60%, 75% e 90%.", "repete": [15, 30, 45, 60, 75, 90]},
       {"nex": 20, "nome": "Aumento de Atributo", "resumo": "+1 em um atributo (máximo 5) em 20%, 50%, 80% e 95%.", "repete": [20, 50, 80, 95]},
@@ -25,8 +25,8 @@
     "periciasLivres": 7,
     "proficiencias": "Armas simples e proteções leves.",
     "habilidades": [
-      {"nex": 5, "nome": "Eclético", "resumo": "Gaste 2 PE para fazer um teste de perícia como se fosse treinado nela."},
-      {"nex": 5, "nome": "Perito", "resumo": "Escolha 2 perícias treinadas (exceto Luta e Pontaria): gaste 2 PE para +1d6 no teste. Sobe para 3 PE/+1d8 (25%), 4 PE/+1d10 (55%) e 5 PE/+1d12 (85%)."},
+      {"nex": 5, "nome": "Eclético", "resumo": "Gaste 2 PE para fazer um teste de perícia como se fosse treinado nela.", "custo": 2},
+      {"nex": 5, "nome": "Perito", "resumo": "Escolha 2 perícias treinadas (exceto Luta e Pontaria): gaste 2 PE para +1d6 no teste. Sobe para 3 PE/+1d8 (25%), 4 PE/+1d10 (55%) e 5 PE/+1d12 (85%).", "custoNex": {"5": 2, "25": 3, "55": 4, "85": 5}},
       {"nex": 10, "nome": "Habilidade de Trilha", "resumo": "Escolha uma trilha de especialista; novas habilidades em NEX 40%, 65% e 99%."},
       {"nex": 15, "nome": "Poder de Especialista", "resumo": "Um poder de especialista à escolha em 15%, 30%, 45%, 60%, 75% e 90%.", "repete": [15, 30, 45, 60, 75, 90]},
       {"nex": 20, "nome": "Aumento de Atributo", "resumo": "+1 em um atributo (máximo 5) em 20%, 50%, 80% e 95%.", "repete": [20, 50, 80, 95]},

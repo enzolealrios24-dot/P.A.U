@@ -15,7 +15,6 @@ import '../../widgets/sigilos.dart';
 import '../../widgets/runa.dart';
 import 'afinidade.dart';
 import 'forma.dart';
-import 'habilidades.dart';
 import 'rolar.dart';
 
 class TabAgente extends StatelessWidget {
@@ -270,7 +269,7 @@ class TabAgente extends StatelessWidget {
     final dossie = _Dossie(ctx: ctx);
     final afinidade = SecaoAfinidade(ctx: ctx);
     final transformacoes = SecaoTransformacoes(ctx: ctx);
-    final habilidades = SecaoHabilidades(ctx: ctx);
+    final habilidades = _AtalhoHabilidades(progressao: c.progressaoAtual);
     final alteracoes = c.modoNivel ? _secaoAlteracoes(c) : null;
 
     final condicoes = Secao(
@@ -857,4 +856,50 @@ class _Dossie extends StatelessWidget {
       ),
     );
   }
+}
+
+/// As habilidades de origem, classe e trilha ficam na aba PODERES, como
+/// cartas (e o que elas fazem já conta na ficha); aqui fica um atalho.
+class _AtalhoHabilidades extends StatelessWidget {
+  /// Texto da progressão já recebida (poderes, aumentos, graus...).
+  final List<String> progressao;
+  const _AtalhoHabilidades({required this.progressao});
+  @override
+  Widget build(BuildContext context) => Secao(
+        titulo: 'Habilidades',
+        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          Row(children: [
+            const Expanded(
+              child: Text('Origem, classe e trilha estão na aba Poderes, como cartas. O que elas fazem já conta na ficha.',
+                  style: TextStyle(color: Cores.textoFraco, fontSize: 13.5)),
+            ),
+            const SizedBox(width: 10),
+            FilledButton.tonal(
+              onPressed: () => DefaultTabController.of(context).animateTo(5),
+              child: const Text('Ver poderes'),
+            ),
+          ]),
+          if (progressao.isNotEmpty)
+            Theme(
+              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+              child: ExpansionTile(
+                dense: true,
+                tilePadding: EdgeInsets.zero,
+                title: Text('PROGRESSÃO RECEBIDA',
+                    style: estiloRotulo(13, cor: Cores.textoFraco, peso: FontWeight.w700, espaco: 1.6)),
+                childrenPadding: const EdgeInsets.only(bottom: 6),
+                children: [
+                  for (final p in progressao)
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 3),
+                        child: Text(p, style: const TextStyle(fontSize: 12.5, color: Cores.textoFraco)),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+        ]),
+      );
 }

@@ -231,7 +231,10 @@ const _alvosDeItem = {
 class Calc {
   final Ficha f;
   final Map<String, dynamic> regras;
-  Calc(this.f, [Map<String, dynamic>? regras]) : regras = regras ?? const {};
+  /// Sem os efeitos que dependem de condição ("machucado"...): é com esse
+  /// cálculo que se descobre se a condição vale, sem girar em círculo.
+  final bool semCondicionais;
+  Calc(this.f, [Map<String, dynamic>? regras, this.semCondicionais = false]) : regras = regras ?? const {};
 
   late final Map<String, dynamic>? classeDados =
       Catalogo.instance.classePorNome(f.classe);
@@ -326,6 +329,49 @@ class Calc {
 
   late final List<Map<String, dynamic>> efeitos = _coletarEfeitos();
 
+  /// Chave de cada habilidade na ficha (a mesma das edições, das escolhas e
+  /// dos ativáveis).
+  static String chaveOrigem(Map<String, dynamic> o) => 'origem:${asStr(o['nome'])}';
+  static String chaveClasse(Map<String, dynamic> cd, Map<String, dynamic> h) =>
+      'classe:${asStr(cd['nome'])}:${asStr(h['nome'])}';
+  static String chaveTrilha(Map<String, dynamic> t, Map<String, dynamic> h) =>
+      'trilha:${asStr(t['nome'])}:${asStr(h['nome'])}';
+  static String chavePoder(Map<String, dynamic> p) => 'poder:${asStr(p['id'])}';
+
+  /// Habilidades que a pessoa ocultou: não aparecem e não valem na ficha.
+  late final Set<String> ocultas = asStrList(f.d['habilidadesOcultas']).toSet();
+
+  /// Poderes ativáveis ligados agora (até o fim da cena), pela chave.
+  late final Set<String> ativos = asStrList(f.d['ativos']).toSet();
+
+  /// O que a pessoa escolheu num poder (perícias, atributo, elemento, ritual).
+  List<String> escolhasDe(String chave) => asStrList(asMap(f.d['escolhasPoder'])[chave]);
+
+  /// Custo em PE de um poder ou habilidade ("custo", "custoNex" ou o do
+  /// ativável); null quando não custa nada.
+  int? custoPoder(Map<String, dynamic> meta) {
+    final porNex = asMap(meta['custoNex']);
+    if (porNex.isNotEmpty) {
+      int? r;
+      var melhor = -1;
+      porNex.forEach((k, v) {
+        final n = int.tryParse(k) ?? 0;
+        if (n <= nexClasse && n > melhor) {
+          melhor = n;
+          r = asInt(v);
+        }
+      });
+      return r ?? asInt(porNex.values.first);
+    }
+    final a = asMap(meta['ativavel']);
+    if (a.isNotEmpty) return asInt(a['custo']);
+    return meta['custo'] == null ? null : asInt(meta['custo']);
+  }
+
+  /// Habilidade de classe já recebida no NEX (ou estágio) atual?
+  bool habilidadeClasseLiberada(Map<String, dynamic> h) =>
+      asInt(h['nex']) <= (sobrevivente ? f.estagio : nexClasse);
+
   List<Map<String, dynamic>> _coletarEfeitos() {
     final cat = Catalogo.instance;
     final l = <Map<String, dynamic>>[];
@@ -337,19 +383,48 @@ class Calc {
       }
     }
 
-    add(origemDados?['efeitos'],
-        fonte: asStr(asMap(origemDados?['poder'])['nome'], asStr(origemDados?['nome'])));
-    for (final p in f.poderes) {
-      final c = cat.porRef(asStr(p['ref']));
-      if (c == null) continue;
-      add(c['efeitos'], fonte: asStr(c['nome']));
-      if (asBool(p['afinidade'])) add(c['efeitosAfinidade'], fonte: asStr(c['nome']));
+    // Poderes e habilidades: os efeitos fixos, os da afinidade, os do
+    // ativável (se estiver ligado) e as escolhas no lugar de "@escolha".
+    void addHabilidade(Map<String, dynamic> meta, String chave, String fonte,
+        {dynamic base, bool afinidade = false}) {
+      if (ocultas.contains(chave)) return;
+      final ativavel = asMap(meta['ativavel']);
+      final ligado = ativos.contains(chave);
+      final efs = [
+        ...asMapList(base ?? meta['efeitos']),
+        if (afinidade) ...asMapList(meta['efeitosAfinidade']),
+        if (ligado) ...asMapList(ativavel['efeitos']),
+        if (ligado && afinidade) ...asMapList(ativavel['efeitosAfinidade']),
+      ];
+      final escolhas = escolhasDe(chave);
+      for (final e in efs) {
+        for (final x in comEscolhas(e, escolhas)) {
+          l.add({...x, 'fonte': fonte, 'chave': chave});
+        }
+      }
+    }
+
+    final o = origemDados;
+    if (o != null) {
+      final poder = asMap(o['poder']);
+      addHabilidade(poder, chaveOrigem(o), asStr(poder['nome'], asStr(o['nome'])), base: o['efeitos']);
+    }
+    final cd = classeDados;
+    if (cd != null) {
+      for (final h in asMapList(cd['habilidades'])) {
+        if (habilidadeClasseLiberada(h)) addHabilidade(h, chaveClasse(cd, h), asStr(h['nome']));
+      }
     }
     final t = trilhaDados;
     if (t != null) {
       for (final h in asMapList(t['habilidades'])) {
-        if (trilhaLiberada(asInt(h['nex']))) add(h['efeitos'], fonte: asStr(h['nome']));
+        if (trilhaLiberada(asInt(h['nex']))) addHabilidade(h, chaveTrilha(t, h), asStr(h['nome']));
       }
+    }
+    for (final p in f.poderes) {
+      final c = cat.porRef(asStr(p['ref']));
+      if (c == null) continue;
+      addHabilidade(c, chavePoder(p), asStr(p['nome'], asStr(c['nome'])), afinidade: asBool(p['afinidade']));
     }
     for (final i in f.inventario) {
       if (!asBool(i['equipado'], true)) continue;
@@ -371,8 +446,35 @@ class Calc {
         add(a['efeitos'], fonte: asStr(a['nome']));
       }
     }
-    return l;
+    // efeitos que só valem numa condição (machucado, com proteção pesada...)
+    return [
+      for (final e in l)
+        if (semCondicionais ? e['se'] == null : condicaoVale(asStr(e['se']))) e,
+    ];
   }
+
+  /// Troca "@escolha" pelo que a pessoa escolheu (um efeito por escolha).
+  /// Sem escolha feita, o efeito ainda não vale.
+  static Iterable<Map<String, dynamic>> comEscolhas(Map<String, dynamic> e, List<String> escolhas) sync* {
+    final campos = [for (final k in e.keys) if (e[k] == '@escolha') k];
+    if (campos.isEmpty) {
+      yield e;
+      return;
+    }
+    for (final v in escolhas) {
+      yield {...e, for (final k in campos) k: v};
+    }
+  }
+
+  /// Condições dos efeitos (campo "se").
+  bool condicaoVale(String se) => switch (se) {
+        '' => true,
+        'machucado' => machucado,
+        'protecaoPesada' => usandoProtecaoPesada,
+        'semProtecao' =>
+          !f.inventario.any((i) => asStr(i['tipo']) == 'protecao' && asBool(i['equipado'], true)),
+        _ => false,
+      };
 
   /// Alteracoes de NEX ja recebidas (regra NEX & Experiencia).
   List<Map<String, dynamic>> get alteracoesNex {
@@ -407,7 +509,13 @@ class Calc {
   int soma(String alvo) {
     var t = 0;
     for (final e in efeitos) {
-      if (asStr(e['alvo']) == alvo) t += _mult(e);
+      if (asStr(e['alvo']) != alvo) continue;
+      // os que valem só num elemento, ritual, alcance ou tipo de ataque têm
+      // contas próprias (dtRitualDe, custoRitualFinal, margemAtaque...)
+      if (e['elemento'] != null || e['ritual'] != null || e['alcance'] != null || e['escopo'] != null) {
+        continue;
+      }
+      t += _valorEfeito(e);
     }
     return t;
   }
@@ -551,8 +659,10 @@ class Calc {
   bool get usandoProtecaoPesada => f.inventario.any((i) =>
       asStr(i['tipo']) == 'protecao' && asBool(i['equipado'], true) && protecaoPesada(i));
 
-  /// Machucado: com metade ou menos dos PV totais.
-  bool get machucado => f.pvAtual * 2 <= pvMax;
+  /// Machucado: com metade ou menos dos PV totais (os PV totais saem do
+  /// cálculo sem efeitos condicionais, que podem depender disto).
+  late final bool machucado =
+      f.pvAtual * 2 <= (semCondicionais ? pvMax : Calc(f, regras, true).pvMax);
 
   // ---------------- resistência a dano ----------------
 
@@ -568,7 +678,6 @@ class Calc {
 
     for (final e in efeitos) {
       if (asStr(e['alvo']) != 'rd') continue;
-      if (asStr(e['se']) == 'machucado' && !machucado) continue;
       add(asStr(e['tipo']), _valorEfeito(e), asStr(e['fonte']));
     }
     // proteções: a RD delas vale para os quatro tipos físicos (pesada: 2,
@@ -691,9 +800,9 @@ class Calc {
       final alvo = asStr(e['alvo']);
       if (alvo == 'pericia' && asStr(e['pericia']) == nome) {
         if (asBool(e['seTreinado']) && f.grau(nome) < 5) continue;
-        b += _mult(e);
+        b += _valorEfeito(e);
       } else if (alvo == 'resistencias' && periciasResistencia.contains(nome)) {
-        b += _mult(e);
+        b += _valorEfeito(e);
       } else if (alvo == 'periciaAttr' && asStr(e['pericia']) == nome) {
         b += attr(asStr(e['attr'])) * asInt(e['valor'], 1);
       } else if (alvo == 'escolhaPenalidade') {
@@ -766,6 +875,53 @@ class Calc {
   }
 
   int get dtRitual => 10 + limiteBase + pre + f.b('dtRitual') + soma('dtRitual');
+
+  /// DT dos rituais de um elemento (Especialista em Elemento soma só nele).
+  int dtRitualDe(String elemento) {
+    var t = dtRitual;
+    for (final e in efeitos) {
+      if (asStr(e['alvo']) == 'dtRitual' &&
+          e['elemento'] != null &&
+          Catalogo.normalizar(asStr(e['elemento'])) == Catalogo.normalizar(elemento)) {
+        t += _valorEfeito(e);
+      }
+    }
+    return t;
+  }
+
+  /// Custo de um ritual depois das reduções (Ritual Predileto, Mestre em
+  /// Elemento, Tatuagem Ritualística...). Nunca fica abaixo de 1.
+  int custoRitualFinal(Map<String, dynamic> ritual, int custo) {
+    String n(dynamic v) => Catalogo.normalizar(asStr(v));
+    var t = custo;
+    for (final e in efeitos) {
+      if (asStr(e['alvo']) != 'custoRitual') continue;
+      if (e['elemento'] != null && n(e['elemento']) != n(ritual['elemento'])) continue;
+      if (e['ritual'] != null && n(e['ritual']) != n(ritual['nome'])) continue;
+      if (e['alcance'] != null && !n(ritual['alcance']).startsWith(n(e['alcance']))) continue;
+      t += _valorEfeito(e);
+    }
+    return t < 1 ? 1 : t;
+  }
+
+  int _somaAtaque(String alvo, bool corpo) {
+    var t = 0;
+    for (final e in efeitos) {
+      if (asStr(e['alvo']) != alvo) continue;
+      final esc = asStr(e['escopo'], 'todos');
+      if (esc == 'todos' || (esc == 'corpo' && corpo) || (esc == 'distancia' && !corpo)) t += _valorEfeito(e);
+    }
+    return t;
+  }
+
+  /// Margem de ameaça a mais (Golpe de Sorte, Técnica Letal...).
+  int margemAtaque({required bool corpo}) => _somaAtaque('margem', corpo);
+
+  /// Multiplicador de crítico a mais.
+  int multAtaque({required bool corpo}) => _somaAtaque('multiplicador', corpo);
+
+  /// Dados de dano da arma a mais (Golpe Pesado...).
+  int dadosDanoArma({required bool corpo}) => _somaAtaque('dadosDano', corpo);
 
   int custoRitual(int circulo) {
     final over = asMap(regras['custoRitual']);
