@@ -101,11 +101,7 @@ class CtxFicha {
   void conjurar(BuildContext context, Map<String, dynamic> ritual,
       {required String forma}) {
     final circulo = asInt(ritual['circulo'], 1);
-    var custo = asInt(ritual['custo']);
-    if (custo <= 0) custo = calc.custoRitual(circulo);
-    if (forma == 'Discente') custo += asInt(ritual['custoDiscente']);
-    if (forma == 'Verdadeiro') custo += asInt(ritual['custoVerdadeiro']);
-    custo = calc.custoRitualFinal(ritual, custo);
+    final custo = calc.custoConjuracao(ritual, forma);
     if (custo > calc.limitePE) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(

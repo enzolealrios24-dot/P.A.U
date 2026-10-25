@@ -617,6 +617,24 @@ Widget botoesAdicionarRitual(BuildContext context, CtxFicha ctx) => _botoesAdici
 void editarRitual(BuildContext context, CtxFicha ctx, int indice) => _editarNaLista(context, ctx,
     campo: 'rituais', titulo: 'Editar ritual', campos: camposRitual, padrao: ritualPadrao, indice: indice);
 
+/// Chave de um ritual conhecido (o id; nas fichas antigas, o nome).
+String chaveRitual(Map<String, dynamic> r) => asStr(r['id'], asStr(r['nome']));
+
+/// Rituais no uso rápido da aba Combate, na ordem escolhida.
+List<String> rituaisRapidos(Ficha f) => asStrList(f.d['rituaisRapidos']);
+
+/// Põe ou tira um ritual conhecido do uso rápido.
+void alternarRitualRapido(BuildContext context, CtxFicha ctx, Map<String, dynamic> r) {
+  final l = rituaisRapidos(ctx.f);
+  final k = chaveRitual(r);
+  final tirar = l.contains(k);
+  Repo.set(ctx.f.id, 'rituaisRapidos', tirar ? [for (final x in l) if (x != k) x] : [...l, k]);
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(tirar
+          ? '${asStr(r['nome'])} saiu do uso rápido.'
+          : '${asStr(r['nome'])} está no uso rápido da aba Combate.')));
+}
+
 // ---------------- INVENTARIO ----------------
 
 // A aba fica em tab_inventario.dart; aqui ficam os atalhos que ela usa.

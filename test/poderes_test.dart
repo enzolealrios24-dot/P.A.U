@@ -197,6 +197,28 @@ void main() {
     expect(c.rdContra('conhecimento'), 10);
   });
 
+  test('Rituais de todos os livros estão no catálogo', () {
+    final fontes = {for (final r in Catalogo.instance.rituais) asStr(r['fonte'])};
+    expect(fontes, containsAll(['OPRPG', 'SaH', 'AS1', 'AS2', 'AS4', 'AS6', 'AS7']));
+    expect(Catalogo.instance.rituais.length, greaterThanOrEqualTo(107));
+  });
+
+  test('Custo de conjurar por forma e ritual de dois elementos com Mestre em Elemento', () {
+    final c = Calc(ficha({
+      'classe': 'Ocultista',
+      'nex': 50,
+      'poderes': [poder('me', 'oprpg/o.mestre_elemento')],
+      'escolhasPoder': {'poder:me': ['Conhecimento']},
+    }));
+    final passagem = Catalogo.instance.porRef('as1/passagem_de_conhecimento') ??
+        Catalogo.instance.rituais.firstWhere((r) => r['nome'] == 'Passagem de Conhecimento');
+    final normal = c.custoRitual(asInt(passagem['circulo']));
+    expect(c.custoConjuracao(passagem, 'Padrão'), normal - 1);
+    final eletro = Catalogo.instance.rituais.firstWhere((r) => r['nome'] == 'Eletrocussão');
+    expect(c.custoConjuracao(eletro, 'Padrão'), 1);
+    expect(c.custoConjuracao(eletro, 'Discente'), 1 + asInt(eletro['custoDiscente']));
+  });
+
   test('Habilidade oculta não conta na ficha', () {
     final base = {'classe': 'Combatente', 'origem': 'Policial'};
     final normal = Calc(ficha(base));

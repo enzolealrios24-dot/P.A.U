@@ -22,15 +22,32 @@ const venceDe = {
 String? perdePara(String e) =>
     venceDe.entries.where((x) => x.value == e).map((x) => x.key).firstOrNull;
 
-/// Rituais do livro básico como no índice (páginas 122 e 123): os de
-/// elemento variável aparecem uma vez em cada elemento, somando 85.
+/// Livros dos rituais, para o filtro.
+const livrosRituais = ['Livro de Regras', 'Sobrevivendo ao Horror', 'Arquivos Secretos'];
+
+String livroDoRitual(Map<String, dynamic> r) {
+  final f = asStr(r['fonte']);
+  if (f == 'SaH') return 'Sobrevivendo ao Horror';
+  if (f.startsWith('AS')) return 'Arquivos Secretos';
+  return 'Livro de Regras';
+}
+
+/// Ritual de elemento variável (Amaldiçoar Arma): aprende-se num elemento.
+bool _variavel(Map<String, dynamic> r) => !_ordemElementos.contains(asStr(r['elemento'])) && !asStr(r['elemento']).contains('/');
+
+/// Rituais de todos os livros como no índice do livro básico (páginas 122 e
+/// 123): os de elemento variável aparecem uma vez em cada elemento e os de
+/// dois elementos (Sangue/Conhecimento) uma vez em cada um.
 List<(Map<String, dynamic>, String)> rituaisDoIndice() {
   final saida = <(Map<String, dynamic>, String)>[];
   for (final r in Catalogo.instance.rituais) {
-    if (asStr(r['fonte']) != 'OPRPG') continue;
     final el = asStr(r['elemento']);
     if (_ordemElementos.contains(el)) {
       saida.add((r, el));
+    } else if (el.contains('/')) {
+      for (final e in el.split('/')) {
+        saida.add((r, e.trim()));
+      }
     } else {
       for (final e in _ordemElementos.take(4)) {
         saida.add((r, e));
@@ -48,8 +65,8 @@ List<(Map<String, dynamic>, String)> rituaisDoIndice() {
 }
 
 /// Aba RITUAIS como catálogo: os rituais que o agente conhece e, embaixo, os
-/// 85 do livro com runa do elemento e do círculo, filtros e a vantagem
-/// elemental. Os da afinidade do agente ficam em destaque.
+/// de todos os livros com runa do elemento e do círculo, filtros e a
+/// vantagem elemental. Os da afinidade do agente ficam em destaque.
 class TabRituais extends StatefulWidget {
   final CtxFicha ctx;
   const TabRituais({super.key, required this.ctx});
@@ -60,6 +77,7 @@ class TabRituais extends StatefulWidget {
 class _TabRituaisState extends State<TabRituais> {
   String? _elemento;
   int? _circulo;
+  String? _livro;
   String? _aberto;
   late final _indice = rituaisDoIndice();
 
@@ -72,8 +90,12 @@ class _TabRituaisState extends State<TabRituais> {
     final conhecidos = f.rituais;
     final nomesConhecidos = {for (final r in conhecidos) Catalogo.normalizar(asStr(r['nome']))};
     final visiveis = _indice
-        .where((x) => (_elemento == null || x.$2 == _elemento) && (_circulo == null || asInt(x.$1['circulo']) == _circulo))
+        .where((x) =>
+            (_elemento == null || x.$2 == _elemento) &&
+            (_circulo == null || asInt(x.$1['circulo']) == _circulo) &&
+            (_livro == null || livroDoRitual(x.$1) == _livro))
         .toList();
+    final rapidos = rituaisRapidos(f);
     return ListView(padding: const EdgeInsets.fromLTRB(12, 10, 12, 28), children: [
       Text('Catálogo de rituais', style: estiloTitulo(26, cor: Cores.texto)),
       const SizedBox(height: 4),
@@ -91,7 +113,12 @@ class _TabRituaisState extends State<TabRituais> {
                 style: TextStyle(color: Cores.textoFraco)),
           for (var i = 0; i < conhecidos.length; i++) ...[
             if (i > 0) const SizedBox(height: 8),
-            _RitualConhecido(ctx: ctx, indice: i, afinidade: afinidade),
+            _RitualConhecido(
+              ctx: ctx,
+              indice: i,
+              afinidade: afinidade,
+              rapido: rapidos.contains(chaveRitual(conhecidos[i])),
+            ),
           ],
         ]),
       ),
@@ -114,6 +141,10 @@ class _TabRituaisState extends State<TabRituais> {
         _filtro('Todos os círculos', _circulo == null, () => setState(() => _circulo = null)),
         for (var n = 1; n <= 4; n++) _filtro('$nº círculo', _circulo == n, () => setState(() => _circulo = n)),
       ]),
+      FaixaRolavel(altura: 42, quebrarAcima: 520, children: [
+        _filtro('Todos os livros', _livro == null, () => setState(() => _livro = null)),
+        for (final l in livrosRituais) _filtro(l, _livro == l, () => setState(() => _livro = l)),
+      ]),
       const SizedBox(height: 6),
       for (final (r, el) in visiveis)
         _RitualDoLivro(
@@ -123,7 +154,7 @@ class _TabRituaisState extends State<TabRituais> {
           conhecido: nomesConhecidos.contains(Catalogo.normalizar(asStr(r['nome']))),
           aberto: _aberto == '${r['id']}|$el',
           aoAbrir: () => setState(() => _aberto = _aberto == '${r['id']}|$el' ? null : '${r['id']}|$el'),
-          aoAprender: () => aprenderRitual(context, ctx, r, elemento: asStr(r['elemento']) == el ? null : el),
+          aoAprender: () => aprenderRitual(context, ctx, r, elemento: _variavel(r) ? el : null),
         ),
     ]);
   }
@@ -231,7 +262,7 @@ class _RitualDoLivro extends StatelessWidget {
                     if (conhecido) Etiqueta('CONHECIDO', cor: Cores.ok),
                   ]),
                   const SizedBox(height: 2),
-                  Text('$elemento · $circuloº círculo · ${asStr(r['execucao'])} · ${asStr(r['alcance'])}',
+                  Text('${_variavel(r) ? elemento : asStr(r['elemento'])} · $circuloº círculo · ${asStr(r['execucao'])} · ${asStr(r['alcance'])}',
                       style: estiloRotulo(13, cor: cor.withValues(alpha: 0.9), peso: FontWeight.w500, espaco: 0.3)),
                   const SizedBox(height: 4),
                   Text(aberto ? detalhesRitual(r) : asStr(r['resumo']),
@@ -268,7 +299,9 @@ class _RitualConhecido extends StatelessWidget {
   final CtxFicha ctx;
   final int indice;
   final String afinidade;
-  const _RitualConhecido({required this.ctx, required this.indice, required this.afinidade});
+  /// Está no uso rápido da aba Combate.
+  final bool rapido;
+  const _RitualConhecido({required this.ctx, required this.indice, required this.afinidade, required this.rapido});
   @override
   Widget build(BuildContext context) {
     final r = ctx.f.rituais[indice];
@@ -291,6 +324,13 @@ class _RitualConhecido extends StatelessWidget {
             Row(children: [
               Expanded(
                 child: Text(asStr(r['nome'], 'Ritual'), style: estiloTitulo(17, cor: Cores.texto)),
+              ),
+              IconButton(
+                tooltip: rapido ? 'Tirar do uso rápido no Combate' : 'Pôr no uso rápido no Combate',
+                visualDensity: VisualDensity.compact,
+                icon: Icon(rapido ? Icons.bolt : Icons.bolt_outlined,
+                    size: 20, color: rapido ? Cores.destaque : Cores.textoFraco),
+                onPressed: () => alternarRitualRapido(context, ctx, r),
               ),
               IconButton(
                 tooltip: 'Editar',

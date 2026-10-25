@@ -14,6 +14,7 @@ import '../../widgets/dado3d.dart';
 import '../../widgets/runa.dart';
 import 'rolar.dart';
 import 'tab_listas.dart';
+import 'tab_poderes.dart' show escolherOpcoes;
 
 /// Aba COMBATE em modo alerta: listras de perigo, painéis com corte diagonal
 /// na cor da afinidade, a runa de 3º círculo no topo e o dado do destino.
@@ -109,6 +110,19 @@ class _TabCombateState extends State<TabCombate> {
             ),
           ],
         ]),
+      ),
+      const SizedBox(height: 12),
+      _PainelCortado(
+        titulo: 'Rituais rápidos',
+        acao: ctx.f.rituais.isEmpty
+            ? null
+            : TextButton.icon(
+                onPressed: () => _escolherRituaisRapidos(context, ctx),
+                style: TextButton.styleFrom(visualDensity: VisualDensity.compact),
+                icon: const Icon(Icons.tune, size: 18),
+                label: const Text('Escolher'),
+              ),
+        child: _RituaisRapidos(ctx: ctx),
       ),
       const SizedBox(height: 12),
       _PainelCortado(
@@ -356,6 +370,189 @@ class _Arma extends StatelessWidget {
                 onLongPress: aoSegurar,
                 child: FilledButton(onPressed: aoAtacar, child: const Text('ATACAR')),
               ),
+            ]),
+          ),
+        ),
+      );
+}
+
+/// Escolhe quais rituais conhecidos ficam no uso rápido.
+Future<void> _escolherRituaisRapidos(BuildContext context, CtxFicha ctx) async {
+  final f = ctx.f;
+  final novos = await escolherOpcoes(context,
+      titulo: 'Rituais rápidos',
+      opcoes: [
+        for (final r in f.rituais)
+          (chaveRitual(r), '${asStr(r['nome'], 'Ritual')} · ${asStr(r['elemento'])} ${asInt(r['circulo'], 1)}º'),
+      ],
+      quantas: null,
+      atuais: rituaisRapidos(f));
+  if (novos != null) Repo.set(f.id, 'rituaisRapidos', novos);
+}
+
+/// Rituais que o jogador escolheu para conjurar direto do combate, um
+/// espaço por ritual, e um espaço vazio para pôr mais.
+class _RituaisRapidos extends StatelessWidget {
+  final CtxFicha ctx;
+  const _RituaisRapidos({required this.ctx});
+  @override
+  Widget build(BuildContext context) {
+    final f = ctx.f;
+    final porChave = {for (final r in f.rituais) chaveRitual(r): r};
+    final escolhidos = [
+      for (final k in rituaisRapidos(f))
+        if (porChave[k] != null) porChave[k]!,
+    ];
+    final semRituais = f.rituais.isEmpty;
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      for (final (i, r) in escolhidos.indexed) ...[
+        if (i > 0) const SizedBox(height: 8),
+        _RitualRapido(ctx: ctx, ritual: r),
+      ],
+      if (escolhidos.isNotEmpty) const SizedBox(height: 8),
+      Material(
+        color: Colors.black.withValues(alpha: 0.18),
+        shape: _Corte(corte: 12, cor: Cores.borda),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: semRituais ? null : () => _escolherRituaisRapidos(context, ctx),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+            child: Row(children: [
+              Icon(semRituais ? Icons.auto_stories_outlined : Icons.add_circle_outline,
+                  size: 22, color: semRituais ? Cores.textoFraco : Cores.destaque),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  semRituais
+                      ? 'Aprenda rituais na aba Rituais para colocá-los aqui.'
+                      : escolhidos.isEmpty
+                          ? 'Espaço livre: toque para escolher os rituais que você quer ter à mão.'
+                          : 'Colocar ou tirar rituais',
+                  style: const TextStyle(fontSize: 13.5, color: Cores.textoFraco),
+                ),
+              ),
+            ]),
+          ),
+        ),
+      ),
+    ]);
+  }
+}
+
+/// Um ritual no uso rápido: runa, elemento, DT e um botão por forma com o
+/// custo já calculado.
+class _RitualRapido extends StatelessWidget {
+  final CtxFicha ctx;
+  final Map<String, dynamic> ritual;
+  const _RitualRapido({required this.ctx, required this.ritual});
+  @override
+  Widget build(BuildContext context) {
+    final c = ctx.calc;
+    final r = ritual;
+    final elemento = asStr(r['elemento']);
+    final circulo = asInt(r['circulo'], 1);
+    final cor = Runa.corDo(elemento);
+    final pontos = c.determinacao ? 'PD' : 'PE';
+    final formas = [
+      for (final forma in const ['Padrão', 'Discente', 'Verdadeiro'])
+        if (forma == 'Padrão' || asInt(r[forma == 'Discente' ? 'custoDiscente' : 'custoVerdadeiro']) > 0) forma,
+    ];
+    return Material(
+      color: cor.withValues(alpha: 0.07),
+      shape: _Corte(corte: 12, cor: cor.withValues(alpha: 0.45)),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => _verRitual(context, r),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 10, 4, 10),
+          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Runa(elemento: elemento, circulo: circulo, semente: asStr(r['nome']), tamanho: 42),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(asStr(r['nome'], 'Ritual'), style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15.5)),
+                const SizedBox(height: 2),
+                Text(
+                  [
+                    '$elemento $circuloº',
+                    if (asStr(r['execucao']).isNotEmpty) asStr(r['execucao']),
+                    if (asStr(r['alcance']).isNotEmpty) asStr(r['alcance']),
+                    'DT ${c.dtRitualDe(elemento)}',
+                  ].join(' · '),
+                  style: estiloRotulo(12.5, cor: cor.withValues(alpha: 0.9), peso: FontWeight.w500, espaco: 0.3),
+                ),
+                const SizedBox(height: 8),
+                Wrap(spacing: 6, runSpacing: 6, children: [
+                  for (final forma in formas)
+                    _BotaoForma(
+                      rotulo: forma,
+                      custo: '${c.custoConjuracao(r, forma)} $pontos',
+                      cor: cor,
+                      cheio: forma == 'Padrão',
+                      aoTocar: () => ctx.conjurar(context, r, forma: forma),
+                    ),
+                ]),
+              ]),
+            ),
+            IconButton(
+              tooltip: 'Tirar do uso rápido',
+              visualDensity: VisualDensity.compact,
+              icon: const Icon(Icons.close, size: 18, color: Cores.textoFraco),
+              onPressed: () => alternarRitualRapido(context, ctx, r),
+            ),
+          ]),
+        ),
+      ),
+    );
+  }
+
+  static void _verRitual(BuildContext context, Map<String, dynamic> r) {
+    final texto = asStr(r['descricao']);
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(asStr(r['nome'], 'Ritual')),
+        content: SingleChildScrollView(
+          child: Text(
+            [
+              [
+                for (final k in const ['execucao', 'alcance', 'alvo', 'duracao', 'resistencia'])
+                  if (asStr(r[k]).isNotEmpty) asStr(r[k]),
+              ].join(' · '),
+              if (texto.isNotEmpty) texto,
+            ].join('\n\n'),
+            style: const TextStyle(fontSize: 14, height: 1.4),
+          ),
+        ),
+        actions: [TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Fechar'))],
+      ),
+    );
+  }
+}
+
+class _BotaoForma extends StatelessWidget {
+  final String rotulo, custo;
+  final Color cor;
+  final bool cheio;
+  final VoidCallback aoTocar;
+  const _BotaoForma(
+      {required this.rotulo, required this.custo, required this.cor, required this.cheio, required this.aoTocar});
+  @override
+  Widget build(BuildContext context) => Material(
+        color: cheio ? cor.withValues(alpha: 0.22) : Colors.black.withValues(alpha: 0.3),
+        shape: _Corte(corte: 7, cor: cor.withValues(alpha: cheio ? 0.8 : 0.45)),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: aoTocar,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(10, 7, 12, 7),
+            child: Row(mainAxisSize: MainAxisSize.min, children: [
+              Icon(Icons.auto_fix_high, size: 15, color: cor),
+              const SizedBox(width: 6),
+              Text(rotulo, style: estiloRotulo(14.5, cor: Cores.texto, espaco: 0.3)),
+              const SizedBox(width: 6),
+              Text(custo, style: estiloNumero(14, cor: cor)),
             ]),
           ),
         ),

@@ -1001,27 +1001,45 @@ class Calc {
     return a;
   }
 
+  /// Elementos de um ritual: "Sangue/Conhecimento" vale pelos dois.
+  static Set<String> elementosDoRitual(String elemento) =>
+      {for (final e in elemento.split('/')) Catalogo.normalizar(e)};
+
   /// DT dos rituais de um elemento (Especialista em Elemento soma só nele).
+  /// Ritual de dois elementos usa a melhor das duas.
   int dtRitualDe(String elemento) {
-    var t = dtRitual;
-    for (final e in efeitos) {
-      if (asStr(e['alvo']) == 'dtRitual' &&
-          e['elemento'] != null &&
-          Catalogo.normalizar(asStr(e['elemento'])) == Catalogo.normalizar(elemento)) {
-        t += _valorEfeito(e);
+    var melhor = dtRitual;
+    for (final el in elementosDoRitual(elemento)) {
+      var t = dtRitual;
+      for (final e in efeitos) {
+        if (asStr(e['alvo']) == 'dtRitual' && e['elemento'] != null && Catalogo.normalizar(asStr(e['elemento'])) == el) {
+          t += _valorEfeito(e);
+        }
       }
+      if (t > melhor) melhor = t;
     }
-    return t;
+    return melhor;
+  }
+
+  /// Custo para conjurar um ritual na forma (Padrão, Discente ou
+  /// Verdadeiro), já com as reduções.
+  int custoConjuracao(Map<String, dynamic> ritual, String forma) {
+    var custo = asInt(ritual['custo']);
+    if (custo <= 0) custo = custoRitual(asInt(ritual['circulo'], 1));
+    if (forma == 'Discente') custo += asInt(ritual['custoDiscente']);
+    if (forma == 'Verdadeiro') custo += asInt(ritual['custoVerdadeiro']);
+    return custoRitualFinal(ritual, custo);
   }
 
   /// Custo de um ritual depois das reduções (Ritual Predileto, Mestre em
   /// Elemento, Tatuagem Ritualística...). Nunca fica abaixo de 1.
   int custoRitualFinal(Map<String, dynamic> ritual, int custo) {
     String n(dynamic v) => Catalogo.normalizar(asStr(v));
+    final elementos = elementosDoRitual(asStr(ritual['elemento']));
     var t = custo;
     for (final e in efeitos) {
       if (asStr(e['alvo']) != 'custoRitual') continue;
-      if (e['elemento'] != null && n(e['elemento']) != n(ritual['elemento'])) continue;
+      if (e['elemento'] != null && !elementos.contains(n(e['elemento']))) continue;
       if (e['ritual'] != null && n(e['ritual']) != n(ritual['nome'])) continue;
       if (e['alcance'] != null && !n(ritual['alcance']).startsWith(n(e['alcance']))) continue;
       t += _valorEfeito(e);

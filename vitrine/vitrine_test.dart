@@ -20,6 +20,7 @@ import 'package:cris_ficha/screens/pastas.dart';
 import 'package:cris_ficha/screens/quadro/quadro_screen.dart';
 import 'package:cris_ficha/data/quadro.dart';
 import 'package:cris_ficha/screens/sheet/sheet_screen.dart';
+import 'package:cris_ficha/screens/sheet/tab_rituais.dart';
 import 'package:cris_ficha/widgets/common.dart';
 import 'package:cris_ficha/widgets/efeitos.dart';
 import 'package:cris_ficha/widgets/imagem.dart';
@@ -115,6 +116,10 @@ void main() {
       await _salvar(tester, 'combate_${af.toLowerCase()}');
       await _rolar(tester, 650);
       await _salvar(tester, 'combate_rd_${af.toLowerCase()}');
+      if (af == 'Conhecimento') {
+        await _rolar(tester, 700);
+        await _salvar(tester, 'combate_rituais');
+      }
       if (af == 'Sangue') await _telasRd(tester);
       await _abrirAba(tester, 'INVENTÁRIO');
       await _salvar(tester, 'inventario_${af.toLowerCase()}');
@@ -130,6 +135,24 @@ void main() {
       await _salvar(tester, 'rituais_${af.toLowerCase()}');
       await _rolar(tester, 900);
       await _salvar(tester, 'rituais_${af.toLowerCase()}_2');
+      if (af == 'Conhecimento') {
+        // a fileira de chips rola para o lado: acha mesmo fora da tela
+        Finder chip(String t) => find.ancestor(
+            of: find.text(t, skipOffstage: false), matching: find.byType(ChoiceChip, skipOffstage: false));
+        final lista = find.descendant(of: find.byType(TabRituais), matching: find.byType(Scrollable)).first;
+        await tester.dragUntilVisible(chip('Sobrevivendo ao Horror'), lista, const Offset(0, 300));
+        await tester.ensureVisible(chip('Sobrevivendo ao Horror'));
+        await tester.pump();
+        await tester.tap(chip('Sobrevivendo ao Horror'));
+        await tester.pump(const Duration(milliseconds: 300));
+        await tester.drag(lista, const Offset(0, -250));
+        await _salvar(tester, 'rituais_livros');
+        await tester.dragUntilVisible(chip('Todos os livros'), lista, const Offset(0, 300));
+        await tester.ensureVisible(chip('Todos os livros'));
+        await tester.pump();
+        await tester.tap(chip('Todos os livros'));
+        await tester.pump(const Duration(milliseconds: 300));
+      }
     }
     // carta de habilidade de origem aberta (custo e o que faz na ficha)
     await _print(tester, 'poderes_ficha', const TelaFicha(fichaId: 'a1'));
@@ -364,8 +387,10 @@ Future<void> _prepararDados() async {
     ],
     'rituais': [
       {'id': 'r1', 'nome': 'Terceiro Olho', 'elemento': 'Conhecimento', 'circulo': 1, 'execucao': 'Padrão', 'alcance': 'Pessoal', 'duracao': 'Cena', 'descricao': 'Você vê manifestações paranormais.', 'custoDiscente': 2},
-      {'id': 'r2', 'nome': 'Eletrocussão', 'elemento': 'Energia', 'circulo': 1, 'execucao': 'Padrão', 'alcance': 'Curto', 'alvo': '1 ser', 'descricao': 'Corrente voltaica eletrocuta o alvo.'},
+      {'id': 'r2', 'nome': 'Eletrocussão', 'elemento': 'Energia', 'circulo': 1, 'execucao': 'Padrão', 'alcance': 'Curto', 'alvo': '1 ser', 'dano': '3d6', 'custoDiscente': 2, 'custoVerdadeiro': 5, 'descricao': 'Corrente voltaica eletrocuta o alvo.'},
+      {'id': 'r3', 'nome': 'Passagem de Conhecimento', 'elemento': 'Sangue/Conhecimento', 'circulo': 2, 'execucao': 'Padrão', 'alcance': 'Toque', 'fonte': 'AS1', 'descricao': 'Compartilha memórias com quem você toca.'},
     ],
+    'rituaisRapidos': ['r2', 'r3'],
     'transformacoes': {
       't1': {'pv': false, 'pe': true, 'san': true}
     },

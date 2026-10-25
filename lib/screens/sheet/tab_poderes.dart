@@ -259,11 +259,11 @@ Future<void> _escolher(BuildContext context, CtxFicha ctx, EntradaPoder e) async
   Repo.setVarios(f.id, m);
 }
 
-/// Lista de opções com limite de escolhas.
+/// Lista de opções com limite de escolhas ([quantas] null: sem limite).
 Future<List<String>?> escolherOpcoes(BuildContext context,
     {required String titulo,
     required List<(String, String)> opcoes,
-    required int quantas,
+    required int? quantas,
     required List<String> atuais}) {
   final sel = [...atuais.where((a) => opcoes.any((o) => o.$1 == a))];
   return showDialog<List<String>>(
@@ -274,7 +274,12 @@ Future<List<String>?> escolherOpcoes(BuildContext context,
         content: SizedBox(
           width: 360,
           child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            Text(quantas == 1 ? 'Escolha uma.' : 'Escolha até $quantas (${sel.length}/$quantas).',
+            Text(
+                quantas == null
+                    ? 'Marque quantos quiser (${sel.length} marcados).'
+                    : quantas == 1
+                        ? 'Escolha uma.'
+                        : 'Escolha até $quantas (${sel.length}/$quantas).',
                 style: const TextStyle(color: Cores.textoFraco, fontSize: 13)),
             const SizedBox(height: 6),
             Flexible(
@@ -287,7 +292,7 @@ Future<List<String>?> escolherOpcoes(BuildContext context,
                     onChanged: (marcar) => setState(() {
                       if (marcar == true) {
                         if (quantas == 1) sel.clear();
-                        if (sel.length < quantas) sel.add(v);
+                        if (quantas == null || sel.length < quantas) sel.add(v);
                       } else {
                         sel.remove(v);
                       }
