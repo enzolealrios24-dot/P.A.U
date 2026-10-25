@@ -143,9 +143,13 @@ List<EntradaPoder> entradasPoder(CtxFicha ctx) {
   return r;
 }
 
+/// As escolhas que valem na carta (as dela ou as da irmã da trilha).
+List<String> _escolhasDaCarta(EntradaPoder e, Calc c) =>
+    c.escolhasValendo(e.meta, e.chave, e.indicePoder == null ? const {} : c.irmasDoPoder(e.carta));
+
 /// O que a carta faz sozinha na ficha (com as escolhas e a afinidade).
 List<String> efeitosFixosDe(EntradaPoder e, Calc c) {
-  final escolhas = c.escolhasDe(e.chave);
+  final escolhas = _escolhasDaCarta(e, c);
   return descreverEfeitos([
     for (final x in [...asMapList(e.meta['efeitos']), if (e.afinidade) ...asMapList(e.meta['efeitosAfinidade'])])
       ...Calc.comEscolhas(x, escolhas),
@@ -155,7 +159,7 @@ List<String> efeitosFixosDe(EntradaPoder e, Calc c) {
 /// O que ela faz enquanto está ativa.
 List<String> efeitosAtivosDe(EntradaPoder e, Calc c) {
   final a = asMap(e.meta['ativavel']);
-  final escolhas = c.escolhasDe(e.chave);
+  final escolhas = _escolhasDaCarta(e, c);
   return descreverEfeitos([
     for (final x in [...asMapList(a['efeitos']), if (e.afinidade) ...asMapList(a['efeitosAfinidade'])])
       ...Calc.comEscolhas(x, escolhas),

@@ -73,7 +73,7 @@ class _PickerState extends State<_Picker> {
       if (_filtro >= 0 && !widget.filtros[_filtro].teste(e)) return false;
       if (q.isEmpty) return true;
       final alvo = Catalogo.normalizar(
-          '${asStr(e['nome'])} ${asStr(e['resumo'])} ${asStr(e['elemento'])} ${asStr(e['fonte'])}');
+          '${asStr(e['nome'])} ${asStr(e['resumo'])} ${asStr(e['elemento'])} ${asStr(e['fonte'])} ${asStr(e['trilha'])} ${asStr(e['origem'])}');
       return alvo.contains(q);
     }).toList();
   }
@@ -228,7 +228,12 @@ String detalhesRitual(Map<String, dynamic> r) {
 String metaPoder(Map<String, dynamic> p) {
   final tipo = asStr(p['tipo']);
   final partes = [
-    tipo.isEmpty ? '' : '${tipo[0].toUpperCase()}${tipo.substring(1)}',
+    if (tipo == 'trilha')
+      'Trilha ${asStr(p['trilha'])}, ${asStr(p['quando'])}'
+    else if (tipo == 'origem')
+      'Origem ${asStr(p['origem'])}'
+    else
+      tipo.isEmpty ? '' : '${tipo[0].toUpperCase()}${tipo.substring(1)}',
     asStr(p['elemento']),
     if (asStr(p['prereq']).isNotEmpty) 'Req.: ${asStr(p['prereq'])}',
   ];

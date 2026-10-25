@@ -338,6 +338,28 @@ class Calc {
       'trilha:${asStr(t['nome'])}:${asStr(h['nome'])}';
   static String chavePoder(Map<String, dynamic> p) => 'poder:${asStr(p['id'])}';
 
+  /// Habilidade de trilha pega como poder avulso: a chave das outras da mesma
+  /// trilha (avulsas ou da trilha da ficha) pelo nome, para "escolhaDe" e
+  /// "seAtivo" acharem a irmã.
+  Map<String, String> irmasDoPoder(Map<String, dynamic> p) {
+    final ref = asStr(p['ref']);
+    final i = ref.indexOf('#');
+    if (i < 0 || asStr(Catalogo.instance.porRef(ref)?['tipo']) != 'trilha') return const {};
+    final prefixo = ref.substring(0, i + 1);
+    final r = <String, String>{};
+    final t = trilhaDados;
+    if (t != null && prefixo == '${asStr(t['ref'])}#') {
+      for (final h in asMapList(t['habilidades'])) {
+        r[asStr(h['nome'])] = chaveTrilha(t, h);
+      }
+    }
+    for (final o in f.poderes) {
+      final ro = asStr(o['ref']);
+      if (ro.startsWith(prefixo)) r[ro.substring(prefixo.length)] = chavePoder(o);
+    }
+    return r;
+  }
+
   /// Habilidades que a pessoa ocultou: não aparecem e não valem na ficha.
   late final Set<String> ocultas = asStrList(f.d['habilidadesOcultas']).toSet();
 
@@ -346,6 +368,17 @@ class Calc {
 
   /// O que a pessoa escolheu num poder (perícias, atributo, elemento, ritual).
   List<String> escolhasDe(String chave) => asStrList(asMap(f.d['escolhasPoder'])[chave]);
+
+  /// Chave de outra habilidade da mesma trilha, pelo nome.
+  static String irmaDe(String chave, String nome, [Map<String, String> irmas = const {}]) =>
+      irmas[nome] ?? '${chave.substring(0, chave.lastIndexOf(':') + 1)}$nome';
+
+  /// As escolhas que valem numa habilidade: as dela ou, com "escolhaDe", as
+  /// da irmã da mesma trilha.
+  List<String> escolhasValendo(Map<String, dynamic> meta, String chave, [Map<String, String> irmas = const {}]) {
+    final de = asStr(meta['escolhaDe']);
+    return escolhasDe(de.isEmpty ? chave : irmaDe(chave, de, irmas));
+  }
 
   /// Custo em PE de um poder ou habilidade ("custo", "custoNex" ou o do
   /// ativável); null quando não custa nada.
@@ -385,8 +418,10 @@ class Calc {
 
     // Poderes e habilidades: os efeitos fixos, os da afinidade, os do
     // ativável (se estiver ligado) e as escolhas no lugar de "@escolha".
+    // [irmas]: chave de cada habilidade da mesma trilha pelo nome (as
+    // habilidades de trilha pegas como poder avulso)
     void addHabilidade(Map<String, dynamic> meta, String chave, String fonte,
-        {dynamic base, bool afinidade = false}) {
+        {dynamic base, bool afinidade = false, Map<String, String> irmas = const {}}) {
       if (ocultas.contains(chave)) return;
       final ativavel = asMap(meta['ativavel']);
       final ligado = ativos.contains(chave);
@@ -396,11 +431,9 @@ class Calc {
         if (ligado) ...asMapList(ativavel['efeitos']),
         if (ligado && afinidade) ...asMapList(ativavel['efeitosAfinidade']),
       ];
-      // "escolhaDe": usa a escolha de outra habilidade da mesma trilha
-      final de = asStr(meta['escolhaDe']);
-      final escolhas = escolhasDe(de.isEmpty ? chave : '${chave.substring(0, chave.lastIndexOf(':') + 1)}$de');
+      String irma(String nome) => irmaDe(chave, nome, irmas);
+      final escolhas = escolhasValendo(meta, chave, irmas);
 
-      String irma(String nome) => '${chave.substring(0, chave.lastIndexOf(':') + 1)}$nome';
       for (final e in efs) {
         final seAtivo = asStr(e['seAtivo']);
         if (seAtivo.isNotEmpty && !ativos.contains(irma(seAtivo))) continue;
@@ -431,7 +464,8 @@ class Calc {
     for (final p in f.poderes) {
       final c = cat.porRef(asStr(p['ref']));
       if (c == null) continue;
-      addHabilidade(c, chavePoder(p), asStr(p['nome'], asStr(c['nome'])), afinidade: asBool(p['afinidade']));
+      addHabilidade(c, chavePoder(p), asStr(p['nome'], asStr(c['nome'])),
+          afinidade: asBool(p['afinidade']), irmas: irmasDoPoder(p));
     }
     for (final i in f.inventario) {
       if (!asBool(i['equipado'], true)) continue;

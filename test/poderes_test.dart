@@ -158,6 +158,45 @@ void main() {
     expect(ensaiado.margemAtaque(corpo: true), 3);
   });
 
+  test('Habilidades de trilha e poderes de origem entram no catálogo de poderes', () {
+    final cat = Catalogo.instance;
+    expect(cat.poderesTrilha.length, greaterThan(100));
+    expect(cat.poderesOrigem.length, cat.origens.length);
+    final letal = cat.porRef('oprpg/guerreiro#Técnica Letal')!;
+    expect(letal['tipo'], 'trilha');
+    expect(letal['trilha'], 'Guerreiro');
+    expect(asStr(cat.porRef('oprpg/policial#poder')!['nome']), 'Patrulha');
+  });
+
+  test('Habilidade de outra trilha pega como poder (Versatilidade) já soma', () {
+    final c = Calc(ficha({
+      'classe': 'Combatente',
+      'trilha': 'Aniquilador',
+      'nex': 50,
+      'poderes': [poder('tl', 'oprpg/guerreiro#Técnica Letal')],
+    }));
+    expect(c.margemAtaque(corpo: true), 2);
+    expect(c.margemAtaque(corpo: false), 0);
+  });
+
+  test('Poder de outra origem pego como poder já soma', () {
+    final base = {'classe': 'Combatente', 'origem': 'Militar'};
+    final sem = Calc(ficha(base));
+    final com = Calc(ficha({...base, 'poderes': [poder('pa', 'oprpg/policial#poder')]}));
+    expect(com.defesa - sem.defesa, 2);
+  });
+
+  test('Habilidades avulsas do Monstruoso usam a escolha da irmã', () {
+    final c = Calc(ficha({
+      'classe': 'Combatente',
+      'nex': 10,
+      'poderes': [poder('sa', 'sah/monstruoso#Ser Amaldiçoado'), poder('sm', 'sah/monstruoso#Ser Macabro')],
+      'escolhasPoder': {'poder:sa': ['Conhecimento']},
+    }));
+    expect(c.rdContra('balistico'), 10);
+    expect(c.rdContra('conhecimento'), 10);
+  });
+
   test('Habilidade oculta não conta na ficha', () {
     final base = {'classe': 'Combatente', 'origem': 'Policial'};
     final normal = Calc(ficha(base));

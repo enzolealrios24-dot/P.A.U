@@ -39,6 +39,12 @@ class Catalogo {
   List<Map<String, dynamic>> get condicoes => lista('condicoes');
   List<Map<String, dynamic>> get ameacas => lista('ameacas');
 
+  /// Habilidades de trilha e poderes de origem como poderes avulsos, para
+  /// pegar de outra trilha ou origem (ex.: Versatilidade). Ref:
+  /// "<ref da trilha>#<habilidade>" e "<ref da origem>#poder".
+  List<Map<String, dynamic>> get poderesTrilha => lista('poderesTrilha');
+  List<Map<String, dynamic>> get poderesOrigem => lista('poderesOrigem');
+
   Map<String, dynamic>? porRef(String? ref) =>
       ref == null || ref.isEmpty ? null : _porRef[ref];
 
@@ -80,10 +86,52 @@ class Catalogo {
         // arquivo com erro: ignora para nao derrubar o app
       }
     }
+    _poderesAvulsos();
     for (final l in _listas.values) {
       l.sort((a, b) => _sem(asStr(a['nome'])).compareTo(_sem(asStr(b['nome']))));
     }
     carregado = true;
+  }
+
+  void _poderesAvulsos() {
+    final trilha = _listas['poderesTrilha'] = [];
+    for (final t in trilhas) {
+      final sobrevivente = _sem(asStr(t['classe'])) == 'sobrevivente';
+      for (final h in asMapList(t['habilidades'])) {
+        final n = asInt(h['nex']);
+        final m = <String, dynamic>{
+          ...h,
+          'tipo': 'trilha',
+          'trilha': asStr(t['nome']),
+          'classe': t['classe'],
+          if (t['classes'] != null) 'classes': t['classes'],
+          'quando': sobrevivente ? 'estágio $n' : 'NEX $n%',
+          if (t['requisito'] != null) 'prereq': t['requisito'],
+          'fonte': t['fonte'],
+          'pag': t['pag'],
+          'ref': '${asStr(t['ref'])}#${asStr(h['nome'])}',
+        };
+        trilha.add(m);
+        _porRef[asStr(m['ref'])] = m;
+      }
+    }
+    final origem = _listas['poderesOrigem'] = [];
+    for (final o in origens) {
+      final p = asMap(o['poder']);
+      final m = <String, dynamic>{
+        ...p,
+        'nome': asStr(p['nome'], asStr(o['nome'])),
+        'tipo': 'origem',
+        'origem': asStr(o['nome']),
+        // os efeitos da origem são os do poder dela (Patrulha: Defesa +2)
+        'efeitos': [...asMapList(o['efeitos']), ...asMapList(p['efeitos'])],
+        'fonte': o['fonte'],
+        'pag': o['pag'],
+        'ref': '${asStr(o['ref'])}#poder',
+      };
+      origem.add(m);
+      _porRef[asStr(m['ref'])] = m;
+    }
   }
 
   Map<String, dynamic>? doTipo(String tipo, String? ref) =>

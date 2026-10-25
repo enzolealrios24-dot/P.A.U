@@ -145,6 +145,18 @@ void main() {
     await _salvar(tester, 'poder_aberto');
     Navigator.of(tester.element(find.textContaining('Usar ('))).pop();
     await tester.pump(const Duration(milliseconds: 400));
+    // seletor do livro com as trilhas da classe e as origens
+    await _rolar(tester, -3000);
+    await tester.ensureVisible(find.text('Do livro'));
+    await tester.pump();
+    await tester.tap(find.text('Do livro'));
+    await tester.pump(const Duration(milliseconds: 300));
+    await tester.tap(find.widgetWithText(ChoiceChip, 'Trilhas'));
+    await _salvar(tester, 'seletor_trilhas');
+    await tester.tap(find.widgetWithText(ChoiceChip, 'Origens'));
+    await _salvar(tester, 'seletor_origens');
+    await tester.tap(find.text('Fechar'));
+    await tester.pump(const Duration(milliseconds: 400));
     mostrarRolagem(
         tester.element(find.byType(TabBarView)),
         Rolagem(

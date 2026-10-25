@@ -211,6 +211,10 @@ String _tipoPoderFicha(String tipo) {
       return 'Paranormal';
     case 'geral':
       return 'Geral';
+    case 'trilha':
+      return 'Trilha';
+    case 'origem':
+      return 'Origem';
     default:
       return 'Classe';
   }
@@ -248,13 +252,22 @@ Future<void> adicionarDoLivro(
   } else if (tipoBiblio == 'poder') {
     campo = 'poderes';
     final minhaClasse = Catalogo.normalizar(f.classe);
+    // trilhas da classe da ficha (sem classe, todas)
+    bool daMinhaClasse(Map<String, dynamic> p) =>
+        minhaClasse.isEmpty ||
+        Catalogo.normalizar(asStr(p['classe'])) == minhaClasse ||
+        asStrList(p['classes']).map(Catalogo.normalizar).contains(minhaClasse);
     e = await escolherDoLivro(
       context,
       titulo: 'Poderes dos livros',
-      itens: cat.poderes,
+      itens: [...cat.poderes, ...cat.poderesTrilha, ...cat.poderesOrigem]
+        ..sort((a, b) => Catalogo.normalizar(asStr(a['nome']))
+            .compareTo(Catalogo.normalizar(asStr(b['nome'])))),
       filtros: [
         FiltroCatalogo('Minha classe',
             (p) => Catalogo.normalizar(asStr(p['tipo'])) == minhaClasse),
+        FiltroCatalogo('Trilhas', (p) => _trilha(p) && daMinhaClasse(p)),
+        const FiltroCatalogo('Origens', _origem),
         const FiltroCatalogo('Paranormais', _paranormal),
         const FiltroCatalogo('Gerais', _geral),
         const FiltroCatalogo('Todos', _sempre),
@@ -263,12 +276,31 @@ Future<void> adicionarDoLivro(
       detalhes: detalhesPoder,
     );
     if (e == null) return;
+    // a da própria trilha ou origem já é carta e já conta na ficha
+    final ref = asStr(e['ref']);
+    final daFicha = (_trilha(e) &&
+            ctx.calc.trilhaDados != null &&
+            ref.startsWith('${asStr(ctx.calc.trilhaDados!['ref'])}#') &&
+            ctx.calc.trilhaLiberada(asInt(e['nex']))) ||
+        (_origem(e) &&
+            ctx.calc.origemDados != null &&
+            ref == '${asStr(ctx.calc.origemDados!['ref'])}#poder');
+    if (daFicha) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+                '${asStr(e['nome'])} já vem da sua ${_trilha(e) ? 'trilha' : 'origem'} e já está nas cartas.')));
+      }
+      return;
+    }
     final pre = asStr(e['prereq']);
     novo = {
       'nome': asStr(e['nome']),
       'tipo': _tipoPoderFicha(asStr(e['tipo'])),
       'descricao':
           '${detalhesPoder(e)}${pre.isEmpty ? '' : '\nPré-requisito: $pre'}',
+      if (_trilha(e)) 'detalhe': '${asStr(e['trilha'])}, ${asStr(e['quando'])}',
+      if (_origem(e)) 'detalhe': 'origem ${asStr(e['origem'])}',
       if (e['elemento'] != null) 'elemento': e['elemento'],
       'fonte': e['fonte'],
       'pag': e['pag'],
@@ -327,6 +359,8 @@ Future<void> adicionarDoLivro(
 bool _sempre(Map<String, dynamic> _) => true;
 bool _paranormal(Map<String, dynamic> p) => asStr(p['tipo']) == 'paranormal';
 bool _geral(Map<String, dynamic> p) => asStr(p['tipo']) == 'geral';
+bool _trilha(Map<String, dynamic> p) => asStr(p['tipo']) == 'trilha';
+bool _origem(Map<String, dynamic> p) => asStr(p['tipo']) == 'origem';
 bool _arma(Map<String, dynamic> i) => asStr(i['tipo']) == 'arma';
 bool _protecao(Map<String, dynamic> i) => asStr(i['tipo']) == 'protecao';
 bool _municao(Map<String, dynamic> i) => asStr(i['tipo']) == 'municao';
