@@ -196,6 +196,25 @@ void main() {
     await expectLater(find.byType(MaterialApp), matchesGoldenFile('prints/destino_girando.png'));
     await tester.pump(const Duration(milliseconds: 2400));
     await expectLater(find.byType(MaterialApp), matchesGoldenFile('prints/destino.png'));
+    // seletor dos rituais rápidos numa ficha sem rituais: os dos livros
+    await _print(tester, 'combatente_sem_rituais', const TelaFicha(fichaId: 'a3'));
+    DefaultTabController.of(tester.element(find.byType(TabBarView))).index = 2;
+    for (var i = 0; i < 10; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    for (var i = 0; i < 6 && find.text('Escolher').evaluate().isEmpty; i++) {
+      await _rolar(tester, 400);
+    }
+    await tester.ensureVisible(find.text('Escolher'));
+    await tester.pump();
+    await tester.tap(find.text('Escolher'));
+    await _salvar(tester, 'seletor_rituais');
+    await tester.enterText(find.widgetWithText(TextField, 'Buscar ritual…'), 'esfolar');
+    await tester.pump(const Duration(milliseconds: 200));
+    await tester.tap(find.byType(CheckboxListTile).first);
+    await tester.tap(find.text('Salvar'));
+    await tester.pump(const Duration(milliseconds: 400));
+    await _salvar(tester, 'rituais_rapidos_livro');
     debugDisableShadows = true;
   });
 }

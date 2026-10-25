@@ -7,6 +7,7 @@ import '../../core/dano.dart';
 import '../../core/dice.dart';
 import '../../core/rules.dart';
 import '../../core/theme.dart';
+import '../../data/catalogo.dart';
 import '../../data/models.dart';
 import '../../data/repo.dart';
 import '../../widgets/common.dart';
@@ -14,7 +15,7 @@ import '../../widgets/dado3d.dart';
 import '../../widgets/runa.dart';
 import 'rolar.dart';
 import 'tab_listas.dart';
-import 'tab_poderes.dart' show escolherOpcoes;
+import 'tab_rituais.dart' show rituaisDoIndice, ritualVariavel, livroDoRitual;
 
 /// Aba COMBATE em modo alerta: listras de perigo, painéis com corte diagonal
 /// na cor da afinidade, a runa de 3º círculo no topo e o dado do destino.
@@ -114,14 +115,12 @@ class _TabCombateState extends State<TabCombate> {
       const SizedBox(height: 12),
       _PainelCortado(
         titulo: 'Rituais rápidos',
-        acao: ctx.f.rituais.isEmpty
-            ? null
-            : TextButton.icon(
-                onPressed: () => _escolherRituaisRapidos(context, ctx),
-                style: TextButton.styleFrom(visualDensity: VisualDensity.compact),
-                icon: const Icon(Icons.tune, size: 18),
-                label: const Text('Escolher'),
-              ),
+        acao: TextButton.icon(
+          onPressed: () => _escolherRituaisRapidos(context, ctx),
+          style: TextButton.styleFrom(visualDensity: VisualDensity.compact),
+          icon: const Icon(Icons.tune, size: 18),
+          label: const Text('Escolher'),
+        ),
         child: _RituaisRapidos(ctx: ctx),
       ),
       const SizedBox(height: 12),
@@ -376,34 +375,169 @@ class _Arma extends StatelessWidget {
       );
 }
 
-/// Escolhe quais rituais conhecidos ficam no uso rápido.
+/// Escolhe quais rituais ficam no uso rápido: os do agente e os dos livros.
 Future<void> _escolherRituaisRapidos(BuildContext context, CtxFicha ctx) async {
   final f = ctx.f;
-  final novos = await escolherOpcoes(context,
-      titulo: 'Rituais rápidos',
-      opcoes: [
-        for (final r in f.rituais)
-          (chaveRitual(r), '${asStr(r['nome'], 'Ritual')} · ${asStr(r['elemento'])} ${asInt(r['circulo'], 1)}º'),
-      ],
-      quantas: null,
-      atuais: rituaisRapidos(f));
+  final novos = await showDialog<List<String>>(
+    context: context,
+    builder: (_) => _SeletorRituais(ficha: f),
+  );
   if (novos != null) Repo.set(f.id, 'rituaisRapidos', novos);
 }
 
-/// Rituais que o jogador escolheu para conjurar direto do combate, um
-/// espaço por ritual, e um espaço vazio para pôr mais.
+/// Uma linha do seletor: chave do uso rápido, o ritual e o elemento mostrado.
+typedef _OpcaoRitual = ({String chave, Map<String, dynamic> r, String elemento, bool doAgente});
+
+/// Janela de escolha dos rituais rápidos: busca, filtro por elemento e
+/// marcação livre. Os do agente vêm primeiro; os dos livros não precisam
+/// ter sido aprendidos.
+class _SeletorRituais extends StatefulWidget {
+  final Ficha ficha;
+  const _SeletorRituais({required this.ficha});
+  @override
+  State<_SeletorRituais> createState() => _SeletorRituaisState();
+}
+
+class _SeletorRituaisState extends State<_SeletorRituais> {
+  static const _elementos = ['Conhecimento', 'Energia', 'Morte', 'Sangue', 'Medo'];
+  final _busca = TextEditingController();
+  String? _elemento;
+  late final List<String> _sel;
+  late final List<_OpcaoRitual> _opcoes;
+
+  @override
+  void initState() {
+    super.initState();
+    final f = widget.ficha;
+    final doAgente = <_OpcaoRitual>[
+      for (final r in f.rituais)
+        (chave: chaveRitual(r), r: r, elemento: asStr(r['elemento']), doAgente: true),
+    ];
+    // os dos livros que o agente já conhece não repetem
+    final conhecidos = {
+      for (final o in doAgente) '${Catalogo.normalizar(asStr(o.r['nome']))}|${Catalogo.normalizar(o.elemento)}',
+    };
+    final vistos = <String>{};
+    final doLivro = <_OpcaoRitual>[];
+    for (final (r, el) in rituaisDoIndice()) {
+      final variavel = ritualVariavel(r);
+      final elemento = variavel ? el : asStr(r['elemento']);
+      final chave = chaveRitualDoLivro(r, elemento: variavel ? el : null);
+      if (!vistos.add(chave)) continue;
+      if (conhecidos.contains('${Catalogo.normalizar(asStr(r['nome']))}|${Catalogo.normalizar(elemento)}')) continue;
+      doLivro.add((chave: chave, r: r, elemento: elemento, doAgente: false));
+    }
+    _opcoes = [...doAgente, ...doLivro];
+    final validas = {for (final o in _opcoes) o.chave};
+    _sel = [for (final k in rituaisRapidos(f)) if (validas.contains(k)) k];
+  }
+
+  @override
+  void dispose() {
+    _busca.dispose();
+    super.dispose();
+  }
+
+  bool _visivel(_OpcaoRitual o) {
+    if (_elemento != null && !Calc.elementosDoRitual(o.elemento).contains(Catalogo.normalizar(_elemento!))) {
+      return false;
+    }
+    final q = Catalogo.normalizar(_busca.text);
+    return q.isEmpty || Catalogo.normalizar('${asStr(o.r['nome'])} ${o.elemento} ${asStr(o.r['resumo'])}').contains(q);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final tela = MediaQuery.sizeOf(context);
+    final doAgente = [for (final o in _opcoes) if (o.doAgente && _visivel(o)) o];
+    final doLivro = [for (final o in _opcoes) if (!o.doAgente && _visivel(o)) o];
+    Widget cabecalho(String t) => Padding(
+          padding: const EdgeInsets.fromLTRB(4, 12, 4, 4),
+          child: Text(t, style: estiloRotulo(12.5, cor: Cores.destaque, peso: FontWeight.w700, espaco: 1.6)),
+        );
+    final linhas = <Widget>[
+      if (doAgente.isNotEmpty) cabecalho('SEUS RITUAIS'),
+      for (final o in doAgente) _linha(o),
+      if (doLivro.isNotEmpty) cabecalho('RITUAIS DOS LIVROS'),
+      for (final o in doLivro) _linha(o),
+    ];
+    return AlertDialog(
+      titlePadding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+      contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
+      title: const Text('Rituais rápidos'),
+      content: SizedBox(
+        width: tela.width > 700 ? 620 : tela.width - 40,
+        height: tela.height * 0.7,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          TextField(
+            controller: _busca,
+            decoration: const InputDecoration(prefixIcon: Icon(Icons.search), hintText: 'Buscar ritual…'),
+            onChanged: (_) => setState(() {}),
+          ),
+          FaixaRolavel(altura: 50, quebrarAcima: 520, children: [
+            for (final el in [null, ..._elementos])
+              Padding(
+                padding: const EdgeInsets.only(right: 6, top: 6),
+                child: ChoiceChip(
+                  avatar: el == null ? null : Runa(elemento: el, circulo: 1, semente: el, tamanho: 18),
+                  showCheckmark: el == null,
+                  label: Text(el ?? 'Todos'),
+                  selected: _elemento == el,
+                  onSelected: (_) => setState(() => _elemento = el),
+                ),
+              ),
+          ]),
+          const SizedBox(height: 4),
+          Text('${_sel.length} ${_sel.length == 1 ? 'marcado' : 'marcados'} · marque quantos quiser',
+              style: const TextStyle(fontSize: 12, color: Cores.textoFraco)),
+          Expanded(
+            child: linhas.isEmpty
+                ? const Center(child: Text('Nada encontrado.'))
+                : ListView.builder(itemCount: linhas.length, itemBuilder: (_, i) => linhas[i]),
+          ),
+        ]),
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancelar')),
+        FilledButton(onPressed: () => Navigator.pop(context, _sel), child: const Text('Salvar')),
+      ],
+    );
+  }
+
+  Widget _linha(_OpcaoRitual o) {
+    final marcado = _sel.contains(o.chave);
+    final cor = Runa.corDo(o.elemento);
+    return CheckboxListTile(
+      dense: true,
+      value: marcado,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+      secondary: Runa(elemento: o.elemento, circulo: asInt(o.r['circulo'], 1), semente: asStr(o.r['nome']), tamanho: 34),
+      title: Text(asStr(o.r['nome'], 'Ritual'), style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14.5)),
+      subtitle: Text(
+        [
+          '${o.elemento} ${asInt(o.r['circulo'], 1)}º',
+          if (o.doAgente) 'conhecido' else livroDoRitual(o.r),
+        ].join(' · '),
+        style: TextStyle(fontSize: 12, color: cor.withValues(alpha: 0.9)),
+      ),
+      onChanged: (v) => setState(() => v == true ? _sel.add(o.chave) : _sel.remove(o.chave)),
+    );
+  }
+}
+
+/// Rituais que o jogador escolheu para conjurar direto do combate (os do
+/// agente ou dos livros), um espaço por ritual, e um espaço vazio para pôr
+/// mais.
 class _RituaisRapidos extends StatelessWidget {
   final CtxFicha ctx;
   const _RituaisRapidos({required this.ctx});
   @override
   Widget build(BuildContext context) {
     final f = ctx.f;
-    final porChave = {for (final r in f.rituais) chaveRitual(r): r};
     final escolhidos = [
       for (final k in rituaisRapidos(f))
-        if (porChave[k] != null) porChave[k]!,
+        if (ritualRapido(f, k) case final r?) r,
     ];
-    final semRituais = f.rituais.isEmpty;
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       for (final (i, r) in escolhidos.indexed) ...[
         if (i > 0) const SizedBox(height: 8),
@@ -415,20 +549,17 @@ class _RituaisRapidos extends StatelessWidget {
         shape: _Corte(corte: 12, cor: Cores.borda),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
-          onTap: semRituais ? null : () => _escolherRituaisRapidos(context, ctx),
+          onTap: () => _escolherRituaisRapidos(context, ctx),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
             child: Row(children: [
-              Icon(semRituais ? Icons.auto_stories_outlined : Icons.add_circle_outline,
-                  size: 22, color: semRituais ? Cores.textoFraco : Cores.destaque),
+              Icon(Icons.add_circle_outline, size: 22, color: Cores.destaque),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  semRituais
-                      ? 'Aprenda rituais na aba Rituais para colocá-los aqui.'
-                      : escolhidos.isEmpty
-                          ? 'Espaço livre: toque para escolher os rituais que você quer ter à mão.'
-                          : 'Colocar ou tirar rituais',
+                  escolhidos.isEmpty
+                      ? 'Espaço livre: toque para escolher os rituais que você quer ter à mão, seus ou dos livros.'
+                      : 'Colocar ou tirar rituais',
                   style: const TextStyle(fontSize: 13.5, color: Cores.textoFraco),
                 ),
               ),

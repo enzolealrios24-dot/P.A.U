@@ -2,6 +2,7 @@ import 'package:cris_ficha/core/rules.dart';
 import 'package:cris_ficha/data/catalogo.dart';
 import 'package:cris_ficha/data/models.dart';
 import 'package:cris_ficha/screens/sheet/rolar.dart';
+import 'package:cris_ficha/screens/sheet/tab_listas.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 // O que os poderes fazem sozinhos na ficha: ativáveis, condições, escolhas,
@@ -217,6 +218,23 @@ void main() {
     final eletro = Catalogo.instance.rituais.firstWhere((r) => r['nome'] == 'Eletrocussão');
     expect(c.custoConjuracao(eletro, 'Padrão'), 1);
     expect(c.custoConjuracao(eletro, 'Discente'), 1 + asInt(eletro['custoDiscente']));
+  });
+
+  test('Uso rápido aceita rituais dos livros sem aprender (e o elemento do variável)', () {
+    final cat = Catalogo.instance;
+    final esfolar = cat.rituais.firstWhere((r) => r['nome'] == 'Esfolar');
+    final arma = cat.rituais.firstWhere((r) => r['nome'] == 'Amaldiçoar Arma');
+    final f = ficha({
+      'classe': 'Combatente',
+      'rituais': [{'id': 'r1', 'nome': 'Decadência', 'elemento': 'Morte', 'circulo': 1}],
+    });
+    final a = ritualRapido(f, chaveRitualDoLivro(esfolar))!;
+    expect(a['nome'], 'Esfolar');
+    expect(a['elemento'], 'Sangue');
+    expect(chaveRitual(a), chaveRitualDoLivro(esfolar));
+    expect(ritualRapido(f, chaveRitualDoLivro(arma, elemento: 'Energia'))!['elemento'], 'Energia');
+    expect(ritualRapido(f, 'r1')!['nome'], 'Decadência');
+    expect(ritualRapido(f, 'livro:nada/nada'), isNull);
   });
 
   test('Habilidade oculta não conta na ficha', () {

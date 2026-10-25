@@ -620,8 +620,28 @@ void editarRitual(BuildContext context, CtxFicha ctx, int indice) => _editarNaLi
 /// Chave de um ritual conhecido (o id; nas fichas antigas, o nome).
 String chaveRitual(Map<String, dynamic> r) => asStr(r['id'], asStr(r['nome']));
 
-/// Rituais no uso rápido da aba Combate, na ordem escolhida.
+/// Rituais no uso rápido da aba Combate, na ordem escolhida: a chave de um
+/// ritual conhecido ou "livro:<ref>" (e "@<elemento>" nos de elemento
+/// variável) para um ritual dos livros que o agente não precisa ter aprendido.
 List<String> rituaisRapidos(Ficha f) => asStrList(f.d['rituaisRapidos']);
+
+/// Chave de uso rápido de um ritual dos livros.
+String chaveRitualDoLivro(Map<String, dynamic> e, {String? elemento}) =>
+    'livro:${asStr(e['ref'])}${elemento == null ? '' : '@$elemento'}';
+
+/// O ritual de uma chave do uso rápido, no formato da ficha (null se sumiu).
+Map<String, dynamic>? ritualRapido(Ficha f, String chave) {
+  if (chave.startsWith('livro:')) {
+    final partes = chave.substring(6).split('@');
+    final e = Catalogo.instance.doTipo('rituais', partes.first);
+    if (e == null) return null;
+    return {...ritualDoLivro(e, elemento: partes.length > 1 ? partes[1] : null), 'id': chave};
+  }
+  for (final r in f.rituais) {
+    if (chaveRitual(r) == chave) return r;
+  }
+  return null;
+}
 
 /// Põe ou tira um ritual conhecido do uso rápido.
 void alternarRitualRapido(BuildContext context, CtxFicha ctx, Map<String, dynamic> r) {

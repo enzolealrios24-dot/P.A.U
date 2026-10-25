@@ -33,7 +33,8 @@ String livroDoRitual(Map<String, dynamic> r) {
 }
 
 /// Ritual de elemento variável (Amaldiçoar Arma): aprende-se num elemento.
-bool _variavel(Map<String, dynamic> r) => !_ordemElementos.contains(asStr(r['elemento'])) && !asStr(r['elemento']).contains('/');
+bool ritualVariavel(Map<String, dynamic> r) =>
+    !_ordemElementos.contains(asStr(r['elemento'])) && !asStr(r['elemento']).contains('/');
 
 /// Rituais de todos os livros como no índice do livro básico (páginas 122 e
 /// 123): os de elemento variável aparecem uma vez em cada elemento e os de
@@ -154,7 +155,7 @@ class _TabRituaisState extends State<TabRituais> {
           conhecido: nomesConhecidos.contains(Catalogo.normalizar(asStr(r['nome']))),
           aberto: _aberto == '${r['id']}|$el',
           aoAbrir: () => setState(() => _aberto = _aberto == '${r['id']}|$el' ? null : '${r['id']}|$el'),
-          aoAprender: () => aprenderRitual(context, ctx, r, elemento: _variavel(r) ? el : null),
+          aoAprender: () => aprenderRitual(context, ctx, r, elemento: ritualVariavel(r) ? el : null),
         ),
     ]);
   }
@@ -262,7 +263,7 @@ class _RitualDoLivro extends StatelessWidget {
                     if (conhecido) Etiqueta('CONHECIDO', cor: Cores.ok),
                   ]),
                   const SizedBox(height: 2),
-                  Text('${_variavel(r) ? elemento : asStr(r['elemento'])} · $circuloº círculo · ${asStr(r['execucao'])} · ${asStr(r['alcance'])}',
+                  Text('${ritualVariavel(r) ? elemento : asStr(r['elemento'])} · $circuloº círculo · ${asStr(r['execucao'])} · ${asStr(r['alcance'])}',
                       style: estiloRotulo(13, cor: cor.withValues(alpha: 0.9), peso: FontWeight.w500, espaco: 0.3)),
                   const SizedBox(height: 4),
                   Text(aberto ? detalhesRitual(r) : asStr(r['resumo']),
