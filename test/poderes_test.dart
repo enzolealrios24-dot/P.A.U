@@ -249,4 +249,11 @@ void main() {
     final oculta = Calc(ficha({...base, 'habilidadesOcultas': [Calc.chaveOrigem(o)]}));
     expect(normal.defesa - oculta.defesa, 2);
   });
+
+  test('Sem afinidade no dossiê deixa a ficha com o tema do app mesmo com afinidade nas regras', () {
+    expect(ficha({'afinidade': 'Sangue'}).elementoDaFicha, 'Sangue');
+    expect(ficha({'afinidade': 'Sangue', 'elementoVisual': 'Morte'}).elementoDaFicha, 'Morte');
+    expect(ficha({'afinidade': 'Sangue', 'elementoVisual': semAfinidadeVisual}).elementoDaFicha, '');
+    expect(ficha({}).elementoDaFicha, '');
+  });
 }

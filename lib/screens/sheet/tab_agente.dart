@@ -13,6 +13,7 @@ import '../../widgets/efeitos.dart';
 import '../../widgets/imagem.dart';
 import '../../widgets/sigilos.dart';
 import '../../widgets/runa.dart';
+import '../../widgets/sigilo.dart';
 import 'afinidade.dart';
 import 'forma.dart';
 import 'rolar.dart';
@@ -481,7 +482,7 @@ Future<void> editarCondicoes(BuildContext context, Ficha f) async {
 }
 
 /// Atributos num círculo ritual, como no CRIS original: AGI no topo e os
-/// outros em volta, no sentido horário.
+/// outros em volta, no sentido horário, cada um numa ponta do sigilo.
 class _CirculoAtributos extends StatelessWidget {
   final CtxFicha ctx;
   const _CirculoAtributos({required this.ctx});
@@ -501,8 +502,16 @@ class _CirculoAtributos extends StatelessWidget {
           width: lado,
           height: lado,
           child: Stack(children: [
+            // sigilo vivo da afinidade, com uma ponta em cada atributo
             Positioned.fill(
-                child: CustomPaint(painter: _PintorCirculo(anel / lado))),
+              child: SigiloElemental(
+                elemento: ctx.f.elementoDaFicha,
+                tamanho: lado,
+                pontas: _ordem.length,
+                raioPontas: anel / meio,
+                opacidade: 0.4,
+              ),
+            ),
             Positioned(
               left: meio - centro,
               top: meio - centro,
@@ -585,50 +594,6 @@ class _BolhaAtributo extends StatelessWidget {
       ),
     );
   }
-}
-
-/// Anéis com marcas e o pentágono que liga os atributos.
-class _PintorCirculo extends CustomPainter {
-  final double anel; // raio do anel dos atributos, em fração do lado
-  _PintorCirculo(this.anel);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final c = size.center(Offset.zero);
-    final l = size.shortestSide;
-    final traco = Paint()
-      ..color = Cores.destaque.withValues(alpha: 0.38)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.1;
-    final fraco = Paint()
-      ..color = Cores.roxoClaro.withValues(alpha: 0.32)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1;
-    canvas.drawCircle(c, l * 0.49, traco);
-    canvas.drawCircle(c, l * 0.455, fraco);
-    canvas.drawCircle(c, l * anel, traco);
-    for (var i = 0; i < 60; i++) {
-      final a = 2 * pi * i / 60;
-      final d = Offset(cos(a), sin(a));
-      canvas.drawLine(
-          c + d * l * 0.458, c + d * l * (i % 5 == 0 ? 0.487 : 0.472), fraco);
-    }
-    final penta = Path();
-    for (var i = 0; i < 5; i++) {
-      final a = -pi / 2 + 2 * pi * i / 5;
-      final p = c + Offset(cos(a), sin(a)) * l * anel;
-      if (i == 0) {
-        penta.moveTo(p.dx, p.dy);
-      } else {
-        penta.lineTo(p.dx, p.dy);
-      }
-    }
-    penta.close();
-    canvas.drawPath(penta, fraco);
-  }
-
-  @override
-  bool shouldRepaint(covariant _PintorCirculo old) => old.anel != anel;
 }
 
 class _Stat extends StatelessWidget {

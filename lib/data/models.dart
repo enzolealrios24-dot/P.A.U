@@ -38,6 +38,9 @@ String novoId() {
 }
 
 /// Ficha de agente (documento em /characters/{id}).
+/// Valor de elementoVisual para "Sem afinidade" na escolha do dossiê.
+const semAfinidadeVisual = 'nenhuma';
+
 class Ficha {
   final String id;
   final Map<String, dynamic> d;
@@ -93,9 +96,12 @@ class Ficha {
   String get modoProgressao => asStr(d['modoProgressao'], 'nex');
   String get afinidade => asStr(d['afinidade']);
   /// Afinidade do dossiê (só visual: cores, fontes, runas e dado). Sem ela,
-  /// vale a afinidade das regras, se houver.
+  /// vale a afinidade das regras, se houver; com [semAfinidadeVisual], a
+  /// ficha fica com o tema do app mesmo tendo afinidade nas regras.
   String get elementoVisual => asStr(d['elementoVisual']);
-  String get elementoDaFicha => elementoVisual.isNotEmpty ? elementoVisual : afinidade;
+  String get elementoDaFicha => elementoVisual == semAfinidadeVisual
+      ? ''
+      : (elementoVisual.isNotEmpty ? elementoVisual : afinidade);
   /// Modificador do dado do destino (aba COMBATE).
   int get modDestino => asInt(d['modDestino'], 5);
   /// Círculo da runa do selo (1 a 4).

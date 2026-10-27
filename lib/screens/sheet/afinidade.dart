@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 
+import '../../core/tema_app.dart';
 import '../../core/theme.dart';
+import '../../data/models.dart';
 import '../../data/repo.dart';
 import '../../widgets/common.dart';
 import '../../widgets/runa.dart';
+import '../../widgets/sigilo.dart';
 import 'rolar.dart';
 
 /// Afinidades que podem guiar o visual do dossiê.
 const afinidadesDossie = ['Conhecimento', 'Energia', 'Morte', 'Sangue'];
 
 /// Escolha da afinidade do dossiê (cores, fontes, runas e dado em todas as
-/// abas) e do círculo da runa do selo. Só muda o visual: a afinidade das
-/// regras, de NEX 50%, continua no campo da Identidade.
+/// abas), ou nenhuma (tema do app), e do círculo da runa do selo. Só muda o
+/// visual: a afinidade das regras, de NEX 50%, continua no campo da
+/// Identidade.
 class SecaoAfinidade extends StatelessWidget {
   final CtxFicha ctx;
   const SecaoAfinidade({super.key, required this.ctx});
@@ -65,6 +69,27 @@ class SecaoAfinidade extends StatelessWidget {
               ),
           ]);
         }),
+        const SizedBox(height: 8),
+        _Opcao(
+          selecionada: atual.isEmpty,
+          cor: TemaApp.tema.destaque,
+          aoTocar: () => Repo.set(f.id, 'elementoVisual', semAfinidadeVisual),
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            const SigiloElemental(elemento: '', tamanho: 36, opacidade: 0.7),
+            const SizedBox(width: 10),
+            Flexible(
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
+                Text('Sem afinidade',
+                    style: TextStyle(
+                        fontFamily: TemaApp.tema.fonteTitulo,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: atual.isEmpty ? TemaApp.tema.destaque : Cores.texto)),
+                const Text('Fica com o tema do app', style: TextStyle(fontSize: 12, color: Cores.textoFraco)),
+              ]),
+            ),
+          ]),
+        ),
         const SizedBox(height: 16),
         Text('CÍRCULO DO SELO', style: estiloRotulo(12.5, cor: Cores.textoFraco, peso: FontWeight.w700, espaco: 1.8)),
         const SizedBox(height: 8),

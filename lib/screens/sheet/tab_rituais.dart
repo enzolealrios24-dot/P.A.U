@@ -1,3 +1,5 @@
+import 'dart:math' show cos, pi, sin;
+
 import 'package:flutter/material.dart';
 
 import '../../core/theme.dart';
@@ -6,6 +8,7 @@ import '../../data/models.dart';
 import '../../widgets/catalogo_picker.dart';
 import '../../widgets/common.dart';
 import '../../widgets/runa.dart';
+import '../../widgets/sigilo.dart';
 import 'rolar.dart';
 import 'tab_listas.dart';
 
@@ -172,26 +175,64 @@ class _TabRituaisState extends State<TabRituais> {
       );
 }
 
-/// Ciclo da vantagem elemental com as runas.
+/// Ciclo da vantagem elemental com as runas de 4º círculo: Conhecimento no
+/// alto, Energia à direita, Morte embaixo e Sangue à esquerda, cada um
+/// vencendo o seguinte no sentido das setas. Medo fica no meio, neutro.
 class _Vantagem extends StatelessWidget {
   final String afinidade;
   const _Vantagem({required this.afinidade});
+
+  /// Ângulo de cada elemento no círculo (0 é a direita, sentido horário).
+  static const angulos = {'Energia': 0.0, 'Morte': pi / 2, 'Sangue': pi, 'Conhecimento': 3 * pi / 2};
+  static const raio = 78.0, runa = 52.0, runaDestaque = 60.0, rotulo = 58.0, sigilo = 210.0;
+  static double _tamanho(String e, String afinidade) => e == afinidade ? runaDestaque : runa;
+
   @override
   Widget build(BuildContext context) {
     final forte = venceDe[afinidade];
     final fraco = perdePara(afinidade);
-    Widget elemento(String e) => Column(mainAxisSize: MainAxisSize.min, children: [
-          Runa(elemento: e, circulo: e == afinidade ? 3 : 2, semente: e, tamanho: e == afinidade ? 40 : 32),
-          const SizedBox(height: 3),
-          Text(e.toUpperCase(),
-              style: estiloRotulo(10, cor: e == afinidade ? Runa.corDo(e) : Cores.textoFraco, peso: FontWeight.w700, espaco: 1)),
-        ]);
-    const seta = Padding(
-      padding: EdgeInsets.only(bottom: 14),
-      child: Icon(Icons.arrow_forward, size: 16, color: Cores.textoFraco),
-    );
+    final temAfinidade = forte != null && fraco != null;
+    bool emJogo(String e) => !temAfinidade || e == afinidade || e == forte || e == fraco;
+    double tamanho(String e) => _tamanho(e, afinidade);
+
+    const largura = 2 * (raio + runaDestaque / 2 + 6 + rotulo);
+    const altura = 2 * (raio + runaDestaque / 2 + 4 + 15);
+    const centro = Offset(largura / 2, altura / 2);
+    Offset posicao(String e) => e == 'Medo' ? centro : centro + Offset(cos(angulos[e]!), sin(angulos[e]!)) * raio;
+
+    Widget simbolo(String e) {
+      final p = posicao(e), s = tamanho(e), cor = Runa.corDo(e);
+      return Positioned(
+        left: p.dx - s / 2,
+        top: p.dy - s / 2,
+        child: Container(
+          decoration: e == afinidade
+              ? BoxDecoration(shape: BoxShape.circle, boxShadow: [BoxShadow(color: cor.withValues(alpha: 0.3), blurRadius: 18)])
+              : null,
+          child: Runa(elemento: e, circulo: 4, semente: e, tamanho: s, cor: emJogo(e) ? cor : cor.withValues(alpha: 0.35)),
+        ),
+      );
+    }
+
+    Widget nome(String e) {
+      final p = posicao(e), s = tamanho(e);
+      final texto = Text(e.toUpperCase(),
+          textAlign: e == 'Sangue' ? TextAlign.right : (e == 'Energia' ? TextAlign.left : TextAlign.center),
+          style: estiloRotulo(11,
+              cor: temAfinidade && emJogo(e) ? Runa.corDo(e) : Cores.textoFraco, peso: FontWeight.w700, espaco: 1));
+      return switch (e) {
+        'Energia' => Positioned(left: p.dx + s / 2 + 6, top: p.dy - 7, width: rotulo, child: texto),
+        'Sangue' => Positioned(left: p.dx - s / 2 - 6 - rotulo, top: p.dy - 7, width: rotulo, child: texto),
+        'Conhecimento' => Positioned(left: p.dx - 60, top: p.dy - s / 2 - 19, width: 120, child: texto),
+        _ => Positioned(left: p.dx - 60, top: p.dy + s / 2 + 4, width: 120, child: texto),
+      };
+    }
+
+    TextSpan elemento(String e) =>
+        TextSpan(text: e, style: TextStyle(color: Runa.corDo(e), fontWeight: FontWeight.w700));
+
     return Container(
-      padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
+      padding: const EdgeInsets.fromLTRB(12, 10, 12, 14),
       decoration: BoxDecoration(
         color: Cores.painel,
         borderRadius: BorderRadius.circular(4),
@@ -199,23 +240,109 @@ class _Vantagem extends StatelessWidget {
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         Text('VANTAGEM ELEMENTAL', style: estiloRotulo(12.5, cor: Cores.textoFraco, peso: FontWeight.w700, espaco: 1.8)),
-        const SizedBox(height: 8),
-        FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-            elemento('Sangue'), seta, elemento('Conhecimento'), seta, elemento('Energia'), seta,
-            elemento('Morte'), seta, elemento('Sangue'),
-          ]),
+        const SizedBox(height: 10),
+        Semantics(
+          label: 'Sangue vence Conhecimento, Conhecimento vence Energia, Energia vence Morte e Morte vence Sangue.',
+          child: ExcludeSemantics(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: SizedBox(
+                width: largura,
+                height: altura,
+                child: Stack(clipBehavior: Clip.none, children: [
+                  // sigilo vivo da afinidade, por baixo das runas e das setas
+                  Positioned(
+                    left: centro.dx - sigilo / 2,
+                    top: centro.dy - sigilo / 2,
+                    child: SigiloElemental(
+                      elemento: temAfinidade ? afinidade : '',
+                      tamanho: sigilo,
+                      pontas: 4,
+                      raioPontas: raio / (sigilo / 2),
+                      furos: [for (final e in [...angulos.keys, 'Medo']) (posicao(e) - centro, tamanho(e) / 2 + 3)],
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: CustomPaint(
+                      painter: _PintorCiclo(afinidade: temAfinidade ? afinidade : ''),
+                    ),
+                  ),
+                  for (final e in [...angulos.keys, 'Medo']) ...[simbolo(e), nome(e)],
+                ]),
+              ),
+            ),
+          ),
         ),
-        const SizedBox(height: 8),
-        Text(
-            forte == null
-                ? 'Cada elemento vence o seguinte. Medo é neutro: não vence nem perde para ninguém.'
-                : 'Sua afinidade, $afinidade, vence $forte e perde para $fraco. Medo é neutro.',
-            style: const TextStyle(fontSize: 12.5, color: Cores.textoFraco)),
+        const SizedBox(height: 12),
+        Text.rich(
+          TextSpan(children: [
+            if (temAfinidade) ...[
+              const TextSpan(text: 'Sua afinidade é '),
+              elemento(afinidade),
+              const TextSpan(text: ', ela vence '),
+              elemento(forte),
+              const TextSpan(text: ' e perde para '),
+              elemento(fraco),
+              const TextSpan(text: '.'),
+            ] else
+              const TextSpan(text: 'Cada elemento vence o seguinte, no sentido das setas.'),
+          ]),
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 14.5, height: 1.35, color: Cores.texto),
+        ),
+        const SizedBox(height: 3),
+        const Text('Medo é neutro.',
+            textAlign: TextAlign.center, style: TextStyle(fontSize: 13, color: Cores.textoFraco)),
       ]),
     );
   }
+}
+
+/// Setas do ciclo, de cada elemento para o que ele vence, na cor de quem
+/// vence. Com afinidade, só as duas setas dela ficam acesas.
+class _PintorCiclo extends CustomPainter {
+  final String afinidade;
+  _PintorCiclo({required this.afinidade});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const raio = _Vantagem.raio;
+    final c = size.center(Offset.zero);
+    final arco = Rect.fromCircle(center: c, radius: raio);
+    final fraco = perdePara(afinidade);
+    // distância do centro de cada runa até onde a seta começa ou para
+    double folga(String e) => _Vantagem._tamanho(e, afinidade) / 2 + 7;
+    for (final MapEntry(key: de, value: para) in venceDe.entries) {
+      final a0 = _Vantagem.angulos[de]!;
+      var a1 = _Vantagem.angulos[para]!;
+      if (a1 <= a0) a1 += 2 * pi;
+      final inicio = a0 + folga(de) / raio;
+      final fim = a1 - (folga(para) + 6) / raio;
+      final acesa = afinidade.isEmpty || de == afinidade || de == fraco;
+      final cor = Runa.corDo(de).withValues(alpha: afinidade.isEmpty ? 0.6 : (acesa ? 0.95 : 0.18));
+      final linha = Paint()
+        ..color = cor
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = afinidade.isNotEmpty && acesa ? 2.2 : 1.6
+        ..strokeCap = StrokeCap.round;
+      canvas.drawArc(arco, inicio, fim - inicio, false, linha);
+      // ponta da seta, seguindo a tangente do círculo
+      final ponta = c + Offset(cos(fim), sin(fim)) * raio;
+      final frente = Offset(-sin(fim), cos(fim));
+      final lado = Offset(cos(fim), sin(fim));
+      canvas.drawPath(
+        Path()
+          ..moveTo(ponta.dx + frente.dx * 7, ponta.dy + frente.dy * 7)
+          ..lineTo(ponta.dx - frente.dx * 2 + lado.dx * 4.5, ponta.dy - frente.dy * 2 + lado.dy * 4.5)
+          ..lineTo(ponta.dx - frente.dx * 2 - lado.dx * 4.5, ponta.dy - frente.dy * 2 - lado.dy * 4.5)
+          ..close(),
+        Paint()..color = cor,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _PintorCiclo old) => old.afinidade != afinidade;
 }
 
 class _RitualDoLivro extends StatelessWidget {
