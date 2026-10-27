@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
@@ -114,85 +115,122 @@ class _PintorSigilo extends CustomPainter {
 }
 
 /// Fundo das telas: quase preto, com um brilho da cor do tema no alto, outro
-/// da cor secundária embaixo e sigilos de Conhecimento bem apagados.
+/// da cor secundária embaixo, sigilos de Conhecimento bem apagados e o grão
+/// de papel por cima.
 class FundoCris extends StatelessWidget {
   final Widget child;
   const FundoCris({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: Cores.fundo,
-      child: Stack(children: [
-        Positioned.fill(
-          child: IgnorePointer(
-            // camada própria: o fundo não é redesenhado quando algo da tela anima
-            child: RepaintBoundary(
-              child: LayoutBuilder(builder: (context, c) {
-                final grande = c.maxWidth * 0.8 > 560 ? 560.0 : c.maxWidth * 0.8;
-                return Stack(clipBehavior: Clip.hardEdge, children: [
-                  Positioned.fill(
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: RadialGradient(
-                          center: const Alignment(0.2, -1.25),
-                          radius: 1.25,
-                          colors: [
-                            Cores.degradeTopo.withValues(alpha: 0.20),
-                            Cores.degradeTopo.withValues(alpha: 0.05),
-                            Colors.transparent,
-                          ],
-                          stops: const [0, 0.45, 1],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned.fill(
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: RadialGradient(
-                          center: const Alignment(-0.9, 1.3),
-                          radius: 1.35,
-                          colors: [
-                            Cores.degradeBase.withValues(alpha: 0.24),
-                            Cores.degradeBase.withValues(alpha: 0.06),
-                            Colors.transparent,
-                          ],
-                          stops: const [0, 0.5, 1],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: -grande * 0.34,
-                    right: -grande * 0.34,
-                    child: SigiloConhecimento(
-                        tamanho: grande,
-                        cor: Cores.destaque.withValues(alpha: 0.06),
-                        espessura: 1.2),
-                  ),
-                  Positioned(
-                    bottom: -grande * 0.38,
-                    left: -grande * 0.32,
-                    child: SigiloConhecimento(
-                        tamanho: grande * 0.9,
-                        cor: Cores.roxoClaro.withValues(alpha: 0.06),
-                        espessura: 1.2,
-                        variante: 1),
-                  ),
-                ]);
-              }),
+    return Stack(children: [
+      Positioned.fill(
+        child: IgnorePointer(
+          child: RepaintBoundary(
+            child: CustomPaint(
+              painter: _PintorFundo(
+                fundo: Cores.fundo,
+                topo: Cores.degradeTopo,
+                base: Cores.degradeBase,
+                sigiloTopo: Cores.destaque,
+                sigiloBase: Cores.roxoClaro,
+                escala: MediaQuery.devicePixelRatioOf(context),
+              ),
             ),
           ),
         ),
-        // grão de papel gasto por cima de tudo, bem de leve
-        const Positioned.fill(
-          child: IgnorePointer(child: RepaintBoundary(child: CustomPaint(painter: PintorGrao()))),
-        ),
-        child,
-      ]),
-    );
+      ),
+      child,
+    ]);
   }
+}
+
+/// Pinta o fundo de uma vez numa imagem, guardada por tamanho e paleta, e
+/// depois só a cola. Desenhado camada por camada, os degradês eram refeitos a
+/// cada quadro das transições (com a tela de trás encolhendo e a nova
+/// acendendo), e no computador a abertura de uma tela caía para uns 15
+/// quadros por segundo.
+class _PintorFundo extends CustomPainter {
+  final Color fundo, topo, base, sigiloTopo, sigiloBase;
+  final double escala;
+  _PintorFundo({
+    required this.fundo,
+    required this.topo,
+    required this.base,
+    required this.sigiloTopo,
+    required this.sigiloBase,
+    required this.escala,
+  });
+
+  // Poucas imagens bastam: o tema do app, a paleta da ficha aberta e algum
+  // tamanho de janela anterior.
+  static final _prontas = <String, ui.Image>{};
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (size.isEmpty) return;
+    final w = (size.width * escala).ceil(), h = (size.height * escala).ceil();
+    final chave = '$w $h $fundo $topo $base $sigiloTopo $sigiloBase ${Texturas.grao != null}';
+    final img = _prontas.remove(chave) ?? _desenhar(size, w, h);
+    _prontas[chave] = img;
+    while (_prontas.length > 4) {
+      _prontas.remove(_prontas.keys.first)!.dispose();
+    }
+    canvas.drawImageRect(img, Rect.fromLTWH(0, 0, w.toDouble(), h.toDouble()), Offset.zero & size,
+        Paint()..filterQuality = FilterQuality.low);
+  }
+
+  ui.Image _desenhar(Size size, int w, int h) {
+    final gravador = ui.PictureRecorder();
+    final c = Canvas(gravador)..scale(escala);
+    final area = Offset.zero & size;
+    c.drawRect(area, Paint()..color = fundo);
+    c.drawRect(
+      area,
+      Paint()
+        ..shader = RadialGradient(
+          center: const Alignment(0.2, -1.25),
+          radius: 1.25,
+          colors: [topo.withValues(alpha: 0.20), topo.withValues(alpha: 0.05), Colors.transparent],
+          stops: const [0, 0.45, 1],
+        ).createShader(area),
+    );
+    c.drawRect(
+      area,
+      Paint()
+        ..shader = RadialGradient(
+          center: const Alignment(-0.9, 1.3),
+          radius: 1.35,
+          colors: [base.withValues(alpha: 0.24), base.withValues(alpha: 0.06), Colors.transparent],
+          stops: const [0, 0.5, 1],
+        ).createShader(area),
+    );
+    final grande = min(size.width * 0.8, 560.0);
+    c.save();
+    c.translate(size.width + grande * 0.34 - grande, -grande * 0.34);
+    _PintorSigilo(sigiloTopo.withValues(alpha: 0.06), 1.2, 0).paint(c, Size.square(grande));
+    c.restore();
+    final menor = grande * 0.9;
+    c.save();
+    c.translate(-grande * 0.32, size.height + grande * 0.38 - menor);
+    _PintorSigilo(sigiloBase.withValues(alpha: 0.06), 1.2, 1).paint(c, Size.square(menor));
+    c.restore();
+    // grão de papel gasto por cima de tudo, bem de leve
+    const PintorGrao().paint(c, size);
+    final desenho = gravador.endRecording();
+    final img = desenho.toImageSync(w, h);
+    desenho.dispose();
+    return img;
+  }
+
+  @override
+  bool shouldRepaint(covariant _PintorFundo old) =>
+      old.fundo != fundo ||
+      old.topo != topo ||
+      old.base != base ||
+      old.sigiloTopo != sigiloTopo ||
+      old.sigiloBase != sigiloBase ||
+      old.escala != escala;
 }
 
 /// Transição das páginas: a tela nova sobe um pouco e acende; a de trás

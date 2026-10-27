@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -39,6 +41,12 @@ Stream<T?> semRepetir<T>(Stream<T?> s, T? inicial, Map<String, dynamic> Function
   });
 }
 
+/// Só começa a escutar [abrir] quando [sinal] chegar.
+Stream<T> _depois<T>(Future<void> sinal, Stream<T> Function() abrir) async* {
+  await sinal;
+  yield* abrir();
+}
+
 class TelaFicha extends StatefulWidget {
   final String fichaId;
   const TelaFicha({super.key, required this.fichaId});
@@ -50,12 +58,15 @@ class TelaFicha extends StatefulWidget {
 }
 
 class _TelaFichaState extends State<TelaFicha> {
-  /// No computador a ficha entra só com o topo, as barras e o fundo: as abas
-  /// e a escuta do banco começam quando a animação de abertura termina. No
-  /// Windows o banco responde na mesma linha que desenha a tela, e montar
-  /// tudo e receber o documento no meio da animação a travava por meio
-  /// segundo. No celular a abertura já é lisa e fica como estava.
+  /// No computador a ficha entra só com o topo, as barras e o fundo, e as
+  /// abas aparecem quando a animação de abertura termina: montá-las leva de
+  /// 30 a 80 ms, e no meio da animação isso virava um tranco. No celular a
+  /// abertura já é lisa e fica como estava.
   late bool _pronto = !_computador;
+  /// A escuta do banco só começa depois que as abas apareceram: no Windows o
+  /// banco responde na mesma linha que desenha a tela, e receber o documento
+  /// no meio de uma animação a travava.
+  final _escutar = Completer<void>();
   Animation<double>? _abertura;
   Stream<Ficha?>? _ficha;
   String? _campanhaDe;
@@ -68,6 +79,12 @@ class _TelaFichaState extends State<TelaFicha> {
           defaultTargetPlatform == TargetPlatform.linux);
 
   @override
+  void initState() {
+    super.initState();
+    if (_pronto) _escutar.complete();
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_pronto) return;
@@ -77,6 +94,7 @@ class _TelaFichaState extends State<TelaFicha> {
     _abertura = a;
     if (a == null) {
       _pronto = true;
+      _escutar.complete();
       return;
     }
     a.addStatusListener(_aoAbrir);
@@ -95,7 +113,12 @@ class _TelaFichaState extends State<TelaFicha> {
 
   void _liberar() {
     _abertura?.removeStatusListener(_aoAbrir);
-    if (mounted && !_pronto) setState(() => _pronto = true);
+    if (!mounted || _pronto) return;
+    setState(() => _pronto = true);
+    // um quadro para montar as abas e o esmaecer delas
+    Timer(_EntradaAbas.duracao + const Duration(milliseconds: 150), () {
+      if (!_escutar.isCompleted) _escutar.complete();
+    });
   }
 
   @override
@@ -105,18 +128,19 @@ class _TelaFichaState extends State<TelaFicha> {
   }
 
   // As escutas são criadas uma vez: criar outra a cada atualização da ficha
-  // fazia o banco desligar e religar a escuta da mesa a cada mudança.
-  Stream<Ficha?>? get _streamFicha => !_pronto
-      ? null
-      : _ficha ??= semRepetir(Repo.ficha(widget.fichaId), Repo.fichaConhecida(widget.fichaId), (f) => f.d);
+  // fazia o banco desligar e religar a escuta da mesa a cada mudança. Elas
+  // já existem desde o primeiro quadro e só ligam com o sinal, para a ficha
+  // não ser montada de novo quando a escuta começa.
+  Stream<Ficha?> get _streamFicha => _ficha ??= _depois(_escutar.future,
+      () => semRepetir(Repo.ficha(widget.fichaId), Repo.fichaConhecida(widget.fichaId), (f) => f.d));
 
-  Stream<Campanha?>? _streamCampanha(String cid) {
-    if (!_pronto) return null;
+  Stream<Campanha?> _streamCampanha(String cid) {
     if (cid != _campanhaDe) {
       _campanhaDe = cid;
-      _campanha = semRepetir(Repo.campanha(cid), Repo.campanhaConhecida(cid), (c) => c.d);
+      _campanha = _depois(_escutar.future,
+          () => semRepetir(Repo.campanha(cid), Repo.campanhaConhecida(cid), (c) => c.d));
     }
-    return _campanha;
+    return _campanha!;
   }
 
   // Enquanto o banco não responde: só o fundo e o topo (sem "carregando"
@@ -141,7 +165,7 @@ class _TelaFichaState extends State<TelaFicha> {
         if (snap.hasError) {
           tela = _aviso('Sem acesso a esta ficha.\n${snap.error}');
         } else if (f == null) {
-          tela = _aviso(!_pronto || snap.connectionState == ConnectionState.waiting ? null : 'Ficha não encontrada.');
+          tela = _aviso(snap.connectionState == ConnectionState.waiting ? null : 'Ficha não encontrada.');
         } else {
           final cid = f.campaignId;
           tela = KeyedSubtree(
@@ -171,6 +195,16 @@ class _Ficha extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       PaletaFicha(elemento: ctx.f.elementoDaFicha, child: Builder(builder: _montar));
+
+  Widget _abas() => TabBarView(children: [
+        TabAgente(ctx: ctx),
+        TabPericias(ctx: ctx),
+        TabCombate(ctx: ctx),
+        TabRituais(ctx: ctx),
+        TabInventario(ctx: ctx),
+        TabPoderes(ctx: ctx),
+        TabQuadro(ctx: ctx),
+      ]);
 
   Widget _montar(BuildContext context) {
     final f = ctx.f;
@@ -306,30 +340,56 @@ class _Ficha extends StatelessWidget {
             BarrasTopo(ctx: ctx),
             const Divider(height: 1),
             Expanded(
-              // as abas aparecem com um esmaecer curto quando a abertura
-              // termina (no celular já vêm prontas, sem animação)
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 160),
-                layoutBuilder: (atual, antigos) =>
-                    Stack(fit: StackFit.expand, children: [...antigos, if (atual != null) atual]),
-                child: !conteudo
-                    ? const SizedBox.expand()
-                    : TabBarView(key: const ValueKey('abas'), children: [
-                        TabAgente(ctx: ctx),
-                        TabPericias(ctx: ctx),
-                        TabCombate(ctx: ctx),
-                        TabRituais(ctx: ctx),
-                        TabInventario(ctx: ctx),
-                        TabPoderes(ctx: ctx),
-                        TabQuadro(ctx: ctx),
-                      ]),
-              ),
+              // no computador as abas entram depois da abertura, com um
+              // esmaecer curto (no celular já vêm prontas, sem animação)
+              child: !conteudo
+                  ? const SizedBox.expand()
+                  : _TelaFichaState._computador
+                      ? _EntradaAbas(child: _abas())
+                      : _abas(),
             ),
           ],
         ),
       ),
     );
   }
+}
+
+/// Esmaecer de entrada das abas. Ele só começa no quadro seguinte ao que
+/// monta as abas: esse é o quadro mais pesado da abertura, e com a tela
+/// parada a espera não aparece (começando junto, o esmaecer pulava a
+/// primeira metade). Antes disso as abas ficam com 1% de opacidade, que não
+/// se vê, para o primeiro desenho delas também sair nesse quadro parado.
+class _EntradaAbas extends StatefulWidget {
+  static const duracao = Duration(milliseconds: 200);
+  final Widget child;
+  const _EntradaAbas({required this.child});
+
+  @override
+  State<_EntradaAbas> createState() => _EntradaAbasState();
+}
+
+class _EntradaAbasState extends State<_EntradaAbas> with SingleTickerProviderStateMixin {
+  late final _controle = AnimationController(vsync: this, duration: _EntradaAbas.duracao);
+  late final _opacidade =
+      _controle.drive(CurveTween(curve: Curves.easeOut)).drive(Tween(begin: 0.01, end: 1.0));
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _controle.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    _controle.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => FadeTransition(opacity: _opacidade, child: widget.child);
 }
 
 /// Um recurso da ficha (PV, PE/PD ou SAN) com o que é preciso para mostrar e
