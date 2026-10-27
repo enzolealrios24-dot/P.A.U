@@ -24,6 +24,9 @@ class TemaCores {
   final Color degradeBase;
   /// Fonte dos títulos (nomes, títulos de tela e de janelas).
   final String fonteTitulo;
+  /// Cores de PV, PE, SAN e PD (e dos sucessos): nos temas de afinidade,
+  /// tons da mesma cor do tema.
+  final TonsRecursos tons;
   const TemaCores({
     required this.id,
     required this.nome,
@@ -40,6 +43,23 @@ class TemaCores {
     required this.degradeMeio,
     required this.degradeBase,
     this.fonteTitulo = 'Cinzel',
+    this.tons = const TonsRecursos(),
+  });
+}
+
+/// Cores dos recursos e dos sucessos. Sem nada, são as do app (vermelho,
+/// laranja, azul, roxo e verde).
+class TonsRecursos {
+  final Color pv, pe, san, pd, pvTemp, peTemp, pdTemp, ok;
+  const TonsRecursos({
+    this.pv = const Color(0xFFE5484D),
+    this.pe = const Color(0xFFF0A93B),
+    this.san = const Color(0xFF4C8DFF),
+    this.pd = const Color(0xFFA57BFF),
+    this.pvTemp = const Color(0xFFFF9AA0),
+    this.peTemp = const Color(0xFFFFD27A),
+    this.pdTemp = const Color(0xFFCDB4FF),
+    this.ok = const Color(0xFF3CCB85),
   });
 }
 
@@ -129,6 +149,16 @@ const temasAfinidade = <String, TemaCores>{
     degradeTopo: Color(0xFFD6A72B),
     degradeMeio: Color(0xFF2E2510),
     degradeBase: Color(0xFF7A5810),
+    tons: TonsRecursos(
+      pv: Color(0xFFC7861C),
+      pe: Color(0xFFF0C24A),
+      san: Color(0xFFF6E2A0),
+      pd: Color(0xFFE0AE3A),
+      pvTemp: Color(0xFFE6B566),
+      peTemp: Color(0xFFFFDE85),
+      pdTemp: Color(0xFFF2D38C),
+      ok: Color(0xFFFFE7A3),
+    ),
   ),
   'Energia': TemaCores(
     id: 'af-energia',
@@ -146,6 +176,16 @@ const temasAfinidade = <String, TemaCores>{
     degradeMeio: Color(0xFF2B1F4D),
     degradeBase: Color(0xFF5A2BC4),
     fonteTitulo: 'ChakraPetch',
+    tons: TonsRecursos(
+      pv: Color(0xFF7A3FE6),
+      pe: Color(0xFFAB80FF),
+      san: Color(0xFFD8C8FF),
+      pd: Color(0xFF9B5CFF),
+      pvTemp: Color(0xFFA47CF2),
+      peTemp: Color(0xFFC9AEFF),
+      pdTemp: Color(0xFFC7A8FF),
+      ok: Color(0xFFE6DCFF),
+    ),
   ),
   'Morte': TemaCores(
     id: 'af-morte',
@@ -163,6 +203,16 @@ const temasAfinidade = <String, TemaCores>{
     degradeMeio: Color(0xFF161616),
     degradeBase: Color(0xFF2E2E2E),
     fonteTitulo: 'IMFellEnglishSC',
+    tons: TonsRecursos(
+      pv: Color(0xFF77777D),
+      pe: Color(0xFFA9A9AE),
+      san: Color(0xFFD9D9DE),
+      pd: Color(0xFF8E8E94),
+      pvTemp: Color(0xFF9A9AA0),
+      peTemp: Color(0xFFC4C4C9),
+      pdTemp: Color(0xFFB4B4B9),
+      ok: Color(0xFFEDEDF0),
+    ),
   ),
   'Sangue': TemaCores(
     id: 'af-sangue',
@@ -180,6 +230,16 @@ const temasAfinidade = <String, TemaCores>{
     degradeMeio: Color(0xFF3A1219),
     degradeBase: Color(0xFF7A1029),
     fonteTitulo: 'MetalMania',
+    tons: TonsRecursos(
+      pv: Color(0xFFD3122C),
+      pe: Color(0xFFFF5C6B),
+      san: Color(0xFFFFADB5),
+      pd: Color(0xFFFF4256),
+      pvTemp: Color(0xFFF2606F),
+      peTemp: Color(0xFFFF98A2),
+      pdTemp: Color(0xFFFF8E99),
+      ok: Color(0xFFFFCDD2),
+    ),
   ),
 };
 
@@ -214,21 +274,30 @@ class Cores {
     degradeTopo = t.degradeTopo;
     degradeMeio = t.degradeMeio;
     degradeBase = t.degradeBase;
+    pv = t.tons.pv;
+    pe = t.tons.pe;
+    san = t.tons.san;
+    pd = t.tons.pd;
+    pvTemp = t.tons.pvTemp;
+    peTemp = t.tons.peTemp;
+    pdTemp = t.tons.pdTemp;
+    ok = t.tons.ok;
   }
 
   static const texto = Color(0xFFEDE9F3);
   static const textoFraco = Color(0xFF9D96AB);
   /// Linhas bem sutis (divisórias, contornos de campos).
   static const linha = Color(0x1FFFFFFF);
-  static const pv = Color(0xFFE5484D);
-  static const pe = Color(0xFFF0A93B);
-  static const san = Color(0xFF4C8DFF);
-  static const pd = Color(0xFFA57BFF);
+  // Recursos e sucessos: mudam com o tema (tons dele nas afinidades).
+  static Color pv = const TonsRecursos().pv;
+  static Color pe = const TonsRecursos().pe;
+  static Color san = const TonsRecursos().san;
+  static Color pd = const TonsRecursos().pd;
   // Pontos temporários: tons mais claros das barras de origem.
-  static const pvTemp = Color(0xFFFF9AA0);
-  static const peTemp = Color(0xFFFFD27A);
-  static const pdTemp = Color(0xFFCDB4FF);
-  static const ok = Color(0xFF3CCB85);
+  static Color pvTemp = const TonsRecursos().pvTemp;
+  static Color peTemp = const TonsRecursos().peTemp;
+  static Color pdTemp = const TonsRecursos().pdTemp;
+  static Color ok = const TonsRecursos().ok;
 
   static Color elemento(String? e) {
     switch (e) {

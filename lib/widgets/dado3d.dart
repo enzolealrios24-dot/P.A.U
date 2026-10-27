@@ -139,8 +139,8 @@ class _CoresDado {
   factory _CoresDado.de(Color destaque) {
     final hsl = HSLColor.fromColor(destaque);
     if (hsl.saturation < 0.15) {
-      // Morte: preto e cinza
-      return const _CoresDado(Color(0xFFA9A9AE), Color(0xFF242424), Color(0xFF0A0A0A), Color(0xFF0A0A0A));
+      // Morte: cinza e branco
+      return const _CoresDado(Color(0xFFF2F2F2), Color(0xFF3A3A3A), Color(0xFF0A0A0A), Color(0xFF0A0A0A));
     }
     return _CoresDado(
       hsl.withLightness((hsl.lightness * 1.05).clamp(0.0, 0.72)).toColor(),

@@ -28,11 +28,11 @@ class Runa extends StatelessWidget {
     this.espessura,
   });
 
-  /// Cor de cada elemento (Morte em cinza; Medo é neutro, quase branco).
+  /// Cor de cada elemento (Medo é neutro, quase branco).
   static Color corDo(String elemento) => switch (normalizar(elemento)) {
         'sangue' => const Color(0xFFFF3B4F),
         'energia' => const Color(0xFF9B5CFF),
-        'morte' => const Color(0xFFA9A9AE),
+        'morte' => const Color(0xFFF2F2F2),
         'medo' => const Color(0xFFE6E8EF),
         _ => const Color(0xFFD6A72B),
       };

@@ -1530,7 +1530,7 @@ Widget textoNota(String texto) {
           child: Icon(Icons.check_box_outline_blank, size: 16, color: Cores.textoFraco));
     } else if (l.toLowerCase().startsWith('[x] ')) {
       l = ' ${l.substring(4)}';
-      caixa = const WidgetSpan(
+      caixa = WidgetSpan(
           alignment: PlaceholderAlignment.middle,
           child: Icon(Icons.check_box, size: 16, color: Cores.ok));
       estilo = base.copyWith(color: Cores.textoFraco, decoration: TextDecoration.lineThrough);
@@ -1616,7 +1616,7 @@ class _CartaoFichaState extends State<_CartaoFicha> {
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(fontSize: 12, color: Cores.textoFraco)),
                       Text('PV ${f.pvAtual}/${c.pvMax}',
-                          style: const TextStyle(fontSize: 12, color: Cores.pv)),
+                          style: TextStyle(fontSize: 12, color: Cores.pv)),
                     ] else if (s.hasError)
                       const Text('Sem acesso a esta ficha.',
                           style: TextStyle(fontSize: 12, color: Cores.textoFraco)),
