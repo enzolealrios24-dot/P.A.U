@@ -25,6 +25,7 @@ import 'package:cris_ficha/widgets/common.dart';
 import 'package:cris_ficha/widgets/efeitos.dart';
 import 'package:cris_ficha/widgets/imagem.dart';
 import 'package:cris_ficha/widgets/runa.dart';
+import 'package:cris_ficha/widgets/tema_picker.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,10 @@ void main() {
 
     await _print(tester, 'runas', const Scaffold(body: SingleChildScrollView(padding: EdgeInsets.all(16), child: AmostraRunas())));
     await _print(tester, 'login', const TelaLogin());
+    escolherTema(tester.element(find.byType(TelaLogin)));
+    await _salvar(tester, 'tema_cores');
+    Navigator.of(tester.element(find.text('Tema de cores'))).pop();
+    await tester.pump(const Duration(milliseconds: 300));
     await _print(tester, 'inicio', const TelaInicio());
     await tester.tap(find.byTooltip('Mover para uma pasta').first);
     await _salvar(tester, 'pasta_mover');

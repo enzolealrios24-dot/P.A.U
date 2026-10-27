@@ -24,8 +24,7 @@ class TemaCores {
   final Color degradeBase;
   /// Fonte dos títulos (nomes, títulos de tela e de janelas).
   final String fonteTitulo;
-  /// Cores de PV, PE, SAN e PD (e dos sucessos): nos temas de afinidade,
-  /// tons da mesma cor do tema.
+  /// Cores de PV, PE, SAN e PD (e dos sucessos), em tons da cor do tema.
   final TonsRecursos tons;
   const TemaCores({
     required this.id,
@@ -47,8 +46,8 @@ class TemaCores {
   });
 }
 
-/// Cores dos recursos e dos sucessos. Sem nada, são as do app (vermelho,
-/// laranja, azul, roxo e verde).
+/// Cores dos recursos e dos sucessos. Sem nada, ficam as de antes dos
+/// temas de uma cor só (vermelho, laranja, azul, roxo e verde).
 class TonsRecursos {
   final Color pv, pe, san, pd, pvTemp, peTemp, pdTemp, ok;
   const TonsRecursos({
@@ -63,6 +62,49 @@ class TonsRecursos {
   });
 }
 
+// Tons dos recursos de cada cor, iguais no tema do app e no da afinidade.
+const tonsAmarelo = TonsRecursos(
+  pv: Color(0xFFC7861C),
+  pe: Color(0xFFF0C24A),
+  san: Color(0xFFF6E2A0),
+  pd: Color(0xFFE0AE3A),
+  pvTemp: Color(0xFFE6B566),
+  peTemp: Color(0xFFFFDE85),
+  pdTemp: Color(0xFFF2D38C),
+  ok: Color(0xFFFFE7A3),
+);
+const tonsRoxo = TonsRecursos(
+  pv: Color(0xFF7A3FE6),
+  pe: Color(0xFFAB80FF),
+  san: Color(0xFFD8C8FF),
+  pd: Color(0xFF9B5CFF),
+  pvTemp: Color(0xFFA47CF2),
+  peTemp: Color(0xFFC9AEFF),
+  pdTemp: Color(0xFFC7A8FF),
+  ok: Color(0xFFE6DCFF),
+);
+const tonsCinza = TonsRecursos(
+  pv: Color(0xFF77777D),
+  pe: Color(0xFFA9A9AE),
+  san: Color(0xFFD9D9DE),
+  pd: Color(0xFF8E8E94),
+  pvTemp: Color(0xFF9A9AA0),
+  peTemp: Color(0xFFC4C4C9),
+  pdTemp: Color(0xFFB4B4B9),
+  ok: Color(0xFFEDEDF0),
+);
+const tonsVermelho = TonsRecursos(
+  pv: Color(0xFFD3122C),
+  pe: Color(0xFFFF5C6B),
+  san: Color(0xFFFFADB5),
+  pd: Color(0xFFFF4256),
+  pvTemp: Color(0xFFF2606F),
+  peTemp: Color(0xFFFF98A2),
+  pdTemp: Color(0xFFFF8E99),
+  ok: Color(0xFFFFCDD2),
+);
+
+/// Temas do app, cada um numa cor só (Morte em cinza e preto).
 const temasCores = <TemaCores>[
   TemaCores(
     id: 'amarelo',
@@ -70,15 +112,16 @@ const temasCores = <TemaCores>[
     elemento: 'Conhecimento',
     destaque: Color(0xFFE9BC4E),
     sobreDestaque: Color(0xFF1A1407),
-    roxo: Color(0xFF8E6CF0),
-    roxoClaro: Color(0xFFBBA6FF),
-    fundo: Color(0xFF0B0A0F),
-    painel: Color(0xF00C0B10),
-    painel2: Color(0xFF18161E),
-    borda: Color(0xFF2A2532),
+    roxo: Color(0xFFA27A1F),
+    roxoClaro: Color(0xFFF3D88E),
+    fundo: Color(0xFF0C0A07),
+    painel: Color(0xF00D0B08),
+    painel2: Color(0xFF1B1710),
+    borda: Color(0xFF33291A),
     degradeTopo: Color(0xFFE9BC4E),
-    degradeMeio: Color(0xFF2A2340),
-    degradeBase: Color(0xFF6B3FD4),
+    degradeMeio: Color(0xFF2B2310),
+    degradeBase: Color(0xFF7A5A12),
+    tons: tonsAmarelo,
   ),
   TemaCores(
     id: 'roxo',
@@ -92,25 +135,27 @@ const temasCores = <TemaCores>[
     painel: Color(0xF00C0A14),
     painel2: Color(0xFF181427),
     borda: Color(0xFF2C2542),
-    degradeTopo: Color(0xFFC14BE0),
+    degradeTopo: Color(0xFF9B5CFF),
     degradeMeio: Color(0xFF2B1F4D),
-    degradeBase: Color(0xFF22C7E0),
+    degradeBase: Color(0xFF4A23B0),
+    tons: tonsRoxo,
   ),
   TemaCores(
     id: 'preto',
     nome: 'Preto',
     elemento: 'Morte',
-    destaque: Color(0xFFE7E4EC),
+    destaque: Color(0xFFB8B8BD),
     sobreDestaque: Color(0xFF0B0B0D),
-    roxo: Color(0xFF77727F),
-    roxoClaro: Color(0xFFB2ADBA),
-    fundo: Color(0xFF09090B),
-    painel: Color(0xF00B0B0D),
-    painel2: Color(0xFF17171A),
-    borda: Color(0xFF29292E),
-    degradeTopo: Color(0xFFA19DAA),
-    degradeMeio: Color(0xFF1E1E23),
-    degradeBase: Color(0xFF4A4753),
+    roxo: Color(0xFF5A5A60),
+    roxoClaro: Color(0xFF9A9AA0),
+    fundo: Color(0xFF070707),
+    painel: Color(0xF00A0A0A),
+    painel2: Color(0xFF161616),
+    borda: Color(0xFF2A2A2A),
+    degradeTopo: Color(0xFF6E6E74),
+    degradeMeio: Color(0xFF1A1A1A),
+    degradeBase: Color(0xFF2E2E2E),
+    tons: tonsCinza,
   ),
   TemaCores(
     id: 'vermelho',
@@ -127,6 +172,7 @@ const temasCores = <TemaCores>[
     degradeTopo: Color(0xFFEC4A55),
     degradeMeio: Color(0xFF3A1219),
     degradeBase: Color(0xFF7A1029),
+    tons: tonsVermelho,
   ),
 ];
 
@@ -149,16 +195,7 @@ const temasAfinidade = <String, TemaCores>{
     degradeTopo: Color(0xFFD6A72B),
     degradeMeio: Color(0xFF2E2510),
     degradeBase: Color(0xFF7A5810),
-    tons: TonsRecursos(
-      pv: Color(0xFFC7861C),
-      pe: Color(0xFFF0C24A),
-      san: Color(0xFFF6E2A0),
-      pd: Color(0xFFE0AE3A),
-      pvTemp: Color(0xFFE6B566),
-      peTemp: Color(0xFFFFDE85),
-      pdTemp: Color(0xFFF2D38C),
-      ok: Color(0xFFFFE7A3),
-    ),
+    tons: tonsAmarelo,
   ),
   'Energia': TemaCores(
     id: 'af-energia',
@@ -176,16 +213,7 @@ const temasAfinidade = <String, TemaCores>{
     degradeMeio: Color(0xFF2B1F4D),
     degradeBase: Color(0xFF5A2BC4),
     fonteTitulo: 'ChakraPetch',
-    tons: TonsRecursos(
-      pv: Color(0xFF7A3FE6),
-      pe: Color(0xFFAB80FF),
-      san: Color(0xFFD8C8FF),
-      pd: Color(0xFF9B5CFF),
-      pvTemp: Color(0xFFA47CF2),
-      peTemp: Color(0xFFC9AEFF),
-      pdTemp: Color(0xFFC7A8FF),
-      ok: Color(0xFFE6DCFF),
-    ),
+    tons: tonsRoxo,
   ),
   'Morte': TemaCores(
     id: 'af-morte',
@@ -203,16 +231,7 @@ const temasAfinidade = <String, TemaCores>{
     degradeMeio: Color(0xFF161616),
     degradeBase: Color(0xFF2E2E2E),
     fonteTitulo: 'IMFellEnglishSC',
-    tons: TonsRecursos(
-      pv: Color(0xFF77777D),
-      pe: Color(0xFFA9A9AE),
-      san: Color(0xFFD9D9DE),
-      pd: Color(0xFF8E8E94),
-      pvTemp: Color(0xFF9A9AA0),
-      peTemp: Color(0xFFC4C4C9),
-      pdTemp: Color(0xFFB4B4B9),
-      ok: Color(0xFFEDEDF0),
-    ),
+    tons: tonsCinza,
   ),
   'Sangue': TemaCores(
     id: 'af-sangue',
@@ -230,16 +249,7 @@ const temasAfinidade = <String, TemaCores>{
     degradeMeio: Color(0xFF3A1219),
     degradeBase: Color(0xFF7A1029),
     fonteTitulo: 'MetalMania',
-    tons: TonsRecursos(
-      pv: Color(0xFFD3122C),
-      pe: Color(0xFFFF5C6B),
-      san: Color(0xFFFFADB5),
-      pd: Color(0xFFFF4256),
-      pvTemp: Color(0xFFF2606F),
-      peTemp: Color(0xFFFF98A2),
-      pdTemp: Color(0xFFFF8E99),
-      ok: Color(0xFFFFCDD2),
-    ),
+    tons: tonsVermelho,
   ),
 };
 

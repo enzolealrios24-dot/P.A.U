@@ -4,13 +4,14 @@ import '../core/tema_app.dart';
 import '../core/theme.dart';
 
 const _descricao = {
-  'amarelo': 'Dourado com roxo',
-  'roxo': 'Roxo e magenta',
-  'preto': 'Grafite e prata',
-  'vermelho': 'Vermelho-sangue',
+  'amarelo': 'Tons de amarelo',
+  'roxo': 'Tons de roxo',
+  'preto': 'Tons de cinza e preto',
+  'vermelho': 'Tons de vermelho',
 };
 
-/// Amostra de um tema: o fundo com os dois brilhos e a cor de destaque.
+/// Amostra de um tema em cores sólidas: a cor de destaque com um miolo no
+/// tom mais escuro do mesmo tema.
 class AmostraTema extends StatelessWidget {
   final TemaCores t;
   final double tamanho;
@@ -20,21 +21,19 @@ class AmostraTema extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         width: tamanho,
         height: tamanho,
+        padding: EdgeInsets.all(tamanho * (escolhido ? 0.16 : 0.2)),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: t.fundo,
-          gradient: RadialGradient(
-            center: const Alignment(0.3, -0.9),
-            radius: 1.1,
-            colors: [t.degradeTopo.withValues(alpha: 0.85), t.degradeMeio, t.degradeBase],
-            stops: const [0, 0.55, 1],
-          ),
-          border: Border.all(color: escolhido ? t.destaque : t.destaque.withValues(alpha: 0.35), width: escolhido ? 3 : 1.5),
+          color: t.destaque,
+          border: escolhido ? Border.all(color: t.roxoClaro, width: 2.5) : null,
           boxShadow: escolhido
               ? [BoxShadow(color: t.destaque.withValues(alpha: 0.45), blurRadius: 14)]
               : null,
         ),
-        child: escolhido ? Icon(Icons.check, color: t.destaque, size: tamanho * 0.42) : null,
+        child: Container(
+          decoration: BoxDecoration(shape: BoxShape.circle, color: t.roxo),
+          child: escolhido ? Icon(Icons.check, color: t.roxoClaro, size: tamanho * 0.36) : null,
+        ),
       );
 }
 

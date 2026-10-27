@@ -139,8 +139,8 @@ class Gasto extends StatelessWidget {
   }
 }
 
-/// Falha de tela: de tempos em tempos a imagem se divide em ciano e magenta
-/// por um instante, como nas páginas de Energia.
+/// Falha de tela: de tempos em tempos a imagem se divide num tom claro e
+/// num escuro da cor do tema por um instante, como nas páginas de Energia.
 class Glitch extends StatefulWidget {
   final Widget child;
   /// Intervalo médio entre as falhas.
@@ -196,8 +196,8 @@ class _GlitchState extends State<Glitch> with SingleTickerProviderStateMixin {
               child: child,
             );
         return Stack(clipBehavior: Clip.none, children: [
-          Transform.translate(offset: Offset(-dx, dy), child: tinta(const Color(0xFF2EF2FF))),
-          Transform.translate(offset: Offset(dx, -dy), child: tinta(const Color(0xFFFF2BD6))),
+          Transform.translate(offset: Offset(-dx, dy), child: tinta(Cores.roxoClaro)),
+          Transform.translate(offset: Offset(dx, -dy), child: tinta(Cores.roxo)),
           Transform.translate(offset: Offset(dx * 0.3, 0), child: child),
         ]);
       },
