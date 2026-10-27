@@ -118,9 +118,40 @@ class Repo {
 
   static Stream<Ficha?> ficha(String id) => chars.doc(id).snapshots().map((s) {
         final f = s.exists && s.data() != null ? Ficha(s.id, s.data()!) : null;
-        if (f != null) _lembrarFichas([f]);
+        if (f != null) {
+          _lembrarFichas([f]);
+          _repararIds(f);
+        }
         return f;
       });
+
+  static final _idsConferidos = <String>{};
+
+  /// Itens de lista com o mesmo id: fichas antigas, de quando o id saía só
+  /// do relógio (no Windows, itens importados juntos ganhavam o mesmo id e
+  /// marcar um ritual marcava os outros). O primeiro fica com o id; cada
+  /// repetido ganha um novo. Uma vez por ficha em cada sessão.
+  static void _repararIds(Ficha f) {
+    if (!_idsConferidos.add(f.id)) return;
+    final m = <String, dynamic>{};
+    for (final campo in const ['rituais', 'poderes', 'inventario', 'habilidadesProprias']) {
+      final l = asMapList(f.d[campo]);
+      final vistos = <String>{};
+      var mudou = false;
+      for (var i = 0; i < l.length; i++) {
+        final id = asStr(l[i]['id']);
+        if (id.isEmpty || vistos.add(id)) continue;
+        var novo = novoId();
+        while (!vistos.add(novo)) {
+          novo = novoId();
+        }
+        l[i] = {...l[i], 'id': novo};
+        mudou = true;
+      }
+      if (mudou) m[campo] = l;
+    }
+    if (m.isNotEmpty) _w(chars.doc(f.id).update(m));
+  }
 
   static String criarFicha() {
     final ref = chars.doc();

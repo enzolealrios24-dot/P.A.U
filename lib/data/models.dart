@@ -1,3 +1,5 @@
+import 'dart:math';
+
 int asInt(dynamic v, [int def = 0]) {
   if (v is int) return v;
   if (v is num) return v.toInt();
@@ -22,9 +24,18 @@ List<String> asStrList(dynamic v) {
   return v.map((e) => e.toString()).toList();
 }
 
-String novoId() =>
-    DateTime.now().microsecondsSinceEpoch.toRadixString(36) +
-    (DateTime.now().hashCode & 0xfff).toRadixString(36);
+final _sorteio = Random();
+var _sequencia = 0;
+
+/// Id de item de lista (ritual, poder, item...). O relógio do Windows anda
+/// em saltos: só com a hora, itens criados juntos (numa importação) saíam
+/// com o mesmo id. A sequência e o sorteio garantem ids diferentes.
+String novoId() {
+  _sequencia = (_sequencia + 1) & 0xffff;
+  return DateTime.now().microsecondsSinceEpoch.toRadixString(36) +
+      _sequencia.toRadixString(36).padLeft(3, '0') +
+      _sorteio.nextInt(1 << 20).toRadixString(36);
+}
 
 /// Ficha de agente (documento em /characters/{id}).
 class Ficha {

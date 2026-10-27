@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/rules.dart';
@@ -38,11 +39,85 @@ Stream<T?> semRepetir<T>(Stream<T?> s, T? inicial, Map<String, dynamic> Function
   });
 }
 
-class TelaFicha extends StatelessWidget {
+class TelaFicha extends StatefulWidget {
   final String fichaId;
   const TelaFicha({super.key, required this.fichaId});
 
   static const rota = '/ficha';
+
+  @override
+  State<TelaFicha> createState() => _TelaFichaState();
+}
+
+class _TelaFichaState extends State<TelaFicha> {
+  /// No computador a ficha entra só com o topo, as barras e o fundo: as abas
+  /// e a escuta do banco começam quando a animação de abertura termina. No
+  /// Windows o banco responde na mesma linha que desenha a tela, e montar
+  /// tudo e receber o documento no meio da animação a travava por meio
+  /// segundo. No celular a abertura já é lisa e fica como estava.
+  late bool _pronto = !_computador;
+  Animation<double>? _abertura;
+  Stream<Ficha?>? _ficha;
+  String? _campanhaDe;
+  Stream<Campanha?>? _campanha;
+
+  static bool get _computador =>
+      !kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.windows ||
+          defaultTargetPlatform == TargetPlatform.macOS ||
+          defaultTargetPlatform == TargetPlatform.linux);
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_pronto) return;
+    final a = ModalRoute.of(context)?.animation;
+    if (identical(a, _abertura)) return;
+    _abertura?.removeStatusListener(_aoAbrir);
+    _abertura = a;
+    if (a == null) {
+      _pronto = true;
+      return;
+    }
+    a.addStatusListener(_aoAbrir);
+    // Aqui a rota ainda não começou a animar (aparece como concluída e só
+    // volta a zero no primeiro quadro). Depois dele: animando, espera o fim;
+    // parada, a ficha abriu sem animação e as abas entram já.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final s = _abertura?.status;
+      if (s != AnimationStatus.forward && s != AnimationStatus.reverse) _liberar();
+    });
+  }
+
+  void _aoAbrir(AnimationStatus s) {
+    if (s == AnimationStatus.completed) _liberar();
+  }
+
+  void _liberar() {
+    _abertura?.removeStatusListener(_aoAbrir);
+    if (mounted && !_pronto) setState(() => _pronto = true);
+  }
+
+  @override
+  void dispose() {
+    _abertura?.removeStatusListener(_aoAbrir);
+    super.dispose();
+  }
+
+  // As escutas são criadas uma vez: criar outra a cada atualização da ficha
+  // fazia o banco desligar e religar a escuta da mesa a cada mudança.
+  Stream<Ficha?>? get _streamFicha => !_pronto
+      ? null
+      : _ficha ??= semRepetir(Repo.ficha(widget.fichaId), Repo.fichaConhecida(widget.fichaId), (f) => f.d);
+
+  Stream<Campanha?>? _streamCampanha(String cid) {
+    if (!_pronto) return null;
+    if (cid != _campanhaDe) {
+      _campanhaDe = cid;
+      _campanha = semRepetir(Repo.campanha(cid), Repo.campanhaConhecida(cid), (c) => c.d);
+    }
+    return _campanha;
+  }
 
   // Enquanto o banco não responde: só o fundo e o topo (sem "carregando"
   // no meio da animação de entrada).
@@ -58,25 +133,25 @@ class TelaFicha extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<Ficha?>(
       // a última versão conhecida já monta a ficha no primeiro quadro
-      initialData: Repo.fichaConhecida(fichaId),
-      stream: semRepetir(Repo.ficha(fichaId), Repo.fichaConhecida(fichaId), (f) => f.d),
+      initialData: Repo.fichaConhecida(widget.fichaId),
+      stream: _streamFicha,
       builder: (context, snap) {
         final Widget tela;
         final f = snap.data;
         if (snap.hasError) {
           tela = _aviso('Sem acesso a esta ficha.\n${snap.error}');
         } else if (f == null) {
-          tela = _aviso(snap.connectionState == ConnectionState.waiting ? null : 'Ficha não encontrada.');
+          tela = _aviso(!_pronto || snap.connectionState == ConnectionState.waiting ? null : 'Ficha não encontrada.');
         } else {
           final cid = f.campaignId;
           tela = KeyedSubtree(
             key: const ValueKey('ficha'),
             child: cid == null
-                ? _Ficha(ctx: CtxFicha(f, null))
+                ? _Ficha(ctx: CtxFicha(f, null), conteudo: _pronto)
                 : StreamBuilder<Campanha?>(
                     initialData: Repo.campanhaConhecida(cid),
-                    stream: semRepetir(Repo.campanha(cid), Repo.campanhaConhecida(cid), (c) => c.d),
-                    builder: (context, cs) => _Ficha(ctx: CtxFicha(f, cs.data)),
+                    stream: _streamCampanha(cid),
+                    builder: (context, cs) => _Ficha(ctx: CtxFicha(f, cs.data), conteudo: _pronto),
                   ),
           );
         }
@@ -88,7 +163,9 @@ class TelaFicha extends StatelessWidget {
 
 class _Ficha extends StatelessWidget {
   final CtxFicha ctx;
-  const _Ficha({required this.ctx});
+  /// Com as abas. Sem elas (abrindo no computador): só o topo e as barras.
+  final bool conteudo;
+  const _Ficha({required this.ctx, this.conteudo = true});
 
   // As cores, a fonte e o dado seguem a afinidade escolhida no dossiê.
   @override
@@ -229,15 +306,24 @@ class _Ficha extends StatelessWidget {
             BarrasTopo(ctx: ctx),
             const Divider(height: 1),
             Expanded(
-              child: TabBarView(children: [
-                TabAgente(ctx: ctx),
-                TabPericias(ctx: ctx),
-                TabCombate(ctx: ctx),
-                TabRituais(ctx: ctx),
-                TabInventario(ctx: ctx),
-                TabPoderes(ctx: ctx),
-                TabQuadro(ctx: ctx),
-              ]),
+              // as abas aparecem com um esmaecer curto quando a abertura
+              // termina (no celular já vêm prontas, sem animação)
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 160),
+                layoutBuilder: (atual, antigos) =>
+                    Stack(fit: StackFit.expand, children: [...antigos, if (atual != null) atual]),
+                child: !conteudo
+                    ? const SizedBox.expand()
+                    : TabBarView(key: const ValueKey('abas'), children: [
+                        TabAgente(ctx: ctx),
+                        TabPericias(ctx: ctx),
+                        TabCombate(ctx: ctx),
+                        TabRituais(ctx: ctx),
+                        TabInventario(ctx: ctx),
+                        TabPoderes(ctx: ctx),
+                        TabQuadro(ctx: ctx),
+                      ]),
+              ),
             ),
           ],
         ),

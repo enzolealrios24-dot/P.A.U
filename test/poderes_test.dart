@@ -237,6 +237,11 @@ void main() {
     expect(ritualRapido(f, 'livro:nada/nada'), isNull);
   });
 
+  test('Ids criados de uma vez (numa importação) nunca se repetem', () {
+    final ids = [for (var i = 0; i < 5000; i++) novoId()];
+    expect(ids.toSet().length, ids.length);
+  });
+
   test('Habilidade oculta não conta na ficha', () {
     final base = {'classe': 'Combatente', 'origem': 'Policial'};
     final normal = Calc(ficha(base));

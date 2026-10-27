@@ -617,8 +617,11 @@ Widget botoesAdicionarRitual(BuildContext context, CtxFicha ctx) => _botoesAdici
 void editarRitual(BuildContext context, CtxFicha ctx, int indice) => _editarNaLista(context, ctx,
     campo: 'rituais', titulo: 'Editar ritual', campos: camposRitual, padrao: ritualPadrao, indice: indice);
 
-/// Chave de um ritual conhecido (o id; nas fichas antigas, o nome).
-String chaveRitual(Map<String, dynamic> r) => asStr(r['id'], asStr(r['nome']));
+/// Chave de um ritual conhecido (o id; nas fichas antigas, sem id, o nome).
+String chaveRitual(Map<String, dynamic> r) {
+  final id = asStr(r['id']);
+  return id.isEmpty ? asStr(r['nome']) : id;
+}
 
 /// Rituais no uso rápido da aba Combate, na ordem escolhida: a chave de um
 /// ritual conhecido ou "livro:<ref>" (e "@<elemento>" nos de elemento
