@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../core/dice.dart';
+import '../../core/acoes_ameaca.dart';
 import '../../core/rules.dart';
 import '../../core/theme.dart';
 import '../../data/catalogo.dart';
@@ -9,6 +9,7 @@ import '../../data/repo.dart';
 import '../../widgets/catalogo_picker.dart';
 import '../../widgets/common.dart';
 import '../../widgets/form_dialog.dart';
+import 'acao_ameaca.dart';
 import 'combate.dart';
 
 const camposAmeaca = [
@@ -27,6 +28,7 @@ const camposAmeaca = [
   CampoDef('iniciativaBonus', 'Iniciativa: bônus',
       tipo: TipoCampo.numero, meiaLargura: true),
   CampoDef('ataqueNome', 'Ataque: nome', meiaLargura: true),
+  CampoDef('ataqueAlcance', 'Ataque: alcance', dica: 'Corpo a corpo x2', meiaLargura: true),
   CampoDef('ataqueDano', 'Ataque: dano', dica: '2d6+3', meiaLargura: true),
   CampoDef('ataqueDados', 'Ataque: d20s',
       tipo: TipoCampo.numero, meiaLargura: true),
@@ -56,15 +58,6 @@ const ameacaPadrao = {
   'ataqueDano': '2d6',
   'ataqueCritico': '20/x2',
 };
-
-/// "3d20+10" -> (3, 10). "−2d20" (pior de 2) -> (0, 0). Texto sem dado -> (1, número).
-(int, int) _testeDoLivro(dynamic v) {
-  final s = asStr(v).replaceAll('−', '-').replaceAll(' ', '');
-  final m = RegExp(r'^(-?)(\d*)d20([+-]\d+)?').firstMatch(s);
-  if (m == null) return (1, int.tryParse(s) ?? 0);
-  final n = int.tryParse(m.group(2)!) ?? 1;
-  return (m.group(1) == '-' ? 2 - n : n, int.tryParse(m.group(3) ?? '') ?? 0);
-}
 
 String _textoAtaque(Map<String, dynamic> a) {
   final crit = asStr(a['critico']);
@@ -96,10 +89,10 @@ String _habilidadesDoLivro(Map<String, dynamic> a, {bool todosAtaques = false}) 
 
 /// Converte uma ficha de ameaça do livro para os campos da mesa.
 Map<String, dynamic> ameacaDoLivro(Map<String, dynamic> a) {
-  final ini = _testeDoLivro(a['iniciativa']);
+  final ini = testeDoLivro(a['iniciativa']);
   final ataques = asMapList(a['ataques']);
   final atk = ataques.isEmpty ? <String, dynamic>{} : ataques.first;
-  final tes = _testeDoLivro(atk['teste']);
+  final tes = testeDoLivro(atk['teste']);
   final pv = asInt(a['pv']);
   return {
     'nome': asStr(a['nome']),
@@ -113,6 +106,7 @@ Map<String, dynamic> ameacaDoLivro(Map<String, dynamic> a) {
     'iniciativaBonus': ini.$2,
     if (atk.isNotEmpty) ...{
       'ataqueNome': asStr(atk['nome']),
+      'ataqueAlcance': asStr(atk['alcance']),
       'ataqueDano': asStr(atk['dano']),
       'ataqueDados': tes.$1,
       'ataqueBonus': tes.$2,
@@ -265,28 +259,12 @@ class _CartaoAmeaca extends StatelessWidget {
       required this.d,
       required this.aoEditar});
 
-  void _atacar(BuildContext context, {required bool secreto}) {
-    final crit = Dados.critico(asStr(d['ataqueCritico'], '20/x2'));
-    final t = Dados.rolarTeste(
-      titulo: '${asStr(d['nome'])}: ${asStr(d['ataqueNome'], 'ataque')}',
-      nDados: asInt(d['ataqueDados'], 1),
-      bonus: asInt(d['ataqueBonus']),
-      margemCritico: crit.margem,
-    );
-    final dano = Dados.expressao(asStr(d['ataqueDano'], '1d6'),
-        multDados: t.critico ? crit.mult : 1);
-    final r = Rolagem(
-      titulo: t.titulo,
-      detalhe: t.detalhe,
-      total: t.total,
-      critico: t.critico,
-      falhaCritica: t.falhaCritica,
-      danoTotal: dano.total,
-      danoDetalhe: dano.detalhe,
-    );
-    mostrarRolagem(context, r);
-    Repo.registrarRolagem(camp.id, r,
-        personagem: asStr(d['nome']), secreta: secreto);
+  /// Usa a ação fora do combate (sem alvo): a rolagem é secreta e o
+  /// resultado abre numa janela, com os dados por cima.
+  void _usar(BuildContext context, AcaoAmeaca a) {
+    final uso = usarAcao(camp: camp, ameacaId: id, ameaca: d, acao: a, secreto: true);
+    mostrarUso(context, uso, camp, d);
+    mostrarDadosDoUso(context, uso);
   }
 
   @override
@@ -344,24 +322,15 @@ class _CartaoAmeaca extends StatelessWidget {
             'presencaPerturbadora',
             'resistencias',
             'pericias',
-            'habilidades',
           ])
             if (asStr(d[k]).isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 6),
                 child: Text(asStr(d[k]), style: const TextStyle(fontSize: 13)),
               ),
-          const SizedBox(height: 8),
+          AcoesDaAmeaca(acoes: acoesDaAmeaca(d), cor: corDaAmeaca(d), aoUsar: (a) => _usar(context, a)),
+          const SizedBox(height: 10),
           Wrap(spacing: 6, runSpacing: 6, children: [
-            FilledButton.tonal(
-              onPressed: () => _atacar(context, secreto: true),
-              child: Text(
-                  '${asStr(d['ataqueNome'], 'Atacar')} (secreto)'),
-            ),
-            OutlinedButton(
-              onPressed: () => _atacar(context, secreto: false),
-              child: const Text('Atacar na mesa'),
-            ),
             for (final cd in asStrList(d['condicoes']))
               Chip(
                   label: Text(cd, style: const TextStyle(fontSize: 11)),

@@ -224,43 +224,6 @@ class _PintorListras extends CustomPainter {
   bool shouldRepaint(covariant _PintorListras old) => old.cor != cor;
 }
 
-/// Recorte com os cantos de cima à direita e de baixo à esquerda cortados.
-class _Corte extends ShapeBorder {
-  final double corte;
-  final Color? cor;
-  const _Corte({this.corte = 16, this.cor});
-
-  Path _caminho(Rect r) => Path()
-    ..moveTo(r.left, r.top)
-    ..lineTo(r.right - corte, r.top)
-    ..lineTo(r.right, r.top + corte)
-    ..lineTo(r.right, r.bottom)
-    ..lineTo(r.left + corte, r.bottom)
-    ..lineTo(r.left, r.bottom - corte)
-    ..close();
-
-  @override
-  EdgeInsetsGeometry get dimensions => EdgeInsets.zero;
-  @override
-  Path getInnerPath(Rect rect, {TextDirection? textDirection}) => _caminho(rect);
-  @override
-  Path getOuterPath(Rect rect, {TextDirection? textDirection}) => _caminho(rect);
-  @override
-  void paint(Canvas canvas, Rect rect, {TextDirection? textDirection}) {
-    final c = cor;
-    if (c == null) return;
-    canvas.drawPath(
-        _caminho(rect.deflate(0.5)),
-        Paint()
-          ..color = c
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1);
-  }
-
-  @override
-  ShapeBorder scale(double t) => _Corte(corte: corte * t, cor: cor);
-}
-
 class _PainelCortado extends StatelessWidget {
   final String titulo;
   final Widget child;
@@ -270,7 +233,7 @@ class _PainelCortado extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Material(
         color: Cores.painel,
-        shape: _Corte(cor: Cores.destaque.withValues(alpha: 0.45)),
+        shape: CorteCantos(cor: Cores.destaque.withValues(alpha: 0.45)),
         clipBehavior: Clip.antiAlias,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(14, 12, 14, 14),
@@ -299,7 +262,7 @@ class _Indicador extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Material(
         color: Cores.destaque.withValues(alpha: 0.08),
-        shape: _Corte(corte: 10, cor: Cores.destaque.withValues(alpha: 0.5)),
+        shape: CorteCantos(corte: 10, cor: Cores.destaque.withValues(alpha: 0.5)),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: aoTocar,
@@ -323,7 +286,7 @@ class _BotaoTeste extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Material(
         color: Colors.black.withValues(alpha: 0.3),
-        shape: _Corte(corte: 8, cor: Cores.borda),
+        shape: CorteCantos(corte: 8, cor: Cores.borda),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: aoTocar,
@@ -348,7 +311,7 @@ class _Arma extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Material(
         color: Colors.black.withValues(alpha: 0.3),
-        shape: _Corte(corte: 12, cor: Cores.borda),
+        shape: CorteCantos(corte: 12, cor: Cores.borda),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: aoEditar,
@@ -546,7 +509,7 @@ class _RituaisRapidos extends StatelessWidget {
       if (escolhidos.isNotEmpty) const SizedBox(height: 8),
       Material(
         color: Colors.black.withValues(alpha: 0.18),
-        shape: _Corte(corte: 12, cor: Cores.borda),
+        shape: CorteCantos(corte: 12, cor: Cores.borda),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: () => _escolherRituaisRapidos(context, ctx),
@@ -591,7 +554,7 @@ class _RitualRapido extends StatelessWidget {
     ];
     return Material(
       color: cor.withValues(alpha: 0.07),
-      shape: _Corte(corte: 12, cor: cor.withValues(alpha: 0.45)),
+      shape: CorteCantos(corte: 12, cor: cor.withValues(alpha: 0.45)),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () => _verRitual(context, r),
@@ -672,7 +635,7 @@ class _BotaoForma extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Material(
         color: cheio ? cor.withValues(alpha: 0.22) : Colors.black.withValues(alpha: 0.3),
-        shape: _Corte(corte: 7, cor: cor.withValues(alpha: cheio ? 0.8 : 0.45)),
+        shape: CorteCantos(corte: 7, cor: cor.withValues(alpha: cheio ? 0.8 : 0.45)),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: aoTocar,
@@ -837,7 +800,7 @@ class _ChipRd extends StatelessWidget {
     final tem = valor != 0;
     return Material(
       color: Colors.black.withValues(alpha: 0.3),
-      shape: _Corte(corte: 8, cor: tem ? cor.withValues(alpha: 0.55) : Cores.borda),
+      shape: CorteCantos(corte: 8, cor: tem ? cor.withValues(alpha: 0.55) : Cores.borda),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: aoTocar,
@@ -868,7 +831,7 @@ class _BotaoRd extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Material(
         color: cor.withValues(alpha: 0.12),
-        shape: _Corte(corte: 8, cor: cor.withValues(alpha: 0.45)),
+        shape: CorteCantos(corte: 8, cor: cor.withValues(alpha: 0.45)),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: aoTocar,
@@ -973,6 +936,22 @@ Future<void> _editarRd(BuildContext context, CtxFicha ctx, TipoDano t) => showMo
 /// Último tipo escolhido ao sofrer dano (a próxima janela abre nele).
 String _ultimoTipoDano = 'corte';
 
+/// Tira da ficha o dano já reduzido pela RD: PV, gastando antes os
+/// temporários, ou, se for mental, SAN (PD na regra de determinação).
+void tirarDano(Ficha f, Calc c, int sofrido, {bool mental = false}) {
+  if (sofrido <= 0) return;
+  if (mental && !c.determinacao) {
+    Repo.mudarRecursos(f, {'sanAtual': max(0, f.sanAtual - sofrido)});
+    return;
+  }
+  // o valor alvo faz mudarPontos gastar os temporários antes e parar em
+  // zero (não existem PV negativos)
+  final campo = mental ? 'pdAtual' : 'pvAtual';
+  final atual = mental ? f.pdAtual : f.pvAtual;
+  final temp = mental ? f.peTemp : f.pvTemp;
+  Repo.mudarPontos(f, campo, atual - min(sofrido, atual + temp));
+}
+
 /// Sofrer dano: valor, tipo e metade por teste de resistência. A metade vem
 /// antes da RD, como no livro; perda de vida ignora RD; dano mental sai da
 /// SAN (ou dos PD). Os pontos temporários são gastos primeiro.
@@ -1016,16 +995,7 @@ class _SofrerDanoState extends State<_SofrerDano> {
 
     void aplicar() {
       _ultimoTipoDano = _tipo;
-      if (sofrido > 0) {
-        if (mental && !c.determinacao) {
-          Repo.mudarRecursos(f, {'sanAtual': depois});
-        } else {
-          // o valor alvo faz mudarPontos gastar os temporários antes e
-          // parar em zero (não existem PV negativos)
-          final campo = mental ? 'pdAtual' : 'pvAtual';
-          Repo.mudarPontos(f, campo, atual - min(sofrido, atual + temp));
-        }
-      }
+      tirarDano(f, c, sofrido, mental: mental);
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(sofrido > 0
@@ -1097,7 +1067,7 @@ class _SofrerDanoState extends State<_SofrerDano> {
             const SizedBox(height: 14),
             Material(
               color: corRecurso.withValues(alpha: 0.1),
-              shape: _Corte(corte: 10, cor: corRecurso.withValues(alpha: 0.5)),
+              shape: CorteCantos(corte: 10, cor: corRecurso.withValues(alpha: 0.5)),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(14, 10, 14, 12),
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -1224,7 +1194,7 @@ class _Reacao extends StatelessWidget {
     final cor = ativo ? Cores.destaque : Cores.textoFraco;
     return Material(
       color: ativo ? Cores.destaque.withValues(alpha: 0.08) : Colors.black.withValues(alpha: 0.3),
-      shape: _Corte(corte: 10, cor: ativo ? Cores.destaque.withValues(alpha: 0.5) : Cores.borda),
+      shape: CorteCantos(corte: 10, cor: ativo ? Cores.destaque.withValues(alpha: 0.5) : Cores.borda),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: aoTocar,

@@ -660,3 +660,40 @@ class _FaixaRolavelState extends State<FaixaRolavel> {
     );
   }
 }
+
+/// Recorte com os cantos de cima à direita e de baixo à esquerda cortados.
+class CorteCantos extends ShapeBorder {
+  final double corte;
+  final Color? cor;
+  const CorteCantos({this.corte = 16, this.cor});
+
+  Path _caminho(Rect r) => Path()
+    ..moveTo(r.left, r.top)
+    ..lineTo(r.right - corte, r.top)
+    ..lineTo(r.right, r.top + corte)
+    ..lineTo(r.right, r.bottom)
+    ..lineTo(r.left + corte, r.bottom)
+    ..lineTo(r.left, r.bottom - corte)
+    ..close();
+
+  @override
+  EdgeInsetsGeometry get dimensions => EdgeInsets.zero;
+  @override
+  Path getInnerPath(Rect rect, {TextDirection? textDirection}) => _caminho(rect);
+  @override
+  Path getOuterPath(Rect rect, {TextDirection? textDirection}) => _caminho(rect);
+  @override
+  void paint(Canvas canvas, Rect rect, {TextDirection? textDirection}) {
+    final c = cor;
+    if (c == null) return;
+    canvas.drawPath(
+        _caminho(rect.deflate(0.5)),
+        Paint()
+          ..color = c
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1);
+  }
+
+  @override
+  ShapeBorder scale(double t) => CorteCantos(corte: corte * t, cor: cor);
+}

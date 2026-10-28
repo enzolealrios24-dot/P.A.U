@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import '../core/theme.dart';
 import '../data/cris_import.dart';
 import '../widgets/importar_cris.dart';
-import '../widgets/tema_picker.dart';
 import '../widgets/logo.dart';
 
 class TelaLogin extends StatefulWidget {
@@ -239,8 +238,6 @@ class _TelaLoginState extends State<TelaLogin> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 22),
-                const AmostrasTema(),
               ],
             ),
           ),

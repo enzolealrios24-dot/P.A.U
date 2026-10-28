@@ -11,7 +11,6 @@ import '../widgets/imagem.dart';
 import '../widgets/importar_cris.dart';
 import '../widgets/logo.dart';
 import '../widgets/sigilos.dart';
-import '../widgets/tema_picker.dart';
 import 'campaign/campaign_screen.dart';
 import 'pastas.dart';
 import 'sheet/sheet_screen.dart';
@@ -52,8 +51,6 @@ class _TelaInicioState extends State<TelaInicio> {
             onSelected: (v) async {
               if (v == 'sair') {
                 await FirebaseAuth.instance.signOut();
-              } else if (v == 'tema') {
-                await escolherTema(context);
               } else if (v == 'cris') {
                 await abrirImportarCris(context, logado: true);
               } else if (v == 'nome') {
@@ -72,7 +69,6 @@ class _TelaInicioState extends State<TelaInicio> {
                   child: Text(Repo.nomeUsuario,
                       style: const TextStyle(fontWeight: FontWeight.bold))),
               const PopupMenuItem(value: 'nome', child: Text('Mudar meu nome')),
-              const PopupMenuItem(value: 'tema', child: Text('Tema de cores')),
               const PopupMenuItem(
                   value: 'cris', child: Text('Importar do site do CRIS')),
               const PopupMenuItem(value: 'sair', child: Text('Sair da conta')),

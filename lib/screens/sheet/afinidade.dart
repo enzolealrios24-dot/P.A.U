@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../core/tema_app.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/repo.dart';
@@ -72,7 +71,7 @@ class SecaoAfinidade extends StatelessWidget {
         const SizedBox(height: 8),
         _Opcao(
           selecionada: atual.isEmpty,
-          cor: TemaApp.tema.destaque,
+          cor: temaApp.destaque,
           aoTocar: () => Repo.set(f.id, 'elementoVisual', semAfinidadeVisual),
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             const SigiloElemental(elemento: '', tamanho: 36, opacidade: 0.7),
@@ -81,10 +80,10 @@ class SecaoAfinidade extends StatelessWidget {
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
                 Text('Sem afinidade',
                     style: TextStyle(
-                        fontFamily: TemaApp.tema.fonteTitulo,
+                        fontFamily: temaApp.fonteTitulo,
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
-                        color: atual.isEmpty ? TemaApp.tema.destaque : Cores.texto)),
+                        color: atual.isEmpty ? temaApp.destaque : Cores.texto)),
                 const Text('Fica com o tema do app', style: TextStyle(fontSize: 12, color: Cores.textoFraco)),
               ]),
             ),

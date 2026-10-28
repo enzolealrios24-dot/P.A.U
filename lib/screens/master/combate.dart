@@ -1,21 +1,51 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
+import '../../core/acoes_ameaca.dart';
 import '../../core/dice.dart';
 import '../../core/rules.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/repo.dart';
 import '../../widgets/common.dart';
+import '../../widgets/imagem.dart';
 import '../campaign/campaign_screen.dart';
 import '../sheet/tab_agente.dart';
+import 'acao_ameaca.dart';
 
-/// Rastreador de iniciativa, turnos e condicoes (mestre).
-class AbaCombate extends StatelessWidget {
+/// Combate do mestre, em duas partes: Combate (iniciativa, turnos e o
+/// espaço do alvo, com os agentes em arco e a ameaça que age embaixo) e
+/// Ação (os ataques e habilidades dessa ameaça contra o alvo). No
+/// computador ficam lado a lado; no celular, em duas abas.
+class AbaCombate extends StatefulWidget {
   final Campanha camp;
   const AbaCombate({super.key, required this.camp});
 
+  @override
+  State<AbaCombate> createState() => _AbaCombateState();
+}
+
+class _AbaCombateState extends State<AbaCombate> {
+  /// Ficha escolhida como alvo.
+  String? _alvo;
+  /// Ameaça (entrada da ordem) escolhida para agir fora da vez dela, e o
+  /// turno em que foi escolhida: passando o turno, volta a agir a da vez.
+  String? _atuante;
+  int? _atuanteNoTurno;
+  UsoAcao? _uso;
+  bool _secreto = true;
+  final _rolagemAcao = ScrollController();
+
+  Campanha get camp => widget.camp;
   Map<String, dynamic> get _cb => camp.combate;
   List<Map<String, dynamic>> get _ordem => asMapList(_cb['ordem']);
+
+  @override
+  void dispose() {
+    _rolagemAcao.dispose();
+    super.dispose();
+  }
 
   void _salvar(Map<String, dynamic> cb) => Repo.setCamp(camp.id, {'combate': cb});
 
@@ -33,7 +63,7 @@ class AbaCombate extends StatelessWidget {
     });
   }
 
-  void _rolarAgentes(BuildContext context, List<Ficha> fichas) {
+  void _rolarAgentes(List<Ficha> fichas) {
     final ordem = _ordem.where((e) => asStr(e['tipo']) != 'agente').toList();
     for (final f in fichas) {
       final c = Calc(f, camp.regras);
@@ -113,6 +143,15 @@ class AbaCombate extends StatelessWidget {
     _salvar({..._cb, 'turno': turno, 'rodada': rodada});
   }
 
+  void _usar(AcaoAmeaca a, String ameacaId, Map<String, dynamic> ameaca, Ficha? alvo) {
+    final uso = usarAcao(camp: camp, ameacaId: ameacaId, ameaca: ameaca, acao: a, alvo: alvo, secreto: _secreto);
+    setState(() => _uso = uso);
+    mostrarDadosDoUso(context, uso);
+    if (_rolagemAcao.hasClients) {
+      _rolagemAcao.animateTo(0, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Ficha>>(
@@ -140,92 +179,480 @@ class AbaCombate extends StatelessWidget {
             final ordem = _ordem;
             final turno = asInt(_cb['turno']);
             final ativo = asBool(_cb['ativo']);
-            return ListView(padding: const EdgeInsets.all(12), children: [
-              Wrap(spacing: 8, runSpacing: 8, children: [
-                FilledButton.icon(
-                  onPressed: fichas.isEmpty
-                      ? null
-                      : () => _rolarAgentes(context, fichas),
-                  icon: const Icon(Icons.casino_outlined),
-                  label: const Text('Rolar iniciativa dos agentes'),
-                ),
-                OutlinedButton.icon(
-                  onPressed: () => _addAmeaca(context),
-                  icon: const Icon(Icons.add),
-                  label: const Text('Adicionar ameaça'),
-                ),
-                OutlinedButton.icon(
-                  onPressed: () async {
-                    if (await confirmar(context, 'Encerrar o combate?')) {
-                      _salvar({
-                        'ativo': false,
-                        'rodada': 1,
-                        'turno': 0,
-                        'ordem': <dynamic>[]
-                      });
-                    }
-                  },
-                  icon: const Icon(Icons.stop_circle_outlined),
-                  label: const Text('Encerrar'),
-                ),
-              ]),
-              const SizedBox(height: 12),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  child: Row(children: [
-                    IconButton(
-                        onPressed: () => _proximo(-1),
-                        icon: const Icon(Icons.skip_previous)),
-                    Expanded(
-                      child: Text(
-                        ativo
-                            ? 'RODADA ${asInt(_cb['rodada'], 1)}${ordem.isNotEmpty ? ' • vez de ${asStr(ordem[turno.clamp(0, ordem.length - 1)]['nome'])}' : ''}'
-                            : 'Sem combate ativo',
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontWeight: FontWeight.w800),
-                      ),
-                    ),
-                    FilledButton(
-                        onPressed: () => _proximo(1),
-                        child: const Text('Próximo turno')),
-                  ]),
-                ),
-              ),
-              if (ordem.isEmpty)
-                const Padding(
-                  padding: EdgeInsets.all(24),
-                  child: Text(
-                      'Role a iniciativa dos agentes e adicione as ameaças para começar.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(color: Cores.textoFraco)),
-                ),
-              for (var i = 0; i < ordem.length; i++)
-                _LinhaIniciativa(
-                  entrada: ordem[i],
-                  vez: i == turno && ativo,
-                  ficha: porId[asStr(ordem[i]['ref'])],
-                  ameaca: ameacas[asStr(ordem[i]['ref'])],
-                  camp: camp,
-                  aoMudarValor: (v) {
-                    final o = _ordem;
-                    o[i] = {...o[i], 'valor': v};
-                    _salvarOrdem(o);
-                  },
-                  aoOcultar: () {
-                    final o = _ordem;
-                    o[i] = {...o[i], 'oculto': !asBool(o[i]['oculto'])};
-                    _salvarOrdem(o);
-                  },
-                  aoRemover: () {
-                    final o = _ordem..removeAt(i);
-                    _salvarOrdem(o, turno: turno > i ? turno - 1 : turno);
-                  },
-                ),
-            ]);
+            final vez = ativo && ordem.isNotEmpty ? ordem[turno.clamp(0, ordem.length - 1)] : null;
+
+            // agentes do combate (ou da mesa, antes da iniciativa)
+            final vistos = <String>{};
+            final agentes = <Ficha>[
+              for (final e in ordem)
+                if (asStr(e['tipo']) == 'agente')
+                  if (porId[asStr(e['ref'])] case final f? when vistos.add(f.id)) f,
+            ];
+            if (agentes.isEmpty) agentes.addAll(fichas.where((f) => f.transformacaoDe == null));
+            final alvo = agentes.where((f) => f.id == _alvo).firstOrNull;
+
+            // a ameaça que age: a da vez, ou a escolhida neste turno
+            final entradas = [
+              for (final e in ordem)
+                if (asStr(e['tipo']) == 'ameaca' && ameacas.containsKey(asStr(e['ref']))) e,
+            ];
+            final daVez = vez != null && entradas.contains(vez) ? vez : null;
+            final escolhida = _atuanteNoTurno == turno || daVez == null
+                ? entradas.where((e) => asStr(e['id']) == _atuante).firstOrNull
+                : null;
+            final atuante = escolhida ?? daVez ?? entradas.firstOrNull;
+            final atuanteId = atuante == null ? null : asStr(atuante['ref']);
+            final ameaca = atuanteId == null ? null : ameacas[atuanteId];
+            final cor = ameaca == null ? Cores.destaque : corDaAmeaca(ameaca);
+
+            final combate = _painelCombate(context,
+                fichas: fichas,
+                porId: porId,
+                ameacas: ameacas,
+                agentes: agentes,
+                alvo: alvo,
+                entradas: entradas,
+                atuante: atuante,
+                vez: vez,
+                cor: cor);
+            final acao = _painelAcao(context,
+                fichas: fichas, porId: porId, ameacas: ameacas, alvo: alvo, ameacaId: atuanteId, ameaca: ameaca, cor: cor);
+
+            return LayoutBuilder(builder: (context, c) {
+              if (c.maxWidth >= 980) {
+                return Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                  Expanded(flex: 6, child: combate),
+                  const VerticalDivider(width: 1),
+                  Expanded(flex: 5, child: acao),
+                ]);
+              }
+              return DefaultTabController(
+                length: 2,
+                child: Column(children: [
+                  const TabBar(tabs: [Tab(text: 'COMBATE'), Tab(text: 'AÇÃO')]),
+                  Expanded(child: TabBarView(children: [combate, acao])),
+                ]),
+              );
+            });
           },
         );
       },
+    );
+  }
+
+  Widget _titulo(String texto, {String? dica}) => Padding(
+        padding: const EdgeInsets.only(top: 18, bottom: 8),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+          Text(texto, style: estiloRotulo(12.5, cor: Cores.textoFraco, peso: FontWeight.w600, espaco: 1.6)),
+          if (dica != null) ...[
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(dica,
+                  overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 12, color: Cores.textoFraco)),
+            ),
+          ],
+        ]),
+      );
+
+  Widget _painelCombate(
+    BuildContext context, {
+    required List<Ficha> fichas,
+    required Map<String, Ficha> porId,
+    required Map<String, Map<String, dynamic>> ameacas,
+    required List<Ficha> agentes,
+    required Ficha? alvo,
+    required List<Map<String, dynamic>> entradas,
+    required Map<String, dynamic>? atuante,
+    required Map<String, dynamic>? vez,
+    required Color cor,
+  }) {
+    final ordem = _ordem;
+    final turno = asInt(_cb['turno']);
+    final ativo = asBool(_cb['ativo']);
+    final a = atuante == null ? null : ameacas[asStr(atuante['ref'])];
+    return ListView(padding: const EdgeInsets.all(12), children: [
+      Wrap(spacing: 8, runSpacing: 8, children: [
+        FilledButton.icon(
+          onPressed: fichas.isEmpty ? null : () => _rolarAgentes(fichas),
+          icon: const Icon(Icons.casino_outlined),
+          label: const Text('Rolar iniciativa dos agentes'),
+        ),
+        OutlinedButton.icon(
+          onPressed: () => _addAmeaca(context),
+          icon: const Icon(Icons.add),
+          label: const Text('Adicionar ameaça'),
+        ),
+        OutlinedButton.icon(
+          onPressed: () async {
+            if (await confirmar(context, 'Encerrar o combate?')) {
+              _salvar({'ativo': false, 'rodada': 1, 'turno': 0, 'ordem': <dynamic>[]});
+              setState(() {
+                _alvo = null;
+                _atuante = null;
+                _uso = null;
+              });
+            }
+          },
+          icon: const Icon(Icons.stop_circle_outlined),
+          label: const Text('Encerrar'),
+        ),
+      ]),
+      const SizedBox(height: 12),
+      Card(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          child: Row(children: [
+            IconButton(onPressed: () => _proximo(-1), icon: const Icon(Icons.skip_previous)),
+            Expanded(
+              child: Text(
+                ativo
+                    ? 'RODADA ${asInt(_cb['rodada'], 1)}${vez != null ? ' • vez de ${asStr(vez['nome'])}' : ''}'
+                    : 'Sem combate ativo',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.w800),
+              ),
+            ),
+            FilledButton(onPressed: () => _proximo(1), child: const Text('Próximo turno')),
+          ]),
+        ),
+      ),
+      if (ordem.isNotEmpty) ...[
+        _titulo('ALVO', dica: alvo == null ? 'Toque num agente para mirar nele.' : 'Mirando em ${alvo.nome}.'),
+        Material(
+          color: Colors.black.withValues(alpha: 0.18),
+          shape: CorteCantos(corte: 18, cor: cor.withValues(alpha: 0.35)),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(12, 12, 12, 16),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+              Text('AGENTES',
+                  textAlign: TextAlign.center,
+                  style: estiloRotulo(12, cor: Cores.textoFraco, peso: FontWeight.w600, espaco: 2)),
+              const SizedBox(height: 8),
+              _ArcoAgentes(
+                agentes: agentes,
+                regras: camp.regras,
+                alvo: alvo?.id,
+                cor: cor,
+                aoEscolher: (id) => setState(() => _alvo = _alvo == id ? null : id),
+              ),
+              const SizedBox(height: 14),
+              Text('AMEAÇA',
+                  textAlign: TextAlign.center,
+                  style: estiloRotulo(12, cor: Cores.textoFraco, peso: FontWeight.w600, espaco: 2)),
+              const SizedBox(height: 8),
+              if (entradas.length > 1) ...[
+                Wrap(alignment: WrapAlignment.center, spacing: 6, runSpacing: 6, children: [
+                  for (final e in entradas)
+                    ChoiceChip(
+                      label: Text(asStr(e['nome'])),
+                      selected: identical(e, atuante),
+                      onSelected: (_) => setState(() {
+                        _atuante = asStr(e['id']);
+                        _atuanteNoTurno = turno;
+                      }),
+                    ),
+                ]),
+                const SizedBox(height: 10),
+              ],
+              if (a != null)
+                Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 440),
+                    child: _CartaoAtuante(
+                      camp: camp,
+                      id: asStr(atuante!['ref']),
+                      d: a,
+                      naVez: identical(atuante, vez),
+                      cor: cor,
+                    ),
+                  ),
+                )
+              else
+                const Text('Adicione uma ameaça ao combate para ela agir contra o alvo.',
+                    textAlign: TextAlign.center, style: TextStyle(color: Cores.textoFraco, fontSize: 13)),
+            ]),
+          ),
+        ),
+      ],
+      _titulo('ORDEM DE INICIATIVA'),
+      if (ordem.isEmpty)
+        const Padding(
+          padding: EdgeInsets.all(24),
+          child: Text('Role a iniciativa dos agentes e adicione as ameaças para começar.',
+              textAlign: TextAlign.center, style: TextStyle(color: Cores.textoFraco)),
+        ),
+      for (var i = 0; i < ordem.length; i++)
+        _LinhaIniciativa(
+          entrada: ordem[i],
+          vez: i == turno && ativo,
+          ficha: porId[asStr(ordem[i]['ref'])],
+          ameaca: ameacas[asStr(ordem[i]['ref'])],
+          camp: camp,
+          aoMudarValor: (v) {
+            final o = _ordem;
+            o[i] = {...o[i], 'valor': v};
+            _salvarOrdem(o);
+          },
+          aoOcultar: () {
+            final o = _ordem;
+            o[i] = {...o[i], 'oculto': !asBool(o[i]['oculto'])};
+            _salvarOrdem(o);
+          },
+          aoRemover: () {
+            final o = _ordem..removeAt(i);
+            _salvarOrdem(o, turno: turno > i ? turno - 1 : turno);
+          },
+        ),
+    ]);
+  }
+
+  Widget _painelAcao(
+    BuildContext context, {
+    required List<Ficha> fichas,
+    required Map<String, Ficha> porId,
+    required Map<String, Map<String, dynamic>> ameacas,
+    required Ficha? alvo,
+    required String? ameacaId,
+    required Map<String, dynamic>? ameaca,
+    required Color cor,
+  }) {
+    final uso = _uso;
+    final nome = ameaca == null ? '' : asStr(ameaca['nome'], 'Ameaça');
+    return ListView(controller: _rolagemAcao, padding: const EdgeInsets.all(12), children: [
+      Row(children: [
+        Expanded(child: Text('AÇÃO', style: estiloTitulo(20, cor: corDeTexto(cor)))),
+        const Text('Secreta', style: TextStyle(fontSize: 13, color: Cores.textoFraco)),
+        Tooltip(
+          message: 'Rolagens secretas ficam só no registro do mestre',
+          child: Switch(value: _secreto, onChanged: (v) => setState(() => _secreto = v)),
+        ),
+      ]),
+      Text(
+        ameaca == null
+            ? 'Nenhuma ameaça no combate. Adicione uma em Combate.'
+            : alvo == null
+                ? '$nome age. Escolha o alvo entre os agentes em Combate.'
+                : '$nome age contra ${alvo.nome} (Defesa ${Calc(alvo, camp.regras).defesa}).',
+        style: const TextStyle(fontSize: 13.5, color: Cores.textoFraco),
+      ),
+      if (uso != null && uso.ameacaId == ameacaId) ...[
+        const SizedBox(height: 12),
+        CartaoUso(
+          key: ObjectKey(uso),
+          uso: uso,
+          camp: camp,
+          alvo: uso.alvoId == null ? null : porId[uso.alvoId],
+          ameaca: ameacas[uso.ameacaId],
+          aoFechar: () => setState(() => _uso = null),
+        ),
+      ],
+      if (ameaca != null && ameacaId != null)
+        AcoesDaAmeaca(
+          acoes: acoesDaAmeaca(ameaca),
+          cor: cor,
+          aoUsar: (a) => _usar(a, ameacaId, ameaca, alvo),
+        ),
+    ]);
+  }
+}
+
+/// Os agentes em arco, como em volta de uma mesa: as pontas mais baixas e
+/// inclinadas. Tocar escolhe o alvo (tocar de novo desfaz).
+class _ArcoAgentes extends StatelessWidget {
+  final List<Ficha> agentes;
+  final Map<String, dynamic> regras;
+  final String? alvo;
+  final Color cor;
+  final ValueChanged<String> aoEscolher;
+  const _ArcoAgentes(
+      {required this.agentes, required this.regras, required this.alvo, required this.cor, required this.aoEscolher});
+
+  @override
+  Widget build(BuildContext context) {
+    if (agentes.isEmpty) {
+      return const Text('Nenhum agente na mesa.',
+          textAlign: TextAlign.center, style: TextStyle(color: Cores.textoFraco, fontSize: 13));
+    }
+    Widget cartao(Ficha f) => _CartaoAlvo(
+          f: f,
+          c: Calc(f, regras),
+          escolhido: f.id == alvo,
+          cor: cor,
+          aoTocar: () => aoEscolher(f.id),
+        );
+    return LayoutBuilder(builder: (context, c) {
+      const espaco = 12.0, alto = 118.0;
+      final n = agentes.length;
+      final largura = min(176.0, (c.maxWidth - espaco * (n - 1)) / n);
+      if (largura < 118) {
+        return Wrap(alignment: WrapAlignment.center, spacing: 10, runSpacing: 10, children: [
+          for (final f in agentes) SizedBox(width: 150, height: alto, child: cartao(f)),
+        ]);
+      }
+      final queda = n <= 1 ? 0.0 : (n == 2 ? 12.0 : 30.0);
+      final inicio = (c.maxWidth - (largura * n + espaco * (n - 1))) / 2;
+      return SizedBox(
+        height: alto + queda + 10,
+        child: Stack(clipBehavior: Clip.none, children: [
+          for (final (i, f) in agentes.indexed)
+            if (n == 1 ? 0.0 : (i - (n - 1) / 2) / ((n - 1) / 2) case final u)
+              Positioned(
+                left: inicio + i * (largura + espaco),
+                top: 4 + queda * u * u,
+                width: largura,
+                height: alto,
+                child: Transform.rotate(angle: u * 0.11, child: cartao(f)),
+              ),
+        ]),
+      );
+    });
+  }
+}
+
+class _CartaoAlvo extends StatelessWidget {
+  final Ficha f;
+  final Calc c;
+  final bool escolhido;
+  final Color cor;
+  final VoidCallback aoTocar;
+  const _CartaoAlvo(
+      {required this.f, required this.c, required this.escolhido, required this.cor, required this.aoTocar});
+
+  @override
+  Widget build(BuildContext context) {
+    final max = c.pvMax;
+    final frac = max <= 0 ? 0.0 : (f.pvAtual / max).clamp(0.0, 1.0);
+    final conds = f.condicoes;
+    return Stack(clipBehavior: Clip.none, children: [
+      Positioned.fill(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 180),
+          decoration: BoxDecoration(
+            color: escolhido ? Color.alphaBlend(cor.withValues(alpha: 0.16), Cores.painel2) : Cores.painel2,
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all(color: escolhido ? cor : Cores.borda, width: escolhido ? 2 : 1),
+            boxShadow: escolhido ? [BoxShadow(color: cor.withValues(alpha: 0.35), blurRadius: 18)] : null,
+          ),
+          child: Material(
+            type: MaterialType.transparency,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(4),
+              onTap: aoTocar,
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                  Row(children: [
+                    RetratoFicha(foto: f.foto, nome: f.nome, ajuste: f.fotoAjuste, largura: 34, proporcao: 1, raio: 4),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(f.nome,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13.5, height: 1.15)),
+                    ),
+                  ]),
+                  const Spacer(),
+                  Row(children: [
+                    Text('PV ', style: estiloRotulo(11.5, cor: Cores.pv, peso: FontWeight.w700)),
+                    Expanded(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(2),
+                        child: LinearProgressIndicator(
+                          value: frac,
+                          minHeight: 5,
+                          color: Cores.pv,
+                          backgroundColor: Cores.pv.withValues(alpha: 0.15),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    Text('${f.pvAtual}/$max', style: estiloNumero(13, cor: Cores.texto)),
+                  ]),
+                  const SizedBox(height: 4),
+                  Text(
+                    'Defesa ${c.defesa}${conds.isEmpty ? '' : ' · ${conds.join(', ')}'}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 11.5, color: Cores.textoFraco),
+                  ),
+                ]),
+              ),
+            ),
+          ),
+        ),
+      ),
+      if (escolhido)
+        Positioned(
+          top: -9,
+          right: 8,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            decoration: BoxDecoration(color: cor, borderRadius: BorderRadius.circular(3)),
+            child: Text('ALVO', style: estiloRotulo(10.5, cor: Cores.fundo, peso: FontWeight.w800, espaco: 1.2)),
+          ),
+        ),
+    ]);
+  }
+}
+
+/// A ameaça que age, embaixo dos agentes: PV, Defesa e condições.
+class _CartaoAtuante extends StatelessWidget {
+  final Campanha camp;
+  final String id;
+  final Map<String, dynamic> d;
+  final bool naVez;
+  final Color cor;
+  const _CartaoAtuante({required this.camp, required this.id, required this.d, required this.naVez, required this.cor});
+
+  @override
+  Widget build(BuildContext context) {
+    final elem = asStr(d['elemento']);
+    return Material(
+      color: Color.alphaBlend(cor.withValues(alpha: 0.08), Cores.painel2),
+      shape: CorteCantos(corte: 16, cor: cor.withValues(alpha: 0.7)),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          Row(children: [
+            Expanded(child: Text(asStr(d['nome'], 'Ameaça'), style: estiloTitulo(19, cor: Cores.texto))),
+            if (naVez)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                decoration: BoxDecoration(
+                    border: Border.all(color: cor), borderRadius: BorderRadius.circular(3)),
+                child: Text('NA VEZ', style: estiloRotulo(10.5, cor: corDeTexto(cor), peso: FontWeight.w800, espaco: 1.2)),
+              ),
+          ]),
+          Text(
+            [
+              'VD ${asInt(d['vd'])}',
+              if (elem.isNotEmpty && elem != 'Nenhum') elem,
+              'Defesa ${asInt(d['defesa'])}',
+              if (asStr(d['deslocamento']).isNotEmpty) asStr(d['deslocamento']),
+            ].join(' • '),
+            style: const TextStyle(fontSize: 12, color: Cores.textoFraco),
+          ),
+          const SizedBox(height: 8),
+          BarraStatus(
+            rotulo: 'PV',
+            atual: asInt(d['pv']),
+            max: asInt(d['pvMax']),
+            cor: Cores.pv,
+            compacta: true,
+            aoMudar: (v) => Repo.salvarDoc(Repo.ameacas(camp.id), id, {'pv': v}),
+          ),
+          const SizedBox(height: 6),
+          Wrap(spacing: 4, runSpacing: 4, children: [
+            for (final cd in asStrList(d['condicoes']))
+              Chip(label: Text(cd, style: const TextStyle(fontSize: 11)), visualDensity: VisualDensity.compact),
+            ActionChip(
+              label: const Text('Condições', style: TextStyle(fontSize: 11)),
+              visualDensity: VisualDensity.compact,
+              onPressed: () => editarCondicoesAmeaca(context, camp, id, d),
+            ),
+          ]),
+        ]),
+      ),
     );
   }
 }

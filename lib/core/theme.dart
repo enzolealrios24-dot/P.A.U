@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/sigilos.dart';
 
-/// Paleta de um tema de cores do app. Cada tema leva o nome de um elemento
-/// do Outro Lado.
+/// Paleta de cores: a do app e as da ficha, uma por afinidade.
 class TemaCores {
   final String id;
   final String nome; // cor ("Amarelo")
@@ -104,77 +103,24 @@ const tonsVermelho = TonsRecursos(
   ok: Color(0xFFFFCDD2),
 );
 
-/// Temas do app, cada um numa cor só (Morte em cinza e preto).
-const temasCores = <TemaCores>[
-  TemaCores(
-    id: 'amarelo',
-    nome: 'Amarelo',
-    elemento: 'Conhecimento',
-    destaque: Color(0xFFE9BC4E),
-    sobreDestaque: Color(0xFF1A1407),
-    roxo: Color(0xFFA27A1F),
-    roxoClaro: Color(0xFFF3D88E),
-    fundo: Color(0xFF0C0A07),
-    painel: Color(0xF00D0B08),
-    painel2: Color(0xFF1B1710),
-    borda: Color(0xFF33291A),
-    degradeTopo: Color(0xFFE9BC4E),
-    degradeMeio: Color(0xFF2B2310),
-    degradeBase: Color(0xFF7A5A12),
-    tons: tonsAmarelo,
-  ),
-  TemaCores(
-    id: 'roxo',
-    nome: 'Roxo',
-    elemento: 'Energia',
-    destaque: Color(0xFFB9A1FF),
-    sobreDestaque: Color(0xFF130A26),
-    roxo: Color(0xFF7443F0),
-    roxoClaro: Color(0xFFD9CCFF),
-    fundo: Color(0xFF0B0911),
-    painel: Color(0xF00C0A14),
-    painel2: Color(0xFF181427),
-    borda: Color(0xFF2C2542),
-    degradeTopo: Color(0xFF9B5CFF),
-    degradeMeio: Color(0xFF2B1F4D),
-    degradeBase: Color(0xFF4A23B0),
-    tons: tonsRoxo,
-  ),
-  TemaCores(
-    id: 'preto',
-    nome: 'Preto',
-    elemento: 'Morte',
-    destaque: Color(0xFFB8B8BD),
-    sobreDestaque: Color(0xFF0B0B0D),
-    roxo: Color(0xFF5A5A60),
-    roxoClaro: Color(0xFF9A9AA0),
-    fundo: Color(0xFF070707),
-    painel: Color(0xF00A0A0A),
-    painel2: Color(0xFF161616),
-    borda: Color(0xFF2A2A2A),
-    degradeTopo: Color(0xFF6E6E74),
-    degradeMeio: Color(0xFF1A1A1A),
-    degradeBase: Color(0xFF2E2E2E),
-    tons: tonsCinza,
-  ),
-  TemaCores(
-    id: 'vermelho',
-    nome: 'Vermelho',
-    elemento: 'Sangue',
-    destaque: Color(0xFFEC4A55),
-    sobreDestaque: Color(0xFFFFFFFF),
-    roxo: Color(0xFF9B2335),
-    roxoClaro: Color(0xFFFF9AA2),
-    fundo: Color(0xFF0D0708),
-    painel: Color(0xF00E090A),
-    painel2: Color(0xFF1C1214),
-    borda: Color(0xFF37222A),
-    degradeTopo: Color(0xFFEC4A55),
-    degradeMeio: Color(0xFF3A1219),
-    degradeBase: Color(0xFF7A1029),
-    tons: tonsVermelho,
-  ),
-];
+/// Cores do app (fora das fichas): tons de amarelo, como o Conhecimento.
+const temaApp = TemaCores(
+  id: 'amarelo',
+  nome: 'Amarelo',
+  elemento: 'Conhecimento',
+  destaque: Color(0xFFE9BC4E),
+  sobreDestaque: Color(0xFF1A1407),
+  roxo: Color(0xFFA27A1F),
+  roxoClaro: Color(0xFFF3D88E),
+  fundo: Color(0xFF0C0A07),
+  painel: Color(0xF00D0B08),
+  painel2: Color(0xFF1B1710),
+  borda: Color(0xFF33291A),
+  degradeTopo: Color(0xFFE9BC4E),
+  degradeMeio: Color(0xFF2B2310),
+  degradeBase: Color(0xFF7A5A12),
+  tons: tonsAmarelo,
+);
 
 /// Paletas da ficha conforme a afinidade escolhida no dossiê, cada uma numa
 /// cor só (Morte em preto e cinza). Os painéis são translúcidos, para o
@@ -256,19 +202,19 @@ const temasAfinidade = <String, TemaCores>{
 class Cores {
   /// Tema aplicado agora (o do app, ou o da afinidade quando uma ficha está
   /// aberta).
-  static TemaCores atual = temasCores.first;
+  static TemaCores atual = temaApp;
   // Cores do tema escolhido (mudam com aplicar). As demais são fixas.
-  static Color fundo = temasCores.first.fundo;
-  static Color painel = temasCores.first.painel;
-  static Color painel2 = temasCores.first.painel2;
-  static Color borda = temasCores.first.borda;
-  static Color destaque = temasCores.first.destaque;
-  static Color sobreDestaque = temasCores.first.sobreDestaque;
-  static Color roxo = temasCores.first.roxo;
-  static Color roxoClaro = temasCores.first.roxoClaro;
-  static Color degradeTopo = temasCores.first.degradeTopo;
-  static Color degradeMeio = temasCores.first.degradeMeio;
-  static Color degradeBase = temasCores.first.degradeBase;
+  static Color fundo = temaApp.fundo;
+  static Color painel = temaApp.painel;
+  static Color painel2 = temaApp.painel2;
+  static Color borda = temaApp.borda;
+  static Color destaque = temaApp.destaque;
+  static Color sobreDestaque = temaApp.sobreDestaque;
+  static Color roxo = temaApp.roxo;
+  static Color roxoClaro = temaApp.roxoClaro;
+  static Color degradeTopo = temaApp.degradeTopo;
+  static Color degradeMeio = temaApp.degradeMeio;
+  static Color degradeBase = temaApp.degradeBase;
 
   static void aplicar(TemaCores t) {
     atual = t;

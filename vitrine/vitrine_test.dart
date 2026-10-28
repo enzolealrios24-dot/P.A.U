@@ -15,6 +15,7 @@ import 'package:cris_ficha/data/imagens.dart';
 import 'package:cris_ficha/data/repo.dart';
 import 'package:cris_ficha/screens/campaign/campaign_screen.dart';
 import 'package:cris_ficha/screens/home.dart';
+import 'package:cris_ficha/screens/master/ameacas.dart';
 import 'package:cris_ficha/screens/login.dart';
 import 'package:cris_ficha/screens/pastas.dart';
 import 'package:cris_ficha/screens/quadro/quadro_screen.dart';
@@ -25,9 +26,9 @@ import 'package:cris_ficha/widgets/common.dart';
 import 'package:cris_ficha/widgets/efeitos.dart';
 import 'package:cris_ficha/widgets/imagem.dart';
 import 'package:cris_ficha/widgets/runa.dart';
-import 'package:cris_ficha/widgets/tema_picker.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -49,16 +50,11 @@ void main() {
     await tester.runAsync(Texturas.carregar);
     // sombras de verdade (no teste elas viram blocos pretos)
     debugDisableShadows = false;
-    final tema = Platform.environment['VITRINE_TEMA'] ?? 'amarelo';
-    Cores.aplicar(temasCores.firstWhere((t) => t.id == tema));
+    Cores.aplicar(temaApp);
     await _prepararDados();
 
     await _print(tester, 'runas', const Scaffold(body: SingleChildScrollView(padding: EdgeInsets.all(16), child: AmostraRunas())));
     await _print(tester, 'login', const TelaLogin());
-    escolherTema(tester.element(find.byType(TelaLogin)));
-    await _salvar(tester, 'tema_cores');
-    Navigator.of(tester.element(find.text('Tema de cores'))).pop();
-    await tester.pump(const Duration(milliseconds: 300));
     await _print(tester, 'inicio', const TelaInicio());
     await tester.tap(find.byTooltip('Mover para uma pasta').first);
     await _salvar(tester, 'pasta_mover');
@@ -220,8 +216,88 @@ void main() {
     await tester.tap(find.text('Salvar'));
     await tester.pump(const Duration(milliseconds: 400));
     await _salvar(tester, 'rituais_rapidos_livro');
+    await _telasCombateMestre(tester);
     debugDisableShadows = true;
   });
+}
+
+/// Combate do mestre: o espaço do alvo (agentes em arco e a ameaça da vez),
+/// as ações da ameaça em botões, o resumo ao passar o mouse e o resultado.
+Future<void> _telasCombateMestre(WidgetTester tester) async {
+  final db = Repo.db;
+  final camp = db.collection('campaigns').doc('c1');
+  for (final ref in ['as2/felino_infernal', 'sah/medusa']) {
+    await camp.collection('threats').doc(ref.split('/').last).set(ameacaDoLivro(Catalogo.instance.porRef('ameacas:$ref')!));
+  }
+  final chars = db.collection('characters');
+  await chars.doc('a4').set({
+    ...novaFicha('u2', 'Lia'),
+    'nome': 'Bianca Torres',
+    'classe': 'Especialista',
+    'nex': 35,
+    'foto': 'foto2',
+    'campaignId': 'c1',
+    'editors': ['u2', _uid],
+    'atributos': {'agi': 3, 'for': 1, 'int': 2, 'pre': 1, 'vig': 2},
+    'pericias': {'Reflexos': {'grau': 10}, 'Fortitude': {'grau': 5}},
+    'pvAtual': 22,
+  });
+  await chars.doc('a5').set({
+    ...novaFicha('u3', 'Davi'),
+    'nome': 'Joaquim Vidal',
+    'classe': 'Combatente',
+    'nex': 35,
+    'campaignId': 'c1',
+    'editors': ['u3', _uid],
+    'condicoes': ['Abalado'],
+    'pvAtual': 31,
+  });
+  await camp.update({
+    'combate': {
+      'ativo': true,
+      'rodada': 2,
+      'turno': 1,
+      'ordem': [
+        {'id': 'o1', 'tipo': 'agente', 'ref': 'a1', 'nome': 'Rafael Moraes', 'valor': 24, 'desempate': 2},
+        {'id': 'o2', 'tipo': 'ameaca', 'ref': 'felino_infernal', 'nome': 'Felino-Infernal', 'valor': 21, 'desempate': 0, 'oculto': false},
+        {'id': 'o3', 'tipo': 'agente', 'ref': 'a4', 'nome': 'Bianca Torres', 'valor': 18, 'desempate': 3},
+        {'id': 'o4', 'tipo': 'ameaca', 'ref': 'medusa', 'nome': 'Medusa', 'valor': 15, 'desempate': 0, 'oculto': false},
+        {'id': 'o5', 'tipo': 'agente', 'ref': 'a5', 'nome': 'Joaquim Vidal', 'valor': 9, 'desempate': 1},
+      ],
+    },
+  });
+
+  // computador: Combate e Ação lado a lado
+  await _print(tester, 'mestre_pc', const TelaCampanha(campanhaId: 'c1'), tamanho: _pc);
+  await tester.tap(find.text('Combate').first);
+  await _salvar(tester, 'mestre_combate_pc');
+  await tester.tap(find.text('Bianca Torres').first);
+  await tester.pump(const Duration(milliseconds: 300));
+  final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
+  await mouse.addPointer(location: Offset.zero);
+  await mouse.moveTo(tester.getCenter(find.text('Chicotada Perfurante')));
+  await tester.pump(const Duration(milliseconds: 600));
+  await _salvar(tester, 'mestre_dica_pc');
+  await mouse.moveTo(Offset.zero);
+  await tester.pump(const Duration(milliseconds: 400));
+  await tester.tap(find.text('Chicotada Perfurante'));
+  await _salvar(tester, 'mestre_habilidade_pc');
+  await tester.tap(find.text('Mordidas'));
+  for (var i = 0; i < 30; i++) {
+    await tester.pump(const Duration(milliseconds: 100));
+  }
+  Navigator.of(tester.element(find.text('AÇÃO').first)).pop();
+  await _salvar(tester, 'mestre_ataque_pc');
+  await mouse.removePointer();
+  await tester.tap(find.text('Ameaças').first);
+  await _salvar(tester, 'mestre_ameacas_pc');
+
+  // celular: Combate e Ação em abas
+  await _print(tester, 'mestre_painel', const TelaCampanha(campanhaId: 'c1'));
+  await tester.tap(find.byIcon(Icons.flash_on_outlined));
+  await _salvar(tester, 'mestre_combate');
+  await tester.tap(find.text('AÇÃO'));
+  await _salvar(tester, 'mestre_acao');
 }
 
 // ---------------- prints ----------------

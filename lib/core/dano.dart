@@ -49,16 +49,17 @@ TipoDano? tipoDanoPorId(String id) {
 /// Acha o tipo pelo nome escrito numa arma ou ritual ("Corte", "perfuração",
 /// "Energia"...). Devolve o id ou '' se não reconhecer.
 String tipoDanoDoTexto(String texto) {
-  final t = _semAcento(texto.toLowerCase());
+  final t = semAcento(texto.toLowerCase());
   for (final d in tiposDano) {
-    if (t.contains(_semAcento(d.nome.toLowerCase()))) return d.id;
+    if (t.contains(semAcento(d.nome.toLowerCase()))) return d.id;
   }
   if (t.contains('eletric')) return 'eletricidade';
   if (t.contains('acido') || t.contains('veneno')) return 'quimico';
   return '';
 }
 
-String _semAcento(String s) {
+/// Tira os acentos das letras minúsculas, para comparar textos dos livros.
+String semAcento(String s) {
   const de = 'áàâãéêíóôõúç';
   const para = 'aaaaeeiooouc';
   final b = StringBuffer();
