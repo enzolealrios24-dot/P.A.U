@@ -13,6 +13,22 @@ class CtxFicha {
   final Calc calc;
   CtxFicha(this.f, this.camp) : calc = Calc(f, camp?.regras);
 
+  /// Quem a ficha mira no combate da mesa, com o nome que os jogadores
+  /// veem (null fora de combate ou sem alvo).
+  String? get alvoNome {
+    final c = camp;
+    final id = asStr(f.d['alvo']);
+    if (c == null || id.isEmpty || !asBool(c.combate['ativo'])) return null;
+    for (final e in asMapList(c.combate['ordem'])) {
+      if (asStr(e['id']) == id) {
+        return asStr(e['tipo']) != 'agente' && asBool(e['oculto']) ? 'ameaça oculta' : asStr(e['nome']);
+      }
+    }
+    return null;
+  }
+
+  String get _contra => alvoNome == null ? '' : ' contra $alvoNome';
+
   void _publicar(BuildContext context, Rolagem r) {
     mostrarRolagem(context, r);
     final c = camp;
@@ -66,7 +82,7 @@ class CtxFicha {
         ? (calc.agi > calc.forca ? calc.agi : calc.forca)
         : calc.attr(periciaPorNome(pericia)?.attr ?? 'for');
     final teste = Dados.rolarTeste(
-      titulo: '${f.nome}: ataque com ${asStr(arma['nome'], 'arma')}',
+      titulo: '${f.nome}: ataque com ${asStr(arma['nome'], 'arma')}$_contra',
       nDados: attrAtaque +
           calc.modDados(pericia: pericia, ataque: true, corpo: ataque == 'corpo') +
           dadosExtra,
@@ -123,7 +139,7 @@ class CtxFicha {
         : Dados.expressao(danoExpr);
     final extraRitual = d == null ? 0 : calc.bonusDanoRitual;
     final r = Rolagem(
-      titulo: '${f.nome} conjura ${asStr(ritual['nome'], 'ritual')}',
+      titulo: '${f.nome} conjura ${asStr(ritual['nome'], 'ritual')}$_contra',
       detalhe:
           '$forma • ${circulo}º círculo • ${asStr(ritual['elemento'])} • gastou $custo ${calc.determinacao ? 'PD' : 'PE'} • DT ${calc.dtRitualDe(asStr(ritual['elemento']))}',
       total: custo,

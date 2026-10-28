@@ -10,6 +10,7 @@ import '../../core/theme.dart';
 import '../../data/catalogo.dart';
 import '../../data/models.dart';
 import '../../data/repo.dart';
+import '../../widgets/area_alvo.dart';
 import '../../widgets/common.dart';
 import '../../widgets/dado3d.dart';
 import '../../widgets/runa.dart';
@@ -123,6 +124,10 @@ class _TabCombateState extends State<TabCombate> {
         ),
         child: _RituaisRapidos(ctx: ctx),
       ),
+      if (ctx.camp case final camp? when asBool(camp.combate['ativo']) && asMapList(camp.combate['ordem']).isNotEmpty) ...[
+        const SizedBox(height: 12),
+        _PainelCortado(titulo: 'Alvo', child: _AlvoNaFicha(ctx: ctx, camp: camp)),
+      ],
       const SizedBox(height: 12),
       _PainelCortado(
         titulo: 'Rolagem livre',
@@ -529,6 +534,62 @@ class _RituaisRapidos extends StatelessWidget {
             ]),
           ),
         ),
+      ),
+    ]);
+  }
+}
+
+/// O espaço do alvo do combate da mesa, como o do mestre: os agentes em
+/// cima e as ameaças embaixo. Tocar escolhe quem esta ficha mira (fica
+/// gravado nela, e o mestre vê), e os ataques e rituais rolados aqui dizem
+/// contra quem. Das outras fichas e das ameaças o jogador só vê o nome (as
+/// ameaças que o mestre ocultou, nem isso).
+class _AlvoNaFicha extends StatelessWidget {
+  final CtxFicha ctx;
+  final Campanha camp;
+  const _AlvoNaFicha({required this.ctx, required this.camp});
+
+  @override
+  Widget build(BuildContext context) {
+    final f = ctx.f;
+    final ordem = asMapList(camp.combate['ordem']);
+    final turno = asInt(camp.combate['turno']);
+    final vez = ordem[turno.clamp(0, ordem.length - 1)];
+    final minhas = {f.id, if (f.transformacaoDe case final de?) de, ...f.transformacoes.keys};
+    final alvo = asStr(f.d['alvo']);
+    Participante participante(Map<String, dynamic> e) {
+      final agente = asStr(e['tipo']) == 'agente';
+      final eu = agente && minhas.contains(asStr(e['ref']));
+      final oculta = !agente && asBool(e['oculto']);
+      return Participante(
+        id: asStr(e['id']),
+        nome: oculta ? 'Ameaça oculta' : asStr(e['nome']),
+        foto: eu ? f.foto : '',
+        ajuste: eu ? f.fotoAjuste : const {},
+        pv: eu ? f.pvAtual : null,
+        pvMax: eu ? ctx.calc.pvMax : null,
+        naVez: asStr(e['id']) == asStr(vez['id']),
+        linha: eu ? 'Você · Defesa ${ctx.calc.defesa}' : (agente ? 'Agente' : 'Ameaça'),
+      );
+    }
+
+    void escolher(Participante p) => Repo.set(f.id, 'alvo', p.id == alvo ? null : p.id);
+    final nome = ctx.alvoNome;
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      Text(
+        nome == null
+            ? 'Toque em quem você vai atacar: seus ataques e rituais dirão contra quem.'
+            : 'Seus ataques e rituais vão contra $nome. Toque de novo para desmarcar.',
+        style: const TextStyle(fontSize: 13, color: Cores.textoFraco),
+      ),
+      const SizedBox(height: 10),
+      AreaAlvo(
+        cor: Cores.destaque,
+        alvo: alvo,
+        agentes: [for (final e in ordem) if (asStr(e['tipo']) == 'agente') participante(e)],
+        ameacas: [for (final e in ordem) if (asStr(e['tipo']) != 'agente') participante(e)],
+        aoTocarAgente: escolher,
+        aoTocarAmeaca: escolher,
       ),
     ]);
   }

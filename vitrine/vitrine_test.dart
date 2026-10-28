@@ -21,6 +21,7 @@ import 'package:cris_ficha/screens/pastas.dart';
 import 'package:cris_ficha/screens/quadro/quadro_screen.dart';
 import 'package:cris_ficha/data/quadro.dart';
 import 'package:cris_ficha/screens/sheet/sheet_screen.dart';
+import 'package:cris_ficha/screens/sheet/tab_combate.dart';
 import 'package:cris_ficha/screens/sheet/tab_rituais.dart';
 import 'package:cris_ficha/widgets/common.dart';
 import 'package:cris_ficha/widgets/efeitos.dart';
@@ -298,6 +299,18 @@ Future<void> _telasCombateMestre(WidgetTester tester) async {
   await _salvar(tester, 'mestre_combate');
   await tester.tap(find.text('AÇÃO'));
   await _salvar(tester, 'mestre_acao');
+
+  // a ficha do agente: o espaço do alvo embaixo dos rituais rápidos
+  await chars.doc('a1').update({'alvo': 'o2'});
+  await _print(tester, 'ficha_alvo', const TelaFicha(fichaId: 'a1'));
+  DefaultTabController.of(tester.element(find.byType(TabBarView))).index = 2;
+  for (var i = 0; i < 10; i++) {
+    await tester.pump(const Duration(milliseconds: 100));
+  }
+  await tester.scrollUntilVisible(find.text('AMEAÇAS'), 400,
+      scrollable: find.descendant(of: find.byType(TabCombate), matching: find.byType(Scrollable)).first);
+  await tester.drag(find.byType(TabCombate), const Offset(0, -260));
+  await _salvar(tester, 'ficha_alvo');
 }
 
 // ---------------- prints ----------------
