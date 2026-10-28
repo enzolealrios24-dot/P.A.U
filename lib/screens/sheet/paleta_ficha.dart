@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/tema_app.dart';
 import '../../core/theme.dart';
 import '../../widgets/sigilos.dart';
 
@@ -11,7 +12,7 @@ class PaletaFicha extends StatefulWidget {
   final Widget child;
   const PaletaFicha({super.key, required this.elemento, required this.child});
 
-  static TemaCores temaDe(String elemento) => temasAfinidade[elemento] ?? temaApp;
+  static TemaCores temaDe(String elemento) => temasAfinidade[elemento] ?? TemaApp.tema;
 
   @override
   State<PaletaFicha> createState() => _PaletaFichaState();
@@ -35,8 +36,8 @@ class _PaletaFichaState extends State<PaletaFicha> {
   void dispose() {
     _abertas--;
     // só refaz as telas de trás se a ficha estava com outra paleta
-    if (_abertas == 0 && !identical(Cores.atual, temaApp)) {
-      Cores.aplicar(temaApp);
+    if (_abertas == 0 && !identical(Cores.atual, TemaApp.tema)) {
+      Cores.aplicar(TemaApp.tema);
       // as telas de trás podem ter sido redesenhadas com as cores da ficha
       WidgetsBinding.instance.addPostFrameCallback((_) => _reconstruirTudo());
       WidgetsBinding.instance.scheduleFrame();

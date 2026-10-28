@@ -7,8 +7,9 @@ import '../widgets/sigilos.dart';
 /// Paleta de cores: a do app e as da ficha, uma por afinidade.
 class TemaCores {
   final String id;
-  final String nome; // cor ("Amarelo")
-  final String elemento; // "Conhecimento"
+  final String nome; // "Floresta"
+  /// O que a escolha de tema mostra embaixo do nome ("Tons de verde").
+  final String descricao;
   final Color destaque; // botões, abas, títulos
   final Color sobreDestaque; // texto em cima do destaque
   final Color roxo; // cor secundária
@@ -28,7 +29,7 @@ class TemaCores {
   const TemaCores({
     required this.id,
     required this.nome,
-    required this.elemento,
+    required this.descricao,
     required this.destaque,
     required this.sobreDestaque,
     required this.roxo,
@@ -103,24 +104,180 @@ const tonsVermelho = TonsRecursos(
   ok: Color(0xFFFFCDD2),
 );
 
-/// Cores do app (fora das fichas): tons de amarelo, como o Conhecimento.
-const temaApp = TemaCores(
-  id: 'amarelo',
-  nome: 'Amarelo',
-  elemento: 'Conhecimento',
-  destaque: Color(0xFFE9BC4E),
-  sobreDestaque: Color(0xFF1A1407),
-  roxo: Color(0xFFA27A1F),
-  roxoClaro: Color(0xFFF3D88E),
-  fundo: Color(0xFF0C0A07),
-  painel: Color(0xF00D0B08),
-  painel2: Color(0xFF1B1710),
-  borda: Color(0xFF33291A),
-  degradeTopo: Color(0xFFE9BC4E),
-  degradeMeio: Color(0xFF2B2310),
-  degradeBase: Color(0xFF7A5A12),
-  tons: tonsAmarelo,
+const tonsBranco = TonsRecursos(
+  pv: Color(0xFFF2F2F5),
+  pe: Color(0xFFC9CAD2),
+  san: Color(0xFFA2A5B2),
+  pd: Color(0xFFDCDDE3),
+  pvTemp: Color(0xFFD9DAE0),
+  peTemp: Color(0xFFE4E5EA),
+  pdTemp: Color(0xFFEDEEF2),
+  ok: Color(0xFFFFFFFF),
 );
+
+const tonsVerde = TonsRecursos(
+  pv: Color(0xFF2FA84F),
+  pe: Color(0xFF7ED68E),
+  san: Color(0xFFC4EDC9),
+  pd: Color(0xFF52BE6C),
+  pvTemp: Color(0xFF6FCB85),
+  peTemp: Color(0xFFA6E3B1),
+  pdTemp: Color(0xFF93DBA2),
+  ok: Color(0xFFD6F5DA),
+);
+
+const tonsAzul = TonsRecursos(
+  pv: Color(0xFF2E86D6),
+  pe: Color(0xFF79B9EC),
+  san: Color(0xFFBFDDF6),
+  pd: Color(0xFF4F9FE0),
+  pvTemp: Color(0xFF6AAFE8),
+  peTemp: Color(0xFFA3CFF2),
+  pdTemp: Color(0xFF8FC4EF),
+  ok: Color(0xFFD3E8FA),
+);
+
+const tonsAgua = TonsRecursos(
+  pv: Color(0xFF22A396),
+  pe: Color(0xFF72D2C6),
+  san: Color(0xFFBDEDE7),
+  pd: Color(0xFF46B9AC),
+  pvTemp: Color(0xFF63C9BD),
+  peTemp: Color(0xFF9EE0D8),
+  pdTemp: Color(0xFF8AD8CE),
+  ok: Color(0xFFD0F3EF),
+);
+
+const tonsTerra = TonsRecursos(
+  pv: Color(0xFF9C6B45),
+  pe: Color(0xFFC9A07E),
+  san: Color(0xFFE6D2BF),
+  pd: Color(0xFFB07F59),
+  pvTemp: Color(0xFFC0926C),
+  peTemp: Color(0xFFDABB9D),
+  pdTemp: Color(0xFFD2AE8D),
+  ok: Color(0xFFF0E2D4),
+);
+
+const tonsLaranja = TonsRecursos(
+  pv: Color(0xFFE0681F),
+  pe: Color(0xFFF5A066),
+  san: Color(0xFFFBD3B4),
+  pd: Color(0xFFEC8443),
+  pvTemp: Color(0xFFF09358),
+  peTemp: Color(0xFFF8BD92),
+  pdTemp: Color(0xFFF5AE7D),
+  ok: Color(0xFFFDE2CF),
+);
+
+/// Temas do app (fora das fichas), cada um numa cor só. O primeiro, o
+/// branco do Medo (neutro), é o padrão; os outros são cores da natureza.
+/// Nenhum repete as cores das afinidades da ficha (amarelo, roxo, cinza e
+/// vermelho).
+const temasCores = <TemaCores>[
+  TemaCores(
+    id: 'medo',
+    nome: 'Medo',
+    descricao: 'Branco, neutro',
+    destaque: Color(0xFFF2F2F4),
+    sobreDestaque: Color(0xFF0C0C0E),
+    roxo: Color(0xFFB8B9C2),
+    roxoClaro: Color(0xFFE9E9EE),
+    fundo: Color(0xFF0A0A0B),
+    painel: Color(0xF00C0C0D),
+    painel2: Color(0xFF18181A),
+    borda: Color(0xFF34343A),
+    degradeTopo: Color(0xFFFFFFFF),
+    degradeMeio: Color(0xFF1C1C1F),
+    degradeBase: Color(0xFF9A9AA3),
+    tons: tonsBranco,
+  ),
+  TemaCores(
+    id: 'floresta',
+    nome: 'Floresta',
+    descricao: 'Tons de verde',
+    destaque: Color(0xFF6CC07A),
+    sobreDestaque: Color(0xFF08140A),
+    roxo: Color(0xFF2F7D45),
+    roxoClaro: Color(0xFFA8E0B0),
+    fundo: Color(0xFF070B08),
+    painel: Color(0xF0090D0A),
+    painel2: Color(0xFF131A14),
+    borda: Color(0xFF26362A),
+    degradeTopo: Color(0xFF6CC07A),
+    degradeMeio: Color(0xFF15261A),
+    degradeBase: Color(0xFF1F6B35),
+    tons: tonsVerde,
+  ),
+  TemaCores(
+    id: 'oceano',
+    nome: 'Oceano',
+    descricao: 'Tons de azul',
+    destaque: Color(0xFF5AA9E6),
+    sobreDestaque: Color(0xFF06101A),
+    roxo: Color(0xFF2268A8),
+    roxoClaro: Color(0xFFA9D3F5),
+    fundo: Color(0xFF06090D),
+    painel: Color(0xF0080B10),
+    painel2: Color(0xFF111821),
+    borda: Color(0xFF233244),
+    degradeTopo: Color(0xFF5AA9E6),
+    degradeMeio: Color(0xFF13213A),
+    degradeBase: Color(0xFF1B4F8A),
+    tons: tonsAzul,
+  ),
+  TemaCores(
+    id: 'lago',
+    nome: 'Lago',
+    descricao: 'Tons de verde-azulado',
+    destaque: Color(0xFF4CC2B4),
+    sobreDestaque: Color(0xFF051311),
+    roxo: Color(0xFF1F7F75),
+    roxoClaro: Color(0xFFA4E3DB),
+    fundo: Color(0xFF060B0B),
+    painel: Color(0xF0080D0D),
+    painel2: Color(0xFF111A19),
+    borda: Color(0xFF233733),
+    degradeTopo: Color(0xFF4CC2B4),
+    degradeMeio: Color(0xFF12262A),
+    degradeBase: Color(0xFF1A6A63),
+    tons: tonsAgua,
+  ),
+  TemaCores(
+    id: 'terra',
+    nome: 'Terra',
+    descricao: 'Tons de marrom',
+    destaque: Color(0xFFB98B6A),
+    sobreDestaque: Color(0xFF140C07),
+    roxo: Color(0xFF7A5136),
+    roxoClaro: Color(0xFFE0C3A8),
+    fundo: Color(0xFF0B0806),
+    painel: Color(0xF00D0A08),
+    painel2: Color(0xFF1A1410),
+    borda: Color(0xFF3A2C22),
+    degradeTopo: Color(0xFFB98B6A),
+    degradeMeio: Color(0xFF2A1D14),
+    degradeBase: Color(0xFF6B4428),
+    tons: tonsTerra,
+  ),
+  TemaCores(
+    id: 'por-do-sol',
+    nome: 'Pôr do sol',
+    descricao: 'Tons de laranja',
+    destaque: Color(0xFFF0893A),
+    sobreDestaque: Color(0xFF1A0C03),
+    roxo: Color(0xFFB4561A),
+    roxoClaro: Color(0xFFFFC7A0),
+    fundo: Color(0xFF0D0805),
+    painel: Color(0xF00F0A07),
+    painel2: Color(0xFF1D140D),
+    borda: Color(0xFF3D2A1C),
+    degradeTopo: Color(0xFFF0893A),
+    degradeMeio: Color(0xFF33200F),
+    degradeBase: Color(0xFF8F3F10),
+    tons: tonsLaranja,
+  ),
+];
 
 /// Paletas da ficha conforme a afinidade escolhida no dossiê, cada uma numa
 /// cor só (Morte em preto e cinza). Os painéis são translúcidos, para o
@@ -129,7 +286,7 @@ const temasAfinidade = <String, TemaCores>{
   'Conhecimento': TemaCores(
     id: 'af-conhecimento',
     nome: 'Dourado',
-    elemento: 'Conhecimento',
+    descricao: 'Afinidade Conhecimento',
     destaque: Color(0xFFD6A72B),
     sobreDestaque: Color(0xFF17110A),
     roxo: Color(0xFF9C7418),
@@ -146,7 +303,7 @@ const temasAfinidade = <String, TemaCores>{
   'Energia': TemaCores(
     id: 'af-energia',
     nome: 'Roxo',
-    elemento: 'Energia',
+    descricao: 'Afinidade Energia',
     destaque: Color(0xFF9B5CFF),
     sobreDestaque: Color(0xFFFFFFFF),
     roxo: Color(0xFF6B3BD6),
@@ -164,7 +321,7 @@ const temasAfinidade = <String, TemaCores>{
   'Morte': TemaCores(
     id: 'af-morte',
     nome: 'Preto e cinza',
-    elemento: 'Morte',
+    descricao: 'Afinidade Morte',
     destaque: Color(0xFFA9A9AE),
     sobreDestaque: Color(0xFF060606),
     roxo: Color(0xFF4F4F55),
@@ -182,7 +339,7 @@ const temasAfinidade = <String, TemaCores>{
   'Sangue': TemaCores(
     id: 'af-sangue',
     nome: 'Vermelho',
-    elemento: 'Sangue',
+    descricao: 'Afinidade Sangue',
     destaque: Color(0xFFFF3B4F),
     sobreDestaque: Color(0xFFFFFFFF),
     roxo: Color(0xFF8B1022),
@@ -202,19 +359,19 @@ const temasAfinidade = <String, TemaCores>{
 class Cores {
   /// Tema aplicado agora (o do app, ou o da afinidade quando uma ficha está
   /// aberta).
-  static TemaCores atual = temaApp;
+  static TemaCores atual = temasCores.first;
   // Cores do tema escolhido (mudam com aplicar). As demais são fixas.
-  static Color fundo = temaApp.fundo;
-  static Color painel = temaApp.painel;
-  static Color painel2 = temaApp.painel2;
-  static Color borda = temaApp.borda;
-  static Color destaque = temaApp.destaque;
-  static Color sobreDestaque = temaApp.sobreDestaque;
-  static Color roxo = temaApp.roxo;
-  static Color roxoClaro = temaApp.roxoClaro;
-  static Color degradeTopo = temaApp.degradeTopo;
-  static Color degradeMeio = temaApp.degradeMeio;
-  static Color degradeBase = temaApp.degradeBase;
+  static Color fundo = temasCores.first.fundo;
+  static Color painel = temasCores.first.painel;
+  static Color painel2 = temasCores.first.painel2;
+  static Color borda = temasCores.first.borda;
+  static Color destaque = temasCores.first.destaque;
+  static Color sobreDestaque = temasCores.first.sobreDestaque;
+  static Color roxo = temasCores.first.roxo;
+  static Color roxoClaro = temasCores.first.roxoClaro;
+  static Color degradeTopo = temasCores.first.degradeTopo;
+  static Color degradeMeio = temasCores.first.degradeMeio;
+  static Color degradeBase = temasCores.first.degradeBase;
 
   static void aplicar(TemaCores t) {
     atual = t;
