@@ -274,6 +274,33 @@ Future<void> _telasCombateMestre(WidgetTester tester) async {
     },
   });
 
+  // golpes dos agentes, para a parte Dano
+  Map<String, dynamic> golpe(int at, String ficha, String nome, String alvo, Map<String, dynamic> g,
+          {required int total, required String detalhe, required int dano, required String danoDetalhe}) =>
+      {
+        'titulo': '$nome: ${g['nome']}',
+        'detalhe': detalhe,
+        'total': total,
+        'critico': false,
+        'falhaCritica': false,
+        'danoTotal': dano,
+        'danoDetalhe': danoDetalhe,
+        'alvo': alvo,
+        'fichaId': ficha,
+        'golpe': g,
+        'uid': 'u2',
+        'personagem': nome,
+        'at': at,
+      };
+  final rolls = camp.collection('rolls');
+  await rolls.doc('g1').set(golpe(1, 'a1', 'Rafael Moraes', 'o2', {'acao': 'ataque', 'nome': 'Fuzil de caça', 'tiposDano': ['balistico']},
+      total: 31, detalhe: '2d20 [12, 19] → 19 + 12', dano: 18, danoDetalhe: '2d10 [9, 6] = 15 + 3'));
+  await rolls.doc('g2').set(golpe(2, 'a4', 'Bianca Torres', 'o4',
+      {'acao': 'ritual', 'nome': 'Descarnar', 'forma': 'Padrão', 'tiposDano': ['sangue'], 'dt': 18, 'resistencia': 'Fortitude parcial'},
+      total: 3, detalhe: 'Padrão', dano: 27, danoDetalhe: '6d8 [5, 3, 8, 2, 6, 3] = 27'));
+  await rolls.doc('g3').set(golpe(3, 'a5', 'Joaquim Vidal', 'o2', {'acao': 'ataque', 'nome': 'Machado', 'tiposDano': ['corte']},
+      total: 19, detalhe: '1d20 [15] → 15 + 4', dano: 9, danoDetalhe: '1d8 [8] = 8 + 1'));
+
   // computador: Combate e Ação lado a lado
   await _print(tester, 'mestre_pc', const TelaCampanha(campanhaId: 'c1'), tamanho: _pc);
   await tester.tap(find.text('Combate').first);
@@ -296,8 +323,19 @@ Future<void> _telasCombateMestre(WidgetTester tester) async {
   Navigator.of(tester.element(find.text('AÇÃO').first)).pop();
   await _salvar(tester, 'mestre_ataque_pc');
   await mouse.removePointer();
+  await tester.tap(find.text('DANO').first);
+  await _salvar(tester, 'mestre_dano_pc');
+  await tester.tap(find.text('Rolar Fortitude de Medusa'));
+  await tester.pump(const Duration(milliseconds: 300));
+  await tester.tap(find.text('Aplicar dano').first);
+  await _salvar(tester, 'mestre_dano_aplicado_pc');
   await tester.tap(find.text('Ameaças').first);
   await _salvar(tester, 'mestre_ameacas_pc');
+
+  // tela larga: as três partes lado a lado
+  await _print(tester, 'mestre_largo_pc', const TelaCampanha(campanhaId: 'c1'), tamanho: const Size(1680, 900));
+  await tester.tap(find.text('Combate').first);
+  await _salvar(tester, 'mestre_largo_pc');
 
   // celular: Combate e Ação em abas
   await _print(tester, 'mestre_painel', const TelaCampanha(campanhaId: 'c1'));
@@ -305,6 +343,8 @@ Future<void> _telasCombateMestre(WidgetTester tester) async {
   await _salvar(tester, 'mestre_combate');
   await tester.tap(find.text('AÇÃO'));
   await _salvar(tester, 'mestre_acao');
+  await tester.tap(find.text('DANO').first);
+  await _salvar(tester, 'mestre_dano');
 
   // a ficha do agente: o espaço do alvo embaixo dos rituais rápidos
   await chars.doc('a1').update({'alvo': 'o2'});

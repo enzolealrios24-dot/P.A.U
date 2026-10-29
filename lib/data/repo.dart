@@ -491,17 +491,36 @@ class Repo {
   static CollectionReference<Json> gmRolls(String cid) =>
       camps.doc(cid).collection('gmrolls');
 
+  /// [extra] vai junto no registro (o ataque de um agente leva o alvo e o
+  /// tipo de dano, para o mestre conferir e aplicar).
   static void registrarRolagem(String cid, Rolagem r,
-      {String personagem = '', bool secreta = false}) {
+      {String personagem = '', bool secreta = false, Json extra = const {}}) {
     final col = secreta ? gmRolls(cid) : rolls(cid);
     _w(col.doc().set({
       ...r.toMap(),
+      ...extra,
       'uid': uid,
       'autor': nomeUsuario,
       'personagem': personagem,
       'at': DateTime.now().millisecondsSinceEpoch,
     }));
   }
+
+  /// Ataques e rituais dos agentes contra alguém do combate, com o id do
+  /// registro (o mais novo primeiro).
+  static Stream<List<(String, Json)>> golpesDosAgentes(String cid) =>
+      rolls(cid).orderBy('at', descending: true).limit(120).snapshots().map((s) => [
+            for (final d in s.docs)
+              if (asStr(d.data()['alvo']).isNotEmpty) (d.id, d.data()),
+          ]);
+
+  /// O que o mestre fez com cada golpe dos agentes (aplicou, dispensou, a
+  /// resistência que a ameaça rolou), pelo id do registro.
+  static DocumentReference<Json> danosDoCombate(String cid) =>
+      camps.doc(cid).collection('gm').doc('danos');
+
+  static void marcarGolpe(String cid, String golpeId, Json m) =>
+      _w(danosDoCombate(cid).set({golpeId: m}, SetOptions(merge: true)));
 
   static Stream<List<Json>> logRolagens(String cid, {bool secretas = false}) =>
       (secretas ? gmRolls(cid) : rolls(cid))

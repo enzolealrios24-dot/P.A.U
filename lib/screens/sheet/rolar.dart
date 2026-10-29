@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/dano.dart';
 import '../../core/dice.dart';
 import '../../core/rules.dart';
 import '../../data/models.dart';
@@ -13,26 +14,36 @@ class CtxFicha {
   final Calc calc;
   CtxFicha(this.f, this.camp) : calc = Calc(f, camp?.regras);
 
-  /// Quem a ficha mira no combate da mesa, com o nome que os jogadores
-  /// veem (null fora de combate ou sem alvo).
-  String? get alvoNome {
+  /// A entrada da iniciativa que a ficha mira no combate da mesa (null
+  /// fora de combate ou sem alvo).
+  Map<String, dynamic>? get _alvo {
     final c = camp;
     final id = asStr(f.d['alvo']);
     if (c == null || id.isEmpty || !asBool(c.combate['ativo'])) return null;
-    for (final e in asMapList(c.combate['ordem'])) {
-      if (asStr(e['id']) == id) {
-        return asStr(e['tipo']) != 'agente' && asBool(e['oculto']) ? 'ameaça oculta' : asStr(e['nome']);
-      }
-    }
-    return null;
+    return asMapList(c.combate['ordem']).where((e) => asStr(e['id']) == id).firstOrNull;
+  }
+
+  /// Quem a ficha mira, com o nome que os jogadores veem.
+  String? get alvoNome {
+    final e = _alvo;
+    if (e == null) return null;
+    return asStr(e['tipo']) != 'agente' && asBool(e['oculto']) ? 'ameaça oculta' : asStr(e['nome']);
   }
 
   String get _contra => alvoNome == null ? '' : ' contra $alvoNome';
 
-  void _publicar(BuildContext context, Rolagem r) {
+  /// Com [golpe] (ataque ou ritual com dano) e um alvo no combate, o
+  /// registro leva o alvo para o mestre conferir o acerto e aplicar o dano.
+  void _publicar(BuildContext context, Rolagem r, {Map<String, dynamic>? golpe}) {
     mostrarRolagem(context, r);
     final c = camp;
-    if (c != null) Repo.registrarRolagem(c.id, r, personagem: f.nome);
+    if (c == null) return;
+    final alvo = _alvo;
+    Repo.registrarRolagem(c.id, r,
+        personagem: f.nome,
+        extra: golpe == null || alvo == null || r.danoTotal == null
+            ? const {}
+            : {'alvo': asStr(alvo['id']), 'fichaId': f.id, 'golpe': golpe});
   }
 
   /// Dado do destino: 1d20 + [modificador]. 20 natural é acerto crítico e
@@ -111,7 +122,12 @@ class CtxFicha {
       danoDetalhe:
           '${dano.detalhe}${extra != 0 ? ' ${extra > 0 ? '+' : '-'} ${extra.abs()}' : ''}${teste.critico ? '  (crítico x${crit.mult})' : ''}',
     );
-    _publicar(context, r);
+    _publicar(context, r, golpe: {
+      'acao': 'ataque',
+      'nome': asStr(arma['nome'], 'arma'),
+      'tiposDano': tiposDanoDoTexto(asStr(arma['tipoDano'])),
+      'corpo': corpo,
+    });
   }
 
   void conjurar(BuildContext context, Map<String, dynamic> ritual,
@@ -148,7 +164,16 @@ class CtxFicha {
           ? null
           : '${d.detalhe}${extraRitual != 0 ? ' + $extraRitual' : ''}',
     );
-    _publicar(context, r);
+    final elemento = asStr(ritual['elemento']);
+    _publicar(context, r, golpe: {
+      'acao': 'ritual',
+      'nome': asStr(ritual['nome'], 'ritual'),
+      'forma': forma,
+      // o dano do ritual é do elemento dele (o mestre troca se for outro)
+      'tiposDano': tiposDanoDoTexto(asStr(ritual['tipoDano'], elemento)),
+      'dt': calc.dtRitualDe(elemento),
+      'resistencia': asStr(ritual['resistencia']),
+    });
   }
 }
 

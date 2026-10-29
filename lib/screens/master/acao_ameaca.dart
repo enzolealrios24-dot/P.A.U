@@ -400,7 +400,7 @@ class _CartaoUsoState extends State<CartaoUso> {
           pv += golpePv;
           mental += golpeMental;
         }
-        linhas.add(_Linha(
+        linhas.add(LinhaResultado(
           titulo: '${widget.uso.golpes.length > 1 ? '${i + 1}º ataque' : 'Ataque'}: ${g.teste.total}',
           detalhe: g.teste.detalhe,
           resultado: acertou == null
@@ -416,7 +416,7 @@ class _CartaoUsoState extends State<CartaoUso> {
             for (final r in g.dano)
               '${r.total} ${tipoDanoPorId(_alternativas ? _tipo : r.parte.tipoDano)?.nome.toLowerCase() ?? ''}'.trim(),
           ];
-          linhas.add(_Linha(
+          linhas.add(LinhaResultado(
             titulo: '   dano ${g.danoTotal}${g.dano.length > 1 || partes.single.contains(' ') ? ' (${partes.join(' + ')})' : ''}'
                 '${rdTotal == 0 || c == null ? '' : ' · RD $rdTotal · sofre ${golpePv + golpeMental}'}',
             detalhe: g.dano.map((r) => r.detalhe).join(' + '),
@@ -439,20 +439,20 @@ class _CartaoUsoState extends State<CartaoUso> {
           } else {
             pv += sofrido;
           }
-          linhas.add(_Linha(
+          linhas.add(LinhaResultado(
             titulo: '${x.parte.rotulo}: ${x.total}'
                 '${evita ? ' · evitado' : '${metade ? ' · metade ${x.total ~/ 2}' : ''}${rdTexto(rd)}${metade || rd != 0 ? ' · sofre $sofrido' : ''}'}',
             detalhe: x.detalhe,
             cor: cor,
           ));
         } else {
-          linhas.add(_Linha(titulo: '${x.parte.rotulo}: ${x.total}', detalhe: x.detalhe, cor: cor));
+          linhas.add(LinhaResultado(titulo: '${x.parte.rotulo}: ${x.total}', detalhe: x.detalhe, cor: cor));
         }
       }
       for (final e in _resistidas.entries) {
         final res = _acao.resistencias[e.key];
         final ok = e.value.total >= res.dt;
-        linhas.add(_Linha(
+        linhas.add(LinhaResultado(
           titulo: '${alvo?.nome ?? 'Alvo'}: ${res.pericia} ${e.value.total} contra DT ${res.dt}',
           detalhe: e.value.detalhe,
           resultado: ok
@@ -641,14 +641,16 @@ class _CartaoUsoState extends State<CartaoUso> {
   }
 }
 
-class _Linha extends StatelessWidget {
+/// Uma linha do resultado (ataque, dano, teste), com os dados ao passar o
+/// mouse.
+class LinhaResultado extends StatelessWidget {
   final String titulo;
   final String detalhe;
   final String? resultado;
-  /// Bom para a ameaça (acertou, alvo falhou): na cor dela; ruim: apagado.
+  /// Bom para quem age (acertou, alvo falhou): na cor dela; ruim: apagado.
   final bool? bom;
   final Color cor;
-  const _Linha({required this.titulo, required this.detalhe, this.resultado, this.bom, required this.cor});
+  const LinhaResultado({required this.titulo, required this.detalhe, this.resultado, this.bom, required this.cor});
 
   @override
   Widget build(BuildContext context) => Padding(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart' show DocumentSnapshot;
+
 import '../../core/acoes_ameaca.dart';
 import '../../core/dice.dart';
 import '../../core/rules.dart';
@@ -11,11 +13,14 @@ import '../../widgets/common.dart';
 import '../campaign/campaign_screen.dart';
 import '../sheet/tab_agente.dart';
 import 'acao_ameaca.dart';
+import 'dano_agentes.dart';
 
-/// Combate do mestre, em duas partes: Combate (iniciativa, turnos e o
-/// espaço do alvo, com os agentes em arco e a ameaça que age embaixo) e
-/// Ação (os ataques e habilidades dessa ameaça contra o alvo). No
-/// computador ficam lado a lado; no celular, em duas abas.
+/// Combate do mestre, em três partes: Combate (iniciativa, turnos e o
+/// espaço do alvo, com os agentes em arco e a ameaça que age embaixo), Ação
+/// (os ataques e habilidades dessa ameaça contra o alvo) e Dano (os golpes
+/// dos agentes, para conferir o acerto e aplicar o dano). Na tela larga
+/// ficam lado a lado; no computador, Ação e Dano dividem a direita em abas;
+/// no celular, três abas.
 class AbaCombate extends StatefulWidget {
   final Campanha camp;
   const AbaCombate({super.key, required this.camp});
@@ -34,6 +39,8 @@ class _AbaCombateState extends State<AbaCombate> {
   UsoAcao? _uso;
   bool _secreto = true;
   final _rolagemAcao = ScrollController();
+  late final _golpes = Repo.golpesDosAgentes(camp.id);
+  late final _marcas = Repo.danosDoCombate(camp.id).snapshots();
 
   Campanha get camp => widget.camp;
   Map<String, dynamic> get _cb => camp.combate;
@@ -258,22 +265,20 @@ class _AbaCombateState extends State<AbaCombate> {
             final acao = _painelAcao(context,
                 fichas: fichas, porId: porId, ameacas: ameacas, alvo: alvo, ameacaId: atuanteId, ameaca: ameaca, cor: cor);
 
-            return LayoutBuilder(builder: (context, c) {
-              if (c.maxWidth >= 980) {
-                return Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                  Expanded(flex: 6, child: combate),
-                  const VerticalDivider(width: 1),
-                  Expanded(flex: 5, child: acao),
-                ]);
-              }
-              return DefaultTabController(
-                length: 2,
-                child: Column(children: [
-                  const TabBar(tabs: [Tab(text: 'COMBATE'), Tab(text: 'AÇÃO')]),
-                  Expanded(child: TabBarView(children: [combate, acao])),
-                ]),
-              );
-            });
+            return StreamBuilder<List<(String, Map<String, dynamic>)>>(
+              stream: _golpes,
+              builder: (context, gs) => StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                stream: _marcas,
+                builder: (context, ms) {
+                  final golpes = golpesDoCombate(gs.data ?? const [], ordem);
+                  final marcas = ms.data?.data() ?? const <String, dynamic>{};
+                  final pendentes = golpes.where((g) => !golpeResolvido(marcas, g.id)).length;
+                  final dano = DanoDosAgentes(
+                      camp: camp, golpes: golpes, marcas: marcas, porId: porId, ameacas: ameacas);
+                  return _Partes(combate: combate, acao: acao, dano: dano, pendentes: pendentes);
+                },
+              ),
+            );
           },
         );
       },
@@ -325,6 +330,7 @@ class _AbaCombateState extends State<AbaCombate> {
           onPressed: () async {
             if (await confirmar(context, 'Encerrar o combate?')) {
               _salvar({'ativo': false, 'rodada': 1, 'turno': 0, 'ordem': <dynamic>[], 'fora': <dynamic>[]});
+              Repo.danosDoCombate(camp.id).delete();
               setState(() {
                 _alvo = null;
                 _atuante = null;
@@ -492,6 +498,68 @@ class _AbaCombateState extends State<AbaCombate> {
         ),
     ]);
   }
+}
+
+/// As três partes do combate conforme a largura: lado a lado (tela larga),
+/// Combate à esquerda e Ação e Dano em abas à direita (computador), ou três
+/// abas (celular). A aba Dano mostra quantos golpes esperam o mestre.
+class _Partes extends StatelessWidget {
+  final Widget combate;
+  final Widget acao;
+  final Widget dano;
+  final int pendentes;
+  const _Partes({required this.combate, required this.acao, required this.dano, required this.pendentes});
+
+  Widget get _abaDano => Tab(
+        child: Row(mainAxisSize: MainAxisSize.min, children: [
+          const Text('DANO'),
+          if (pendentes > 0) ...[
+            const SizedBox(width: 6),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+              decoration: BoxDecoration(color: Cores.destaque, borderRadius: BorderRadius.circular(9)),
+              child: Text('$pendentes',
+                  style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w800, color: Cores.sobreDestaque)),
+            ),
+          ],
+        ]),
+      );
+
+  @override
+  Widget build(BuildContext context) => LayoutBuilder(builder: (context, c) {
+        if (c.maxWidth >= 1440) {
+          return Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            Expanded(flex: 6, child: combate),
+            const VerticalDivider(width: 1),
+            Expanded(flex: 5, child: acao),
+            const VerticalDivider(width: 1),
+            Expanded(flex: 4, child: dano),
+          ]);
+        }
+        if (c.maxWidth >= 980) {
+          return Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            Expanded(flex: 6, child: combate),
+            const VerticalDivider(width: 1),
+            Expanded(
+              flex: 5,
+              child: DefaultTabController(
+                length: 2,
+                child: Column(children: [
+                  TabBar(tabs: [const Tab(text: 'AÇÃO'), _abaDano]),
+                  Expanded(child: TabBarView(children: [acao, dano])),
+                ]),
+              ),
+            ),
+          ]);
+        }
+        return DefaultTabController(
+          length: 3,
+          child: Column(children: [
+            TabBar(tabs: [const Tab(text: 'COMBATE'), const Tab(text: 'AÇÃO'), _abaDano]),
+            Expanded(child: TabBarView(children: [combate, acao, dano])),
+          ]),
+        );
+      });
 }
 
 class _LinhaIniciativa extends StatelessWidget {
