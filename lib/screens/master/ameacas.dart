@@ -7,6 +7,7 @@ import '../../data/catalogo.dart';
 import '../../data/models.dart';
 import '../../data/repo.dart';
 import '../../widgets/catalogo_picker.dart';
+import '../../widgets/arquivo.dart';
 import '../../widgets/common.dart';
 import '../../widgets/form_dialog.dart';
 import 'acao_ameaca.dart';
@@ -209,27 +210,29 @@ class AbaAmeacas extends StatelessWidget {
         final l = snap.data!;
         final largura = MediaQuery.sizeOf(context).width;
         final w = largura < 720 ? largura - 24 : 360.0;
-        return ListView(padding: const EdgeInsets.all(12), children: [
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
+        return ListView(padding: const EdgeInsets.fromLTRB(16, 16, 16, 28), children: [
+          CabecalhoAba(
+            titulo: 'Ameaças',
+            texto: 'As criaturas e os inimigos desta mesa, prontos para o combate. Só você vê esta aba.',
+            acoes: [
               FilledButton.icon(
                 onPressed: () => _editar(context),
                 icon: const Icon(Icons.add),
                 label: const Text('Nova ameaça'),
               ),
-              FilledButton.tonalIcon(
+              OutlinedButton.icon(
                 onPressed: () => _doLivro(context),
                 icon: const Icon(Icons.menu_book_outlined),
                 label: const Text('Do livro'),
               ),
-              const Text('Só o mestre vê esta aba.',
-                  style: TextStyle(color: Cores.textoFraco, fontSize: 12)),
             ],
           ),
-          const SizedBox(height: 12),
+          if (l.isEmpty)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 24),
+              child: Text('Nenhuma ameaça ainda. Crie uma ou traga dos livros.',
+                  textAlign: TextAlign.center, style: TextStyle(color: Cores.textoFraco)),
+            ),
           Wrap(spacing: 12, runSpacing: 12, children: [
             for (final a in l)
               SizedBox(

@@ -73,6 +73,9 @@ void main() {
     await tester.tap(find.text('Cancelar'));
     await tester.pump(const Duration(milliseconds: 400));
     await _print(tester, 'pasta', const TelaPasta(pastaId: 'pa1'));
+    await _print(tester, 'mesas', const TelaInicio());
+    await tester.tap(find.text('Mesas'));
+    await _salvar(tester, 'mesas');
     await _print(tester, 'ficha_agente', const TelaFicha(fichaId: 'a1'));
     // ajuste de PV: toque no número do painel
     await tester.tap(find.textContaining('/31', findRichText: true).first);
@@ -113,6 +116,8 @@ void main() {
     await _print(tester, 'quadro', TelaQuadro(fonte: FonteQuadro.ficha('a1')));
     await _print(tester, 'ficha_pc', const TelaFicha(fichaId: 'a1'), tamanho: _pc);
     await _print(tester, 'inicio_pc', const TelaInicio(), tamanho: _pc);
+    await tester.tap(find.text('Mesas'));
+    await _salvar(tester, 'mesas_pc');
     // a ficha em cada afinidade do dossiê
     for (final af in ['Conhecimento', 'Energia', 'Morte', 'Sangue']) {
       await Repo.db.collection('characters').doc('a1').update({'elementoVisual': af, 'seloCirculo': 3});
@@ -429,6 +434,8 @@ Future<void> _telasCombateMestre(WidgetTester tester) async {
   await tester.pump(const Duration(milliseconds: 300));
   await tester.scrollUntilVisible(find.text('Regras de combate'), 300,
       scrollable: find.descendant(of: find.byType(AbaRegras), matching: find.byType(Scrollable)).first);
+  await tester.ensureVisible(find.text('Regras de combate'));
+  await tester.pump(const Duration(milliseconds: 300));
   await tester.tap(find.text('Regras de combate'));
   await tester.pump(const Duration(milliseconds: 400));
   // o tópico desce um pouco, para sair de baixo do cabeçalho
@@ -463,23 +470,28 @@ Future<void> _telasCombateMestre(WidgetTester tester) async {
   await _print(tester, 'mestre_jogadores_pc', const TelaCampanha(campanhaId: 'c1'), tamanho: _pc);
   await tester.tap(find.text('Jogadores').first);
   await _salvar(tester, 'mestre_jogadores_pc');
-  await tester.tap(find.text('PEDIDOS DE HOMEBREW (1)'));
+  await tester.tap(find.text('Pedidos de homebrew (1)'));
   await _salvar(tester, 'mestre_pedidos_pc');
   await tester.tap(find.text('Nomes').first);
   await _salvar(tester, 'mestre_nomes_pc');
+  await tester.tap(find.byIcon(Icons.casino_outlined).first);
+  await _salvar(tester, 'mestre_rolagens_pc');
+  await tester.tap(find.byIcon(Icons.settings_outlined));
+  await _salvar(tester, 'mestre_mesa_pc');
   await _print(tester, 'mestre_mais', const TelaCampanha(campanhaId: 'c1'));
   await tester.tap(find.text('Mais'));
   await _salvar(tester, 'mestre_mais');
   // o lado do jogador (Lia): as abas Notas e Pedidos da mesa
   Repo.authTeste = MockFirebaseAuth(signedIn: true, mockUser: MockUser(uid: 'u2', displayName: 'Lia'));
-  await _print(tester, 'jogador_notas', const TelaCampanha(campanhaId: 'c1'));
-  await tester.tap(find.text('NOTAS'));
+  await _print(tester, 'jogador_mesa_pc', const TelaCampanha(campanhaId: 'c1'), tamanho: _pc);
+  await _print(tester, 'jogador_mesa', const TelaCampanha(campanhaId: 'c1'));
+  await tester.tap(find.text('Notas'));
   await _salvar(tester, 'jogador_notas');
-  await tester.tap(find.text('PEDIDOS'));
+  await tester.tap(find.text('Pedidos'));
   await _salvar(tester, 'jogador_pedidos');
   // o ajuste da foto de perfil: o círculo, como fica na ficha e nas notas
   final ajuste =
-      escolherEnquadramento(tester.element(find.text('PEDIDOS')), foto: 'jogador2', nome: 'Lia', redondo: true);
+      escolherEnquadramento(tester.element(find.text('Pedidos').first), foto: 'jogador2', nome: 'Lia', redondo: true);
   await _salvar(tester, 'foto_jogador_ajuste');
   await tester.tap(find.text('Cancelar'));
   await ajuste;
@@ -776,8 +788,8 @@ Future<void> _prepararDados() async {
     'nome': 'Operação Sangue Velho',
     'masterUid': _uid,
     'joinCode': 'K7Q2ZP',
-    'memberUids': [_uid],
-    'members': {_uid: 'Enzo'},
+    'memberUids': [_uid, 'u2', 'u3'],
+    'members': {_uid: 'Enzo', 'u2': 'Lia', 'u3': 'Davi'},
     'regras': {'determinacao': false, 'progressao': 'nex'},
     'combate': {'ativo': false, 'rodada': 1, 'turno': 0, 'ordem': []},
     // a sessão começou há 1h12
@@ -789,6 +801,22 @@ Future<void> _prepararDados() async {
     ],
     'ledger': [],
     'missao': 'Descobrir quem marcou o porão da mansão Albuquerque.',
+  });
+  await db.collection('campaigns').doc('c2').set({
+    'nome': 'O Segredo na Ilha',
+    'masterUid': 'u3',
+    'joinCode': 'W2HX9B',
+    'memberUids': ['u3', _uid, 'u2'],
+    'members': {'u3': 'Davi', _uid: 'Enzo', 'u2': 'Lia'},
+    'regras': {'determinacao': false, 'progressao': 'nex'},
+    'combate': {'ativo': false, 'rodada': 1, 'turno': 0, 'ordem': []},
+    'sessao': {'ativa': false, 'numero': 2, 'inicio': agora - 3 * dia, 'fim': agora - 3 * dia + 11400000},
+    'sessoes': [
+      {'numero': 1, 'inicio': agora - 10 * dia, 'fim': agora - 10 * dia + 12600000},
+      {'numero': 2, 'inicio': agora - 3 * dia, 'fim': agora - 3 * dia + 11400000},
+    ],
+    'ledger': [],
+    'missao': 'Achar o pesquisador que sumiu na ilha antes da próxima lua cheia.',
   });
   // os nomes e as notas das sessões: os do mestre e os de um agente
   await db.collection('campaigns').doc('c1').collection('gm').doc('sessoes').set({

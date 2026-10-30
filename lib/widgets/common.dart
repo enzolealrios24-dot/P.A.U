@@ -140,36 +140,38 @@ class BarraStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final frac = max <= 0 ? 0.0 : (atual / max).clamp(0.0, 1.0);
-    final alto = compacta ? 32.0 : 38.0;
+    final alto = compacta ? 34.0 : 40.0;
     Widget seta(IconData icone, int d) => SizedBox(
-          width: compacta ? 28 : 34,
+          width: compacta ? 30 : 34,
           height: alto,
           child: InkWell(
             onTap: () => aoMudar(atual + d),
             child: Tooltip(
               message: d > 0 ? '+$d' : '$d',
-              child: Icon(icone,
-                  size: compacta ? 17 : 20, color: Colors.white.withValues(alpha: 0.85)),
+              child: Icon(icone, size: compacta ? 17 : 20, color: Cores.texto.withValues(alpha: 0.8)),
             ),
           ),
         );
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 2, bottom: 4),
-          child: Text(rotulo,
-              style: estiloRotulo(compacta ? 12 : 13, cor: cor, peso: FontWeight.w700, espaco: 1.6)),
-        ),
+    // o nome fica numa casa à esquerda, como na ficha impressa; o
+    // preenchimento é translúcido, para o número ficar legível em qualquer
+    // cor de tema
+    return Container(
+      height: alto,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        color: Color.alphaBlend(cor.withValues(alpha: 0.07), Cores.painel2),
+        border: Border.all(color: cor.withValues(alpha: 0.35)),
+      ),
+      child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         Container(
-          height: alto,
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-            color: cor.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(4),
-            border: Border.all(color: cor.withValues(alpha: 0.35)),
-          ),
+          width: rotulo.length > 3 ? 62 : 42,
+          alignment: Alignment.center,
+          color: cor.withValues(alpha: 0.16),
+          child: Text(rotulo,
+              textAlign: TextAlign.center,
+              style: estiloRotulo(compacta ? 11.5 : 13, cor: Cores.texto, peso: FontWeight.w700, espaco: 1)),
+        ),
+        Expanded(
           child: Stack(fit: StackFit.expand, children: [
             TweenAnimationBuilder<double>(
               tween: Tween(end: frac),
@@ -180,12 +182,7 @@ class BarraStatus extends StatelessWidget {
                 widthFactor: v,
                 child: child,
               ),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [cor.withValues(alpha: 0.55), cor.withValues(alpha: 0.92)]),
-                ),
-              ),
+              child: ColoredBox(color: cor.withValues(alpha: 0.32)),
             ),
             Row(children: [
               seta(Icons.keyboard_double_arrow_left, -5),
@@ -199,15 +196,13 @@ class BarraStatus extends StatelessWidget {
                   child: Center(
                     child: Text.rich(
                       TextSpan(children: [
-                        TextSpan(
-                            text: '$atual',
-                            style: estiloNumero(compacta ? 18 : 21, cor: Colors.white)),
+                        TextSpan(text: '$atual', style: estiloNumero(compacta ? 18 : 21, cor: Cores.texto)),
                         TextSpan(
                             text: ' / $max',
                             style: estiloNumero(compacta ? 13 : 15,
-                                cor: Colors.white.withValues(alpha: 0.75), peso: FontWeight.w600)),
+                                cor: Cores.texto.withValues(alpha: 0.7), peso: FontWeight.w600)),
                       ]),
-                      style: const TextStyle(shadows: [Shadow(color: Colors.black54, blurRadius: 4)]),
+                      style: const TextStyle(shadows: [Shadow(color: Colors.black87, blurRadius: 4)]),
                     ),
                   ),
                 ),
@@ -217,7 +212,7 @@ class BarraStatus extends StatelessWidget {
             ]),
           ]),
         ),
-      ],
+      ]),
     );
   }
 }

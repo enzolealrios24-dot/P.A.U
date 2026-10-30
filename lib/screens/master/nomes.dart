@@ -8,6 +8,7 @@ import '../../core/nomes.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/repo.dart';
+import '../../widgets/arquivo.dart';
 import '../../widgets/common.dart';
 
 /// Gerador de nomes do mestre: nomes brasileiros para NPCs, testemunhas e
@@ -67,7 +68,7 @@ class _AbaNomesState extends State<AbaNomes> {
                 padding: const EdgeInsets.fromLTRB(14, 6, 4, 6),
                 child: Row(children: [
                   Expanded(
-                    child: Text(nome, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                    child: Text(nome, style: estiloMaquina(15.5, cor: Cores.texto, espaco: 0.4)),
                   ),
                   IconButton(
                     tooltip: guardado ? 'Tirar dos guardados' : 'Guardar',
@@ -84,13 +85,12 @@ class _AbaNomesState extends State<AbaNomes> {
         return LayoutBuilder(builder: (context, c) {
           final colunas = c.maxWidth >= 1000 ? 3 : (c.maxWidth >= 640 ? 2 : 1);
           final largura = (c.maxWidth - 24 - 8 * (colunas - 1)) / colunas;
-          return ListView(padding: const EdgeInsets.fromLTRB(12, 12, 12, 28), children: [
-            Text('GERADOR DE NOMES', style: estiloTitulo(20, cor: Cores.destaque)),
-            const SizedBox(height: 2),
-            const Text(
-                'Nomes para NPCs, testemunhas e cultistas. Toque num nome para copiar; a estrela guarda na lista da mesa, que só você vê.',
-                style: TextStyle(fontSize: 13.5, color: Cores.textoFraco)),
-            const SizedBox(height: 12),
+          return ListView(padding: const EdgeInsets.fromLTRB(16, 16, 16, 28), children: [
+            const CabecalhoAba(
+              titulo: 'Gerador de nomes',
+              texto:
+                  'Nomes para NPCs, testemunhas e cultistas. Toque num nome para copiar; a estrela guarda na lista da mesa, que só você vê.',
+            ),
             Wrap(spacing: 8, runSpacing: 8, crossAxisAlignment: WrapCrossAlignment.center, children: [
               SegmentedButton<String>(
                 segments: const [
@@ -132,9 +132,8 @@ class _AbaNomesState extends State<AbaNomes> {
             ]),
             if (guardados.isNotEmpty) ...[
               Padding(
-                padding: const EdgeInsets.only(top: 22, bottom: 8),
-                child: Text('GUARDADOS',
-                    style: estiloRotulo(12.5, cor: Cores.textoFraco, peso: FontWeight.w600, espaco: 1.6)),
+                padding: const EdgeInsets.only(top: 26, bottom: 10),
+                child: Text('Guardados', style: estiloTitulo(17, cor: Cores.textoFraco)),
               ),
               Wrap(spacing: 8, runSpacing: 8, children: [
                 for (final n in guardados.reversed) SizedBox(width: largura, child: cartao(n)),

@@ -6,6 +6,7 @@ import '../../core/theme.dart';
 import '../../data/catalogo.dart';
 import '../../data/models.dart';
 import '../../data/repo.dart';
+import '../../widgets/arquivo.dart';
 import '../../widgets/common.dart';
 import '../../widgets/form_dialog.dart';
 import '../sheet/tab_listas.dart';
@@ -23,10 +24,14 @@ class AbaRegras extends StatelessWidget {
     void set(String campo, dynamic v) =>
         Repo.setCamp(camp.id, {'regras.$campo': v});
 
-    return ListView(padding: const EdgeInsets.all(12), children: [
-      Secao(
+    return ListView(padding: const EdgeInsets.fromLTRB(16, 16, 16, 28), children: [
+      const CabecalhoAba(
+        titulo: 'Regras',
+        texto: 'As regras opcionais e os ajustes desta mesa valem para todas as fichas dela.',
+      ),
+      BlocoMesa(
         titulo: 'Regras opcionais',
-        child: Column(children: [
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Seletor(
             rotulo: 'Progressão dos personagens',
             valor: modosProgressao[asStr(r['progressao'], 'nex')] ??
@@ -88,7 +93,7 @@ class AbaRegras extends StatelessWidget {
           ]),
         ]),
       ),
-      Secao(
+      BlocoMesa(
         titulo: 'Valores das classes',
         acoes: [
           TextButton(
@@ -101,7 +106,7 @@ class AbaRegras extends StatelessWidget {
             child: const Text('Restaurar padrão'),
           ),
         ],
-        child: Column(children: [
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           for (final cl in nomesClasses())
             ExpansionTile(
               tilePadding: EdgeInsets.zero,
@@ -169,7 +174,7 @@ class _Biblioteca extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Secao(
+    return BlocoMesa(
       titulo: 'Biblioteca homebrew da mesa',
       child: StreamBuilder<List<(String, Map<String, dynamic>)>>(
         stream: Repo.stream(Repo.homebrew(camp.id)),
@@ -296,9 +301,9 @@ class _ConsultaLivros extends StatelessWidget {
         final p = peso(a).compareTo(peso(b));
         return p != 0 ? p : a.compareTo(b);
       });
-    return Secao(
+    return BlocoMesa(
       titulo: 'Consulta dos livros',
-      child: Column(children: [
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const Padding(
           padding: EdgeInsets.only(bottom: 6),
           child: Text(

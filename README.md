@@ -12,7 +12,8 @@ Este arquivo é o log do aplicativo: [tudo o que ele tem](#tudo-o-que-o-pau-tem)
 - Entrar com e-mail e senha, com "Esqueci a senha".
 - Seu nome na mesa e sua **foto de perfil**, com ajuste do enquadramento (centralizar o rosto e dar zoom).
 - Tema de cores do app: Medo (branco, o padrão), Floresta, Oceano, Lago, Terra e Pôr do sol.
-- Agentes organizados em pastas.
+- **Agentes** como dossiês: retrato com o NEX num hexágono, classe, recursos e a mesa em que cada um está; organizados em pastas.
+- **Mesas**: criar uma como mestre ou entrar com o código; cada mesa aparece como a pasta de uma operação, com quem mestra, a missão, quem está nela e a sessão ao vivo.
 - Importar agentes do site do CRIS pelo link de compartilhar.
 - Para Android e Windows (com instalador ou portátil).
 - Funciona offline e sincroniza quando a internet volta.
@@ -33,14 +34,16 @@ Este arquivo é o log do aplicativo: [tudo o que ele tem](#tudo-o-que-o-pau-tem)
 
 ### Na mesa (jogadores)
 - Entrar na mesa pelo código e vincular o agente.
-- **Mesa**: mestre, jogadores, missão atual, a sessão em andamento com o tempo e a iniciativa do combate com o relógio.
+- Abas de fichário: na lateral no computador e embaixo no celular.
+- **Mesa**: a sessão ao vivo com o tempo, a missão atual, a iniciativa do combate com o relógio, o seu agente e quem está na mesa, com as fotos.
 - **Rolagens**: as rolagens da mesa em tempo real.
 - **Notas**: notas para o mestre, que vê o seu nome e o agente; aviso quando ele lê.
 - **Pedidos**: pedidos de homebrew (item, ritual, poder ou outro) com a resposta do mestre.
 - Ataques e rituais contra um alvo do combate vão ao mestre para conferir e aplicar o dano.
 
 ### Escudo do mestre
-- **Painel**: iniciar e encerrar a sessão (com o tempo), os agentes ao vivo (PV, PE, SAN e condições), pedir teste a todos, dano ou cura em grupo e recuperar todos.
+- Abas de fichário na lateral (no celular, embaixo, com as que não cabem em "Mais") e o código da mesa no topo, para copiar.
+- **Painel**: iniciar e encerrar a sessão (com o tempo), os agentes ao vivo (PV, PE, SAN, Defesa, deslocamento, carga, prestígio e condições), pedir teste a todos, dano ou cura em grupo e recuperar todos.
 - **Combate**: iniciativa (os agentes entram sozinhos), rodadas e turnos, ameaças com o nome escondido dos jogadores, relógio do combate e o espaço do alvo com agentes e ameaças.
   - **Ação**: os ataques e habilidades de cada ameaça em botões, com resumo ao passar o mouse; acerto contra a Defesa, dano com a RD do agente, testes de resistência, condições, esquiva e bloqueio (a reação que o agente escolheu, uma por rodada).
   - **Dano**: os golpes dos agentes, com o acerto, a RD, a imunidade e a vulnerabilidade da ameaça; rituais em área com a resistência de cada alvo; condições que o mestre escolhe aplicar.
@@ -58,6 +61,13 @@ Este arquivo é o log do aplicativo: [tudo o que ele tem](#tudo-o-que-o-pau-tem)
 ## Histórico de versões
 
 As novidades de cada versão, da mais nova para a mais antiga. O texto de cada release no GitHub sai daqui.
+
+### v1.0.42 · 30/10/2026
+- Visual novo nas telas de Agentes e de Mesas, com cara de arquivo da Ordem: cada agente é um dossiê com o NEX num hexágono e a mesa em que está; cada mesa é a pasta de uma operação, com quem mestra, a missão, quem está nela e a sessão ao vivo.
+- A área da Mesa virou um fichário, para o mestre e para os jogadores: abas na lateral no computador e embaixo no celular. O código da mesa fica no topo; tocar copia.
+- Todas as abas da Mesa foram redesenhadas. Painel com o relógio da sessão em destaque, as ações em grupo e os agentes com Defesa, deslocamento, carga e prestígio. Rolagens com carimbo de crítico e de falha. Sessões com o número de cada uma na margem. Jogadores, Nomes, Regras, Ameaças e Mesa com o mesmo visual.
+- A aba Mesa do jogador mostra a sessão ao vivo, a missão, o combate, o agente dele e quem está na mesa.
+- Barras de PV, PE e SAN do mestre com o nome dentro e o número legível em qualquer tema.
 
 ### v1.0.41 · 30/10/2026
 - Foto de perfil do jogador com "Ajustar foto": centralizar o rosto e dar zoom, com a prévia redonda de como fica na ficha e nas notas ao mestre. A foto nova já abre no ajuste.

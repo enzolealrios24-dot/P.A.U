@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/repo.dart';
+import '../../widgets/arquivo.dart';
 import '../../widgets/common.dart';
+import '../../widgets/efeitos.dart';
 
 int _agora() => DateTime.now().millisecondsSinceEpoch;
 
@@ -32,54 +34,66 @@ class CartaoSessao extends StatelessWidget {
     final ativa = asBool(s['ativa']);
     final numero = asInt(s['numero']);
     final durou = asInt(s['fim']) - asInt(s['inicio']);
+    final textos = Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
+      Row(mainAxisSize: MainAxisSize.min, children: [
+        Text('Sessão ${ativa ? numero : numero + 1}', style: estiloTitulo(22, cor: Cores.texto)),
+        if (ativa) ...[
+          const SizedBox(width: 12),
+          const Carimbo('AO VIVO', tamanho: 11.5),
+        ],
+      ]),
+      const SizedBox(height: 4),
+      if (ativa)
+        Text('Começou às ${formatarHora(asInt(s['inicio']))}', style: estiloMaquina(13, cor: Cores.textoFraco))
+      else
+        Text(
+          numero == 0 || durou <= 0
+              ? 'Quando todos estiverem prontos, inicie a sessão: os jogadores veem que ela começou.'
+              : 'A sessão $numero durou ${duracaoTexto(Duration(milliseconds: durou))}.',
+          style: const TextStyle(fontSize: 14, height: 1.4, color: Cores.textoFraco),
+        ),
+    ]);
+    final botao = ativa
+        ? OutlinedButton.icon(
+            onPressed: () => _encerrar(context, s),
+            icon: const Icon(Icons.stop_circle_outlined),
+            label: const Text('Encerrar sessão'),
+          )
+        : FilledButton.icon(
+            onPressed: () {
+              final inicio = _agora();
+              Repo.setCamp(camp.id, {
+                'sessao': {'ativa': true, 'numero': numero + 1, 'inicio': inicio},
+                'sessoes': [
+                  ...camp.historicoSessoes,
+                  {'numero': numero + 1, 'inicio': inicio},
+                ],
+              });
+            },
+            icon: const Icon(Icons.play_arrow),
+            label: const Text('Iniciar sessão'),
+          );
+    final relogio = ativa ? Cronometro(inicio: asInt(s['inicio']), estilo: estiloNumero(40, cor: Cores.texto)) : null;
     return Material(
-      color: ativa ? Cores.destaque.withValues(alpha: 0.1) : Cores.painel,
-      shape: CorteCantos(corte: 14, cor: Cores.destaque.withValues(alpha: ativa ? 0.9 : 0.45), largura: ativa ? 1.6 : 1),
+      color: ativa ? Color.alphaBlend(Cores.destaque.withValues(alpha: 0.09), Cores.painel) : Cores.painel,
+      shape: CorteCantos(corte: 16, cor: Cores.destaque.withValues(alpha: ativa ? 0.9 : 0.45), largura: ativa ? 1.6 : 1),
       clipBehavior: Clip.antiAlias,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 14, 14, 14),
-        child: Row(children: [
-          Icon(ativa ? Icons.radio_button_checked : Icons.play_circle_outline, size: 30, color: Cores.destaque),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(ativa ? 'SESSÃO $numero · EM ANDAMENTO' : 'SESSÃO ${numero + 1}',
-                  style: estiloRotulo(13, cor: Cores.destaque, peso: FontWeight.w700, espaco: 1.6)),
-              const SizedBox(height: 2),
-              if (ativa)
-                Cronometro(inicio: asInt(s['inicio']), estilo: estiloNumero(28, cor: Cores.texto))
-              else
-                Text(
-                  numero == 0 || durou <= 0
-                      ? 'Quando todos estiverem prontos, inicie a sessão: os jogadores veem que ela começou.'
-                      : 'A sessão $numero durou ${duracaoTexto(Duration(milliseconds: durou))}.',
-                  style: const TextStyle(fontSize: 13, color: Cores.textoFraco),
-                ),
-            ]),
-          ),
-          const SizedBox(width: 10),
-          if (ativa)
-            OutlinedButton.icon(
-              onPressed: () => _encerrar(context, s),
-              icon: const Icon(Icons.stop_circle_outlined),
-              label: const Text('Encerrar sessão'),
-            )
-          else
-            FilledButton.icon(
-              onPressed: () {
-                final inicio = _agora();
-                Repo.setCamp(camp.id, {
-                  'sessao': {'ativa': true, 'numero': numero + 1, 'inicio': inicio},
-                  'sessoes': [
-                    ...camp.historicoSessoes,
-                    {'numero': numero + 1, 'inicio': inicio},
-                  ],
-                });
-              },
-              icon: const Icon(Icons.play_arrow),
-              label: const Text('Iniciar sessão'),
-            ),
-        ]),
+        padding: const EdgeInsets.fromLTRB(18, 16, 16, 16),
+        child: LayoutBuilder(
+          builder: (context, c) => c.maxWidth < 560
+              ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  textos,
+                  if (relogio != null) ...[const SizedBox(height: 8), relogio],
+                  const SizedBox(height: 12),
+                  botao,
+                ])
+              : Row(children: [
+                  Expanded(child: textos),
+                  if (relogio != null) ...[relogio, const SizedBox(width: 20)],
+                  botao,
+                ]),
+        ),
       ),
     );
   }
@@ -95,25 +109,34 @@ class AvisoSessao extends StatelessWidget {
     final s = camp.sessao;
     if (!asBool(s['ativa'])) {
       return const Padding(
-        padding: EdgeInsets.fromLTRB(4, 0, 4, 4),
-        child: Text('A sessão ainda não começou: o mestre inicia pelo Painel da mesa.',
-            style: TextStyle(fontSize: 13, color: Cores.textoFraco)),
+        padding: EdgeInsets.fromLTRB(2, 2, 2, 8),
+        child: Row(children: [
+          Icon(Icons.schedule, size: 18, color: Cores.textoFraco),
+          SizedBox(width: 8),
+          Expanded(
+            child: Text('A sessão ainda não começou: o mestre inicia pelo Painel da mesa.',
+                style: TextStyle(fontSize: 14, color: Cores.textoFraco)),
+          ),
+        ]),
       );
     }
-    return Material(
-      color: Cores.destaque.withValues(alpha: 0.1),
-      shape: CorteCantos(corte: 12, cor: Cores.destaque.withValues(alpha: 0.8)),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(14, 10, 14, 10),
-        child: Row(children: [
-          Icon(Icons.radio_button_checked, size: 20, color: Cores.destaque),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text('SESSÃO ${asInt(s['numero'])} EM ANDAMENTO',
-                style: estiloRotulo(13, cor: Cores.destaque, peso: FontWeight.w700, espaco: 1.4)),
-          ),
-          Cronometro(inicio: asInt(s['inicio']), estilo: estiloNumero(20, cor: Cores.texto)),
-        ]),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 6),
+      child: Material(
+        color: Color.alphaBlend(Cores.destaque.withValues(alpha: 0.09), Cores.painel),
+        shape: CorteCantos(corte: 12, cor: Cores.destaque.withValues(alpha: 0.8), largura: 1.4),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+          child: Row(children: [
+            const Carimbo('AO VIVO', tamanho: 11),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Text('Sessão ${asInt(s['numero'])} em andamento',
+                  style: estiloTitulo(16, cor: Cores.texto)),
+            ),
+            Cronometro(inicio: asInt(s['inicio']), estilo: estiloNumero(24, cor: Cores.texto)),
+          ]),
+        ),
       ),
     );
   }
@@ -144,15 +167,15 @@ class AbaSessoes extends StatelessWidget {
   Widget build(BuildContext context) {
     final lista = camp.historicoSessoes.reversed.toList();
     final atual = camp.sessao;
-    return ListView(padding: const EdgeInsets.fromLTRB(12, 12, 12, 28), children: [
+    return ListView(padding: const EdgeInsets.fromLTRB(16, 16, 16, 28), children: [
       if (comControle) ...[
         CartaoSessao(camp: camp),
-        const SizedBox(height: 16),
+        const SizedBox(height: 22),
       ],
-      Text('SESSÕES', style: estiloTitulo(20, cor: Cores.destaque)),
-      const SizedBox(height: 2),
-      Text('O registro de todas as sessões da mesa, com o tempo de cada uma. Nomes e notas $deQuem.',
-          style: const TextStyle(fontSize: 13.5, color: Cores.textoFraco)),
+      CabecalhoAba(
+        titulo: 'Sessões',
+        texto: 'O registro de todas as sessões da mesa, com o tempo de cada uma. Nomes e notas $deQuem.',
+      ),
       if (lista.isEmpty)
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 24),
@@ -163,7 +186,6 @@ class AbaSessoes extends StatelessWidget {
           ),
         ),
       for (final s in lista) ...[
-        const SizedBox(height: 12),
         _RegistroSessao(
           key: ValueKey(asInt(s['numero'])),
           sessao: s,
@@ -171,11 +193,14 @@ class AbaSessoes extends StatelessWidget {
           nota: asMap(notas['${asInt(s['numero'])}']),
           aoSalvar: (campo, v) => aoSalvar(asInt(s['numero']), campo, v),
         ),
+        const SizedBox(height: 12),
       ],
     ]);
   }
 }
 
+/// Uma sessão do registro: o número grande na margem, como capítulo, e ao
+/// lado o nome, a data, o tempo e as notas.
 class _RegistroSessao extends StatelessWidget {
   final Map<String, dynamic> sessao;
   final bool ativa;
@@ -189,56 +214,70 @@ class _RegistroSessao extends StatelessWidget {
     final inicio = asInt(sessao['inicio']);
     final fim = asInt(sessao['fim']);
     final nome = asStr(nota['nome']);
-    final tempo = estiloNumero(20, cor: Cores.texto);
+    final tempo = estiloNumero(22, cor: Cores.texto);
     return Material(
-      color: ativa ? Cores.destaque.withValues(alpha: 0.08) : Cores.painel,
-      shape: CorteCantos(corte: 12, cor: Cores.destaque.withValues(alpha: ativa ? 0.9 : 0.4)),
+      color: ativa ? Color.alphaBlend(Cores.destaque.withValues(alpha: 0.07), Cores.painel) : Cores.painel,
+      shape: CorteCantos(corte: 12, cor: ativa ? Cores.destaque.withValues(alpha: 0.85) : Cores.borda),
       clipBehavior: Clip.antiAlias,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(14, 12, 14, 14),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Expanded(
-              child: Text.rich(TextSpan(children: [
-                TextSpan(text: 'Sessão $numero', style: estiloTitulo(18, cor: Cores.texto)),
-                if (nome.isNotEmpty) TextSpan(text: ' · $nome', style: estiloTitulo(18, cor: Cores.destaque)),
-              ])),
-            ),
-            const SizedBox(width: 10),
-            if (ativa)
-              Row(mainAxisSize: MainAxisSize.min, children: [
-                Icon(Icons.radio_button_checked, size: 16, color: Cores.destaque),
-                const SizedBox(width: 6),
-                Cronometro(inicio: inicio, estilo: tempo),
-              ])
-            else
-              Text(fim > inicio && inicio > 0 ? duracaoTexto(Duration(milliseconds: fim - inicio)) : '—', style: tempo),
-          ]),
-          if (inicio > 0)
-            Text('${dataHora(inicio)}${ativa ? ' · em andamento' : ''}',
-                style: const TextStyle(fontSize: 12.5, color: Cores.textoFraco)),
-          const SizedBox(height: 10),
-          CampoSync(
-            valor: nome,
-            rotulo: 'Nome da sessão',
-            dica: 'Ex.: O porão da fazenda',
-            aoSalvar: (v) => aoSalvar('nome', v),
+      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        SizedBox(
+          width: 64,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 14),
+            child: Column(children: [
+              Text('sessão', style: estiloMaquina(11, cor: Cores.textoFraco)),
+              Gasto(
+                escala: 0.6,
+                child: Text('$numero',
+                    style: estiloTitulo(34, cor: ativa ? Cores.destaque : Cores.texto, peso: FontWeight.w800, altura: 1.1)),
+              ),
+            ]),
           ),
-          const SizedBox(height: 8),
-          CampoSync(
-            valor: asStr(nota['nota']),
-            rotulo: 'Notas',
-            dica: 'Ex.: Fulano morreu; a chave ficou com a Bianca…',
-            maxLinhas: 8,
-            aoSalvar: (v) => aoSalvar('nota', v),
+        ),
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+            decoration: const BoxDecoration(border: Border(left: BorderSide(color: Cores.linha))),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Expanded(
+                  child: Text(nome.isEmpty ? 'Sessão $numero' : nome,
+                      style: estiloTitulo(18, cor: nome.isEmpty ? Cores.textoFraco : Cores.texto)),
+                ),
+                const SizedBox(width: 10),
+                if (ativa)
+                  Cronometro(inicio: inicio, estilo: tempo)
+                else
+                  Text(fim > inicio && inicio > 0 ? duracaoTexto(Duration(milliseconds: fim - inicio)) : '—', style: tempo),
+              ]),
+              if (inicio > 0) ...[
+                const SizedBox(height: 2),
+                Text('${dataHora(inicio)}${ativa ? ', em andamento' : ''}',
+                    style: estiloMaquina(12.5, cor: ativa ? Cores.destaque : Cores.textoFraco)),
+              ],
+              const SizedBox(height: 8),
+              CampoSync(
+                valor: nome,
+                rotulo: 'Nome da sessão',
+                dica: 'Ex.: O porão da fazenda',
+                aoSalvar: (v) => aoSalvar('nome', v),
+              ),
+              const SizedBox(height: 8),
+              CampoSync(
+                valor: asStr(nota['nota']),
+                rotulo: 'Notas',
+                dica: 'Ex.: Fulano morreu; a chave ficou com a Bianca…',
+                maxLinhas: 8,
+                aoSalvar: (v) => aoSalvar('nota', v),
+              ),
+            ]),
           ),
-        ]),
-      ),
+        ),
+      ]),
     );
   }
 }
-
-/// A aba Sessões do mestre: os nomes e as notas dele ficam guardados à
+// A aba Sessões do mestre: os nomes e as notas dele ficam guardados à
 /// parte, só para ele.
 class AbaSessoesMestre extends StatelessWidget {
   final Campanha camp;

@@ -47,13 +47,14 @@ void main() {
 
   testWidgets('só o mestre inicia e encerra a sessão, e ela conta o tempo', (tester) async {
     final db = await abrirMesa(tester, 'mestre');
-    expect(find.text('SESSÃO 1'), findsOneWidget);
+    expect(find.text('Sessão 1'), findsOneWidget);
     await tester.tap(find.text('Iniciar sessão'));
     await tester.pump(const Duration(milliseconds: 300));
     final s = await sessao(db);
     expect(s['ativa'], isTrue);
     expect(s['numero'], 1);
-    expect(find.text('SESSÃO 1 · EM ANDAMENTO'), findsOneWidget);
+    expect(find.text('Sessão 1'), findsOneWidget);
+    expect(find.text('AO VIVO'), findsOneWidget);
     expect(find.text('00:00'), findsOneWidget);
 
     await tester.tap(find.text('Encerrar sessão'));
@@ -63,7 +64,7 @@ void main() {
     final fim = await sessao(db);
     expect(fim['ativa'], isFalse);
     expect(fim['fim'], isNotNull);
-    expect(find.text('SESSÃO 2'), findsOneWidget);
+    expect(find.text('Sessão 2'), findsOneWidget);
     expect(find.textContaining('A sessão 1 durou'), findsOneWidget);
 
     // o registro guarda o tempo de cada sessão
@@ -98,7 +99,8 @@ void main() {
     await tester.pump(const Duration(seconds: 1));
     final notas = (await db.collection('campaigns').doc('c1').collection('gm').doc('sessoes').get()).data()!;
     expect(asMap(notas['4']), {'nome': 'O porão', 'nota': 'Fulano morreu'});
-    expect(find.textContaining('Sessão 4 · O porão', findRichText: true), findsOneWidget);
+    // o nome dado vira o título do registro
+    expect(find.byWidgetPredicate((w) => w is Text && w.data == 'O porão'), findsOneWidget);
   });
 
   testWidgets('cada agente anota as sessões na própria ficha', (tester) async {
@@ -155,7 +157,7 @@ void main() {
       'sessao': {'ativa': true, 'numero': 4, 'inicio': DateTime.now().millisecondsSinceEpoch - 65000},
     });
     await tester.pump(const Duration(milliseconds: 300));
-    expect(find.text('SESSÃO 4 EM ANDAMENTO'), findsOneWidget);
+    expect(find.text('Sessão 4 em andamento'), findsOneWidget);
     expect(find.text('01:05'), findsOneWidget);
     expect(find.text('Iniciar sessão'), findsNothing);
   });

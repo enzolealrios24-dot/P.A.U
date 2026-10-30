@@ -76,7 +76,7 @@ void main() {
   testWidgets('a nota do jogador chega ao mestre com o nome dele, e ele marca como lida', (tester) async {
     await mesa(quem: 'jogador');
     await abrir(tester);
-    await tester.tap(find.text('NOTAS'));
+    await tester.tap(find.text('Notas'));
     await esperar(tester);
     expect(find.textContaining('Ele vê seu nome (Lia) e o agente (Bianca Torres)'), findsOneWidget);
     await tester.enterText(find.byType(TextField), 'Quero investigar o diário.');
@@ -96,19 +96,19 @@ void main() {
     expect(find.text('1'), findsWidgets);
     await tester.tap(find.text('Jogadores'));
     await esperar(tester);
-    expect(find.text('NOTAS DOS JOGADORES (1)'), findsOneWidget);
+    expect(find.text('Notas dos jogadores (1)'), findsOneWidget);
     expect(find.textContaining('Lia', findRichText: true), findsWidgets);
     expect(find.text('Quero investigar o diário.'), findsOneWidget);
     await tester.tap(find.text('Marcar como lida'));
     await esperar(tester);
     expect(asMap((await ficha()).notasAoMestre.values.single)['lida'], isTrue);
-    expect(find.text('NOTAS DOS JOGADORES'), findsOneWidget);
+    expect(find.text('Notas dos jogadores'), findsOneWidget);
   });
 
   testWidgets('o pedido de homebrew aceito entra na biblioteca da mesa', (tester) async {
     await mesa(quem: 'jogador');
     await abrir(tester);
-    await tester.tap(find.text('PEDIDOS'));
+    await tester.tap(find.text('Pedidos'));
     await esperar(tester);
     await tester.tap(find.text('Ritual'));
     await tester.enterText(find.widgetWithText(TextField, 'Nome'), 'Sussurro do Porão');
@@ -121,9 +121,10 @@ void main() {
     await abrir(tester);
     await tester.tap(find.text('Jogadores'));
     await esperar(tester);
-    await tester.tap(find.text('PEDIDOS DE HOMEBREW (1)'));
+    await tester.tap(find.text('Pedidos de homebrew (1)'));
     await esperar(tester);
-    expect(find.text('RITUAL · Sussurro do Porão'), findsOneWidget);
+    expect(find.text('RITUAL'), findsOneWidget);
+    expect(find.text('Sussurro do Porão'), findsOneWidget);
     await tester.tap(find.text('Aceitar e pôr na biblioteca'));
     await esperar(tester);
     final pedido = asMap((await ficha()).pedidosHomebrew.values.single);
@@ -176,11 +177,11 @@ void main() {
     await abrir(tester);
     await tester.tap(find.text('Nomes'));
     await esperar(tester);
-    expect(find.text('GERADOR DE NOMES'), findsOneWidget);
+    expect(find.text('Gerador de nomes'), findsOneWidget);
     await tester.tap(find.byIcon(Icons.star_border).first);
     await esperar(tester);
     final guardados = asStrList((await db.collection('campaigns').doc('c1').collection('gm').doc('nomes').get()).data()!['lista']);
     expect(guardados, hasLength(1));
-    expect(find.text('GUARDADOS'), findsOneWidget);
+    expect(find.text('Guardados'), findsOneWidget);
   });
 }

@@ -365,29 +365,33 @@ class TelaPasta extends StatelessWidget {
                             ]),
                           ),
                         )
-                      : LayoutBuilder(builder: (context, cons) {
-                          final colunas = cons.maxWidth >= 1150 ? 3 : (cons.maxWidth >= 760 ? 2 : 1);
-                          final largura = (cons.maxWidth - 32 - 12 * (colunas - 1)) / colunas;
-                          return ListView(
-                            padding: const EdgeInsets.fromLTRB(16, 12, 16, 100),
-                            children: [
-                              Wrap(spacing: 12, children: [
-                                for (final (i, f) in dentro.indexed)
-                                  SizedBox(
-                                    width: colunas == 1 ? double.infinity : largura,
-                                    child: Surgir(
-                                      ordem: i,
-                                      child: CartaoAgente(
-                                        ficha: f,
-                                        formas: todas.where((t) => t.transformacaoDe == f.id).toList(),
-                                        aoMover: () => moverAgente(context, f, pastas),
+                      : StreamBuilder<Map<String, String>>(
+                          stream: nomesDasMesas(),
+                          builder: (context, ms) => LayoutBuilder(builder: (context, cons) {
+                            final colunas = cons.maxWidth >= 1150 ? 3 : (cons.maxWidth >= 760 ? 2 : 1);
+                            final largura = (cons.maxWidth - 40 - 16 * (colunas - 1)) / colunas;
+                            return ListView(
+                              padding: const EdgeInsets.fromLTRB(20, 12, 20, 100),
+                              children: [
+                                Wrap(spacing: 16, children: [
+                                  for (final (i, f) in dentro.indexed)
+                                    SizedBox(
+                                      width: colunas == 1 ? double.infinity : largura,
+                                      child: Surgir(
+                                        ordem: i,
+                                        child: CartaoAgente(
+                                          ficha: f,
+                                          mesa: ms.data?[f.campaignId],
+                                          formas: todas.where((t) => t.transformacaoDe == f.id).toList(),
+                                          aoMover: () => moverAgente(context, f, pastas),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                              ]),
-                            ],
-                          );
-                        }),
+                                ]),
+                              ],
+                            );
+                          }),
+                        ),
             );
           },
         );

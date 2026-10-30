@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme.dart';
 import '../../data/models.dart';
 import '../../data/repo.dart';
+import '../../widgets/arquivo.dart';
 import '../../widgets/common.dart';
 import '../../widgets/foto_jogador.dart';
 import '../sheet/tab_listas.dart' show itemPadrao, poderPadrao, ritualPadrao;
@@ -31,8 +32,7 @@ const _tiposPedido = {'item': 'Item', 'ritual': 'Ritual', 'poder': 'Poder', 'out
 
 const _estados = {'pendente': 'Esperando o mestre', 'aceito': 'Aceito', 'recusado': 'Recusado'};
 
-Widget _rotulo(String t) =>
-    Text(t, style: estiloRotulo(12.5, cor: Cores.textoFraco, peso: FontWeight.w600, espaco: 1.6));
+Widget _rotulo(String t) => Text(t, style: estiloTitulo(17, cor: Cores.textoFraco));
 
 ShapeBorder _borda(bool forte) => CorteCantos(corte: 12, cor: Cores.destaque.withValues(alpha: forte ? 0.85 : 0.35));
 
@@ -125,19 +125,13 @@ class _NotasJogadorState extends State<_NotasJogador> {
   Widget build(BuildContext context) {
     final notas = notasDosJogadores(widget.agentes);
     final por = _por;
-    return ListView(padding: const EdgeInsets.fromLTRB(12, 12, 12, 28), children: [
-      Row(children: [
-        FotoJogador(uid: Repo.uid, nome: Repo.nomeUsuario, tamanho: 40, aoTocar: () => opcoesFotoJogador(context)),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('NOTAS PARA O MESTRE', style: estiloTitulo(19, cor: Cores.destaque)),
-            Text('Só o mestre lê. Ele vê seu nome (${Repo.nomeUsuario}) e o agente (${por.nome}).',
-                style: const TextStyle(fontSize: 13, color: Cores.textoFraco)),
-          ]),
-        ),
-      ]),
-      const SizedBox(height: 12),
+    return ListView(padding: const EdgeInsets.fromLTRB(16, 16, 16, 28), children: [
+      CabecalhoAba(
+        inicio: FotoJogador(
+            uid: Repo.uid, nome: Repo.nomeUsuario, tamanho: 48, aoTocar: () => opcoesFotoJogador(context)),
+        titulo: 'Notas para o mestre',
+        texto: 'Só o mestre lê. Ele vê seu nome (${Repo.nomeUsuario}) e o agente (${por.nome}).',
+      ),
       _EscolhaAgente(agentes: widget.agentes, atual: por, aoEscolher: (f) => setState(() => _agente = f.id)),
       TextField(
         controller: _texto,
@@ -159,21 +153,21 @@ class _NotasJogadorState extends State<_NotasJogador> {
         ),
       ),
       if (notas.isNotEmpty) ...[
-        const SizedBox(height: 18),
-        _rotulo('ENVIADAS'),
+        const SizedBox(height: 22),
+        _rotulo('Enviadas'),
         for (final n in notas) ...[
           const SizedBox(height: 8),
           Material(
             color: Cores.painel,
             shape: _borda(false),
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(14, 10, 4, 12),
+              padding: const EdgeInsets.fromLTRB(16, 10, 4, 14),
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
                 Row(children: [
                   Expanded(
                     child: Text(
-                        '${dataHora(asInt(n.d['at']))}${widget.agentes.length > 1 ? ' · ${n.f.nome}' : ''}',
-                        style: const TextStyle(fontSize: 12.5, color: Cores.textoFraco)),
+                        '${dataHora(asInt(n.d['at']))}${widget.agentes.length > 1 ? ', ${n.f.nome}' : ''}',
+                        style: estiloMaquina(12, cor: Cores.textoFraco, espaco: 0.3)),
                   ),
                   Icon(asBool(n.d['lida']) ? Icons.done_all : Icons.schedule,
                       size: 16, color: asBool(n.d['lida']) ? Cores.destaque : Cores.textoFraco),
@@ -257,12 +251,12 @@ class _PedidosJogadorState extends State<_PedidosJogador> {
   Widget build(BuildContext context) {
     final pedidos = pedidosDosJogadores(widget.agentes);
     final por = _por;
-    return ListView(padding: const EdgeInsets.fromLTRB(12, 12, 12, 28), children: [
-      Text('PEDIDOS DE HOMEBREW', style: estiloTitulo(19, cor: Cores.destaque)),
-      const Text(
-          'Peça ao mestre um item, ritual ou poder feito para a mesa. Aceito, ele entra na biblioteca da mesa e você o põe na ficha.',
-          style: TextStyle(fontSize: 13, color: Cores.textoFraco)),
-      const SizedBox(height: 12),
+    return ListView(padding: const EdgeInsets.fromLTRB(16, 16, 16, 28), children: [
+      const CabecalhoAba(
+        titulo: 'Pedidos de homebrew',
+        texto:
+            'Peça ao mestre um item, ritual ou poder feito para a mesa. Aceito, ele entra na biblioteca da mesa e você o põe na ficha.',
+      ),
       _EscolhaAgente(agentes: widget.agentes, atual: por, aoEscolher: (f) => setState(() => _agente = f.id)),
       Wrap(spacing: 6, runSpacing: 6, children: [
         for (final t in _tiposPedido.entries)
@@ -291,8 +285,8 @@ class _PedidosJogadorState extends State<_PedidosJogador> {
         ),
       ),
       if (pedidos.isNotEmpty) ...[
-        const SizedBox(height: 18),
-        _rotulo('SEUS PEDIDOS'),
+        const SizedBox(height: 22),
+        _rotulo('Seus pedidos'),
         for (final p in pedidos) ...[
           const SizedBox(height: 8),
           _CartaoPedido(entrada: p, mostrarAgente: widget.agentes.length > 1),
@@ -322,8 +316,20 @@ class AbaJogadoresMestre extends StatelessWidget {
           Tab aba(String t, int n) => Tab(text: n == 0 ? t : '$t ($n)');
           return DefaultTabController(
             length: 2,
-            child: Column(children: [
-              TabBar(tabs: [aba('NOTAS DOS JOGADORES', naoLidas), aba('PEDIDOS DE HOMEBREW', pendentes)]),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+              const Padding(
+                padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
+                child: CabecalhoAba(
+                  titulo: 'Jogadores',
+                  texto: 'O que os jogadores mandaram para você: notas e pedidos de itens, rituais e poderes.',
+                ),
+              ),
+              TabBar(
+                isScrollable: true,
+                tabAlignment: TabAlignment.start,
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+                tabs: [aba('Notas dos jogadores', naoLidas), aba('Pedidos de homebrew', pendentes)],
+              ),
               Expanded(
                 child: TabBarView(children: [
                   _NotasMestre(notas: notas),
@@ -349,7 +355,7 @@ class _NotasMestre extends StatelessWidget {
             textAlign: TextAlign.center, style: TextStyle(color: Cores.textoFraco)),
       );
     }
-    return ListView(padding: const EdgeInsets.fromLTRB(12, 12, 12, 28), children: [
+    return ListView(padding: const EdgeInsets.fromLTRB(16, 14, 16, 28), children: [
       for (final n in notas) ...[
         _CartaoNotaMestre(nota: n),
         const SizedBox(height: 10),
@@ -374,15 +380,19 @@ class _CartaoNotaMestre extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(14, 12, 8, 14),
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           Row(children: [
-            FotoJogador(uid: asStr(d['uid'], nota.f.ownerUid), nome: autor, tamanho: 40),
+            FotoJogador(uid: asStr(d['uid'], nota.f.ownerUid), nome: autor, tamanho: 44),
             const SizedBox(width: 12),
             Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text.rich(TextSpan(children: [
-                  TextSpan(text: autor, style: estiloTitulo(17, cor: Cores.texto)),
-                  TextSpan(text: '  ${nota.f.nome}', style: TextStyle(fontSize: 13.5, color: Cores.destaque)),
-                ])),
-                Text(dataHora(asInt(d['at'])), style: const TextStyle(fontSize: 12.5, color: Cores.textoFraco)),
+                Row(children: [
+                  Flexible(child: Text(autor, style: estiloTitulo(17, cor: Cores.texto))),
+                  if (!lida) ...[
+                    const SizedBox(width: 10),
+                    const Carimbo('NOVA', tamanho: 10),
+                  ],
+                ]),
+                Text('${nota.f.nome}, ${dataHora(asInt(d['at']))}',
+                    style: estiloMaquina(12, cor: Cores.textoFraco, espaco: 0.3)),
               ]),
             ),
             TextButton.icon(
@@ -416,7 +426,7 @@ class _PedidosMestre extends StatelessWidget {
             textAlign: TextAlign.center, style: TextStyle(color: Cores.textoFraco)),
       );
     }
-    return ListView(padding: const EdgeInsets.fromLTRB(12, 12, 12, 28), children: [
+    return ListView(padding: const EdgeInsets.fromLTRB(16, 14, 16, 28), children: [
       for (final p in pedidos) ...[
         _CartaoPedido(entrada: p, camp: camp, mostrarAgente: true),
         const SizedBox(height: 10),
@@ -486,20 +496,22 @@ class _CartaoPedido extends StatelessWidget {
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
             if (mestre != null) ...[
-              FotoJogador(uid: asStr(d['uid'], entrada.f.ownerUid), nome: autor, tamanho: 40),
+              FotoJogador(uid: asStr(d['uid'], entrada.f.ownerUid), nome: autor, tamanho: 44),
               const SizedBox(width: 12),
             ],
             Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('${(_tiposPedido[asStr(d['tipo'])] ?? 'Outro').toUpperCase()} · ${asStr(d['nome'])}',
-                    style: estiloTitulo(17, cor: Cores.texto)),
+                Carimbo((_tiposPedido[asStr(d['tipo'])] ?? 'Outro').toUpperCase(),
+                    cor: Cores.roxoClaro, tamanho: 10, giro: 0),
+                const SizedBox(height: 6),
+                Text(asStr(d['nome']), style: estiloTitulo(17, cor: Cores.texto)),
                 Text(
                     [
                       if (mestre != null) autor,
                       if (mostrarAgente) entrada.f.nome,
                       dataHora(asInt(d['at'])),
-                    ].join(' · '),
-                    style: const TextStyle(fontSize: 12.5, color: Cores.textoFraco)),
+                    ].join(', '),
+                    style: estiloMaquina(12, cor: Cores.textoFraco, espaco: 0.3)),
               ]),
             ),
             const SizedBox(width: 8),

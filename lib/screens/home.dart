@@ -5,6 +5,7 @@ import '../core/rules.dart';
 import '../core/theme.dart';
 import '../data/models.dart';
 import '../data/repo.dart';
+import '../widgets/arquivo.dart';
 import '../widgets/common.dart';
 import '../widgets/efeitos.dart';
 import '../widgets/foto_jogador.dart';
@@ -36,9 +37,7 @@ class _TelaInicioState extends State<TelaInicio> {
 
   @override
   Widget build(BuildContext context) {
-    final largo = MediaQuery.sizeOf(context).width >= 800;
-    final corpo = _aba == 0 ? const _ListaAgentes() : const _ListaMesas();
-    return Scaffold(
+    return Fichario(
       appBar: AppBar(
         title: const LogoCris(tamanho: 22),
         bottom: const LinhaCris(),
@@ -85,39 +84,21 @@ class _TelaInicioState extends State<TelaInicio> {
           ),
         ],
       ),
-      body: largo
-          ? Row(children: [
-              NavigationRail(
-                selectedIndex: _aba,
-                onDestinationSelected: (i) => setState(() => _aba = i),
-                labelType: NavigationRailLabelType.all,
-                backgroundColor: Colors.transparent,
-                destinations: const [
-                  NavigationRailDestination(
-                      icon: Icon(Icons.badge_outlined), label: Text('Agentes')),
-                  NavigationRailDestination(
-                      icon: Icon(Icons.groups_outlined), label: Text('Mesas')),
-                ],
-              ),
-              const VerticalDivider(width: 1),
-              Expanded(child: corpo),
-            ])
-          : corpo,
-      bottomNavigationBar: largo
-          ? null
-          : NavigationBar(
-              selectedIndex: _aba,
-              onDestinationSelected: (i) => setState(() => _aba = i),
-              destinations: const [
-                NavigationDestination(
-                    icon: Icon(Icons.badge_outlined), label: 'Agentes'),
-                NavigationDestination(
-                    icon: Icon(Icons.groups_outlined), label: 'Mesas'),
-              ],
-            ),
+      abas: const [
+        AbaFichario(Icons.badge_outlined, 'Agentes'),
+        AbaFichario(Icons.groups_outlined, 'Mesas'),
+      ],
+      atual: _aba,
+      aoEscolher: (i) => setState(() => _aba = i),
+      corpo: _aba == 0 ? const _ListaAgentes() : const _ListaMesas(),
     );
   }
 }
+
+/// Os nomes das mesas do jogador, pelo id (para dizer em qual mesa cada
+/// agente está).
+Stream<Map<String, String>> nomesDasMesas() =>
+    Repo.minhasCampanhas().map((l) => {for (final c in l) c.id: c.nome});
 
 class _ListaAgentes extends StatelessWidget {
   const _ListaAgentes();
@@ -134,7 +115,9 @@ class _ListaAgentes extends StatelessWidget {
         icon: const Icon(Icons.add),
         label: const Text('Novo agente'),
       ),
-      body: StreamBuilder<List<Pasta>>(
+      body: StreamBuilder<Map<String, String>>(
+        stream: nomesDasMesas(),
+        builder: (context, ms) => StreamBuilder<List<Pasta>>(
         stream: Repo.minhasPastas(),
         builder: (context, ps) => StreamBuilder<List<Ficha>>(
         stream: Repo.fichasEditaveis(),
@@ -144,6 +127,7 @@ class _ListaAgentes extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
           final todas = snap.data!;
+          final mesas = ms.data ?? const <String, String>{};
           final l = todas
               .where((f) => f.ownerUid == Repo.uid && !f.eTransformacao)
               .toList();
@@ -175,9 +159,9 @@ class _ListaAgentes extends StatelessWidget {
           }
           return LayoutBuilder(builder: (context, cons) {
             final colunas = cons.maxWidth >= 1150 ? 3 : (cons.maxWidth >= 760 ? 2 : 1);
-            final largura = (cons.maxWidth - 32 - 12 * (colunas - 1)) / colunas;
+            final largura = (cons.maxWidth - 40 - 16 * (colunas - 1)) / colunas;
             final colunasPasta = cons.maxWidth >= 1150 ? 4 : (cons.maxWidth >= 760 ? 3 : 2);
-            final larguraPasta = (cons.maxWidth - 32 - 12 * (colunasPasta - 1)) / colunasPasta;
+            final larguraPasta = (cons.maxWidth - 40 - 12 * (colunasPasta - 1)) / colunasPasta;
             final cartoes = [
               for (final (i, f) in soltos.indexed)
                 AgenteArrastavel(
@@ -186,26 +170,22 @@ class _ListaAgentes extends StatelessWidget {
                     ordem: i + pastas.length,
                     child: CartaoAgente(
                       ficha: f,
+                      mesa: mesas[f.campaignId],
                       formas: todas.where((t) => t.transformacaoDe == f.id).toList(),
                       aoMover: () => moverAgente(context, f, pastas),
                     ),
                   ),
                 ),
             ];
-            Widget rotulo(String texto) => Padding(
-                  padding: const EdgeInsets.fromLTRB(4, 4, 4, 10),
-                  child: Text(texto,
-                      style: estiloRotulo(13, cor: Cores.textoFraco, peso: FontWeight.w700, espaco: 2)),
-                );
             return ListView(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 100),
+              padding: const EdgeInsets.fromLTRB(20, 4, 20, 100),
               children: [
                 TituloPagina(
                   titulo: 'Agentes',
                   subtitulo: [
                     l.length == 1 ? '1 agente' : '${l.length} agentes',
                     if (pastas.isNotEmpty) pastas.length == 1 ? '1 pasta' : '${pastas.length} pastas',
-                  ].join(' · '),
+                  ].join(', '),
                   acoes: [
                     TextButton.icon(
                       onPressed: () => criarPasta(context),
@@ -215,7 +195,7 @@ class _ListaAgentes extends StatelessWidget {
                   ],
                 ),
                 if (pastas.isNotEmpty) ...[
-                  rotulo('PASTAS'),
+                  const _Rotulo('Pastas'),
                   Wrap(spacing: 12, runSpacing: 12, children: [
                     for (final (i, p) in pastas.indexed)
                       SizedBox(
@@ -231,13 +211,13 @@ class _ListaAgentes extends StatelessWidget {
                         ),
                       ),
                   ]),
-                  const SizedBox(height: 18),
-                  if (soltos.isNotEmpty) rotulo('SEM PASTA'),
+                  const SizedBox(height: 22),
+                  if (soltos.isNotEmpty) const _Rotulo('Fora das pastas'),
                 ],
                 if (colunas == 1)
                   ...cartoes
                 else
-                  Wrap(spacing: 12, children: [
+                  Wrap(spacing: 16, children: [
                     for (final c in cartoes) SizedBox(width: largura, child: c),
                   ]),
               ],
@@ -246,10 +226,25 @@ class _ListaAgentes extends StatelessWidget {
         },
       ),
       ),
+      ),
     );
   }
 }
 
+/// Nome de um grupo da lista (Pastas, Fora das pastas).
+class _Rotulo extends StatelessWidget {
+  final String texto;
+  const _Rotulo(this.texto);
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.fromLTRB(2, 6, 2, 12),
+        child: Text(texto, style: estiloTitulo(17, cor: Cores.textoFraco)),
+      );
+}
+
+/// O dossiê de um agente: retrato com o NEX num hexágono, como os números
+/// de página dos livros; nome, classe datilografada, recursos e a mesa em
+/// que está.
 class CartaoAgente extends StatelessWidget {
   final Ficha ficha;
   final Map<String, dynamic>? regras;
@@ -257,102 +252,132 @@ class CartaoAgente extends StatelessWidget {
   final List<Ficha> formas;
   /// Mostra o botão de mover para uma pasta (na tela inicial).
   final VoidCallback? aoMover;
+  /// O nome da mesa em que o agente está, quando se sabe.
+  final String? mesa;
+  /// Diz em que mesa o agente está (dentro da própria mesa, não precisa).
+  final bool mostrarMesa;
   const CartaoAgente(
-      {super.key, required this.ficha, this.regras, this.formas = const [], this.aoMover});
+      {super.key,
+      required this.ficha,
+      this.regras,
+      this.formas = const [],
+      this.aoMover,
+      this.mesa,
+      this.mostrarMesa = true});
   @override
   Widget build(BuildContext context) {
     final c = Calc(ficha, regras);
-    final detalhes = [ficha.classe, ficha.trilha, ficha.origem].where((s) => s.isNotEmpty).join(' · ');
-    // cartão de arquivo: painel preto com um bloco de cor deslocado atrás
+    final detalhes = [ficha.classe, ficha.trilha, ficha.origem].where((s) => s.isNotEmpty).join(', ');
+    // só o NEX cabe no hexágono; nível, patente e estágio vão num selo
+    final soNex = c.resumoProgressao == 'NEX ${ficha.nex}%';
     return Padding(
-      padding: const EdgeInsets.only(top: 6, bottom: 12, right: 6),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
-          boxShadow: [BoxShadow(color: Cores.roxo.withValues(alpha: 0.55), offset: const Offset(5, 5))],
-        ),
-        child: Card(
-      margin: EdgeInsets.zero,
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: () => Navigator.push(context,
-            rotaFicha(ficha.id)),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              RetratoFicha(
-                foto: ficha.foto,
-                nome: ficha.nome,
-                ajuste: ficha.fotoAjuste,
-                largura: 78,
-                heroi: 'retrato-${ficha.id}',
-              ),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Expanded(
-                      child: Text(ficha.nome,
+      padding: const EdgeInsets.only(top: 4, bottom: 16),
+      child: Material(
+        color: Cores.painel,
+        shape: CorteCantos(corte: 16, cor: Cores.borda),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () => Navigator.push(context, rotaFicha(ficha.id)),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(14, 14, 10, 14),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10, right: 8),
+                  child: RetratoFicha(
+                    foto: ficha.foto,
+                    nome: ficha.nome,
+                    ajuste: ficha.fotoAjuste,
+                    largura: 84,
+                    heroi: 'retrato-${ficha.id}',
+                    canto: soNex ? Hexagono('${ficha.nex}%', rotulo: 'NEX', tamanho: 46) : null,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Expanded(
+                        child: Text(ficha.nome,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: estiloTitulo(20, cor: Cores.texto)),
+                      ),
+                      if (aoMover != null)
+                        IconButton(
+                          tooltip: 'Mover para uma pasta',
+                          visualDensity: VisualDensity.compact,
+                          onPressed: aoMover,
+                          icon: const Icon(Icons.drive_file_move_outline, size: 20, color: Cores.textoFraco),
+                        ),
+                    ]),
+                    if (!soNex) ...[
+                      const SizedBox(height: 4),
+                      Selo(c.resumoProgressao),
+                    ],
+                    if (detalhes.isNotEmpty) ...[
+                      const SizedBox(height: 4),
+                      Text(detalhes,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: estiloTitulo(18, cor: Cores.texto)),
-                    ),
-                    const SizedBox(width: 8),
-                    Selo(c.resumoProgressao),
-                    if (aoMover != null)
-                      IconButton(
-                        tooltip: 'Mover para uma pasta',
-                        visualDensity: VisualDensity.compact,
-                        padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(minWidth: 32, minHeight: 28),
-                        onPressed: aoMover,
-                        icon: const Icon(Icons.drive_file_move_outline, size: 20, color: Cores.textoFraco),
-                      ),
-                  ]),
-                  const SizedBox(height: 4),
-                  Text(detalhes,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 13.5, color: Cores.textoFraco)),
-                  if (ficha.campaignId != null) ...[
-                    const SizedBox(height: 6),
-                    Selo('Em uma mesa', cor: Cores.roxoClaro, icone: Icons.groups_outlined),
-                  ],
-                  const SizedBox(height: 12),
-                  Row(children: [
-                    Expanded(
-                        child: MedidorMini(
-                            rotulo: 'PV', atual: ficha.pvAtual, max: c.pvMax, cor: Cores.pv, temp: ficha.pvTemp)),
-                    const SizedBox(width: 12),
-                    if (c.determinacao)
-                      Expanded(
-                          child: MedidorMini(
-                              rotulo: 'PD', atual: ficha.pdAtual, max: c.pdMax, cor: Cores.pd, temp: ficha.peTemp))
-                    else ...[
-                      Expanded(
-                          child: MedidorMini(
-                              rotulo: 'PE', atual: ficha.peAtual, max: c.peMax, cor: Cores.pe, temp: ficha.peTemp)),
-                      const SizedBox(width: 12),
-                      Expanded(
-                          child: MedidorMini(rotulo: 'SAN', atual: ficha.sanAtual, max: c.sanMax, cor: Cores.san)),
+                          style: estiloMaquina(12.5, cor: Cores.textoFraco, espaco: 0.3)),
                     ],
+                    const SizedBox(height: 12),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 4),
+                      child: Row(children: [
+                        Expanded(
+                            child: MedidorMini(
+                                rotulo: 'PV', atual: ficha.pvAtual, max: c.pvMax, cor: Cores.pv, temp: ficha.pvTemp)),
+                        const SizedBox(width: 12),
+                        if (c.determinacao)
+                          Expanded(
+                              child: MedidorMini(
+                                  rotulo: 'PD', atual: ficha.pdAtual, max: c.pdMax, cor: Cores.pd, temp: ficha.peTemp))
+                        else ...[
+                          Expanded(
+                              child: MedidorMini(
+                                  rotulo: 'PE', atual: ficha.peAtual, max: c.peMax, cor: Cores.pe, temp: ficha.peTemp)),
+                          const SizedBox(width: 12),
+                          Expanded(
+                              child: MedidorMini(rotulo: 'SAN', atual: ficha.sanAtual, max: c.sanMax, cor: Cores.san)),
+                        ],
+                      ]),
+                    ),
                   ]),
-                ]),
-              ),
-            ]),
-            if (formas.isNotEmpty) ...[
-              const SizedBox(height: 12),
-              const Divider(),
-              const SizedBox(height: 10),
-              Wrap(spacing: 8, runSpacing: 8, children: [
-                for (final t in formas) _chipForma(context, t),
+                ),
               ]),
-            ],
-          ]),
+              if (ficha.campaignId != null && mostrarMesa)
+                Container(
+                  margin: const EdgeInsets.only(top: 6, right: 4),
+                  padding: const EdgeInsets.only(top: 10),
+                  decoration: const BoxDecoration(border: Border(top: BorderSide(color: Cores.linha))),
+                  child: Row(children: [
+                    Icon(Icons.groups_outlined, size: 17, color: Cores.roxoClaro),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text.rich(
+                        TextSpan(children: [
+                          TextSpan(text: mesa == null ? 'Numa mesa' : 'Na mesa '),
+                          if (mesa != null)
+                            TextSpan(text: mesa, style: const TextStyle(color: Cores.texto, fontWeight: FontWeight.w600)),
+                        ]),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 13.5, color: Cores.textoFraco),
+                      ),
+                    ),
+                  ]),
+                ),
+              if (formas.isNotEmpty) ...[
+                const SizedBox(height: 12),
+                Wrap(spacing: 8, runSpacing: 8, children: [
+                  for (final t in formas) _chipForma(context, t),
+                ]),
+              ],
+            ]),
+          ),
         ),
-      ),
-    ),
       ),
     );
   }
@@ -384,6 +409,8 @@ class CartaoAgente extends StatelessWidget {
   }
 }
 
+/// As mesas: criar uma (como mestre), entrar com código e a pasta de cada
+/// operação, com quem mestra, a missão, quem está nela e a sessão.
 class _ListaMesas extends StatelessWidget {
   const _ListaMesas();
 
@@ -427,78 +454,222 @@ class _ListaMesas extends StatelessWidget {
       stream: Repo.minhasCampanhas(),
       builder: (context, snap) {
         final l = snap.data ?? [];
-        return ListView(
-          padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
-          children: [
-            const TituloPagina(
-                titulo: 'Mesas', subtitulo: 'Campanhas que você mestra ou joga'),
-            Row(children: [
-              Expanded(
-                child: FilledButton.icon(
-                  onPressed: () => _criar(context),
-                  icon: const Icon(Icons.add),
-                  label: const Text('Criar mesa (mestre)'),
+        final mestradas = l.where((c) => c.masterUid == Repo.uid).length;
+        final acoes = [
+          _AcaoMesa(
+            icone: Icons.shield_moon_outlined,
+            titulo: 'Criar mesa',
+            texto: 'Você mestra: cria a mesa e passa o código aos jogadores.',
+            principal: true,
+            aoTocar: () => _criar(context),
+          ),
+          _AcaoMesa(
+            icone: Icons.vpn_key_outlined,
+            titulo: 'Entrar com código',
+            texto: 'O mestre te passa um código de seis letras.',
+            aoTocar: () => _entrar(context),
+          ),
+        ];
+        return LayoutBuilder(builder: (context, cons) {
+          final colunas = cons.maxWidth >= 1150 ? 3 : (cons.maxWidth >= 760 ? 2 : 1);
+          final largura = (cons.maxWidth - 40 - 16 * (colunas - 1)) / colunas;
+          return ListView(
+            padding: const EdgeInsets.fromLTRB(20, 4, 20, 28),
+            children: [
+              TituloPagina(
+                titulo: 'Mesas',
+                subtitulo: l.isEmpty
+                    ? 'Campanhas que você mestra ou joga'
+                    : [
+                        l.length == 1 ? '1 mesa' : '${l.length} mesas',
+                        if (mestradas > 0) 'você mestra $mestradas',
+                      ].join(', '),
+              ),
+              if (cons.maxWidth >= 600)
+                Row(children: [
+                  for (final (i, a) in acoes.indexed) ...[
+                    if (i > 0) const SizedBox(width: 12),
+                    Expanded(child: a),
+                  ],
+                ])
+              else
+                ...[
+                  for (final (i, a) in acoes.indexed) ...[
+                    if (i > 0) const SizedBox(height: 10),
+                    a,
+                  ],
+                ],
+              const SizedBox(height: 26),
+              if (snap.hasError) Text('${snap.error}'),
+              if (!snap.hasData && !snap.hasError)
+                const Center(child: CircularProgressIndicator()),
+              if (snap.hasData && l.isEmpty)
+                const Padding(
+                  padding: EdgeInsets.all(24),
+                  child: Text(
+                      'Você ainda não está em nenhuma mesa.\nCrie uma como mestre ou entre com o código que o mestre te passar.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Cores.textoFraco, height: 1.5)),
                 ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: () => _entrar(context),
-                  icon: const Icon(Icons.login),
-                  label: const Text('Entrar com código'),
-                ),
-              ),
-            ]),
-            const SizedBox(height: 12),
-            if (snap.hasError) Text('${snap.error}'),
-            if (!snap.hasData && !snap.hasError)
-              const Center(child: CircularProgressIndicator()),
-            if (snap.hasData && l.isEmpty)
-              const Padding(
-                padding: EdgeInsets.all(24),
-                child: Text(
-                    'Você ainda não está em nenhuma mesa.\nCrie uma como mestre ou entre com o código que o mestre te passar.',
-                    textAlign: TextAlign.center),
-              ),
-            for (final (i, c) in l.indexed)
-              Surgir(
-                ordem: i,
-                child: Card(
-                clipBehavior: Clip.antiAlias,
-                child: ListTile(
-                  contentPadding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-                  leading: Container(
-                    width: 46,
-                    height: 46,
-                    decoration: BoxDecoration(
-                      color: (c.masterUid == Repo.uid ? Cores.destaque : Cores.roxoClaro)
-                          .withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(4),
-                      border: Border.all(
-                          color: (c.masterUid == Repo.uid ? Cores.destaque : Cores.roxoClaro)
-                              .withValues(alpha: 0.4)),
-                    ),
-                    child: Icon(
-                      c.masterUid == Repo.uid
-                          ? Icons.shield_moon_outlined
-                          : Icons.person_outline,
-                      color: c.masterUid == Repo.uid ? Cores.destaque : Cores.roxoClaro,
+              Wrap(spacing: 16, runSpacing: 16, children: [
+                for (final (i, c) in l.indexed)
+                  SizedBox(
+                    width: largura,
+                    child: Surgir(
+                      ordem: i,
+                      child: _CartaoMesa(
+                        camp: c,
+                        aoAbrir: () => Navigator.push(
+                            context, MaterialPageRoute(builder: (_) => TelaCampanha(campanhaId: c.id))),
+                      ),
                     ),
                   ),
-                  title: Text(c.nome, style: estiloTitulo(17, cor: Cores.texto)),
-                  subtitle: Text(
-                      '${c.masterUid == Repo.uid ? 'Você é o mestre' : 'Mestre: ${asStr(c.members[c.masterUid], '?')}'} • ${c.memberUids.length} na mesa'),
-                  trailing: const Icon(Icons.chevron_right),
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => TelaCampanha(campanhaId: c.id))),
-                ),
-              ),
-              ),
-          ],
-        );
+              ]),
+            ],
+          );
+        });
       },
+    );
+  }
+}
+
+/// Botão grande de criar mesa ou entrar numa: ícone, nome e o que acontece.
+class _AcaoMesa extends StatelessWidget {
+  final IconData icone;
+  final String titulo;
+  final String texto;
+  final bool principal;
+  final VoidCallback aoTocar;
+  const _AcaoMesa(
+      {required this.icone, required this.titulo, required this.texto, required this.aoTocar, this.principal = false});
+
+  @override
+  Widget build(BuildContext context) {
+    final frente = principal ? Cores.sobreDestaque : Cores.texto;
+    return Material(
+      color: principal ? Cores.destaque : Cores.painel,
+      shape: CorteCantos(corte: 12, cor: principal ? null : Cores.borda),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: aoTocar,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+          child: Row(children: [
+            Icon(icone, size: 28, color: principal ? Cores.sobreDestaque : Cores.destaque),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(titulo, style: estiloRotulo(18, cor: frente, peso: FontWeight.w700, espaco: 0.6)),
+                const SizedBox(height: 2),
+                Text(texto,
+                    style: TextStyle(fontSize: 13.5, height: 1.3, color: frente.withValues(alpha: principal ? 0.8 : 0.65))),
+              ]),
+            ),
+          ]),
+        ),
+      ),
+    );
+  }
+}
+
+/// A pasta de uma operação: lombada na cor do papel de quem abre (mestre ou
+/// agente), o nome, a missão datilografada, quem está nela e a sessão.
+class _CartaoMesa extends StatelessWidget {
+  final Campanha camp;
+  final VoidCallback aoAbrir;
+  const _CartaoMesa({required this.camp, required this.aoAbrir});
+
+  @override
+  Widget build(BuildContext context) {
+    final mestre = camp.masterUid == Repo.uid;
+    final cor = mestre ? Cores.destaque : Cores.roxoClaro;
+    final sessao = camp.sessao;
+    final aoVivo = asBool(sessao['ativa']);
+    final jogadas = camp.historicoSessoes.where((s) => asInt(s['fim']) > 0).length;
+    final rostos = [
+      if (camp.members.containsKey(camp.masterUid)) camp.masterUid,
+      ...camp.memberUids.where((u) => u != camp.masterUid),
+    ];
+    return Material(
+      color: Cores.painel,
+      shape: CorteCantos(corte: 16, cor: aoVivo ? cor.withValues(alpha: 0.8) : Cores.borda, largura: aoVivo ? 1.4 : 1),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: aoAbrir,
+        // a lombada da pasta, na borda da esquerda
+        child: Container(
+          decoration: BoxDecoration(border: Border(left: BorderSide(color: cor.withValues(alpha: 0.85), width: 5))),
+          child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 14, 14, 14),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Expanded(
+                    child: Text(camp.nome,
+                        maxLines: 2, overflow: TextOverflow.ellipsis, style: estiloTitulo(20, cor: Cores.texto)),
+                  ),
+                  const SizedBox(width: 10),
+                  Carimbo(mestre ? 'MESTRE' : 'AGENTE', cor: cor, tamanho: 11),
+                ]),
+                const SizedBox(height: 4),
+                Text(
+                    mestre
+                        ? 'código ${camp.joinCode}'
+                        : 'mestre: ${asStr(camp.members[camp.masterUid], '?')}',
+                    style: estiloMaquina(12.5, cor: Cores.textoFraco, espaco: 0.5)),
+                if (camp.missao.isNotEmpty) ...[
+                  const SizedBox(height: 12),
+                  Container(
+                    padding: const EdgeInsets.only(left: 10),
+                    decoration: BoxDecoration(
+                      border: Border(left: BorderSide(color: cor.withValues(alpha: 0.5), width: 2)),
+                    ),
+                    child: Text(camp.missao,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 14, height: 1.4, color: Cores.texto)),
+                  ),
+                ],
+                const SizedBox(height: 14),
+                Row(children: [
+                  SizedBox(
+                    width: rostos.isEmpty ? 0 : 30.0 + 20 * (rostos.take(5).length - 1),
+                    height: 30,
+                    child: Stack(children: [
+                      for (final (i, u) in rostos.take(5).indexed)
+                        Positioned(
+                          left: 20.0 * i,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Cores.painel2, width: 2),
+                            ),
+                            child: FotoJogador(uid: u, nome: asStr(camp.members[u]), tamanho: 26),
+                          ),
+                        ),
+                    ]),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(camp.memberUids.length == 1 ? 'só você' : '${camp.memberUids.length} na mesa',
+                      style: estiloRotulo(13.5, cor: Cores.textoFraco, peso: FontWeight.w600, espaco: 0.4)),
+                  const Spacer(),
+                  if (aoVivo) ...[
+                    Icon(Icons.radio_button_checked, size: 14, color: cor),
+                    const SizedBox(width: 6),
+                    Text('Sessão ${asInt(sessao['numero'])}',
+                        style: estiloRotulo(13.5, cor: Cores.texto, peso: FontWeight.w600, espaco: 0.4)),
+                    const SizedBox(width: 8),
+                    Cronometro(inicio: asInt(sessao['inicio']), estilo: estiloNumero(15, cor: Cores.texto)),
+                  ] else
+                    Text(
+                        jogadas == 0
+                            ? 'nenhuma sessão ainda'
+                            : (jogadas == 1 ? '1 sessão jogada' : '$jogadas sessões jogadas'),
+                        style: estiloRotulo(13.5, cor: Cores.textoFraco, peso: FontWeight.w500, espaco: 0.4)),
+                ]),
+              ]),
+            ),
+        ),
+      ),
     );
   }
 }
