@@ -119,13 +119,6 @@ class AvisoSessao extends StatelessWidget {
   }
 }
 
-/// "12/10/2026 às 19:30".
-String _quando(int ms) {
-  final d = DateTime.fromMillisecondsSinceEpoch(ms);
-  String dois(int n) => n.toString().padLeft(2, '0');
-  return '${dois(d.day)}/${dois(d.month)}/${d.year} às ${dois(d.hour)}:${dois(d.minute)}';
-}
-
 /// A aba Sessões: o registro de todas as sessões da mesa, com o tempo de
 /// cada uma, e os nomes e as notas de quem a abre. O mestre e cada agente
 /// têm os seus.
@@ -222,7 +215,7 @@ class _RegistroSessao extends StatelessWidget {
               Text(fim > inicio && inicio > 0 ? duracaoTexto(Duration(milliseconds: fim - inicio)) : '—', style: tempo),
           ]),
           if (inicio > 0)
-            Text('${_quando(inicio)}${ativa ? ' · em andamento' : ''}',
+            Text('${dataHora(inicio)}${ativa ? ' · em andamento' : ''}',
                 style: const TextStyle(fontSize: 12.5, color: Cores.textoFraco)),
           const SizedBox(height: 10),
           CampoSync(

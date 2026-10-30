@@ -13,11 +13,13 @@ import '../../widgets/efeitos.dart';
 import '../../widgets/imagem.dart';
 import '../../widgets/sigilos.dart';
 import '../campaign/campaign_screen.dart';
+import '../campaign/jogadores.dart';
 import '../campaign/sessao.dart';
 import '../sheet/tab_agente.dart';
 import '../quadro/quadro_screen.dart';
 import 'ameacas.dart';
 import 'combate.dart';
+import 'nomes.dart';
 import 'regras.dart';
 
 class TelaMestre extends StatefulWidget {
@@ -35,9 +37,42 @@ class _TelaMestreState extends State<TelaMestre> {
     (Icons.pest_control_outlined, 'Ameaças'),
     (Icons.casino_outlined, 'Rolagens'),
     (Icons.event_note_outlined, 'Sessões'),
+    (Icons.forum_outlined, 'Jogadores'),
+    (Icons.person_search_outlined, 'Nomes'),
     (Icons.tune, 'Regras'),
     (Icons.settings_outlined, 'Mesa'),
   ];
+
+  /// No celular, a barra de baixo mostra as primeiras; as outras ficam em
+  /// "Mais".
+  static const _naBarra = 4;
+  static const _jogadores = 5;
+
+  /// As fichas da mesa, para contar as notas e os pedidos dos jogadores.
+  late final _fichas = Repo.todasDaCampanha(widget.camp.id);
+
+  /// O ícone da aba, com quantas coisas esperam o mestre (em Jogadores).
+  Widget _icone(int i, int pendentes) => i == _jogadores && pendentes > 0
+      ? Badge(label: Text('$pendentes'), child: Icon(_abas[i].$1))
+      : Icon(_abas[i].$1);
+
+  Future<void> _mais(int pendentes) async {
+    final i = await showModalBottomSheet<int>(
+      context: context,
+      builder: (ctx) => SafeArea(
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          for (var i = _naBarra; i < _abas.length; i++)
+            ListTile(
+              leading: _icone(i, pendentes),
+              title: Text(_abas[i].$2),
+              selected: i == _aba,
+              onTap: () => Navigator.pop(ctx, i),
+            ),
+        ]),
+      ),
+    );
+    if (i != null) setState(() => _aba = i);
+  }
 
   Widget _corpo() {
     final c = widget.camp;
@@ -53,6 +88,10 @@ class _TelaMestreState extends State<TelaMestre> {
       case 4:
         return AbaSessoesMestre(camp: c);
       case 5:
+        return AbaJogadoresMestre(camp: c);
+      case 6:
+        return AbaNomes(camp: c);
+      case 7:
         return AbaRegras(camp: c);
       default:
         return _AbaMesa(camp: c);
@@ -60,7 +99,12 @@ class _TelaMestreState extends State<TelaMestre> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => StreamBuilder<List<Ficha>>(
+        stream: _fichas,
+        builder: (context, snap) => _tela(context, pendentesDoMestre(snap.data ?? const [])),
+      );
+
+  Widget _tela(BuildContext context, int pendentes) {
     final largo = MediaQuery.sizeOf(context).width >= 800;
     return Scaffold(
       appBar: AppBar(
@@ -74,16 +118,25 @@ class _TelaMestreState extends State<TelaMestre> {
       ),
       body: largo
           ? Row(children: [
-              NavigationRail(
-                selectedIndex: _aba,
-                labelType: NavigationRailLabelType.all,
-                backgroundColor: Colors.transparent,
-                onDestinationSelected: (i) => setState(() => _aba = i),
-                destinations: [
-                  for (final a in _abas)
-                    NavigationRailDestination(
-                        icon: Icon(a.$1), label: Text(a.$2)),
-                ],
+              // com a janela baixa, a coluna de abas rola
+              LayoutBuilder(
+                builder: (context, c) => SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: c.maxHeight),
+                    child: IntrinsicHeight(
+                      child: NavigationRail(
+                        selectedIndex: _aba,
+                        labelType: NavigationRailLabelType.all,
+                        backgroundColor: Colors.transparent,
+                        onDestinationSelected: (i) => setState(() => _aba = i),
+                        destinations: [
+                          for (var i = 0; i < _abas.length; i++)
+                            NavigationRailDestination(icon: _icone(i, pendentes), label: Text(_abas[i].$2)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ),
               const VerticalDivider(width: 1),
               Expanded(child: _corpo()),
@@ -92,13 +145,21 @@ class _TelaMestreState extends State<TelaMestre> {
       bottomNavigationBar: largo
           ? null
           : NavigationBar(
-              selectedIndex: _aba,
+              selectedIndex: _aba < _naBarra ? _aba : _naBarra,
               height: 64,
               labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-              onDestinationSelected: (i) => setState(() => _aba = i),
+              onDestinationSelected: (i) => i < _naBarra ? setState(() => _aba = i) : _mais(pendentes),
               destinations: [
-                for (final a in _abas)
-                  NavigationDestination(icon: Icon(a.$1), label: a.$2),
+                for (var i = 0; i < _naBarra; i++)
+                  NavigationDestination(icon: _icone(i, pendentes), label: _abas[i].$2),
+                NavigationDestination(
+                  icon: Badge(
+                    isLabelVisible: pendentes > 0,
+                    label: Text('$pendentes'),
+                    child: Icon(_aba < _naBarra ? Icons.more_horiz : _abas[_aba].$1),
+                  ),
+                  label: _aba < _naBarra ? 'Mais' : _abas[_aba].$2,
+                ),
               ],
             ),
     );

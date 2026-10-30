@@ -83,6 +83,12 @@ class Ficha {
   /// No agente: id de cada transformação e o que ela divide com ele.
   Map<String, dynamic> get transformacoes => asMap(d['transformacoes']);
 
+  /// Notas que o jogador mandou ao mestre por este agente, pelo id.
+  Map<String, dynamic> get notasAoMestre => asMap(d['recadosMestre']);
+
+  /// Pedidos de homebrew que o jogador fez ao mestre por este agente.
+  Map<String, dynamic> get pedidosHomebrew => asMap(d['pedidosHomebrew']);
+
   /// Nomes e notas que o agente deu às sessões de uma mesa, pelo número.
   Map<String, dynamic> notasSessoes(String cid) => asMap(asMap(d['notasSessoes'])[cid]);
 

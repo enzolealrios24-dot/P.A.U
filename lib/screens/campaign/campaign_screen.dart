@@ -8,6 +8,7 @@ import '../home.dart';
 import '../master/master_screen.dart';
 import '../sheet/sheet_screen.dart';
 import 'iniciativa_view.dart';
+import 'jogadores.dart';
 import 'sessao.dart';
 
 class TelaCampanha extends StatelessWidget {
@@ -49,7 +50,7 @@ class _VisaoJogador extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           title: Text(camp.nome,
@@ -68,11 +69,17 @@ class _VisaoJogador extends StatelessWidget {
               ],
             ),
           ],
-          bottom: const TabBar(tabs: [Tab(text: 'MESA'), Tab(text: 'ROLAGENS')]),
+          bottom: const TabBar(
+            isScrollable: true,
+            tabAlignment: TabAlignment.start,
+            tabs: [Tab(text: 'MESA'), Tab(text: 'ROLAGENS'), Tab(text: 'NOTAS'), Tab(text: 'PEDIDOS')],
+          ),
         ),
         body: TabBarView(children: [
           _AbaMesaJogador(camp: camp),
           LogRolagens(cid: camp.id),
+          AbaNotasJogador(camp: camp),
+          AbaPedidosJogador(camp: camp),
         ]),
       ),
     );

@@ -251,8 +251,29 @@ Future<void> _telasCombateMestre(WidgetTester tester) async {
     await camp.collection('threats').doc(ref.split('/').last).set(ameacaDoLivro(Catalogo.instance.porRef('ameacas:$ref')!));
   }
   final chars = db.collection('characters');
+  final agora = DateTime.now().millisecondsSinceEpoch;
   await chars.doc('a4').set({
     ...novaFicha('u2', 'Lia'),
+    'recadosMestre': {
+      'n1': {
+        'texto': 'Minha agente quer voltar à mansão sozinha hoje à noite, sem os outros saberem. Dá para fazer isso fora da sessão?',
+        'autor': 'Lia',
+        'uid': 'u2',
+        'at': agora - 1200000,
+        'lida': false,
+      },
+    },
+    'pedidosHomebrew': {
+      'p1': {
+        'tipo': 'item',
+        'nome': 'Faca de prata do avô',
+        'descricao': 'Arma simples, 1d4 de corte. Esquenta perto de criaturas de Morte.',
+        'autor': 'Lia',
+        'uid': 'u2',
+        'at': agora - 3600000,
+        'estado': 'pendente',
+      },
+    },
     'nome': 'Bianca Torres',
     'classe': 'Especialista',
     'nex': 35,
@@ -273,6 +294,28 @@ Future<void> _telasCombateMestre(WidgetTester tester) async {
     'editors': ['u3', _uid],
     'condicoes': ['Abalado'],
     'pvAtual': 31,
+    'recadosMestre': {
+      'n2': {
+        'texto': 'Não vou poder na próxima sessão. O Joaquim pode ficar de guarda no carro?',
+        'autor': 'Davi',
+        'uid': 'u3',
+        'at': agora - 2 * 86400000,
+        'lida': true,
+      },
+    },
+    'pedidosHomebrew': {
+      'p2': {
+        'tipo': 'poder',
+        'nome': 'Guarda-costas',
+        'descricao': 'Uma vez por cena, recebe no lugar de um aliado adjacente o ataque que o acertaria.',
+        'autor': 'Davi',
+        'uid': 'u3',
+        'at': agora - 3 * 86400000,
+        'estado': 'aceito',
+        'naBiblioteca': true,
+        'resposta': 'Aceito, está na biblioteca. Só vale uma vez por cena.',
+      },
+    },
   });
   await camp.update({
     'combate': {
@@ -415,6 +458,27 @@ Future<void> _telasCombateMestre(WidgetTester tester) async {
   await _print(tester, 'mestre_sessoes_pc', const TelaCampanha(campanhaId: 'c1'), tamanho: _pc);
   await tester.tap(find.text('Sessões').first);
   await _salvar(tester, 'mestre_sessoes_pc');
+
+  // os jogadores: notas e pedidos para o mestre, e o gerador de nomes
+  await _print(tester, 'mestre_jogadores_pc', const TelaCampanha(campanhaId: 'c1'), tamanho: _pc);
+  await tester.tap(find.text('Jogadores').first);
+  await _salvar(tester, 'mestre_jogadores_pc');
+  await tester.tap(find.text('PEDIDOS DE HOMEBREW (1)'));
+  await _salvar(tester, 'mestre_pedidos_pc');
+  await tester.tap(find.text('Nomes').first);
+  await _salvar(tester, 'mestre_nomes_pc');
+  await _print(tester, 'mestre_mais', const TelaCampanha(campanhaId: 'c1'));
+  await tester.tap(find.text('Mais'));
+  await _salvar(tester, 'mestre_mais');
+  // o lado do jogador (Lia): as abas Notas e Pedidos da mesa
+  Repo.authTeste = MockFirebaseAuth(signedIn: true, mockUser: MockUser(uid: 'u2', displayName: 'Lia'));
+  await _print(tester, 'jogador_notas', const TelaCampanha(campanhaId: 'c1'));
+  await tester.tap(find.text('NOTAS'));
+  await _salvar(tester, 'jogador_notas');
+  await tester.tap(find.text('PEDIDOS'));
+  await _salvar(tester, 'jogador_pedidos');
+  Repo.authTeste = MockFirebaseAuth(
+      signedIn: true, mockUser: MockUser(uid: _uid, displayName: 'Enzo', email: 'enzo@exemplo.com'));
 
   // a ficha do agente: o espaço do alvo embaixo dos rituais rápidos
   await chars.doc('a1').update({'alvo': 'o2'});
@@ -572,6 +636,11 @@ Future<void> _prepararDados() async {
   Imagens.guardarNaMemoria('foto1', _retrato(0xFF7A4A2A, 0xFF2A3A6A, 1));
   Imagens.guardarNaMemoria('foto2', _retrato(0xFF3A2A1A, 0xFF6A2030, 2));
   Imagens.guardarNaMemoria('foto3', _retrato(0xFF5A1010, 0xFF200810, 3));
+  // fotos de perfil dos jogadores
+  Imagens.guardarNaMemoria('jogador1', _retrato(0xFF20303A, 0xFF4A5A3A, 4));
+  Imagens.guardarNaMemoria('jogador2', _retrato(0xFF4A2A4A, 0xFF2A4A5A, 5));
+  await db.collection('users').doc(_uid).set({'foto': 'jogador1'});
+  await db.collection('users').doc('u2').set({'foto': 'jogador2'});
 
   final chars = db.collection('characters');
   Map<String, dynamic> ficha(Map<String, dynamic> extra) =>
@@ -689,6 +758,7 @@ Future<void> _prepararDados() async {
     'sanAtual': 5,
   }));
   await db.collection('users').doc(_uid).set({
+    'foto': 'jogador1',
     'pastas': [
       {'id': 'pa1', 'nome': 'Operação Sangue Velho', 'data': DateTime(2026, 10, 12).millisecondsSinceEpoch},
       {'id': 'pa2', 'nome': 'Arquivo morto', 'data': DateTime(2026, 3, 2).millisecondsSinceEpoch},

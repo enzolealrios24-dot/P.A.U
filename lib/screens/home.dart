@@ -7,6 +7,7 @@ import '../data/models.dart';
 import '../data/repo.dart';
 import '../widgets/common.dart';
 import '../widgets/efeitos.dart';
+import '../widgets/foto_jogador.dart';
 import '../widgets/imagem.dart';
 import '../widgets/importar_cris.dart';
 import '../widgets/logo.dart';
@@ -48,9 +49,12 @@ class _TelaInicioState extends State<TelaInicio> {
             onPressed: () => abrirImportarCris(context, logado: true),
           ),
           PopupMenuButton<String>(
-            icon: const Icon(Icons.account_circle_outlined),
+            tooltip: 'Sua conta',
+            icon: FotoJogador(uid: Repo.uid, nome: Repo.nomeUsuario, tamanho: 30),
             onSelected: (v) async {
-              if (v == 'sair') {
+              if (v == 'foto') {
+                await opcoesFotoJogador(context);
+              } else if (v == 'sair') {
                 await FirebaseAuth.instance.signOut();
               } else if (v == 'tema') {
                 await escolherTema(context);
@@ -72,6 +76,7 @@ class _TelaInicioState extends State<TelaInicio> {
                   child: Text(Repo.nomeUsuario,
                       style: const TextStyle(fontWeight: FontWeight.bold))),
               const PopupMenuItem(value: 'nome', child: Text('Mudar meu nome')),
+              const PopupMenuItem(value: 'foto', child: Text('Foto de perfil')),
               const PopupMenuItem(value: 'tema', child: Text('Tema de cores')),
               const PopupMenuItem(
                   value: 'cris', child: Text('Importar do site do CRIS')),

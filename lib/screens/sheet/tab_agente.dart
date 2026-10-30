@@ -10,6 +10,7 @@ import '../../data/models.dart';
 import '../../data/repo.dart';
 import '../../widgets/common.dart';
 import '../../widgets/efeitos.dart';
+import '../../widgets/foto_jogador.dart';
 import '../../widgets/imagem.dart';
 import '../../widgets/sigilos.dart';
 import '../../widgets/runa.dart';
@@ -812,11 +813,24 @@ class _Dossie extends StatelessWidget {
                       ]),
                     ),
                   ]),
-                  if (f.jogador.isNotEmpty) ...[
+                  // o jogador, com a foto de perfil dele (o dono da ficha
+                  // toca para pôr ou trocar a sua)
+                  if (f.jogador.isNotEmpty || f.ownerUid == Repo.uid) ...[
                     const SizedBox(height: 12),
-                    Text('JOGADOR: ${f.jogador}',
-                        overflow: TextOverflow.ellipsis,
-                        style: estiloMaquina(12.5, cor: Cores.textoFraco, espaco: 0.8)),
+                    Row(children: [
+                      FotoJogador(
+                        uid: f.ownerUid,
+                        nome: f.jogador,
+                        tamanho: 30,
+                        aoTocar: f.ownerUid == Repo.uid ? () => opcoesFotoJogador(context) : null,
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(f.jogador.isEmpty ? 'JOGADOR' : 'JOGADOR: ${f.jogador}',
+                            overflow: TextOverflow.ellipsis,
+                            style: estiloMaquina(12.5, cor: Cores.textoFraco, espaco: 0.8)),
+                      ),
+                    ]),
                   ],
                 ]),
                 ),

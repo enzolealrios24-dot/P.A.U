@@ -547,6 +547,40 @@ class Repo {
   static DocumentReference<Json> notasMestre(String cid) =>
       camps.doc(cid).collection('gm').doc('notas');
 
+  /// Nomes que o mestre guardou no gerador de nomes (só ele vê).
+  static DocumentReference<Json> nomesGuardados(String cid) =>
+      camps.doc(cid).collection('gm').doc('nomes');
+
+  // ---------------- Jogadores: foto, notas e pedidos ----------------
+
+  /// A foto de perfil de um jogador (id em /imagens; '' sem foto).
+  static Stream<String> fotoDoJogador(String uid) =>
+      db.collection('users').doc(uid).snapshots().map((s) => asStr(s.data()?['foto']));
+
+  static void mudarMinhaFoto(String id) => _w(_eu.set({'foto': id}, SetOptions(merge: true)));
+
+  /// Nota de um jogador para o mestre, guardada na ficha do agente (só o
+  /// jogador e o mestre leem a ficha).
+  static void enviarNotaAoMestre(Ficha f, String texto) => set(f.id, 'recadosMestre.${novoId()}', {
+        'texto': texto,
+        'autor': nomeUsuario,
+        'uid': uid,
+        'at': DateTime.now().millisecondsSinceEpoch,
+        'lida': false,
+      });
+
+  /// Pedido de homebrew (item, ritual, poder ou outro) para o mestre.
+  static void pedirHomebrew(Ficha f, {required String tipo, required String nome, required String descricao}) =>
+      set(f.id, 'pedidosHomebrew.${novoId()}', {
+        'tipo': tipo,
+        'nome': nome,
+        'descricao': descricao,
+        'autor': nomeUsuario,
+        'uid': uid,
+        'at': DateTime.now().millisecondsSinceEpoch,
+        'estado': 'pendente',
+      });
+
   /// Nomes e notas que o mestre deu às sessões (só ele vê), pelo número.
   static DocumentReference<Json> sessoesMestre(String cid) =>
       camps.doc(cid).collection('gm').doc('sessoes');

@@ -738,3 +738,10 @@ class _CronometroState extends State<Cronometro> {
         style: widget.estilo,
       );
 }
+
+/// "12/10/2026 às 19:30".
+String dataHora(int ms) {
+  final d = DateTime.fromMillisecondsSinceEpoch(ms);
+  String dois(int n) => n.toString().padLeft(2, '0');
+  return '${dois(d.day)}/${dois(d.month)}/${d.year} às ${dois(d.hour)}:${dois(d.minute)}';
+}
