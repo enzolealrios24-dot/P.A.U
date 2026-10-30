@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/acoes_ameaca.dart' show condicoesNoTexto;
 import '../../core/dano.dart';
 import '../../core/dice.dart';
 import '../../core/rules.dart';
@@ -32,18 +33,25 @@ class CtxFicha {
 
   String get _contra => alvoNome == null ? '' : ' contra $alvoNome';
 
-  /// Com [golpe] (ataque ou ritual com dano) e um alvo no combate, o
-  /// registro leva o alvo para o mestre conferir o acerto e aplicar o dano.
+  /// Com [golpe] (ataque, ou ritual com dano, resistência ou área) num
+  /// combate ativo, o registro leva o alvo e quem está no combate, para o
+  /// mestre conferir o acerto e aplicar o dano e os efeitos. Sem alvo
+  /// marcado, o mestre escolhe.
   void _publicar(BuildContext context, Rolagem r, {Map<String, dynamic>? golpe}) {
     mostrarRolagem(context, r);
     final c = camp;
     if (c == null) return;
-    final alvo = _alvo;
+    final combate = golpe != null && asBool(c.combate['ativo']);
     Repo.registrarRolagem(c.id, r,
         personagem: f.nome,
-        extra: golpe == null || alvo == null || r.danoTotal == null
+        extra: !combate
             ? const {}
-            : {'alvo': asStr(alvo['id']), 'fichaId': f.id, 'golpe': golpe});
+            : {
+                'alvo': asStr(_alvo?['id']),
+                'participantes': [for (final e in asMapList(c.combate['ordem'])) asStr(e['id'])],
+                'fichaId': f.id,
+                'golpe': golpe,
+              });
   }
 
   /// Dado do destino: 1d20 + [modificador]. 20 natural é acerto crítico e
@@ -56,7 +64,7 @@ class CtxFicha {
   void rolarPericia(BuildContext context, String pericia,
       {int dadosExtra = 0, int bonusExtra = 0}) {
     final r = Dados.rolarTeste(
-      titulo: '${f.nome}: $pericia',
+      titulo: '${f.nome}: ${pericia == 'Profissão' && f.profissao.isNotEmpty ? 'Profissão (${f.profissao})' : pericia}',
       nDados: calc.dadosPericia(pericia) + dadosExtra,
       bonus: calc.bonusPericia(pericia) + bonusExtra,
     );
@@ -165,16 +173,36 @@ class CtxFicha {
           : '${d.detalhe}${extraRitual != 0 ? ' + $extraRitual' : ''}',
     );
     final elemento = asStr(ritual['elemento']);
-    _publicar(context, r, golpe: {
+    final resistencia = asStr(ritual['resistencia']);
+    final textoForma = forma == 'Padrão' ? '' : asStr(ritual[forma == 'Discente' ? 'discente' : 'verdadeiro']);
+    final efeito = [asStr(ritual['resumo']), if (textoForma.isNotEmpty) '$forma: $textoForma'].join(' ');
+    final area = areaDoRitual(asStr(ritual['alvo']), textoForma);
+    // rituais só em si mesmo (sem dano, resistência nem área) não vão ao mestre
+    final afetaOutros = d != null || resistencia.isNotEmpty || area.isNotEmpty;
+    _publicar(context, r, golpe: !afetaOutros ? null : {
       'acao': 'ritual',
       'nome': asStr(ritual['nome'], 'ritual'),
       'forma': forma,
       // o dano do ritual é do elemento dele (o mestre troca se for outro)
       'tiposDano': tiposDanoDoTexto(asStr(ritual['tipoDano'], elemento)),
       'dt': calc.dtRitualDe(elemento),
-      'resistencia': asStr(ritual['resistencia']),
+      'resistencia': resistencia,
+      'area': area,
+      'efeito': efeito,
+      'condicoes': condicoesNoTexto(efeito),
     });
   }
+}
+
+/// A área de um ritual ("Área: nuvem de 6m de raio"), pelo alvo dele ou
+/// pelo texto da forma conjurada ("Explosão de 6m de raio..."); '' se ele
+/// mira um alvo só.
+String areaDoRitual(String alvo, String textoForma) {
+  final area = RegExp(r'\barea\b|\braio\b|\blinha de|\bcone\b|esfera|nuvem|cubos|todos os alvos|seres escolhidos|cada alvo|ate \d+ (seres|pessoas)');
+  if (textoForma.isNotEmpty && area.hasMatch(semAcento(textoForma.toLowerCase()))) {
+    return textoForma.split(RegExp(r'\.\s')).first.replaceAll(RegExp(r'\.$'), '');
+  }
+  return area.hasMatch(semAcento(alvo.toLowerCase())) ? alvo : '';
 }
 
 /// Soma [n] dados ao primeiro grupo "XdY" da expressão (Golpe Pesado: +1

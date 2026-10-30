@@ -274,7 +274,7 @@ class _AbaCombateState extends State<AbaCombate> {
                   final marcas = ms.data?.data() ?? const <String, dynamic>{};
                   final pendentes = golpes.where((g) => !golpeResolvido(marcas, g.id)).length;
                   final dano = DanoDosAgentes(
-                      camp: camp, golpes: golpes, marcas: marcas, porId: porId, ameacas: ameacas);
+                      camp: camp, golpes: golpes, marcas: marcas, ordem: ordem, porId: porId, ameacas: ameacas);
                   return _Partes(combate: combate, acao: acao, dano: dano, pendentes: pendentes);
                 },
               ),

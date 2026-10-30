@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/regras_combate.dart';
 import '../../core/rules.dart';
 import '../../core/theme.dart';
 import '../../data/catalogo.dart';
@@ -247,6 +248,41 @@ String _textoRegra(dynamic v, [String recuo = '']) {
   return '$recuo${asStr(v)}';
 }
 
+/// As principais regras de combate do livro básico, por assunto.
+class _RegrasCombate extends StatelessWidget {
+  const _RegrasCombate();
+
+  @override
+  Widget build(BuildContext context) => ExpansionTile(
+        tilePadding: EdgeInsets.zero,
+        leading: Icon(Icons.flash_on_outlined, color: Cores.destaque),
+        title: const Text('Regras de combate', style: TextStyle(fontWeight: FontWeight.bold)),
+        subtitle: const Text('Resumo do livro básico: ações, ataque, reações, manobras, dano e morte',
+            style: TextStyle(fontSize: 12, color: Cores.textoFraco)),
+        children: [
+          for (final t in regrasCombate)
+            ExpansionTile(
+              tilePadding: const EdgeInsets.only(left: 12),
+              childrenPadding: const EdgeInsets.fromLTRB(12, 0, 8, 12),
+              expandedAlignment: Alignment.centerLeft,
+              expandedCrossAxisAlignment: CrossAxisAlignment.start,
+              title: Text(t.titulo),
+              subtitle: Text(t.paginas, style: const TextStyle(fontSize: 11)),
+              children: [
+                for (final (nome, texto) in t.itens)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: SelectableText.rich(TextSpan(children: [
+                      TextSpan(text: '$nome. ', style: TextStyle(fontWeight: FontWeight.w700, color: Cores.destaque)),
+                      TextSpan(text: texto),
+                    ]), style: const TextStyle(fontSize: 13.5, height: 1.4)),
+                  ),
+              ],
+            ),
+        ],
+      );
+}
+
 /// Regras, tabelas, doenças e perigos dos livros, só para consulta.
 class _ConsultaLivros extends StatelessWidget {
   const _ConsultaLivros();
@@ -269,6 +305,7 @@ class _ConsultaLivros extends StatelessWidget {
               'Resumos das regras, tabelas, doenças, venenos e perigos de cada livro, com a página para conferir.',
               style: TextStyle(fontSize: 12, color: Cores.textoFraco)),
         ),
+        const _RegrasCombate(),
         for (final f in fontes)
           ExpansionTile(
             tilePadding: EdgeInsets.zero,

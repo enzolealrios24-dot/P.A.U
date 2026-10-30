@@ -88,6 +88,8 @@ class Ficha {
 
   String get classe => asStr(d['classe'], 'Combatente');
   String get origem => asStr(d['origem']);
+  /// A profissão da perícia Profissão (advogado, engenheiro...).
+  String get profissao => asStr(asMap(asMap(d['pericias'])['Profissão'])['qual']);
   String get trilha => asStr(d['trilha']);
   int get nex => asInt(d['nex'], 5);
   int get nivel => asInt(d['nivel'], 1);

@@ -16,6 +16,7 @@ import 'package:cris_ficha/data/repo.dart';
 import 'package:cris_ficha/screens/campaign/campaign_screen.dart';
 import 'package:cris_ficha/screens/home.dart';
 import 'package:cris_ficha/screens/master/ameacas.dart';
+import 'package:cris_ficha/screens/master/regras.dart';
 import 'package:cris_ficha/screens/login.dart';
 import 'package:cris_ficha/screens/pastas.dart';
 import 'package:cris_ficha/screens/quadro/quadro_screen.dart';
@@ -120,6 +121,12 @@ void main() {
       await _salvar(tester, 'afinidade_${af.toLowerCase()}_2');
       await _abrirAba(tester, 'PERÍCIAS');
       await _salvar(tester, 'pericias_${af.toLowerCase()}');
+      if (af == 'Conhecimento') {
+        // a Profissão com a profissão escrita ao lado dos dados
+        await tester.ensureVisible(find.text('professora de história'));
+        await tester.pump(const Duration(milliseconds: 300));
+        await _salvar(tester, 'pericias_profissao');
+      }
       await _abrirAba(tester, 'COMBATE');
       await _salvar(tester, 'combate_${af.toLowerCase()}');
       await _rolar(tester, 650);
@@ -298,6 +305,21 @@ Future<void> _telasCombateMestre(WidgetTester tester) async {
   await rolls.doc('g2').set(golpe(2, 'a4', 'Bianca Torres', 'o4',
       {'acao': 'ritual', 'nome': 'Descarnar', 'forma': 'Padrão', 'tiposDano': ['sangue'], 'dt': 18, 'resistencia': 'Fortitude parcial'},
       total: 3, detalhe: 'Padrão', dano: 27, danoDetalhe: '6d8 [5, 3, 8, 2, 6, 3] = 27'));
+  // ritual em área, sem alvo marcado: o mestre escolhe quem está nela
+  await rolls.doc('g4').set({
+    ...golpe(4, 'a4', 'Bianca Torres', '', {
+      'acao': 'ritual',
+      'nome': 'Poeira da Podridão',
+      'forma': 'Padrão',
+      'tiposDano': ['morte'],
+      'dt': 18,
+      'resistencia': 'Fortitude reduz à metade',
+      'area': 'Área: nuvem de 6m de raio',
+      'efeito': 'Ao conjurar e a cada turno, 4d8 de Morte na área; quem falha não recupera PV por 1 rodada.',
+      'condicoes': <String>[],
+    }, total: 3, detalhe: 'Padrão', dano: 22, danoDetalhe: '4d8 [7, 3, 8, 4] = 22'),
+    'participantes': ['o1', 'o2', 'o3', 'o4', 'o5'],
+  });
   await rolls.doc('g3').set(golpe(3, 'a5', 'Joaquim Vidal', 'o2', {'acao': 'ataque', 'nome': 'Machado', 'tiposDano': ['corte']},
       total: 19, detalhe: '1d20 [15] → 15 + 4', dano: 9, danoDetalhe: '1d8 [8] = 8 + 1'));
 
@@ -329,8 +351,34 @@ Future<void> _telasCombateMestre(WidgetTester tester) async {
   await tester.pump(const Duration(milliseconds: 300));
   await tester.tap(find.text('Aplicar dano').first);
   await _salvar(tester, 'mestre_dano_aplicado_pc');
+  for (final nome in ['Felino-Infernal', 'Medusa']) {
+    await tester.ensureVisible(find.widgetWithText(FilterChip, nome));
+    await tester.pump();
+    await tester.tap(find.widgetWithText(FilterChip, nome));
+    await tester.pump(const Duration(milliseconds: 200));
+  }
+  await tester.tap(find.text('Rolar Fortitude (2 alvos)'));
+  await tester.pump(const Duration(milliseconds: 300));
+  await tester.ensureVisible(find.text('Poeira da Podridão'));
+  await _salvar(tester, 'mestre_dano_area_pc');
   await tester.tap(find.text('Ameaças').first);
   await _salvar(tester, 'mestre_ameacas_pc');
+
+  // a consulta do livro: as regras de combate
+  await tester.tap(find.text('Regras').first);
+  await tester.pump(const Duration(milliseconds: 300));
+  await tester.scrollUntilVisible(find.text('Regras de combate'), 300,
+      scrollable: find.descendant(of: find.byType(AbaRegras), matching: find.byType(Scrollable)).first);
+  await tester.tap(find.text('Regras de combate'));
+  await tester.pump(const Duration(milliseconds: 400));
+  // o tópico desce um pouco, para sair de baixo do cabeçalho
+  final listaRegras = find.descendant(of: find.byType(AbaRegras), matching: find.byType(Scrollable)).first;
+  await tester.ensureVisible(find.text('Defesa, esquiva e bloqueio'));
+  await tester.drag(listaRegras, const Offset(0, 120));
+  await tester.pump(const Duration(milliseconds: 300));
+  await tester.tap(find.text('Defesa, esquiva e bloqueio'));
+  await tester.pump(const Duration(milliseconds: 400));
+  await _salvar(tester, 'consulta_combate_pc');
 
   // tela larga: as três partes lado a lado
   await _print(tester, 'mestre_largo_pc', const TelaCampanha(campanhaId: 'c1'), tamanho: const Size(1680, 900));
@@ -517,6 +565,7 @@ Future<void> _prepararDados() async {
       'Ciências': {'grau': 5},
       'Fortitude': {'grau': 5},
       'Reflexos': {'grau': 5},
+      'Profissão': {'grau': 5, 'qual': 'professora de história'},
     },
     'pvAtual': 14,
     'pvTemp': 5,

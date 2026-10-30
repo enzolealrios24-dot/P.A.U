@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import '../../core/rules.dart';
 import '../../core/theme.dart';
+import '../../data/models.dart';
 import '../../data/repo.dart';
 import '../../widgets/common.dart';
 import '../../widgets/runa.dart';
@@ -41,8 +44,7 @@ class _TabPericiasState extends State<TabPericias> {
           Expanded(
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text('Caderno de campo', style: estiloMao(30, cor: Cores.texto, peso: FontWeight.w700)),
-              Text('${widget.ctx.f.nome} · $treinadas treinadas',
-                  style: estiloMaquina(12, cor: Cores.textoFraco)),
+              Text('${widget.ctx.f.nome} · $treinadas treinadas', style: estiloMaquina(12, cor: Cores.textoFraco)),
             ]),
           ),
         ]),
@@ -76,7 +78,8 @@ class _TabPericiasState extends State<TabPericias> {
         const SizedBox(height: 10),
         Text.rich(
           TextSpan(children: [
-            const TextSpan(text: 'Toque no nome para rolar (segure para modificadores) e no carimbo para mudar o treino. '),
+            const TextSpan(
+                text: 'Toque no nome para rolar (segure para modificadores) e no carimbo para mudar o treino. '),
             const TextSpan(text: '* só treinada. ', style: TextStyle(fontWeight: FontWeight.w700)),
             WidgetSpan(
                 alignment: PlaceholderAlignment.middle,
@@ -175,70 +178,116 @@ class _LinhaPericia extends StatelessWidget {
           ctx.rolarPericia(context, p.nome, dadosExtra: m.dados, bonusExtra: m.bonus);
         }
       },
-      child: SizedBox(
-        height: 54,
-        child: Row(children: [
-          Runa(
-            elemento: elemento.isEmpty ? 'medo' : elemento,
-            circulo: treinada ? 2 : 1,
-            semente: p.nome,
-            cor: treinada ? Cores.destaque : Cores.textoFraco.withValues(alpha: 0.55),
-            tamanho: 30,
-          ),
-          const SizedBox(width: 10),
-          // nome à mão e, embaixo, atributo e dados à máquina
-          Flexible(
-            flex: 0,
-            child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Row(mainAxisSize: MainAxisSize.min, children: [
-                Text('${p.nome}${p.soTreinada ? '*' : ''}',
-                    style: estiloMao(21, cor: tinta, peso: treinada ? FontWeight.w700 : FontWeight.w500)),
-                if (p.carga) ...[
+      child: LayoutBuilder(
+          builder: (context, caixa) => SizedBox(
+                height: 54,
+                child: Row(children: [
+                  Runa(
+                    elemento: elemento.isEmpty ? 'medo' : elemento,
+                    circulo: treinada ? 2 : 1,
+                    semente: p.nome,
+                    cor: treinada ? Cores.destaque : Cores.textoFraco.withValues(alpha: 0.55),
+                    tamanho: 30,
+                  ),
+                  const SizedBox(width: 10),
+                  // nome à mão e, embaixo, atributo e dados à máquina (até onde
+                  // cabe: a profissão escrita corta com reticências)
+                  Flexible(
+                    flex: 0,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: max(90, caixa.maxWidth - 180)),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(mainAxisSize: MainAxisSize.min, children: [
+                              Text('${p.nome}${p.soTreinada ? '*' : ''}',
+                                  style: estiloMao(21, cor: tinta, peso: treinada ? FontWeight.w700 : FontWeight.w500)),
+                              if (p.carga) ...[
+                                const SizedBox(width: 4),
+                                const Icon(Icons.backpack_outlined, size: 13, color: Cores.textoFraco),
+                              ],
+                            ]),
+                            Row(mainAxisSize: MainAxisSize.min, children: [
+                              Text(
+                                  '${atributosSigla[c.atributoDaPericia(p.nome)]} · ${dados <= 0 ? 2 - dados : dados}d20${dados <= 0 ? ' (pior)' : ''}',
+                                  style: estiloMaquina(10.5, cor: Cores.textoFraco, espaco: 0.4)),
+                              if (p.nome == 'Profissão') Flexible(child: _QualProfissao(f: f)),
+                            ]),
+                          ]),
+                    ),
+                  ),
+                  // linha pontilhada até o bônus
+                  const Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 6, right: 6, top: 8),
+                      child: CustomPaint(painter: _PintorPontilhado(), size: Size(double.infinity, 2)),
+                    ),
+                  ),
+                  _CarimboGrau(
+                    // o grau que vale (com o treino que poderes dão)
+                    grau: c.grau(p.nome),
+                    aoMudar: (g) => Repo.set(f.id, 'pericias.${p.nome}.grau', g),
+                  ),
                   const SizedBox(width: 4),
-                  const Icon(Icons.backpack_outlined, size: 13, color: Cores.textoFraco),
-                ],
-              ]),
-              Text('${atributosSigla[c.atributoDaPericia(p.nome)]} · ${dados <= 0 ? 2 - dados : dados}d20${dados <= 0 ? ' (pior)' : ''}',
-                  style: estiloMaquina(10.5, cor: Cores.textoFraco, espaco: 0.4)),
-            ]),
+                  Tooltip(
+                    message: 'Outros bônus',
+                    child: InkWell(
+                      onTap: () async {
+                        final v = await pedirNumero(context, 'Outros bônus: ${p.nome}', outros);
+                        if (v != null) Repo.set(f.id, 'pericias.${p.nome}.bonus', v);
+                      },
+                      child: SizedBox(
+                        width: 32,
+                        height: 40,
+                        child: Center(
+                          child: Text(outros == 0 ? '±' : (outros > 0 ? '+$outros' : '$outros'),
+                              style: estiloMao(17,
+                                  cor: outros == 0 ? Cores.textoFraco.withValues(alpha: 0.6) : Cores.destaque)),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 44,
+                    child: Text('${bonus >= 0 ? '+' : ''}$bonus',
+                        textAlign: TextAlign.right,
+                        style: estiloMao(27,
+                            cor: treinada || bonus != 0 ? Cores.texto : Cores.textoFraco, peso: FontWeight.w700)),
+                  ),
+                ]),
+              )),
+    );
+  }
+}
+
+/// A profissão escolhida (advogado, engenheiro...), ao lado dos dados da
+/// perícia. Tocando, escreve ou troca.
+class _QualProfissao extends StatelessWidget {
+  final Ficha f;
+  const _QualProfissao({required this.f});
+
+  @override
+  Widget build(BuildContext context) {
+    final qual = f.profissao;
+    return InkWell(
+      onTap: () async {
+        final v = await pedirTexto(context, 'Qual profissão?',
+            inicial: qual, dica: 'Advogado, engenheiro, jornalista, cozinheiro…');
+        if (v != null) Repo.set(f.id, 'pericias.Profissão.qual', v);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: Row(mainAxisSize: MainAxisSize.min, children: [
+          Text(' · ', style: estiloMaquina(10.5, cor: Cores.textoFraco, espaco: 0.4)),
+          Flexible(
+            child: Text(qual.isEmpty ? 'qual profissão?' : qual,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: estiloMaquina(10.5, cor: Cores.destaque, espaco: 0.4)),
           ),
-          // linha pontilhada até o bônus
-          const Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(left: 6, right: 6, top: 8),
-              child: CustomPaint(painter: _PintorPontilhado(), size: Size(double.infinity, 2)),
-            ),
-          ),
-          _CarimboGrau(
-            // o grau que vale (com o treino que poderes dão)
-            grau: c.grau(p.nome),
-            aoMudar: (g) => Repo.set(f.id, 'pericias.${p.nome}.grau', g),
-          ),
-          const SizedBox(width: 4),
-          Tooltip(
-            message: 'Outros bônus',
-            child: InkWell(
-              onTap: () async {
-                final v = await pedirNumero(context, 'Outros bônus: ${p.nome}', outros);
-                if (v != null) Repo.set(f.id, 'pericias.${p.nome}.bonus', v);
-              },
-              child: SizedBox(
-                width: 32,
-                height: 40,
-                child: Center(
-                  child: Text(outros == 0 ? '±' : (outros > 0 ? '+$outros' : '$outros'),
-                      style: estiloMao(17, cor: outros == 0 ? Cores.textoFraco.withValues(alpha: 0.6) : Cores.destaque)),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 44,
-            child: Text('${bonus >= 0 ? '+' : ''}$bonus',
-                textAlign: TextAlign.right,
-                style: estiloMao(27,
-                    cor: treinada || bonus != 0 ? Cores.texto : Cores.textoFraco, peso: FontWeight.w700)),
-          ),
+          const SizedBox(width: 3),
+          Icon(Icons.edit_outlined, size: 11, color: Cores.destaque.withValues(alpha: 0.8)),
         ]),
       ),
     );
@@ -277,8 +326,7 @@ class _CarimboGrau extends StatelessWidget {
       tooltip: 'Grau de treinamento',
       onSelected: aoMudar,
       itemBuilder: (_) => [
-        for (final e in grausTreino.entries)
-          PopupMenuItem(value: e.key, child: Text('${e.value} (+${e.key})')),
+        for (final e in grausTreino.entries) PopupMenuItem(value: e.key, child: Text('${e.value} (+${e.key})')),
       ],
       child: Transform.rotate(
         angle: grau == 0 ? 0 : -0.06,

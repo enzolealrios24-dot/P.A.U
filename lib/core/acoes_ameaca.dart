@@ -147,7 +147,7 @@ class AcaoAmeaca {
       golpes: golpes == null ? 1 : asInt(golpes.group(1), 1).clamp(1, 6),
       rolagens: partes,
       tiposDano: _tiposNoTexto(dano),
-      condicoes: _condicoes(dano),
+      condicoes: condicoesNoTexto(dano),
     );
   }
 
@@ -159,7 +159,7 @@ class AcaoAmeaca {
         texto: texto,
         rolagens: _rolagens(texto),
         resistencias: _resistencias(texto),
-        condicoes: _condicoes(texto),
+        condicoes: condicoesNoTexto(texto),
         usos: _usos(texto),
       );
 }
@@ -308,7 +308,7 @@ List<Resistencia> _resistencias(String texto) {
 }
 
 /// Condições citadas no texto, com o nome como está no catálogo.
-List<String> _condicoes(String texto) {
+List<String> condicoesNoTexto(String texto) {
   final t = semAcento(texto.toLowerCase());
   final l = <String>[];
   for (final nome in nomesCondicoes()) {

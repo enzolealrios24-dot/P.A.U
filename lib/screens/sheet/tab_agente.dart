@@ -123,6 +123,12 @@ class TabAgente extends StatelessWidget {
                 for (final p in asStrList(o?['pericias'])) {
                   if (f.grau(p) < 5) m['pericias.$p.grau'] = 5;
                 }
+                // Chef: "Profissão (cozinheiro)"; Engenheiro, Executivo...:
+                // a profissão é a própria origem
+                if (asStrList(o?['pericias']).contains('Profissão') && f.profissao.isEmpty) {
+                  final dita = RegExp(r'Profissão \(([^)]+)\)').firstMatch(asStr(o?['periciasTexto']))?[1];
+                  m['pericias.Profissão.qual'] = dita ?? v.toLowerCase();
+                }
                 Repo.setVarios(f.id, m);
               },
             ),

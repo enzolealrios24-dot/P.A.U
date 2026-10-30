@@ -506,12 +506,12 @@ class Repo {
     }));
   }
 
-  /// Ataques e rituais dos agentes contra alguém do combate, com o id do
-  /// registro (o mais novo primeiro).
+  /// Ataques e rituais dos agentes num combate, com o id do registro (o
+  /// mais novo primeiro).
   static Stream<List<(String, Json)>> golpesDosAgentes(String cid) =>
       rolls(cid).orderBy('at', descending: true).limit(120).snapshots().map((s) => [
             for (final d in s.docs)
-              if (asStr(d.data()['alvo']).isNotEmpty) (d.id, d.data()),
+              if (d.data()['golpe'] != null) (d.id, d.data()),
           ]);
 
   /// O que o mestre fez com cada golpe dos agentes (aplicou, dispensou, a
