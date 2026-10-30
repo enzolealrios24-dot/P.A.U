@@ -126,7 +126,20 @@ class _TabCombateState extends State<TabCombate> {
       ),
       if (ctx.camp case final camp? when asBool(camp.combate['ativo']) && asMapList(camp.combate['ordem']).isNotEmpty) ...[
         const SizedBox(height: 12),
-        _PainelCortado(titulo: 'Alvo', child: _AlvoNaFicha(ctx: ctx, camp: camp)),
+        _PainelCortado(
+          titulo: 'Alvo',
+          // há quanto tempo o combate começou
+          acao: camp.combate['inicio'] == null
+              ? null
+              : Row(mainAxisSize: MainAxisSize.min, children: [
+                  const Icon(Icons.timer_outlined, size: 15, color: Cores.textoFraco),
+                  const SizedBox(width: 4),
+                  Cronometro(
+                      inicio: asInt(camp.combate['inicio']),
+                      estilo: estiloNumero(15, cor: Cores.textoFraco, peso: FontWeight.w600)),
+                ]),
+          child: _AlvoNaFicha(ctx: ctx, camp: camp),
+        ),
       ],
       const SizedBox(height: 12),
       _PainelCortado(

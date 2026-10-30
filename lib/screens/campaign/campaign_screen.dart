@@ -8,6 +8,7 @@ import '../home.dart';
 import '../master/master_screen.dart';
 import '../sheet/sheet_screen.dart';
 import 'iniciativa_view.dart';
+import 'sessao.dart';
 
 class TelaCampanha extends StatelessWidget {
   final String campanhaId;
@@ -113,6 +114,7 @@ class _AbaMesaJogador extends StatelessWidget {
         final aqui = todas.where((f) => f.campaignId == camp.id).toList();
         final livres = todas.where((f) => f.campaignId == null).toList();
         return ListView(padding: const EdgeInsets.all(12), children: [
+          AvisoSessao(camp: camp),
           Secao(
             titulo: 'Mesa',
             child: Column(

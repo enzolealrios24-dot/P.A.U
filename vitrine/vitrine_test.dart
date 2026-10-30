@@ -278,6 +278,8 @@ Future<void> _telasCombateMestre(WidgetTester tester) async {
     'combate': {
       'ativo': true,
       'rodada': 2,
+      // o combate começou há 4 minutos
+      'inicio': DateTime.now().millisecondsSinceEpoch - 245000,
       'turno': 1,
       'ordem': [
         {'id': 'o1', 'tipo': 'agente', 'ref': 'a1', 'nome': 'Rafael Moraes', 'valor': 24, 'desempate': 2},
@@ -688,6 +690,8 @@ Future<void> _prepararDados() async {
     'members': {_uid: 'Enzo'},
     'regras': {'determinacao': false, 'progressao': 'nex'},
     'combate': {'ativo': false, 'rodada': 1, 'turno': 0, 'ordem': []},
+    // a sessão começou há 1h12
+    'sessao': {'ativa': true, 'numero': 3, 'inicio': DateTime.now().millisecondsSinceEpoch - 4320000},
     'ledger': [],
     'missao': 'Descobrir quem marcou o porão da mansão Albuquerque.',
   });

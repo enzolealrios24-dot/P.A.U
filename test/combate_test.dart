@@ -64,6 +64,22 @@ void main() {
     expect(ordem.where((e) => e['tipo'] == 'agente').length, 1);
     expect(vezes, contains('agente'));
     expect(vezes, contains('ameaca'));
+
+    // o relógio do combate começou e aparece na barra da rodada
+    final inicio = asInt((await combate())['inicio']);
+    expect(inicio, greaterThan(0));
+    expect(find.byIcon(Icons.timer_outlined), findsOneWidget);
+    // passar o turno não reinicia o relógio
+    await tester.tap(find.text('Próximo turno'));
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(asInt((await combate())['inicio']), inicio);
+    // encerrando, ele some
+    await tester.tap(find.text('Encerrar'));
+    await tester.pump(const Duration(milliseconds: 300));
+    await tester.tap(find.text('Confirmar'));
+    await tester.pump(const Duration(milliseconds: 300));
+    expect((await combate())['inicio'], isNull);
+    expect(find.byIcon(Icons.timer_outlined), findsNothing);
   });
 
   test('a reação vale uma vez por rodada de cada combate', () {

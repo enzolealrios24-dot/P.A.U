@@ -16,6 +16,14 @@ class IniciativaView extends StatelessWidget {
     final turno = asInt(cb['turno']);
     return Secao(
       titulo: 'Combate • rodada ${asInt(cb['rodada'], 1)}',
+      acoes: [
+        if (cb['inicio'] != null)
+          Row(mainAxisSize: MainAxisSize.min, children: [
+            const Icon(Icons.timer_outlined, size: 16, color: Cores.textoFraco),
+            const SizedBox(width: 4),
+            Cronometro(inicio: asInt(cb['inicio']), estilo: estiloNumero(16, cor: Cores.texto)),
+          ]),
+      ],
       child: Column(children: [
         for (var i = 0; i < ordem.length; i++)
           Container(

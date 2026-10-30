@@ -13,6 +13,7 @@ import '../../widgets/efeitos.dart';
 import '../../widgets/imagem.dart';
 import '../../widgets/sigilos.dart';
 import '../campaign/campaign_screen.dart';
+import '../campaign/sessao.dart';
 import '../sheet/tab_agente.dart';
 import '../quadro/quadro_screen.dart';
 import 'ameacas.dart';
@@ -120,6 +121,10 @@ class PainelAoVivo extends StatelessWidget {
         final largura = MediaQuery.sizeOf(context).width;
         final w = largura < 720 ? largura - 24 : 340.0;
         return ListView(padding: const EdgeInsets.all(12), children: [
+          if (camp.masterUid == Repo.uid) ...[
+            CartaoSessao(camp: camp),
+            const SizedBox(height: 12),
+          ],
           Wrap(spacing: 8, runSpacing: 8, children: [
             FilledButton.icon(
               onPressed: fichas.isEmpty

@@ -698,3 +698,43 @@ class CorteCantos extends ShapeBorder {
   @override
   ShapeBorder scale(double t) => CorteCantos(corte: corte * t, cor: cor, largura: largura * t);
 }
+
+/// "12:04", ou "1:02:03" passando de uma hora.
+String duracaoTexto(Duration d) {
+  if (d.isNegative) d = Duration.zero;
+  String dois(int n) => n.toString().padLeft(2, '0');
+  final h = d.inHours, m = d.inMinutes % 60, s = d.inSeconds % 60;
+  return h > 0 ? '$h:${dois(m)}:${dois(s)}' : '${dois(m)}:${dois(s)}';
+}
+
+/// O tempo desde [inicio] (milissegundos desde 1970), contando ao vivo.
+class Cronometro extends StatefulWidget {
+  final int inicio;
+  final TextStyle? estilo;
+  const Cronometro({super.key, required this.inicio, this.estilo});
+
+  @override
+  State<Cronometro> createState() => _CronometroState();
+}
+
+class _CronometroState extends State<Cronometro> {
+  late final Timer _tique;
+
+  @override
+  void initState() {
+    super.initState();
+    _tique = Timer.periodic(const Duration(seconds: 1), (_) => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _tique.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => Text(
+        duracaoTexto(DateTime.now().difference(DateTime.fromMillisecondsSinceEpoch(widget.inicio))),
+        style: widget.estilo,
+      );
+}

@@ -180,6 +180,8 @@ class Campanha {
   Map<String, dynamic> get members => asMap(d['members']);
   Map<String, dynamic> get regras => asMap(d['regras']);
   Map<String, dynamic> get combate => asMap(d['combate']);
+  /// A sessão de jogo: 'ativa', 'numero', 'inicio' e 'fim' (milissegundos).
+  Map<String, dynamic> get sessao => asMap(d['sessao']);
   String get notasMestre => asStr(d['notasMestre']);
   String get missao => asStr(d['missao']);
   List<Map<String, dynamic>> get ledger => asMapList(d['ledger']);

@@ -52,7 +52,19 @@ class _AbaCombateState extends State<AbaCombate> {
     super.dispose();
   }
 
-  void _salvar(Map<String, dynamic> cb) => Repo.setCamp(camp.id, {'combate': cb});
+  /// Grava o combate; quando ele fica ativo, o relógio do combate começa, e
+  /// encerrado, zera.
+  void _salvar(Map<String, dynamic> cb) {
+    final ativo = asBool(cb['ativo']);
+    final comeca = ativo && (!asBool(_cb['ativo']) || _cb['inicio'] == null);
+    Repo.setCamp(camp.id, {
+      'combate': {
+        ...cb,
+        if (comeca) 'inicio': DateTime.now().millisecondsSinceEpoch,
+        if (!ativo) 'inicio': null,
+      },
+    });
+  }
 
   static int _porIniciativa(Map<String, dynamic> a, Map<String, dynamic> b) {
     final v = asInt(b['valor']).compareTo(asInt(a['valor']));
@@ -349,13 +361,24 @@ class _AbaCombateState extends State<AbaCombate> {
           child: Row(children: [
             IconButton(onPressed: () => _proximo(-1, fichas, porId), icon: const Icon(Icons.skip_previous)),
             Expanded(
-              child: Text(
-                ativo
-                    ? 'RODADA ${asInt(_cb['rodada'], 1)}${vez != null ? ' • vez de ${asStr(vez['nome'])}' : ''}'
-                    : 'Sem combate ativo',
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontWeight: FontWeight.w800),
-              ),
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                Text(
+                  ativo
+                      ? 'RODADA ${asInt(_cb['rodada'], 1)}${vez != null ? ' • vez de ${asStr(vez['nome'])}' : ''}'
+                      : 'Sem combate ativo',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontWeight: FontWeight.w800),
+                ),
+                // há quanto tempo o combate começou
+                if (ativo && _cb['inicio'] != null)
+                  Row(mainAxisSize: MainAxisSize.min, children: [
+                    const Icon(Icons.timer_outlined, size: 15, color: Cores.textoFraco),
+                    const SizedBox(width: 4),
+                    Cronometro(
+                        inicio: asInt(_cb['inicio']),
+                        estilo: estiloNumero(15, cor: Cores.textoFraco, peso: FontWeight.w600)),
+                  ]),
+              ]),
             ),
             FilledButton(onPressed: () => _proximo(1, fichas, porId), child: const Text('Próximo turno')),
           ]),
