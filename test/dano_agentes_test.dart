@@ -36,6 +36,8 @@ void main() {
 
       expect(ResistenciasAmeaca.doTexto('Resistências: Dano 30').rdContra('fogo'), 30);
       expect(ResistenciasAmeaca.doTexto('Resistências: RD 5').rdContra('corte'), 5);
+      final barra = ResistenciasAmeaca.doTexto('Resistências: RD 10/Morte e Sangue; Fogo 5');
+      expect([for (final t in ['corte', 'morte', 'sangue', 'fogo']) barra.rdContra(t)], [10, 0, 0, 15]);
       expect(ResistenciasAmeaca.doTexto('Imunidades: Dano balístico').imuneA('balistico'), isTrue);
       expect(ResistenciasAmeaca.doTexto('Imunidades: Dano balístico').imuneA('corte'), isFalse);
     });

@@ -92,12 +92,15 @@ List<String> tiposDanoDoTexto(String texto) => [
 class ResistenciasAmeaca {
   /// RD por tipo; 'geral' vale para todos e 'paranormal' para os elementos.
   final Map<String, int> rd;
+  /// Tipos que a RD geral não reduz ("RD 10/Morte": tudo, menos Morte).
+  final Set<String> rdExceto;
   final Set<String> imune;
   /// Imune a todo dano, menos os tipos em [imune] (que aqui são exceções).
   final bool imuneATudo;
   final Set<String> vulneravel;
   const ResistenciasAmeaca({
     this.rd = const {},
+    this.rdExceto = const {},
     this.imune = const {},
     this.imuneATudo = false,
     this.vulneravel = const {},
@@ -105,6 +108,7 @@ class ResistenciasAmeaca {
 
   factory ResistenciasAmeaca.doTexto(String texto) {
     final rd = <String, int>{};
+    final rdExceto = <String>{};
     final imune = <String>{};
     var tudo = false;
     final vulneravel = <String>{};
@@ -137,6 +141,12 @@ class ResistenciasAmeaca {
         vulneravel.addAll(tiposDanoDoTexto(corpo));
       } else {
         for (final grupo in corpo.split(';')) {
+          final barra = RegExp(r'^\s*(?:rd|dano)\s*(\d+)\s*/(.+)$').firstMatch(grupo);
+          if (barra != null) {
+            rd[rdGeral.id] = int.parse(barra[1]!);
+            rdExceto.addAll(tiposDanoDoTexto(barra[2]!));
+            continue;
+          }
           final pendentes = <String>[];
           for (final item in grupo.split(RegExp(r',|\s+e\s+'))) {
             final m = RegExp(r'^(.*?)(\d+)\s*$').firstMatch(item.trim());
@@ -157,13 +167,13 @@ class ResistenciasAmeaca {
         }
       }
     }
-    return ResistenciasAmeaca(rd: rd, imune: imune, imuneATudo: tudo, vulneravel: vulneravel);
+    return ResistenciasAmeaca(rd: rd, rdExceto: rdExceto, imune: imune, imuneATudo: tudo, vulneravel: vulneravel);
   }
 
   bool imuneA(String tipo) => imuneATudo ? !imune.contains(tipo) : imune.contains(tipo);
 
   int rdContra(String tipo) {
-    var t = (rd[rdGeral.id] ?? 0) + (rd[tipo] ?? 0);
+    var t = (rdExceto.contains(tipo) ? 0 : rd[rdGeral.id] ?? 0) + (rd[tipo] ?? 0);
     if (tiposParanormais.contains(tipo)) t += rd[rdParanormal.id] ?? 0;
     return t;
   }
