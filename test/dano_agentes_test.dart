@@ -147,6 +147,41 @@ void main() {
     expect(g['condicoes'], ['Fraco']);
   });
 
+  testWidgets('ritual em si mesmo com condição vai ao mestre mirando o agente', (tester) async {
+    final db = FakeFirebaseFirestore();
+    Repo.dbTeste = db;
+    Repo.authTeste = MockFirebaseAuth(signedIn: true, mockUser: MockUser(uid: 'jogador', displayName: 'Jo'));
+    final camp = Campanha('c1', {
+      'combate': {
+        'ativo': true,
+        'ordem': [
+          {'id': 'o1', 'tipo': 'ameaca', 'ref': 't1', 'nome': 'Bêbado Local', 'valor': 10},
+          {'id': 'o2', 'tipo': 'agente', 'ref': 'a1', 'nome': 'Rafa', 'valor': 8},
+        ],
+      },
+    });
+    final dados = {...novaFicha('jogador', 'Jo'), 'nome': 'Rafa', 'peAtual': 20, 'alvo': 'o1'};
+    await db.collection('characters').doc('a1').set(dados);
+    late BuildContext ctx;
+    await tester.pumpWidget(MaterialApp(home: Builder(builder: (c) {
+      ctx = c;
+      return const SizedBox();
+    })));
+    CtxFicha(Ficha('a1', dados), camp).conjurar(
+        ctx,
+        {
+          'nome': 'Sede de Adrenalina',
+          'elemento': 'Sangue',
+          'alvo': 'Você',
+          'resumo': 'Você ganha bônus em Atletismo; no fim, fica atordoado por 1 rodada.',
+        },
+        forma: 'Padrão');
+    await tester.pump(const Duration(seconds: 3));
+    final r = (await db.collection('campaigns').doc('c1').collection('rolls').get()).docs.single.data();
+    expect(r['alvo'], 'o2');
+    expect(asMap(r['golpe'])['condicoes'], ['Atordoado']);
+  });
+
   testWidgets('o mestre vê se acertou e aplica o dano na ameaça', (tester) async {
     final camp = await _abrirDano(tester, ordem: [
       _ameaca('o1', 't1', 'Bêbado Local'),
@@ -223,6 +258,15 @@ void main() {
 
     expect(find.textContaining('Bêbado Local: −10 PV (metade)', findRichText: true), findsOneWidget);
     expect(find.textContaining('passou, metade', findRichText: true), findsOneWidget);
+    // a condição do ritual só vale se o mestre escolher
+    expect(find.text('APLICAR A CONDIÇÃO?'), findsOneWidget);
+    expect(find.text('−50 PV em 2 alvos'), findsOneWidget);
+    expect(find.textContaining('· Fraco', findRichText: true), findsNothing);
+    await tester.ensureVisible(find.widgetWithText(FilterChip, 'Fraco'));
+    await tester.pump();
+    await tester.tap(find.widgetWithText(FilterChip, 'Fraco'));
+    await tester.pump(const Duration(milliseconds: 200));
+    expect(find.widgetWithText(FilterChip, 'Aplicar Fraco'), findsOneWidget);
     expect(find.textContaining('Cão Raivoso: −40 PV (vulnerável: dobro) · Fraco', findRichText: true), findsOneWidget);
     expect(find.text('−50 PV em 2 alvos · Fraco em 1 alvo'), findsOneWidget);
 

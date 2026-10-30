@@ -317,14 +317,14 @@ Future<void> _telasCombateMestre(WidgetTester tester) async {
   await rolls.doc('g4').set({
     ...golpe(4, 'a4', 'Bianca Torres', '', {
       'acao': 'ritual',
-      'nome': 'Poeira da Podridão',
+      'nome': 'Miasma Entrópico',
       'forma': 'Padrão',
-      'tiposDano': ['morte'],
+      'tiposDano': ['quimico'],
       'dt': 18,
-      'resistencia': 'Fortitude reduz à metade',
+      'resistencia': 'Fortitude parcial',
       'area': 'Área: nuvem de 6m de raio',
-      'efeito': 'Ao conjurar e a cada turno, 4d8 de Morte na área; quem falha não recupera PV por 1 rodada.',
-      'condicoes': <String>[],
+      'efeito': '4d8 de dano químico e enjoado 1 rodada (passar: metade, sem enjoo).',
+      'condicoes': ['Enjoado'],
     }, total: 3, detalhe: 'Padrão', dano: 22, danoDetalhe: '4d8 [7, 3, 8, 4] = 22'),
     'participantes': ['o1', 'o2', 'o3', 'o4', 'o5'],
   });
@@ -367,8 +367,15 @@ Future<void> _telasCombateMestre(WidgetTester tester) async {
   }
   await tester.tap(find.text('Rolar Fortitude (2 alvos)'));
   await tester.pump(const Duration(milliseconds: 300));
-  await tester.ensureVisible(find.text('Poeira da Podridão'));
+  await tester.ensureVisible(find.text('Miasma Entrópico'));
   await _salvar(tester, 'mestre_dano_area_pc');
+  // a condição do ritual: o mestre escolhe se aplica
+  await tester.ensureVisible(find.widgetWithText(FilterChip, 'Enjoado'));
+  await tester.pump();
+  await tester.tap(find.widgetWithText(FilterChip, 'Enjoado'));
+  await tester.pump(const Duration(milliseconds: 300));
+  await tester.ensureVisible(find.text('Miasma Entrópico'));
+  await _salvar(tester, 'mestre_dano_condicao_pc');
   await tester.tap(find.text('Ameaças').first);
   await _salvar(tester, 'mestre_ameacas_pc');
 

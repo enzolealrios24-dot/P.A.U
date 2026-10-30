@@ -7,6 +7,7 @@ import '../../core/dano.dart';
 import '../../core/dice.dart';
 import '../../core/rules.dart';
 import '../../core/theme.dart';
+import '../../data/catalogo.dart';
 import '../../data/models.dart';
 import '../../data/repo.dart';
 import '../../widgets/common.dart';
@@ -100,6 +101,7 @@ class _Atingido {
 class DanoDosAgentes extends StatelessWidget {
   final Campanha camp;
   final List<GolpeAgente> golpes;
+
   /// O que o mestre já fez com cada golpe, pelo id.
   final Map<String, dynamic> marcas;
   final List<Map<String, dynamic>> ordem;
@@ -156,8 +158,8 @@ class DanoDosAgentes extends StatelessWidget {
       if (resolvidos.isNotEmpty) ...[
         Padding(
           padding: const EdgeInsets.only(top: 20, bottom: 4),
-          child: Text('RESOLVIDOS',
-              style: estiloRotulo(12.5, cor: Cores.textoFraco, peso: FontWeight.w600, espaco: 1.6)),
+          child:
+              Text('RESOLVIDOS', style: estiloRotulo(12.5, cor: Cores.textoFraco, peso: FontWeight.w600, espaco: 1.6)),
         ),
         for (final g in resolvidos) _LinhaResolvida(camp: camp, golpe: g, marca: asMap(marcas[g.id])),
       ],
@@ -188,6 +190,7 @@ class _CartaoGolpe extends StatefulWidget {
   final GolpeAgente golpe;
   final Map<String, dynamic> marca;
   final Ficha? atacante;
+
   /// Todos no combate, para escolher quem o golpe atinge.
   final List<_Atingido> participantes;
   const _CartaoGolpe({
@@ -209,6 +212,7 @@ typedef _NoAlvo = ({int sofrido, bool? passou, bool metade, bool evita, bool afe
 class _CartaoGolpeState extends State<_CartaoGolpe> {
   String? _tipo;
   bool _contarAcerto = false;
+
   /// Esquiva e bloqueio de um agente atingido; null: a reação que ele
   /// escolheu na ficha, se ainda não usou nesta rodada.
   bool? _esquivou;
@@ -308,7 +312,8 @@ class _CartaoGolpeState extends State<_CartaoGolpe> {
     final metadeQuemPassa = _metadeQuemPassa ?? (metadeSozinha || modo.contains('parcial'));
     final salvos = _salvos;
     final condicoesDoGolpe = asStrList(golpe['condicoes']);
-    final condicoes = _condicoes ?? condicoesDoGolpe.toSet();
+    // as condições que o ritual cita só valem se o mestre escolher
+    final condicoes = _condicoes ?? <String>{};
 
     _NoAlvo noAlvo(_Atingido t) {
       final s = asMap(salvos[t.id]);
@@ -324,7 +329,8 @@ class _CartaoGolpeState extends State<_CartaoGolpe> {
         evita: evita,
         afetado: passou != true && !t.semFicha,
         ajustes: [
-          if (imune) 'imune'
+          if (imune)
+            'imune'
           else ...[
             if (metade) 'metade',
             if (t.res?.vulneravel.contains(tipo) ?? false) 'vulnerável: dobro',
@@ -497,7 +503,8 @@ class _CartaoGolpeState extends State<_CartaoGolpe> {
               for (final p in widget.participantes)
                 FilterChip(
                   label: Text(p.nome),
-                  avatar: Icon(asStr(p.entrada['tipo']) == 'agente' ? Icons.person_outline : Icons.pest_control_outlined,
+                  avatar: Icon(
+                      asStr(p.entrada['tipo']) == 'agente' ? Icons.person_outline : Icons.pest_control_outlined,
                       size: 16),
                   selected: atingidos.contains(p),
                   onSelected: (_) => _escolherAlvo(p.id, varios: ritual),
@@ -506,14 +513,25 @@ class _CartaoGolpeState extends State<_CartaoGolpe> {
           ],
           if (ritual && condicoesDoGolpe.isNotEmpty && atingidos.isNotEmpty) ...[
             const SizedBox(height: 10),
-            Text(pericia != null && dt > 0 ? 'CONDIÇÕES EM QUEM FALHAR' : 'CONDIÇÕES', style: rotulo),
-            const SizedBox(height: 4),
+            Text(condicoesDoGolpe.length == 1 ? 'APLICAR A CONDIÇÃO?' : 'APLICAR AS CONDIÇÕES?', style: rotulo),
+            const SizedBox(height: 2),
+            Text(
+              'O ritual cita ${condicoesDoGolpe.length == 1 ? 'esta condição' : 'estas condições'}. '
+              'Marque ${condicoesDoGolpe.length == 1 ? 'se vale' : 'as que valem'}: '
+              '${pericia != null && dt > 0 ? 'vai${condicoesDoGolpe.length == 1 ? '' : 'm'} para quem falhar no teste de $pericia' : 'vai${condicoesDoGolpe.length == 1 ? '' : 'm'} para os alvos'}.',
+              style: const TextStyle(fontSize: 12.5, color: Cores.textoFraco),
+            ),
+            const SizedBox(height: 6),
             Wrap(spacing: 6, runSpacing: 6, children: [
               for (final cd in condicoesDoGolpe)
-                FilterChip(
-                  label: Text(cd),
-                  selected: condicoes.contains(cd),
-                  onSelected: (v) => setState(() => _condicoes = v ? {...condicoes, cd} : ({...condicoes}..remove(cd))),
+                Tooltip(
+                  message: asStr(Catalogo.instance.condicao(cd)?['resumo']),
+                  child: FilterChip(
+                    label: Text(condicoes.contains(cd) ? 'Aplicar $cd' : cd),
+                    selected: condicoes.contains(cd),
+                    onSelected: (v) =>
+                        setState(() => _condicoes = v ? {...condicoes, cd} : ({...condicoes}..remove(cd))),
+                  ),
                 ),
             ]),
           ],
@@ -536,11 +554,15 @@ class _CartaoGolpeState extends State<_CartaoGolpe> {
                                       ? '−$danoTotal ${principal!.recurso(tipo)}'
                                       : '−$danoTotal PV em ${_alvos(resultados.values.where((r) => r.sofrido > 0).length)}',
                                 if (comCondicao > 0)
-                                  atingidos.length == 1 ? condicoes.join(', ') : '${condicoes.join(', ')} em ${_alvos(comCondicao)}',
+                                  atingidos.length == 1
+                                      ? condicoes.join(', ')
+                                      : '${condicoes.join(', ')} em ${_alvos(comCondicao)}',
                               ].join(' · ')
                             : atingidos.every((t) => t.semFicha)
                                 ? 'Sem ficha para aplicar.'
-                                : 'Nada para aplicar.',
+                                : ritual && condicoesDoGolpe.isNotEmpty && condicoes.isEmpty
+                                    ? 'Escolha se aplica ${condicoesDoGolpe.length == 1 ? 'a condição' : 'as condições'}.'
+                                    : 'Nada para aplicar.',
                 style: aplicavel && conta
                     ? estiloNumero(17, cor: Cores.pv)
                     : const TextStyle(fontSize: 14, color: Cores.textoFraco),

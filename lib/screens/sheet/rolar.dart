@@ -33,11 +33,11 @@ class CtxFicha {
 
   String get _contra => alvoNome == null ? '' : ' contra $alvoNome';
 
-  /// Com [golpe] (ataque, ou ritual com dano, resistência ou área) num
-  /// combate ativo, o registro leva o alvo e quem está no combate, para o
-  /// mestre conferir o acerto e aplicar o dano e os efeitos. Sem alvo
-  /// marcado, o mestre escolhe.
-  void _publicar(BuildContext context, Rolagem r, {Map<String, dynamic>? golpe}) {
+  /// Com [golpe] (ataque, ou ritual com dano, resistência, área ou
+  /// condição) num combate ativo, o registro leva o alvo e quem está no
+  /// combate, para o mestre conferir o acerto e aplicar o dano e os efeitos.
+  /// Sem alvo marcado, o mestre escolhe; [emSi] mira o próprio agente.
+  void _publicar(BuildContext context, Rolagem r, {Map<String, dynamic>? golpe, bool emSi = false}) {
     mostrarRolagem(context, r);
     final c = camp;
     if (c == null) return;
@@ -47,7 +47,7 @@ class CtxFicha {
         extra: !combate
             ? const {}
             : {
-                'alvo': asStr(_alvo?['id']),
+                'alvo': asStr((emSi ? entradaDoAgente(c, f) : _alvo)?['id']),
                 'participantes': [for (final e in asMapList(c.combate['ordem'])) asStr(e['id'])],
                 'fichaId': f.id,
                 'golpe': golpe,
@@ -177,9 +177,12 @@ class CtxFicha {
     final textoForma = forma == 'Padrão' ? '' : asStr(ritual[forma == 'Discente' ? 'discente' : 'verdadeiro']);
     final efeito = [asStr(ritual['resumo']), if (textoForma.isNotEmpty) '$forma: $textoForma'].join(' ');
     final area = areaDoRitual(asStr(ritual['alvo']), textoForma);
-    // rituais só em si mesmo (sem dano, resistência nem área) não vão ao mestre
-    final afetaOutros = d != null || resistencia.isNotEmpty || area.isNotEmpty;
-    _publicar(context, r, golpe: !afetaOutros ? null : {
+    final condicoes = condicoesNoTexto(efeito);
+    // rituais sem dano, resistência, área nem condição (como os que só
+    // fortalecem o agente) não vão ao mestre
+    final vaiAoMestre = d != null || resistencia.isNotEmpty || area.isNotEmpty || condicoes.isNotEmpty;
+    final emSi = semAcento(asStr(ritual['alvo']).toLowerCase()).startsWith('voce');
+    _publicar(context, r, emSi: emSi, golpe: !vaiAoMestre ? null : {
       'acao': 'ritual',
       'nome': asStr(ritual['nome'], 'ritual'),
       'forma': forma,
@@ -189,7 +192,7 @@ class CtxFicha {
       'resistencia': resistencia,
       'area': area,
       'efeito': efeito,
-      'condicoes': condicoesNoTexto(efeito),
+      'condicoes': condicoes,
     });
   }
 }

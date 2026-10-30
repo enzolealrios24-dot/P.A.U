@@ -189,15 +189,20 @@ class Campanha {
 /// dele na iniciativa e a rodada ('' fora de combate). A reação usada
 /// guarda essa marca; numa rodada nova, ou noutro combate, volta a valer.
 String marcaReacao(Campanha camp, Ficha f) {
+  final e = entradaDoAgente(camp, f);
+  return e == null ? '' : '${asStr(e['id'])}:${asInt(camp.combate['rodada'], 1)}';
+}
+
+/// A entrada de [f] (ou de uma transformação dele) na iniciativa do combate
+/// ativo da mesa.
+Map<String, dynamic>? entradaDoAgente(Campanha camp, Ficha f) {
   final cb = camp.combate;
-  if (!asBool(cb['ativo'])) return '';
+  if (!asBool(cb['ativo'])) return null;
   final minhas = {f.id, if (f.transformacaoDe case final de?) de, ...f.transformacoes.keys};
   for (final e in asMapList(cb['ordem'])) {
-    if (asStr(e['tipo']) == 'agente' && minhas.contains(asStr(e['ref']))) {
-      return '${asStr(e['id'])}:${asInt(cb['rodada'], 1)}';
-    }
+    if (asStr(e['tipo']) == 'agente' && minhas.contains(asStr(e['ref']))) return e;
   }
-  return '';
+  return null;
 }
 
 /// O agente já usou a reação de defesa nesta rodada (uma por rodada).
