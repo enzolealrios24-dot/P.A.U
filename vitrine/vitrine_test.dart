@@ -411,6 +411,11 @@ Future<void> _telasCombateMestre(WidgetTester tester) async {
   await tester.tap(find.text('DANO').first);
   await _salvar(tester, 'mestre_dano');
 
+  // as sessões do mestre: o registro com os nomes e as notas dele
+  await _print(tester, 'mestre_sessoes_pc', const TelaCampanha(campanhaId: 'c1'), tamanho: _pc);
+  await tester.tap(find.text('Sessões').first);
+  await _salvar(tester, 'mestre_sessoes_pc');
+
   // a ficha do agente: o espaço do alvo embaixo dos rituais rápidos
   await chars.doc('a1').update({'alvo': 'o2'});
   await _print(tester, 'ficha_alvo', const TelaFicha(fichaId: 'a1'));
@@ -422,6 +427,13 @@ Future<void> _telasCombateMestre(WidgetTester tester) async {
       scrollable: find.descendant(of: find.byType(TabCombate), matching: find.byType(Scrollable)).first);
   await tester.drag(find.byType(TabCombate), const Offset(0, -260));
   await _salvar(tester, 'ficha_alvo');
+
+  // as sessões: a aba do agente (nomes e notas dele) e a do mestre
+  DefaultTabController.of(tester.element(find.byType(TabBarView))).index = 7;
+  for (var i = 0; i < 10; i++) {
+    await tester.pump(const Duration(milliseconds: 100));
+  }
+  await _salvar(tester, 'ficha_sessoes');
 }
 
 // ---------------- prints ----------------
@@ -682,6 +694,8 @@ Future<void> _prepararDados() async {
       {'id': 'pa2', 'nome': 'Arquivo morto', 'data': DateTime(2026, 3, 2).millisecondsSinceEpoch},
     ],
   });
+  final agora = DateTime.now().millisecondsSinceEpoch;
+  const dia = 86400000;
   await db.collection('campaigns').doc('c1').set({
     'nome': 'Operação Sangue Velho',
     'masterUid': _uid,
@@ -691,9 +705,26 @@ Future<void> _prepararDados() async {
     'regras': {'determinacao': false, 'progressao': 'nex'},
     'combate': {'ativo': false, 'rodada': 1, 'turno': 0, 'ordem': []},
     // a sessão começou há 1h12
-    'sessao': {'ativa': true, 'numero': 3, 'inicio': DateTime.now().millisecondsSinceEpoch - 4320000},
+    'sessao': {'ativa': true, 'numero': 3, 'inicio': agora - 4320000},
+    'sessoes': [
+      {'numero': 1, 'inicio': agora - 8 * dia, 'fim': agora - 8 * dia + 13260000},
+      {'numero': 2, 'inicio': agora - dia, 'fim': agora - dia + 14188000},
+      {'numero': 3, 'inicio': agora - 4320000},
+    ],
     'ledger': [],
     'missao': 'Descobrir quem marcou o porão da mansão Albuquerque.',
+  });
+  // os nomes e as notas das sessões: os do mestre e os de um agente
+  await db.collection('campaigns').doc('c1').collection('gm').doc('sessoes').set({
+    '1': {'nome': 'A mansão Albuquerque', 'nota': 'Pista: o sigilo no porão é de Sangue.'},
+    '2': {'nome': 'O porão da fazenda', 'nota': 'Joaquim caiu a 0 PV e foi salvo por Bianca. O cultista fugiu com o diário.'},
+  });
+  await db.collection('characters').doc('a1').update({
+    'notasSessoes': {
+      'c1': {
+        '2': {'nome': 'Porão', 'nota': 'Fulano morreu. A chave ficou com a Bianca.'},
+      },
+    },
   });
 }
 

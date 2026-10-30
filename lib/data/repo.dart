@@ -547,6 +547,15 @@ class Repo {
   static DocumentReference<Json> notasMestre(String cid) =>
       camps.doc(cid).collection('gm').doc('notas');
 
+  /// Nomes e notas que o mestre deu às sessões (só ele vê), pelo número.
+  static DocumentReference<Json> sessoesMestre(String cid) =>
+      camps.doc(cid).collection('gm').doc('sessoes');
+
+  static void notaSessaoMestre(String cid, int numero, String campo, String valor) =>
+      _w(sessoesMestre(cid).set({
+        '$numero': {campo: valor}
+      }, SetOptions(merge: true)));
+
   static Stream<List<(String, Json)>> stream(CollectionReference<Json> col,
           {String ordem = 'nome'}) =>
       col.snapshots().map((s) {

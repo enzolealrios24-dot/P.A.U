@@ -11,6 +11,7 @@ import '../../data/repo.dart';
 import '../../widgets/common.dart';
 import '../../widgets/imagem.dart';
 import '../../widgets/sigilos.dart';
+import '../campaign/sessao.dart';
 import '../pastas.dart';
 import 'forma.dart';
 import 'paleta_ficha.dart';
@@ -196,6 +197,9 @@ class _Ficha extends StatelessWidget {
   Widget build(BuildContext context) =>
       PaletaFicha(elemento: ctx.f.elementoDaFicha, child: Builder(builder: _montar));
 
+  /// A mesa do agente, para a aba Sessões (transformações usam a do agente).
+  Campanha? get _mesa => ctx.f.eTransformacao ? null : ctx.camp;
+
   Widget _abas() => TabBarView(children: [
         TabAgente(ctx: ctx),
         TabPericias(ctx: ctx),
@@ -204,6 +208,13 @@ class _Ficha extends StatelessWidget {
         TabInventario(ctx: ctx),
         TabPoderes(ctx: ctx),
         TabQuadro(ctx: ctx),
+        if (_mesa case final camp?)
+          AbaSessoes(
+            camp: camp,
+            notas: ctx.f.notasSessoes(camp.id),
+            deQuem: 'de ${ctx.f.nome}',
+            aoSalvar: (n, campo, v) => Repo.set(ctx.f.id, 'notasSessoes.${camp.id}.$n.$campo', v),
+          ),
       ]);
 
   Widget _montar(BuildContext context) {
@@ -211,7 +222,7 @@ class _Ficha extends StatelessWidget {
     final calc = ctx.calc;
     final dono = f.ownerUid == Repo.uid;
     return DefaultTabController(
-      length: 7,
+      length: _mesa == null ? 7 : 8,
       child: Scaffold(
         appBar: AppBar(
           titleSpacing: 4,
@@ -320,17 +331,18 @@ class _Ficha extends StatelessWidget {
               ],
             ),
           ],
-          bottom: const TabBar(
+          bottom: TabBar(
             isScrollable: true,
             tabAlignment: TabAlignment.start,
             tabs: [
-              Tab(text: 'AGENTE'),
-              Tab(text: 'PERÍCIAS'),
-              Tab(text: 'COMBATE'),
-              Tab(text: 'RITUAIS'),
-              Tab(text: 'INVENTÁRIO'),
-              Tab(text: 'PODERES & NOTAS'),
-              Tab(text: 'QUADRO'),
+              const Tab(text: 'AGENTE'),
+              const Tab(text: 'PERÍCIAS'),
+              const Tab(text: 'COMBATE'),
+              const Tab(text: 'RITUAIS'),
+              const Tab(text: 'INVENTÁRIO'),
+              const Tab(text: 'PODERES & NOTAS'),
+              const Tab(text: 'QUADRO'),
+              if (_mesa != null) const Tab(text: 'SESSÕES'),
             ],
           ),
         ),

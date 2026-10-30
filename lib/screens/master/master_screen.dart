@@ -34,6 +34,7 @@ class _TelaMestreState extends State<TelaMestre> {
     (Icons.flash_on_outlined, 'Combate'),
     (Icons.pest_control_outlined, 'Ameaças'),
     (Icons.casino_outlined, 'Rolagens'),
+    (Icons.event_note_outlined, 'Sessões'),
     (Icons.tune, 'Regras'),
     (Icons.settings_outlined, 'Mesa'),
   ];
@@ -50,6 +51,8 @@ class _TelaMestreState extends State<TelaMestre> {
       case 3:
         return _AbaRolagensMestre(camp: c);
       case 4:
+        return AbaSessoesMestre(camp: c);
+      case 5:
         return AbaRegras(camp: c);
       default:
         return _AbaMesa(camp: c);

@@ -83,6 +83,9 @@ class Ficha {
   /// No agente: id de cada transformação e o que ela divide com ele.
   Map<String, dynamic> get transformacoes => asMap(d['transformacoes']);
 
+  /// Nomes e notas que o agente deu às sessões de uma mesa, pelo número.
+  Map<String, dynamic> notasSessoes(String cid) => asMap(asMap(d['notasSessoes'])[cid]);
+
   /// A reação de defesa que o agente escolheu para os ataques que sofrer:
   /// 'esquiva', 'bloqueio' ou '' (nenhuma).
   String get reacao => asStr(d['reacao']);
@@ -182,6 +185,17 @@ class Campanha {
   Map<String, dynamic> get combate => asMap(d['combate']);
   /// A sessão de jogo: 'ativa', 'numero', 'inicio' e 'fim' (milissegundos).
   Map<String, dynamic> get sessao => asMap(d['sessao']);
+
+  /// Todas as sessões da mesa ('numero', 'inicio' e 'fim'), da primeira à
+  /// última, com a atual mesmo que tenha começado antes do registro.
+  List<Map<String, dynamic>> get historicoSessoes {
+    final l = asMapList(d['sessoes']);
+    final atual = sessao;
+    if (asInt(atual['numero']) > 0 && !l.any((s) => asInt(s['numero']) == asInt(atual['numero']))) {
+      l.add({'numero': atual['numero'], 'inicio': atual['inicio'], if (atual['fim'] != null) 'fim': atual['fim']});
+    }
+    return l..sort((a, b) => asInt(a['numero']).compareTo(asInt(b['numero'])));
+  }
   String get notasMestre => asStr(d['notasMestre']);
   String get missao => asStr(d['missao']);
   List<Map<String, dynamic>> get ledger => asMapList(d['ledger']);

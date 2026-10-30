@@ -2,7 +2,9 @@ import 'package:cris_ficha/core/theme.dart';
 import 'package:cris_ficha/data/catalogo.dart';
 import 'package:cris_ficha/data/models.dart';
 import 'package:cris_ficha/data/repo.dart';
+import 'package:cris_ficha/core/rules.dart';
 import 'package:cris_ficha/screens/campaign/campaign_screen.dart';
+import 'package:cris_ficha/screens/sheet/sheet_screen.dart';
 import 'package:cris_ficha/widgets/common.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
@@ -63,6 +65,85 @@ void main() {
     expect(fim['fim'], isNotNull);
     expect(find.text('SESSÃO 2'), findsOneWidget);
     expect(find.textContaining('A sessão 1 durou'), findsOneWidget);
+
+    // o registro guarda o tempo de cada sessão
+    final registro = asMapList((await db.collection('campaigns').doc('c1').get()).data()!['sessoes']);
+    expect(registro, hasLength(1));
+    expect(registro.single['numero'], 1);
+    expect(registro.single['fim'], fim['fim']);
+  });
+
+  testWidgets('na aba Sessões o mestre dá nome e notas que só ele vê', (tester) async {
+    final db = await abrirMesa(tester, 'mestre');
+    final inicio = DateTime(2026, 10, 30, 19, 30).millisecondsSinceEpoch;
+    await db.collection('campaigns').doc('c1').update({
+      'sessao': {'ativa': false, 'numero': 4, 'inicio': inicio, 'fim': inicio + 14188000},
+      'sessoes': [
+        {'numero': 3, 'inicio': inicio - 86400000, 'fim': inicio - 86400000 + 3600000},
+        {'numero': 4, 'inicio': inicio, 'fim': inicio + 14188000},
+      ],
+    });
+    await tester.tap(find.text('Sessões').first);
+    for (var i = 0; i < 5; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    expect(find.text('3:56:28'), findsOneWidget);
+    expect(find.text('1:00:00'), findsOneWidget);
+    expect(find.textContaining('30/10/2026 às 19:30'), findsOneWidget);
+
+    final campos = find.byType(TextField);
+    // a mais nova primeiro: o nome e as notas da sessão 4
+    await tester.enterText(campos.at(0), 'O porão');
+    await tester.enterText(campos.at(1), 'Fulano morreu');
+    await tester.pump(const Duration(seconds: 1));
+    final notas = (await db.collection('campaigns').doc('c1').collection('gm').doc('sessoes').get()).data()!;
+    expect(asMap(notas['4']), {'nome': 'O porão', 'nota': 'Fulano morreu'});
+    expect(find.textContaining('Sessão 4 · O porão', findRichText: true), findsOneWidget);
+  });
+
+  testWidgets('cada agente anota as sessões na própria ficha', (tester) async {
+    final db = FakeFirebaseFirestore();
+    Repo.dbTeste = db;
+    Repo.authTeste = MockFirebaseAuth(signedIn: true, mockUser: MockUser(uid: 'jogador', displayName: 'Jo'));
+    await db.collection('campaigns').doc('c1').set({
+      'nome': 'Mesa',
+      'masterUid': 'mestre',
+      'memberUids': ['mestre', 'jogador'],
+      'members': {'mestre': 'Mestre', 'jogador': 'Jo'},
+      'regras': <String, dynamic>{},
+      'sessao': {'ativa': true, 'numero': 2, 'inicio': DateTime.now().millisecondsSinceEpoch - 65000},
+      'sessoes': [
+        {'numero': 1, 'inicio': 1000, 'fim': 3601000},
+        {'numero': 2, 'inicio': DateTime.now().millisecondsSinceEpoch - 65000},
+      ],
+    });
+    await db.collection('characters').doc('a1').set({
+      ...novaFicha('jogador', 'Jo'),
+      'nome': 'Bia',
+      'campaignId': 'c1',
+      'editors': ['jogador', 'mestre'],
+    });
+    tester.view.physicalSize = const Size(2000, 1784);
+    tester.view.devicePixelRatio = 2;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(MaterialApp(theme: temaCris(), home: const TelaFicha(fichaId: 'a1')));
+    for (var i = 0; i < 10; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    DefaultTabController.of(tester.element(find.byType(TabBarView))).index = 7;
+    for (var i = 0; i < 10; i++) {
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    expect(find.text('SESSÕES'), findsWidgets);
+    expect(find.textContaining('em andamento'), findsOneWidget);
+    // a sessão em andamento começou há pouco mais de um minuto
+    expect(find.textContaining(RegExp(r'^01:0\d$')), findsOneWidget);
+    expect(find.text('1:00:00'), findsOneWidget);
+
+    await tester.enterText(find.byType(TextField).at(1), 'Achamos o diário');
+    await tester.pump(const Duration(seconds: 1));
+    final f = Ficha('a1', (await db.collection('characters').doc('a1').get()).data()!);
+    expect(asMap(f.notasSessoes('c1')['2'])['nota'], 'Achamos o diário');
   });
 
   testWidgets('o jogador vê a sessão, mas não tem o botão', (tester) async {
