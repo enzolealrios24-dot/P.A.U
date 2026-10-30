@@ -170,7 +170,10 @@ class _PintorFundo extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     if (size.isEmpty) return;
     final w = (size.width * escala).ceil(), h = (size.height * escala).ceil();
-    final chave = '$w $h $fundo $topo $base $sigiloTopo $sigiloBase ${Texturas.grao != null}';
+    // Pelos números das cores: na versão final o Flutter apaga o toString de
+    // Color, e todas as paletas dariam a mesma chave (e o mesmo fundo).
+    final cores = [fundo, topo, base, sigiloTopo, sigiloBase].map((c) => c.toARGB32()).join(' ');
+    final chave = '$w $h $cores ${Texturas.grao != null}';
     final img = _prontas.remove(chave) ?? _desenhar(size, w, h);
     _prontas[chave] = img;
     while (_prontas.length > 4) {

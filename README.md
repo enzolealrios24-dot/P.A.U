@@ -71,6 +71,9 @@ Este arquivo é o log do aplicativo: [tudo o que ele tem](#tudo-o-que-o-pau-tem)
 
 As novidades de cada versão, da mais nova para a mais antiga. O texto de cada release no GitHub sai daqui.
 
+### v1.0.44 · 30/10/2026
+- Correção: o fundo das telas agora acompanha o tema de cores escolhido e a afinidade da ficha, em vez de ficar com as cores do primeiro tema mostrado depois de abrir o app.
+
 ### v1.0.43 · 30/10/2026
 - Nova tela **Segurança da conta** (no menu da sua foto): trocar a senha, confirmar o e-mail e ver os aparelhos que entraram na conta.
 - Desconectar os outros aparelhos e trocar a senha agora tiram da conta na hora quem estiver nela em outro aparelho: o servidor deixa de aceitar as sessões antigas.
