@@ -5,6 +5,7 @@ import '../core/rules.dart';
 import '../core/theme.dart';
 import '../data/models.dart';
 import '../data/repo.dart';
+import '../data/seguranca.dart';
 import '../widgets/arquivo.dart';
 import '../widgets/common.dart';
 import '../widgets/efeitos.dart';
@@ -16,6 +17,7 @@ import '../widgets/sigilos.dart';
 import '../widgets/tema_picker.dart';
 import 'campaign/campaign_screen.dart';
 import 'pastas.dart';
+import 'seguranca.dart';
 import 'sheet/sheet_screen.dart';
 
 class TelaInicio extends StatefulWidget {
@@ -49,9 +51,21 @@ class _TelaInicioState extends State<TelaInicio> {
           ),
           PopupMenuButton<String>(
             tooltip: 'Sua conta',
-            icon: FotoJogador(uid: Repo.uid, nome: Repo.nomeUsuario, tamanho: 30),
+            // o ponto avisa que a senha precisa ser trocada
+            icon: ValueListenableBuilder<String?>(
+              valueListenable: Seguranca.avisoSenha,
+              builder: (context, aviso, _) => Badge(
+                isLabelVisible: aviso != null,
+                backgroundColor: Cores.destaque,
+                smallSize: 10,
+                child: FotoJogador(uid: Repo.uid, nome: Repo.nomeUsuario, tamanho: 30),
+              ),
+            ),
             onSelected: (v) async {
-              if (v == 'foto') {
+              if (v == 'seguranca') {
+                await Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => const TelaSeguranca()));
+              } else if (v == 'foto') {
                 await opcoesFotoJogador(context);
               } else if (v == 'sair') {
                 await FirebaseAuth.instance.signOut();
@@ -76,6 +90,7 @@ class _TelaInicioState extends State<TelaInicio> {
                       style: const TextStyle(fontWeight: FontWeight.bold))),
               const PopupMenuItem(value: 'nome', child: Text('Mudar meu nome')),
               const PopupMenuItem(value: 'foto', child: Text('Foto de perfil')),
+              const PopupMenuItem(value: 'seguranca', child: Text('Segurança da conta')),
               const PopupMenuItem(value: 'tema', child: Text('Tema de cores')),
               const PopupMenuItem(
                   value: 'cris', child: Text('Importar do site do CRIS')),

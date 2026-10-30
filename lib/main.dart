@@ -11,6 +11,7 @@ import 'data/repo.dart';
 import 'firebase_options.dart';
 import 'screens/home.dart';
 import 'screens/login.dart';
+import 'screens/seguranca.dart';
 import 'widgets/efeitos.dart';
 
 final mensageiro = GlobalKey<ScaffoldMessengerState>();
@@ -81,7 +82,9 @@ class CrisApp extends StatelessWidget {
                   return const Scaffold(
                       body: Center(child: CircularProgressIndicator()));
                 }
-                return snap.data == null ? const TelaLogin() : const TelaInicio();
+                return snap.data == null
+                    ? const TelaLogin()
+                    : VigiaConta(key: ValueKey(snap.data!.uid), child: const TelaInicio());
               },
             ),
     );

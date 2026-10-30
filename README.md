@@ -18,6 +18,15 @@ Este arquivo é o log do aplicativo: [tudo o que ele tem](#tudo-o-que-o-pau-tem)
 - Para Android e Windows (com instalador ou portátil).
 - Funciona offline e sincroniza quando a internet volta.
 
+### Segurança da conta
+- **Senha forte**: ao criar a conta ou trocar a senha, o P.A.U recusa senhas curtas, sequências, as mais usadas, as feitas com o seu nome ou e-mail e as que já vazaram em outros sites, com um medidor de força enquanto você digita.
+- Senha que vazou é conferida sem sair do aparelho: só os 5 primeiros caracteres de um código tirado dela vão para o Have I Been Pwned.
+- Ao entrar com uma senha fraca ou que já vazou, o app pede para trocar.
+- **Aparelhos com acesso**: a lista de todo aparelho que entrou na conta, com quando entrou e o último uso.
+- **Aviso de acesso novo**: quando outro aparelho entra na conta, os seus perguntam "Foi você?"; "Não fui eu" leva direto para trocar a senha.
+- **Desconectar os outros aparelhos** e **trocar a senha** (as duas pedem a senha atual) tiram da conta na hora todos os outros aparelhos: as regras do servidor recusam qualquer sessão mais antiga, que não lê nem grava mais nada.
+- Confirmar o e-mail de recuperação.
+
 ### Ficha do agente
 - **Ficha automática**: atributos, NEX, PV, PE e SAN (ou PD), Defesa, limite de PE, carga, DT dos rituais, patente e limites por categoria.
 - **Agente**: dossiê com a foto do personagem (com enquadramento), número do arquivo, NEX, patente, classe, trilha e origem, e a foto do jogador. Afinidade com sigilo animado: cores, fonte, runas e dado do elemento. Modos de jogo (só NEX, nível + NEX ou patentes; com Sanidade ou Determinação). Atributos, estatísticas, condições, aparência e história, alterações de NEX.
@@ -61,6 +70,13 @@ Este arquivo é o log do aplicativo: [tudo o que ele tem](#tudo-o-que-o-pau-tem)
 ## Histórico de versões
 
 As novidades de cada versão, da mais nova para a mais antiga. O texto de cada release no GitHub sai daqui.
+
+### v1.0.43 · 30/10/2026
+- Nova tela **Segurança da conta** (no menu da sua foto): trocar a senha, confirmar o e-mail e ver os aparelhos que entraram na conta.
+- Desconectar os outros aparelhos e trocar a senha agora tiram da conta na hora quem estiver nela em outro aparelho: o servidor deixa de aceitar as sessões antigas.
+- Aviso "Foi você?" quando outro aparelho entra na sua conta.
+- Senhas novas precisam ter pelo menos 8 caracteres e não podem ser fáceis de adivinhar nem ter vazado em outros sites; medidor de força ao digitar e o olho para mostrar a senha.
+- Quem entra com uma senha fraca ou que já vazou recebe o pedido de trocar (e um ponto na foto, no menu da conta).
 
 ### v1.0.42 · 30/10/2026
 - Visual novo nas telas de Agentes e de Mesas, com cara de arquivo da Ordem: cada agente é um dossiê com o NEX num hexágono e a mesa em que está; cada mesa é a pasta de uma operação, com quem mestra, a missão, quem está nela e a sessão ao vivo.

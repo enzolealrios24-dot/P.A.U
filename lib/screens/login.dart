@@ -1,12 +1,16 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../core/theme.dart';
 import '../data/cris_import.dart';
+import '../data/seguranca.dart';
 import '../widgets/importar_cris.dart';
 import '../widgets/tema_picker.dart';
 import '../widgets/logo.dart';
+import 'seguranca.dart';
 
 class TelaLogin extends StatefulWidget {
   const TelaLogin({super.key});
@@ -33,7 +37,7 @@ class _TelaLoginState extends State<TelaLogin> {
       case 'email-already-in-use':
         return 'Este e-mail já tem conta. Entre com ele.';
       case 'weak-password':
-        return 'Senha fraca (mínimo 6 caracteres).';
+        return 'Senha fraca. Use pelo menos 8 caracteres.';
       case 'network-request-failed':
         return 'Sem conexão com a internet.';
       case 'too-many-requests':
@@ -55,6 +59,8 @@ class _TelaLoginState extends State<TelaLogin> {
       if (_criando) {
         final nome = _nome.text.trim();
         if (nome.isEmpty) throw 'Digite seu nome.';
+        final senha = await conferirSenhaNova(_senha.text, email: _email.text.trim(), nome: nome);
+        if (!senha.serve) throw senha.bloqueio!;
         final cred = await auth.createUserWithEmailAndPassword(
             email: _email.text.trim(), password: _senha.text);
         await cred.user?.updateDisplayName(nome);
@@ -66,6 +72,8 @@ class _TelaLoginState extends State<TelaLogin> {
       } else {
         await auth.signInWithEmailAndPassword(
             email: _email.text.trim(), password: _senha.text);
+        // senha fraca ou que já vazou: a tela inicial pede para trocar
+        unawaited(Seguranca.conferirSenhaDoLogin(_senha.text, _email.text.trim()));
       }
     } on FirebaseAuthException catch (e) {
       setState(() => _erro = _traduzir(e));
@@ -154,12 +162,14 @@ class _TelaLoginState extends State<TelaLogin> {
                             labelText: 'E-mail', prefixIcon: Icon(Icons.mail_outline, size: 20)),
                       ),
                       const SizedBox(height: 10),
-                      TextField(
+                      CampoSenha(
+                        // trocar entre entrar e criar conta zera o medidor
+                        key: ValueKey(_criando),
                         controller: _senha,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                            labelText: 'Senha', prefixIcon: Icon(Icons.lock_outline, size: 20)),
-                        onSubmitted: (_) => _enviar(),
+                        medidor: _criando,
+                        email: () => _email.text.trim(),
+                        nome: () => _nome.text.trim(),
+                        aoEnviar: (_) => _enviar(),
                       ),
                       const SizedBox(height: 18),
                       if (_erro != null)

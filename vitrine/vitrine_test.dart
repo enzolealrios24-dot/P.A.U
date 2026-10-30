@@ -7,12 +7,14 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cris_ficha/core/dice.dart';
 import 'package:cris_ficha/core/rules.dart';
 import 'package:cris_ficha/core/theme.dart';
 import 'package:cris_ficha/data/catalogo.dart';
 import 'package:cris_ficha/data/imagens.dart';
 import 'package:cris_ficha/data/repo.dart';
+import 'package:cris_ficha/data/seguranca.dart';
 import 'package:cris_ficha/screens/campaign/campaign_screen.dart';
 import 'package:cris_ficha/screens/home.dart';
 import 'package:cris_ficha/screens/master/ameacas.dart';
@@ -20,6 +22,7 @@ import 'package:cris_ficha/screens/master/regras.dart';
 import 'package:cris_ficha/screens/login.dart';
 import 'package:cris_ficha/screens/pastas.dart';
 import 'package:cris_ficha/screens/quadro/quadro_screen.dart';
+import 'package:cris_ficha/screens/seguranca.dart';
 import 'package:cris_ficha/data/quadro.dart';
 import 'package:cris_ficha/screens/sheet/sheet_screen.dart';
 import 'package:cris_ficha/screens/sheet/tab_combate.dart';
@@ -36,6 +39,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
+import 'package:shared_preferences/shared_preferences.dart';
 
 const _uid = 'u1';
 
@@ -243,8 +247,72 @@ void main() {
     await tester.pump(const Duration(milliseconds: 400));
     await _salvar(tester, 'rituais_rapidos_livro');
     await _telasCombateMestre(tester);
+    await _telasSeguranca(tester);
     debugDisableShadows = true;
   });
+}
+
+/// Segurança da conta: o medidor de senha ao criar a conta, a tela com os
+/// aparelhos (um já desconectado) e as janelas de trocar a senha e de
+/// desconectar os outros.
+Future<void> _telasSeguranca(WidgetTester tester) async {
+  // fecha a ficha aberta antes: ela devolve as cores do tema ao sair
+  await tester.pumpWidget(const SizedBox());
+  // a vitrine fica fora de test/, mas é um teste
+  // ignore: invalid_use_of_visible_for_testing_member
+  SharedPreferences.setMockInitialValues({'pau.aparelho': 'ap1'});
+  final agora = DateTime.now();
+  int seg(Duration atras) => agora.subtract(atras).millisecondsSinceEpoch ~/ 1000;
+  final eu = Repo.db.collection('users').doc(_uid);
+  await eu.set({'revogado': seg(const Duration(days: 5))}, SetOptions(merge: true));
+  final aparelhos = eu.collection('aparelhos');
+  await aparelhos.doc('ap1').set({
+    'nome': 'Computador DESKTOP-ENZO',
+    'plataforma': 'windows',
+    'desde': seg(const Duration(hours: 2)),
+    'ultimo': Timestamp.fromDate(agora.subtract(const Duration(minutes: 1))),
+  });
+  await aparelhos.doc('ap2').set({
+    'nome': 'Galaxy A54 de Enzo (Samsung SM-A546E)',
+    'plataforma': 'android',
+    'desde': seg(const Duration(hours: 27)),
+    'ultimo': Timestamp.fromDate(agora.subtract(const Duration(hours: 3))),
+  });
+  await aparelhos.doc('ap3').set({
+    'nome': 'Computador SALA-RPG',
+    'plataforma': 'windows',
+    'desde': seg(const Duration(days: 9)),
+    'ultimo': Timestamp.fromDate(agora.subtract(const Duration(days: 8))),
+  });
+
+  await _print(tester, 'login_criar', const TelaLogin());
+  await tester.tap(find.text('Criar conta'));
+  await tester.pump(const Duration(milliseconds: 200));
+  await tester.enterText(find.widgetWithText(TextField, 'Seu nome / apelido'), 'Enzo');
+  await tester.enterText(find.widgetWithText(TextField, 'E-mail'), 'enzo@exemplo.com');
+  await tester.enterText(find.widgetWithText(TextField, 'Senha'), 'Flamengo2024');
+  await _salvar(tester, 'login_criar');
+  await tester.enterText(find.widgetWithText(TextField, 'Senha'), 'lanterna corvo');
+  await _salvar(tester, 'login_criar_boa');
+
+  Seguranca.avisoSenha.value = 'Essa senha já apareceu em vazamentos de outros sites (3 vezes). '
+      'Quem tenta invadir contas testa essas primeiro: escolha outra.';
+  await _print(tester, 'seguranca', const TelaSeguranca());
+  await _rolar(tester, 600);
+  await _salvar(tester, 'seguranca_2');
+  Seguranca.avisoSenha.value = null;
+  await _print(tester, 'seguranca_pc', const TelaSeguranca(), tamanho: _pc);
+  await tester.tap(find.text('Trocar a senha'));
+  await tester.pump(const Duration(milliseconds: 300));
+  await tester.enterText(find.widgetWithText(TextField, 'Senha atual'), 'Flamengo2024');
+  await tester.enterText(find.widgetWithText(TextField, 'Senha nova'), 'velho casarao');
+  await _salvar(tester, 'seguranca_trocar');
+  await tester.tap(find.text('Cancelar'));
+  await tester.pump(const Duration(milliseconds: 400));
+  await tester.tap(find.text('Desconectar os outros'));
+  await _salvar(tester, 'seguranca_desconectar');
+  await tester.tap(find.text('Cancelar'));
+  await tester.pump(const Duration(milliseconds: 400));
 }
 
 /// Combate do mestre: o espaço do alvo (agentes em arco e a ameaça da vez),

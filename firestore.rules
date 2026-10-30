@@ -4,28 +4,60 @@ rules_version = '2';
 // - Cada jogador so edita as proprias fichas.
 // - O mestre da mesa ve e edita as fichas vinculadas a mesa dele.
 // - Ameacas, rolagens secretas e notas do mestre: so o mestre.
+// - "Desconectar os outros aparelhos" (e trocar a senha) corta na hora toda
+//   sessao que entrou antes: ela nao le nem grava mais nada.
 service cloud.firestore {
   match /databases/{database}/documents {
 
     function signedIn() { return request.auth != null; }
     function me() { return request.auth.uid; }
+    function perfil() { return /databases/$(database)/documents/users/$(request.auth.uid); }
+    // A sessao entrou com a senha depois do ultimo corte feito pelo dono.
+    function sessaoValida() {
+      return !exists(perfil())
+        || !('revogado' in get(perfil()).data)
+        || request.auth.token.auth_time >= get(perfil()).data.revogado;
+    }
+    function ativo() { return signedIn() && sessaoValida(); }
     function camp(cid) {
       return get(/databases/$(database)/documents/campaigns/$(cid)).data;
     }
-    function isMember(cid) { return signedIn() && me() in camp(cid).memberUids; }
-    function isMaster(cid) { return signedIn() && camp(cid).masterUid == me(); }
+    function isMember(cid) { return ativo() && me() in camp(cid).memberUids; }
+    function isMaster(cid) { return ativo() && camp(cid).masterUid == me(); }
+
+    // O corte so anda para frente e nunca passa de agora (ninguem tranca a
+    // conta no futuro).
+    function corteValido(novo, antigo) {
+      return novo.revogado is int
+        && novo.revogado * 1000 <= request.time.toMillis()
+        && (!('revogado' in antigo) || novo.revogado >= antigo.revogado);
+    }
 
     match /users/{u} {
-      allow read: if signedIn();
-      allow write: if signedIn() && me() == u;
+      // a sessao cortada ainda le o proprio perfil, para saber que foi cortada
+      allow read: if signedIn() && (me() == u || sessaoValida());
+      allow create: if ativo() && me() == u
+        && (!('revogado' in request.resource.data) || corteValido(request.resource.data, {}));
+      allow update: if ativo() && me() == u
+        && (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['revogado'])
+            || corteValido(request.resource.data, resource.data));
+
+      // Aparelhos que entraram na conta: so o dono ve. Nao se apagam, para
+      // quem invadiu nao sumir da lista.
+      match /aparelhos/{a} {
+        allow read: if ativo() && me() == u;
+        allow create, update: if ativo() && me() == u
+          && request.resource.data.desde is int
+          && request.resource.data.desde * 1000 <= request.time.toMillis();
+      }
     }
 
     // Codigo de mesa -> id da campanha. Pode ler um codigo se souber ele.
     match /joinCodes/{code} {
-      allow get: if signedIn();
+      allow get: if ativo();
       allow list: if false;
-      allow create: if signedIn() && isMaster(request.resource.data.campaignId);
-      allow delete: if signedIn() && isMaster(resource.data.campaignId);
+      allow create: if isMaster(request.resource.data.campaignId);
+      allow delete: if isMaster(resource.data.campaignId);
     }
 
     match /campaigns/{cid} {
@@ -47,15 +79,15 @@ service cloud.firestore {
           && resource.data.masterUid != me();
       }
 
-      allow read: if signedIn() && me() in resource.data.memberUids;
-      allow create: if signedIn()
+      allow read: if ativo() && me() in resource.data.memberUids;
+      allow create: if ativo()
         && request.resource.data.masterUid == me()
         && request.resource.data.memberUids == [me()];
-      allow update: if signedIn() && (
+      allow update: if ativo() && (
         (resource.data.masterUid == me()
            && request.resource.data.masterUid == me())
         || joining() || leaving());
-      allow delete: if signedIn() && resource.data.masterUid == me();
+      allow delete: if ativo() && resource.data.masterUid == me();
 
       match /rolls/{r} {
         allow read: if isMember(cid);
@@ -75,23 +107,23 @@ service cloud.firestore {
     // cada). O id e sorteado: quem tem o id (as fichas e os quadros que usam
     // a imagem) consegue ler. So quem enviou apaga.
     match /imagens/{img} {
-      allow get: if signedIn();
+      allow get: if ativo();
       allow list: if false;
-      allow create: if signedIn()
+      allow create: if ativo()
         && request.resource.data.dono == me()
         && request.resource.data.dados is bytes
         && request.resource.data.dados.size() < 1000000;
-      allow delete: if signedIn() && resource.data.dono == me();
+      allow delete: if ativo() && resource.data.dono == me();
     }
 
     match /characters/{ch} {
       // resource == null: o app abre a ficha nova antes de o servidor gravar
-      allow read: if signedIn()
+      allow read: if ativo()
         && (resource == null || me() in resource.data.editors);
-      allow create: if signedIn()
+      allow create: if ativo()
         && request.resource.data.ownerUid == me()
         && request.resource.data.editors == [me()];
-      allow update: if signedIn()
+      allow update: if ativo()
         && me() in resource.data.editors
         && request.resource.data.ownerUid == resource.data.ownerUid
         && (
@@ -101,7 +133,7 @@ service cloud.firestore {
           || (request.resource.data.editors == [resource.data.ownerUid]
               && request.resource.data.campaignId == null)
         );
-      allow delete: if signedIn() && resource.data.ownerUid == me();
+      allow delete: if ativo() && resource.data.ownerUid == me();
     }
   }
 }
