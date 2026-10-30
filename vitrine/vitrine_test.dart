@@ -24,6 +24,7 @@ import 'package:cris_ficha/screens/pastas.dart';
 import 'package:cris_ficha/screens/quadro/quadro_screen.dart';
 import 'package:cris_ficha/screens/seguranca.dart';
 import 'package:cris_ficha/data/quadro.dart';
+import 'package:cris_ficha/screens/sheet/despertar.dart';
 import 'package:cris_ficha/screens/sheet/sheet_screen.dart';
 import 'package:cris_ficha/screens/sheet/tab_combate.dart';
 import 'package:cris_ficha/screens/sheet/tab_rituais.dart';
@@ -248,8 +249,32 @@ void main() {
     await _salvar(tester, 'rituais_rapidos_livro');
     await _telasCombateMestre(tester);
     await _telasSeguranca(tester);
+    await _telasDespertar(tester);
     debugDisableShadows = true;
   });
+}
+
+/// A cena de NEX 50%: quadros do cometa e os símbolos, no celular e no PC.
+Future<void> _telasDespertar(WidgetTester tester) async {
+  await tester.pumpWidget(const SizedBox());
+  for (final (sufixo, tamanho) in const [('', _celular), ('_pc', _pc)]) {
+    tester.view.physicalSize = tamanho * 2;
+    tester.view.devicePixelRatio = 2;
+    await tester.pumpWidget(MaterialApp(
+      key: UniqueKey(),
+      debugShowCheckedModeBanner: false,
+      theme: temaCris(),
+      home: TelaDespertar(aoEscolher: (_) {}),
+    ));
+    var tempo = 0;
+    for (final (nome, ms) in const [('cometa', 2700), ('impacto', 3120), ('chegada', 3600), ('simbolos', 6400)]) {
+      for (; tempo < ms; tempo += 33) {
+        await tester.pump(const Duration(milliseconds: 33));
+      }
+      await expectLater(find.byType(MaterialApp), matchesGoldenFile('prints/despertar_$nome$sufixo.png'));
+    }
+    await tester.pumpWidget(const SizedBox());
+  }
 }
 
 /// Segurança da conta: o medidor de senha ao criar a conta, a tela com os

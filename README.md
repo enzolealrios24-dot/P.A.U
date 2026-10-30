@@ -31,6 +31,7 @@ Este arquivo é o log do aplicativo: [tudo o que ele tem](#tudo-o-que-o-pau-tem)
 - **Ficha automática**: atributos, NEX, PV, PE e SAN (ou PD), Defesa, limite de PE, carga, DT dos rituais, patente e limites por categoria.
 - **Agente**: dossiê com a foto do personagem (com enquadramento), número do arquivo, NEX, patente, classe, trilha e origem, e a foto do jogador. Afinidade com sigilo animado: cores, fonte, runas e dado do elemento. Modos de jogo (só NEX, nível + NEX ou patentes; com Sanidade ou Determinação). Atributos, estatísticas, condições, aparência e história, alterações de NEX.
 - **PV, PE (ou PD) e SAN** sempre no topo, com barras, valores temporários e ajuste rápido.
+- **Chegada a NEX 50%**: quem ainda não tem afinidade vê a tela escurecer, um cometa cruzar o céu e os quatro símbolos surgirem do impacto, cada um com seu efeito (o sangue escorre, a morte gira, a energia pisca e os sigilos do conhecimento rodam em volta), para escolher a afinidade ali mesmo ou decidir depois.
 - **Transformações**: fichas ligadas ao agente, com transformar e voltar.
 - **Perícias**: caderno de campo com as 28 perícias, graus de treino (+0, +5, +10, +15), outros bônus, penalidade de carga e a profissão escrita na Profissão. Tocar rola (Xd20, fica o maior; com atributo 0, 2d20 e fica o menor); segurar rola com modificadores.
 - **Combate**: Defesa, deslocamento e iniciativa; dado do destino; testes rápidos; bloqueio e esquiva, com a reação que o agente escolhe usar; resistência a dano por tipo e "sofrer dano"; ataques com as armas (margem e multiplicador de crítico); rituais rápidos; o alvo no combate da mesa, com o relógio do combate; rolagem livre.
@@ -70,6 +71,9 @@ Este arquivo é o log do aplicativo: [tudo o que ele tem](#tudo-o-que-o-pau-tem)
 ## Histórico de versões
 
 As novidades de cada versão, da mais nova para a mais antiga. O texto de cada release no GitHub sai daqui.
+
+### v1.0.45 · 30/10/2026
+- Cena nova ao chegar a NEX 50%: a tela escurece, um cometa cruza o céu e, do impacto, surgem os símbolos de Conhecimento, Energia, Morte e Sangue, cada um com a própria animação. Tocar em um deles escolhe a afinidade do agente; dá para pular a animação e decidir depois.
 
 ### v1.0.44 · 30/10/2026
 - Correção: o fundo das telas agora acompanha o tema de cores escolhido e a afinidade da ficha, em vez de ficar com as cores do primeiro tema mostrado depois de abrir o app.

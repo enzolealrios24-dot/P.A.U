@@ -14,6 +14,7 @@ import '../../widgets/sigilos.dart';
 import '../campaign/sessao.dart';
 import '../pastas.dart';
 import 'forma.dart';
+import 'despertar.dart';
 import 'paleta_ficha.dart';
 import 'rolar.dart';
 import 'tab_agente.dart';
@@ -72,6 +73,7 @@ class _TelaFichaState extends State<TelaFicha> {
   Stream<Ficha?>? _ficha;
   String? _campanhaDe;
   Stream<Campanha?>? _campanha;
+  int? _nexVisto;
 
   static bool get _computador =>
       !kIsWeb &&
@@ -144,6 +146,17 @@ class _TelaFichaState extends State<TelaFicha> {
     return _campanha!;
   }
 
+  /// Abre a cena de NEX 50% quando o NEX da ficha aberta passa de 50, venha a
+  /// mudança daqui ou de outro aparelho.
+  void _verNex(Ficha f) {
+    final antes = _nexVisto;
+    _nexVisto = f.nex;
+    if (antes == null || !chegouAoNex50(antes, f)) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) abrirDespertar(context, f);
+    });
+  }
+
   // Enquanto o banco não responde: só o fundo e o topo (sem "carregando"
   // no meio da animação de entrada).
   static Widget _aviso(String? texto) => FundoCris(
@@ -168,6 +181,7 @@ class _TelaFichaState extends State<TelaFicha> {
         } else if (f == null) {
           tela = _aviso(snap.connectionState == ConnectionState.waiting ? null : 'Ficha não encontrada.');
         } else {
+          _verNex(f);
           final cid = f.campaignId;
           tela = KeyedSubtree(
             key: const ValueKey('ficha'),
