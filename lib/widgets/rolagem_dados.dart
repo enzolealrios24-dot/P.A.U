@@ -204,14 +204,18 @@ class _JanelaDadosState extends State<_JanelaDados> with SingleTickerProviderSta
     final natural = r.natural;
     final totalMostrado = natural == null ? r.total : (natural + (r.total - natural) * contando).round();
     return Column(mainAxisSize: MainAxisSize.min, children: [
-      Row(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.end, children: [
-        if (natural != null) ...[
-          _parcela('NATURAL', '$natural'),
-          _parcela('', r.bonus >= 0 ? '+${r.bonus}' : '${r.bonus}', fraco: true),
-          _parcela('', '=', fraco: true),
-        ],
-        _parcela('TOTAL', '$totalMostrado', grande: true, cor: r.critico || r.falhaCritica ? cor : null),
-      ]),
+      // bônus grandes (+45) não estouram a janela: a conta encolhe
+      FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Row(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.end, children: [
+          if (natural != null) ...[
+            _parcela('NATURAL', '$natural'),
+            _parcela('', r.bonus >= 0 ? '+${r.bonus}' : '${r.bonus}', fraco: true),
+            _parcela('', '=', fraco: true),
+          ],
+          _parcela('TOTAL', '$totalMostrado', grande: true, cor: r.critico || r.falhaCritica ? cor : null),
+        ]),
+      ),
       if (r.dados.length > 1)
         Padding(
           padding: const EdgeInsets.only(top: 6),

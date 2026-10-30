@@ -83,6 +83,10 @@ class Ficha {
   /// No agente: id de cada transformação e o que ela divide com ele.
   Map<String, dynamic> get transformacoes => asMap(d['transformacoes']);
 
+  /// A reação de defesa que o agente escolheu para os ataques que sofrer:
+  /// 'esquiva', 'bloqueio' ou '' (nenhuma).
+  String get reacao => asStr(d['reacao']);
+
   /// Na transformação: o que ela divide com o agente ('pv', 'pe', 'san').
   Map<String, dynamic> get compartilha => asMap(d['compartilha']);
 
@@ -179,4 +183,25 @@ class Campanha {
   String get notasMestre => asStr(d['notasMestre']);
   String get missao => asStr(d['missao']);
   List<Map<String, dynamic>> get ledger => asMapList(d['ledger']);
+}
+
+/// Marca da rodada do combate para a reação de defesa de [f]: a entrada
+/// dele na iniciativa e a rodada ('' fora de combate). A reação usada
+/// guarda essa marca; numa rodada nova, ou noutro combate, volta a valer.
+String marcaReacao(Campanha camp, Ficha f) {
+  final cb = camp.combate;
+  if (!asBool(cb['ativo'])) return '';
+  final minhas = {f.id, if (f.transformacaoDe case final de?) de, ...f.transformacoes.keys};
+  for (final e in asMapList(cb['ordem'])) {
+    if (asStr(e['tipo']) == 'agente' && minhas.contains(asStr(e['ref']))) {
+      return '${asStr(e['id'])}:${asInt(cb['rodada'], 1)}';
+    }
+  }
+  return '';
+}
+
+/// O agente já usou a reação de defesa nesta rodada (uma por rodada).
+bool reacaoUsada(Campanha camp, Ficha f) {
+  final m = marcaReacao(camp, f);
+  return m.isNotEmpty && asStr(f.d['reacaoUsada']) == m;
 }

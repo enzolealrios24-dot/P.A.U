@@ -383,6 +383,9 @@ class _AbaCombateState extends State<AbaCombate> {
                   naVez: vez != null && porId[asStr(vez['ref'])]?.id == f.id,
                   linha: [
                     'Defesa ${c.defesa}',
+                    // a reação que o agente escolheu na ficha
+                    if (f.reacao.isNotEmpty)
+                      '${f.reacao}${reacaoUsada(camp, f) ? ' usada' : ' ${f.reacao == 'esquiva' ? c.defesaEsquiva : '+${c.rdBloqueio}'}'}',
                     ...f.condicoes,
                     if (ordem.where((e) => asStr(e['id']) == asStr(f.d['alvo'])).firstOrNull case final m?)
                       'mira ${asStr(m['nome'])}',

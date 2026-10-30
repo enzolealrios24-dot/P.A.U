@@ -209,8 +209,10 @@ typedef _NoAlvo = ({int sofrido, bool? passou, bool metade, bool evita, bool afe
 class _CartaoGolpeState extends State<_CartaoGolpe> {
   String? _tipo;
   bool _contarAcerto = false;
-  bool _esquivou = false;
-  bool _bloqueou = false;
+  /// Esquiva e bloqueio de um agente atingido; null: a reação que ele
+  /// escolheu na ficha, se ainda não usou nesta rodada.
+  bool? _esquivou;
+  bool? _bloqueou;
   bool? _metadeQuemPassa;
   Set<String>? _condicoes;
   bool _escolher = false;
@@ -273,16 +275,28 @@ class _CartaoGolpeState extends State<_CartaoGolpe> {
     final critico = asBool(_r['critico']);
     final calcAlvo = ritual ? null : principal?.calc;
     final corpo = asBool(golpe['corpo']);
+    final agenteAlvo = ritual ? null : principal?.agente;
+    final reacao = agenteAlvo == null || reacaoUsada(widget.camp, agenteAlvo) ? '' : agenteAlvo.reacao;
+    final esquivou = _esquivou ?? (reacao == 'esquiva' && calcAlvo!.podeEsquivar);
+    final bloqueou = _bloqueou ?? (reacao == 'bloqueio' && calcAlvo!.podeBloquear && corpo);
     final defesa = ritual || principal == null
         ? null
         : principal.ameaca != null
             ? asInt(principal.ameaca!['defesa'])
             : calcAlvo == null
                 ? null
-                : (_esquivou ? calcAlvo.defesaEsquiva : calcAlvo.defesa);
+                : (esquivou ? calcAlvo.defesaEsquiva : calcAlvo.defesa);
     final acertou = defesa == null ? null : total >= defesa;
     final conta = ritual || acertou != false || _contarAcerto;
-    final bloqueio = calcAlvo != null && _bloqueou && tipo != 'mental' ? calcAlvo.rdBloqueio : 0;
+    final bloqueio = calcAlvo != null && bloqueou && tipo != 'mental' ? calcAlvo.rdBloqueio : 0;
+
+    // ao resolver o golpe, a reação usada conta para a rodada do agente
+    void gastarReacao() {
+      final a = agenteAlvo;
+      if (a == null || !(esquivou || bloqueou)) return;
+      final m = marcaReacao(widget.camp, a);
+      if (m.isNotEmpty) Repo.set(a.id, 'reacaoUsada', m);
+    }
 
     // ritual: o teste de resistência de cada atingido
     final textoRes = asStr(golpe['resistencia']);
@@ -334,7 +348,7 @@ class _CartaoGolpeState extends State<_CartaoGolpe> {
               ? (critico ? 'crítico' : null)
               : acertou
                   ? (critico ? 'acertou, crítico' : 'acertou')
-                  : 'errou (Defesa $defesa${_esquivou ? ', com esquiva' : ''})',
+                  : 'errou (Defesa $defesa${esquivou ? ', com esquiva' : ''})',
           bom: acertou,
           cor: cor,
         ),
@@ -397,14 +411,20 @@ class _CartaoGolpeState extends State<_CartaoGolpe> {
       if (calcAlvo != null && calcAlvo.podeEsquivar)
         FilterChip(
           label: Text('Esquivou (Defesa ${calcAlvo.defesaEsquiva})'),
-          selected: _esquivou,
-          onSelected: (v) => setState(() => _esquivou = v),
+          selected: esquivou,
+          onSelected: (v) => setState(() {
+            _esquivou = v;
+            if (v) _bloqueou = false;
+          }),
         ),
       if (calcAlvo != null && calcAlvo.podeBloquear && corpo)
         FilterChip(
           label: Text('Bloqueou (RD +${calcAlvo.rdBloqueio})'),
-          selected: _bloqueou,
-          onSelected: (v) => setState(() => _bloqueou = v),
+          selected: bloqueou,
+          onSelected: (v) => setState(() {
+            _bloqueou = v;
+            if (v) _esquivou = false;
+          }),
         ),
       if (ritual && temDano && pericia != null && !anula && !metadeSozinha)
         FilterChip(
@@ -527,13 +547,17 @@ class _CartaoGolpeState extends State<_CartaoGolpe> {
               ),
             ),
             TextButton(
-              onPressed: () => Repo.marcarGolpe(_cid, widget.golpe.id, {'estado': 'dispensado'}),
+              onPressed: () {
+                gastarReacao();
+                Repo.marcarGolpe(_cid, widget.golpe.id, {'estado': 'dispensado'});
+              },
               child: const Text('Dispensar'),
             ),
             if (aplicavel && conta) ...[
               const SizedBox(width: 6),
               FilledButton.icon(
                 onPressed: () {
+                  gastarReacao();
                   for (final t in atingidos) {
                     final r = resultados[t.id]!;
                     t.aplicar(_cid, r.sofrido, tipo, r.afetado ? condicoes : const {});

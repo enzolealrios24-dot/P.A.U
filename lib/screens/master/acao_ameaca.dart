@@ -313,6 +313,8 @@ class _CartaoUsoState extends State<CartaoUso> {
   late final List<Rolado> _rolados = [...widget.uso.rolados];
   late final Map<int, Rolagem> _resistidas = {...widget.uso.resistidas};
   late String _tipo = widget.uso.acao.tiposDano.firstOrNull ?? '';
+  /// A reação de defesa do alvo contra o primeiro ataque: começa com a que
+  /// o agente escolheu na ficha, se ainda não usou nesta rodada.
   bool _esquivou = false;
   bool _bloqueou = false;
   /// Metade do dano marcada à mão (ações com mais de um teste de resistência).
@@ -322,6 +324,35 @@ class _CartaoUsoState extends State<CartaoUso> {
   bool _curado = false;
 
   AcaoAmeaca get _acao => widget.uso.acao;
+
+  @override
+  void initState() {
+    super.initState();
+    final alvo = widget.alvo;
+    if (alvo == null || !_acao.ataque || reacaoUsada(widget.camp, alvo)) return;
+    final c = Calc(alvo, widget.camp.regras);
+    final corpo = _acao.alcance.isEmpty || semAcento(_acao.alcance.toLowerCase()).contains('corpo');
+    _esquivou = alvo.reacao == 'esquiva' && c.podeEsquivar;
+    _bloqueou = alvo.reacao == 'bloqueio' && c.podeBloquear && corpo;
+    if (_esquivou || _bloqueou) _gastarReacao(true);
+  }
+
+  /// Marca na ficha do alvo que a reação desta rodada foi usada (ou devolve).
+  void _gastarReacao(bool usada) {
+    final alvo = widget.alvo;
+    if (alvo == null) return;
+    final m = marcaReacao(widget.camp, alvo);
+    if (m.isNotEmpty) Repo.set(alvo.id, 'reacaoUsada', usada ? m : '');
+  }
+
+  /// Uma reação por rodada: esquivar tira o bloqueio, e o contrário.
+  void _reagir({required bool esquiva, required bool v}) {
+    setState(() {
+      _esquivou = esquiva && v;
+      _bloqueou = !esquiva && v;
+    });
+    _gastarReacao(v);
+  }
 
   /// Ataque de um dano só que pode ser de mais de um tipo ("impacto,
   /// perfuração ou Sangue"): o mestre escolhe o tipo (e a RD que vale).
@@ -374,9 +405,10 @@ class _CartaoUsoState extends State<CartaoUso> {
     String rdTexto(int rd) => rd == 0 ? '' : ' · RD $rd';
 
     if (acao.ataque) {
-      final defesa = c == null ? null : (_esquivou ? c.defesaEsquiva : c.defesa);
-      final bloqueio = c != null && _bloqueou ? c.rdBloqueio : 0;
       for (final (i, g) in widget.uso.golpes.indexed) {
+        // a reação vale contra um ataque só: o primeiro
+        final defesa = c == null ? null : (_esquivou && i == 0 ? c.defesaEsquiva : c.defesa);
+        final bloqueio = c != null && _bloqueou && i == 0 ? c.rdBloqueio : 0;
         final acertou = defesa == null ? null : g.teste.total >= defesa;
         final conta = acertou != false && g.dano.isNotEmpty;
         // cada parte do dano com a RD do seu tipo; o bloqueio vale uma vez
@@ -407,7 +439,7 @@ class _CartaoUsoState extends State<CartaoUso> {
               ? (g.teste.critico ? 'crítico' : null)
               : acertou
                   ? (g.teste.critico ? 'acertou, crítico' : 'acertou')
-                  : 'errou (Defesa $defesa)',
+                  : 'errou (Defesa $defesa${_esquivou && i == 0 ? ', com esquiva' : ''})',
           bom: acertou,
           cor: cor,
         ));
@@ -526,15 +558,21 @@ class _CartaoUsoState extends State<CartaoUso> {
                 Wrap(spacing: 6, runSpacing: 6, children: [
                   if (c.podeEsquivar)
                     FilterChip(
-                      label: Text('Esquivou (Defesa ${c.defesaEsquiva})'),
+                      label: Text('Esquivou${widget.uso.golpes.length > 1 ? ' do 1º' : ''} (Defesa ${c.defesaEsquiva})'),
                       selected: _esquivou,
-                      onSelected: (v) => setState(() => _esquivou = v),
+                      onSelected: (v) => _reagir(esquiva: true, v: v),
                     ),
                   if (c.podeBloquear)
                     FilterChip(
-                      label: Text('Bloqueou (RD +${c.rdBloqueio})'),
+                      label: Text('Bloqueou${widget.uso.golpes.length > 1 ? ' o 1º' : ''} (RD +${c.rdBloqueio})'),
                       selected: _bloqueou,
-                      onSelected: (v) => setState(() => _bloqueou = v),
+                      onSelected: (v) => _reagir(esquiva: false, v: v),
+                    ),
+                  if (!_esquivou && !_bloqueou && alvo != null && reacaoUsada(widget.camp, alvo))
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: Text('Já usou a reação nesta rodada.',
+                          style: TextStyle(fontSize: 12.5, color: Cores.textoFraco)),
                     ),
                 ]),
               ],

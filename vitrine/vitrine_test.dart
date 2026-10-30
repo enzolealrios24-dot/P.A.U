@@ -129,6 +129,13 @@ void main() {
       }
       await _abrirAba(tester, 'COMBATE');
       await _salvar(tester, 'combate_${af.toLowerCase()}');
+      if (af == 'Conhecimento') {
+        // a reação de defesa que o agente escolhe
+        await tester.ensureVisible(find.text('SUA REAÇÃO'));
+        await tester.pump(const Duration(milliseconds: 300));
+        await tester.drag(find.byType(TabCombate), const Offset(0, 160));
+        await _salvar(tester, 'reacao_escolha');
+      }
       await _rolar(tester, 650);
       await _salvar(tester, 'combate_rd_${af.toLowerCase()}');
       if (af == 'Conhecimento') {
@@ -254,6 +261,7 @@ Future<void> _telasCombateMestre(WidgetTester tester) async {
     'editors': ['u2', _uid],
     'atributos': {'agi': 3, 'for': 1, 'int': 2, 'pre': 1, 'vig': 2},
     'pericias': {'Reflexos': {'grau': 10}, 'Fortitude': {'grau': 5}},
+    'reacao': 'esquiva',
     'pvAtual': 22,
   });
   await chars.doc('a5').set({
@@ -567,6 +575,7 @@ Future<void> _prepararDados() async {
       'Reflexos': {'grau': 5},
       'Profissão': {'grau': 5, 'qual': 'professora de história'},
     },
+    'reacao': 'bloqueio',
     'pvAtual': 14,
     'pvTemp': 5,
     'pvTempMax': 5,

@@ -665,7 +665,8 @@ class _FaixaRolavelState extends State<FaixaRolavel> {
 class CorteCantos extends ShapeBorder {
   final double corte;
   final Color? cor;
-  const CorteCantos({this.corte = 16, this.cor});
+  final double largura;
+  const CorteCantos({this.corte = 16, this.cor, this.largura = 1});
 
   Path _caminho(Rect r) => Path()
     ..moveTo(r.left, r.top)
@@ -687,13 +688,13 @@ class CorteCantos extends ShapeBorder {
     final c = cor;
     if (c == null) return;
     canvas.drawPath(
-        _caminho(rect.deflate(0.5)),
+        _caminho(rect.deflate(largura / 2)),
         Paint()
           ..color = c
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 1);
+          ..strokeWidth = largura);
   }
 
   @override
-  ShapeBorder scale(double t) => CorteCantos(corte: corte * t, cor: cor);
+  ShapeBorder scale(double t) => CorteCantos(corte: corte * t, cor: cor, largura: largura * t);
 }

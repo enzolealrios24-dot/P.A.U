@@ -1200,6 +1200,7 @@ class _ReacoesDefesa extends StatelessWidget {
             unidade: 'RD',
             detalhe: c.podeBloquear ? 'contra corpo a corpo' : 'exige Fortitude treinada',
             ativo: c.podeBloquear,
+            escolhida: ctx.camp != null && ctx.f.reacao == 'bloqueio',
             aoTocar: () => _detalharReacao(context, ctx, bloqueio: true),
           ),
         ),
@@ -1212,6 +1213,7 @@ class _ReacoesDefesa extends StatelessWidget {
             unidade: 'DEFESA',
             detalhe: c.podeEsquivar ? 'contra um ataque' : 'exige Reflexos treinado',
             ativo: c.podeEsquivar,
+            escolhida: ctx.camp != null && ctx.f.reacao == 'esquiva',
             aoTocar: () => _detalharReacao(context, ctx, bloqueio: false),
           ),
         ),
@@ -1229,9 +1231,65 @@ class _ReacoesDefesa extends StatelessWidget {
             style: const TextStyle(fontSize: 12.5, color: Cores.textoFraco),
           ),
         ),
+      if (ctx.camp case final camp?) ...[
+        const SizedBox(height: 12),
+        _EscolhaReacao(ctx: ctx, camp: camp),
+      ] else ...[
+        const SizedBox(height: 6),
+        const Text('Uma reação de defesa por rodada, escolhida antes de o atacante rolar.',
+            style: TextStyle(fontSize: 12, color: Cores.textoFraco)),
+      ],
+    ]);
+  }
+}
+
+/// O agente escolhe a reação de defesa que vai usar quando for atacado. O
+/// mestre já a encontra marcada no primeiro ataque contra ele em cada
+/// rodada (uma reação por rodada).
+class _EscolhaReacao extends StatelessWidget {
+  final CtxFicha ctx;
+  final Campanha camp;
+  const _EscolhaReacao({required this.ctx, required this.camp});
+
+  @override
+  Widget build(BuildContext context) {
+    final f = ctx.f;
+    final c = ctx.calc;
+    final atual = f.reacao;
+    final nome = atual == 'esquiva' ? 'esquiva' : 'bloqueio';
+    void escolher(String v) => Repo.set(f.id, 'reacao', v);
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text('SUA REAÇÃO', style: estiloRotulo(12, cor: Cores.textoFraco, peso: FontWeight.w700, espaco: 1.6)),
       const SizedBox(height: 6),
-      const Text('Uma reação de defesa por rodada, escolhida antes de o atacante rolar.',
-          style: TextStyle(fontSize: 12, color: Cores.textoFraco)),
+      Wrap(spacing: 6, runSpacing: 6, children: [
+        ChoiceChip(
+          label: const Text('Nenhuma'),
+          selected: atual.isEmpty,
+          onSelected: (_) => escolher(''),
+        ),
+        ChoiceChip(
+          avatar: const Icon(Icons.shield_outlined, size: 16),
+          label: const Text('Bloquear'),
+          selected: atual == 'bloqueio',
+          onSelected: c.podeBloquear ? (_) => escolher('bloqueio') : null,
+        ),
+        ChoiceChip(
+          avatar: const Icon(Icons.directions_run, size: 16),
+          label: const Text('Esquivar'),
+          selected: atual == 'esquiva',
+          onSelected: c.podeEsquivar ? (_) => escolher('esquiva') : null,
+        ),
+      ]),
+      const SizedBox(height: 6),
+      Text(
+        atual.isEmpty
+            ? 'Escolha antes de ser atacado: o mestre conta a reação no primeiro ataque contra você em cada rodada.'
+            : reacaoUsada(camp, f)
+                ? '${nome[0].toUpperCase()}${nome.substring(1)} já usado nesta rodada. Volta a valer na próxima.'
+                : 'O mestre conta ${atual == 'esquiva' ? 'a esquiva' : 'o bloqueio'} no primeiro ataque'
+                    '${atual == 'bloqueio' ? ' corpo a corpo' : ''} contra você em cada rodada.',
+        style: const TextStyle(fontSize: 12, color: Cores.textoFraco),
+      ),
     ]);
   }
 }
@@ -1240,6 +1298,8 @@ class _Reacao extends StatelessWidget {
   final String rotulo, valor, unidade, detalhe;
   final IconData icone;
   final bool ativo;
+  /// A reação que o agente escolheu usar.
+  final bool escolhida;
   final VoidCallback aoTocar;
   const _Reacao({
     required this.rotulo,
@@ -1248,14 +1308,22 @@ class _Reacao extends StatelessWidget {
     required this.unidade,
     required this.detalhe,
     required this.ativo,
+    this.escolhida = false,
     required this.aoTocar,
   });
   @override
   Widget build(BuildContext context) {
     final cor = ativo ? Cores.destaque : Cores.textoFraco;
     return Material(
-      color: ativo ? Cores.destaque.withValues(alpha: 0.08) : Colors.black.withValues(alpha: 0.3),
-      shape: CorteCantos(corte: 10, cor: ativo ? Cores.destaque.withValues(alpha: 0.5) : Cores.borda),
+      color: escolhida
+          ? Cores.destaque.withValues(alpha: 0.16)
+          : ativo
+              ? Cores.destaque.withValues(alpha: 0.08)
+              : Colors.black.withValues(alpha: 0.3),
+      shape: CorteCantos(
+          corte: 10,
+          cor: escolhida ? Cores.destaque : (ativo ? Cores.destaque.withValues(alpha: 0.5) : Cores.borda),
+          largura: escolhida ? 1.6 : 1),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: aoTocar,
@@ -1266,6 +1334,10 @@ class _Reacao extends StatelessWidget {
               Icon(icone, size: 16, color: cor),
               const SizedBox(width: 6),
               Text(rotulo.toUpperCase(), style: estiloRotulo(12.5, cor: cor, peso: FontWeight.w700, espaco: 1.6)),
+              if (escolhida) ...[
+                const Spacer(),
+                Icon(Icons.check_circle, size: 16, color: Cores.destaque),
+              ],
             ]),
             const SizedBox(height: 2),
             Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
