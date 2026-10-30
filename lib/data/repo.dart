@@ -553,11 +553,16 @@ class Repo {
 
   // ---------------- Jogadores: foto, notas e pedidos ----------------
 
-  /// A foto de perfil de um jogador (id em /imagens; '' sem foto).
-  static Stream<String> fotoDoJogador(String uid) =>
-      db.collection('users').doc(uid).snapshots().map((s) => asStr(s.data()?['foto']));
+  /// O perfil de um jogador: a foto ('foto', id em /imagens) e o
+  /// enquadramento dela ('fotoAjuste').
+  static Stream<Json> perfilDoJogador(String uid) =>
+      db.collection('users').doc(uid).snapshots().map((s) => s.data() ?? const {});
 
-  static void mudarMinhaFoto(String id) => _w(_eu.set({'foto': id}, SetOptions(merge: true)));
+  /// Troca a foto de perfil (o enquadramento volta ao padrão).
+  static void mudarMinhaFoto(String id) =>
+      _w(_eu.set({'foto': id, 'fotoAjuste': null}, SetOptions(merge: true)));
+
+  static void enquadrarMinhaFoto(Json ajuste) => _w(_eu.set({'fotoAjuste': ajuste}, SetOptions(merge: true)));
 
   /// Nota de um jogador para o mestre, guardada na ficha do agente (só o
   /// jogador e o mestre leem a ficha).

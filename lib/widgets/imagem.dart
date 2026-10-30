@@ -325,18 +325,41 @@ class AvatarFicha extends StatelessWidget {
 
 /// Janela para escolher o enquadramento da foto: arrastar move, dois dedos
 /// (ou a barra) dão zoom. Devolve o ajuste novo ou null.
+/// Com [redondo], a prévia é o círculo da foto de perfil do jogador.
 Future<Map<String, dynamic>?> escolherEnquadramento(BuildContext context,
-        {required String foto, String nome = '', Map<String, dynamic> ajuste = const {}}) =>
+        {required String foto, String nome = '', Map<String, dynamic> ajuste = const {}, bool redondo = false}) =>
     showDialog<Map<String, dynamic>>(
       context: context,
-      builder: (_) => _EditorEnquadramento(foto: foto, nome: nome, ajuste: ajuste),
+      builder: (_) => _EditorEnquadramento(foto: foto, nome: nome, ajuste: ajuste, redondo: redondo),
     );
+
+/// A foto enquadrada num círculo (a foto de perfil do jogador).
+class FotoRedonda extends StatelessWidget {
+  final String foto;
+  final Map<String, dynamic> ajuste;
+  final double tamanho;
+  const FotoRedonda({super.key, required this.foto, this.ajuste = const {}, this.tamanho = 32});
+
+  @override
+  Widget build(BuildContext context) => Container(
+        width: tamanho,
+        height: tamanho,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Cores.painel2,
+          border: Border.all(color: Cores.destaque.withValues(alpha: 0.6), width: tamanho >= 40 ? 1.6 : 1),
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: FotoEnquadrada(id: foto, ajuste: ajuste),
+      );
+}
 
 class _EditorEnquadramento extends StatefulWidget {
   final String foto;
   final String nome;
   final Map<String, dynamic> ajuste;
-  const _EditorEnquadramento({required this.foto, required this.nome, required this.ajuste});
+  final bool redondo;
+  const _EditorEnquadramento({required this.foto, required this.nome, required this.ajuste, this.redondo = false});
   @override
   State<_EditorEnquadramento> createState() => _EditorEnquadramentoState();
 }
@@ -353,7 +376,7 @@ class _EditorEnquadramentoState extends State<_EditorEnquadramento> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Enquadrar foto'),
+      title: Text(widget.redondo ? 'Ajustar foto de perfil' : 'Enquadrar foto'),
       content: SizedBox(
         width: 320,
         child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -367,7 +390,7 @@ class _EditorEnquadramentoState extends State<_EditorEnquadramento> {
               _z = (_zInicio * d.scale).clamp(1.0, 4.0);
               // arrastar para a direita mostra mais do lado esquerdo da foto
               _x = (_x - d.focalPointDelta.dx * 2.2 / (_largura * _z)).clamp(-1.0, 1.0);
-              _y = (_y - d.focalPointDelta.dy * 2.2 / (_largura * 4 / 3 * _z)).clamp(-1.0, 1.0);
+              _y = (_y - d.focalPointDelta.dy * 2.2 / (_largura * (widget.redondo ? 1 : 4 / 3) * _z)).clamp(-1.0, 1.0);
             }),
             child: Listener(
               onPointerSignal: (e) {
@@ -375,7 +398,9 @@ class _EditorEnquadramentoState extends State<_EditorEnquadramento> {
                   setState(() => _z = (_z - e.scrollDelta.dy / 400).clamp(1.0, 4.0));
                 }
               },
-              child: RetratoFicha(foto: widget.foto, nome: widget.nome, ajuste: _ajuste, largura: _largura),
+              child: widget.redondo
+                  ? FotoRedonda(foto: widget.foto, ajuste: _ajuste, tamanho: _largura)
+                  : RetratoFicha(foto: widget.foto, nome: widget.nome, ajuste: _ajuste, largura: _largura),
             ),
           ),
           const SizedBox(height: 8),
@@ -392,14 +417,24 @@ class _EditorEnquadramentoState extends State<_EditorEnquadramento> {
             const Icon(Icons.zoom_in, size: 20, color: Cores.textoFraco),
           ]),
           const SizedBox(height: 4),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            AvatarFicha(foto: widget.foto, nome: widget.nome, ajuste: _ajuste, tamanho: 44),
-            const SizedBox(width: 14),
-            RetratoFicha(foto: widget.foto, nome: widget.nome, ajuste: _ajuste, largura: 60),
-            const SizedBox(width: 14),
-            const Text('Assim fica\nnas listas',
-                style: TextStyle(fontSize: 12, color: Cores.textoFraco)),
-          ]),
+          if (widget.redondo)
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              FotoRedonda(foto: widget.foto, ajuste: _ajuste, tamanho: 40),
+              const SizedBox(width: 14),
+              FotoRedonda(foto: widget.foto, ajuste: _ajuste, tamanho: 30),
+              const SizedBox(width: 14),
+              const Text('Assim fica na ficha\ne nas notas ao mestre',
+                  style: TextStyle(fontSize: 12, color: Cores.textoFraco)),
+            ])
+          else
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              AvatarFicha(foto: widget.foto, nome: widget.nome, ajuste: _ajuste, tamanho: 44),
+              const SizedBox(width: 14),
+              RetratoFicha(foto: widget.foto, nome: widget.nome, ajuste: _ajuste, largura: 60),
+              const SizedBox(width: 14),
+              const Text('Assim fica\nnas listas',
+                  style: TextStyle(fontSize: 12, color: Cores.textoFraco)),
+            ]),
         ]),
       ),
       actions: [

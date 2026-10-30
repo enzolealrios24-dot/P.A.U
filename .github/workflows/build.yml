@@ -87,6 +87,12 @@ jobs:
     needs: [android, windows]
     runs-on: ubuntu-latest
     steps:
+      # o histórico e as tags: as novidades são os commits desde a versão anterior
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      # o texto da release: como baixar, as novidades e tudo o que o app tem
+      - run: bash ci/notas.sh notas.md
       - uses: actions/download-artifact@v8
         with:
           path: dist
@@ -95,9 +101,5 @@ jobs:
         with:
           tag_name: v1.0.${{ github.run_number }}
           name: P.A.U v1.0.${{ github.run_number }}
-          body: |
-            Baixe o arquivo do seu aparelho:
-            - **PAU-Android.apk**: celular Android
-            - **PAU-Instalador-Windows.exe**: instalador para Windows
-            - **PAU-Windows-portatil.zip**: Windows sem instalar (descompacte e abra cris_ficha.exe)
+          body_path: notas.md
           files: dist/*

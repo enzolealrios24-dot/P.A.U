@@ -477,6 +477,12 @@ Future<void> _telasCombateMestre(WidgetTester tester) async {
   await _salvar(tester, 'jogador_notas');
   await tester.tap(find.text('PEDIDOS'));
   await _salvar(tester, 'jogador_pedidos');
+  // o ajuste da foto de perfil: o círculo, como fica na ficha e nas notas
+  final ajuste =
+      escolherEnquadramento(tester.element(find.text('PEDIDOS')), foto: 'jogador2', nome: 'Lia', redondo: true);
+  await _salvar(tester, 'foto_jogador_ajuste');
+  await tester.tap(find.text('Cancelar'));
+  await ajuste;
   Repo.authTeste = MockFirebaseAuth(
       signedIn: true, mockUser: MockUser(uid: _uid, displayName: 'Enzo', email: 'enzo@exemplo.com'));
 

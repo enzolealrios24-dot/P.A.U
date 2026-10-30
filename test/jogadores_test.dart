@@ -144,6 +144,31 @@ void main() {
     await esperar(tester);
     expect(find.byType(ImagemSalva), findsOneWidget);
     expect(find.text('LM'), findsNothing);
+
+    // o ajuste do enquadramento vale no círculo; trocar a foto volta ao padrão
+    Repo.enquadrarMinhaFoto({'x': 0.2, 'y': -0.5, 'z': 1.8});
+    await esperar(tester);
+    expect(tester.widget<FotoEnquadrada>(find.byType(FotoEnquadrada)).ajuste, {'x': 0.2, 'y': -0.5, 'z': 1.8});
+    Repo.mudarMinhaFoto('img2');
+    await esperar(tester);
+    expect(tester.widget<FotoEnquadrada>(find.byType(FotoEnquadrada)).ajuste, isEmpty);
+  });
+
+  testWidgets('o ajuste da foto do jogador mostra o círculo', (tester) async {
+    await mesa(quem: 'jogador');
+    late BuildContext ctx;
+    await tester.pumpWidget(MaterialApp(theme: temaCris(), home: Builder(builder: (c) {
+      ctx = c;
+      return const Scaffold();
+    })));
+    final r = escolherEnquadramento(ctx, foto: 'img1', nome: 'Lia', redondo: true);
+    await esperar(tester);
+    expect(find.text('Assim fica na ficha\ne nas notas ao mestre'), findsOneWidget);
+    expect(find.byType(FotoRedonda), findsNWidgets(3));
+    await tester.drag(find.byType(FotoRedonda).first, const Offset(-40, 0));
+    await tester.tap(find.text('Salvar'));
+    await esperar(tester);
+    expect((await r)!['x'] as double, greaterThan(0));
   });
 
   testWidgets('o mestre gera nomes e guarda os que quiser', (tester) async {
