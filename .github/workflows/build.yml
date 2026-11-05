@@ -1,0 +1,164 @@
+name: Build P.A.U
+
+# O código fica no repositório privado P.A.U-codigo. Esta compilação roda
+# aqui, no repositório público, lê o código com a chave CODIGO_CHAVE (só
+# leitura), gera os instaladores com o código embaralhado e publica a
+# release. Para publicar: gh workflow run build.yml -R enzolealrios24-dot/P.A.U
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build
+  cancel-in-progress: false
+
+env:
+  CODIGO: enzolealrios24-dot/P.A.U-codigo
+
+jobs:
+  versao:
+    runs-on: ubuntu-latest
+    outputs:
+      numero: ${{ steps.n.outputs.numero }}
+    steps:
+      # a próxima depois da maior tag v1.0.N já publicada
+      - id: n
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ultimo=$(gh api "repos/${{ github.repository }}/git/matching-refs/tags/v1.0." --jq '.[].ref' \
+            | sed 's#refs/tags/v1.0.##' | grep -E '^[0-9]+$' | sort -n | tail -1)
+          echo "numero=$(( ${ultimo:-0} + 1 ))" >> "$GITHUB_OUTPUT"
+
+  analisar:
+    needs: versao
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          repository: ${{ env.CODIGO }}
+          ssh-key: ${{ secrets.CODIGO_CHAVE }}
+          persist-credentials: false
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: bash ci/prepare.sh
+      - run: flutter pub get
+      - run: flutter analyze --no-fatal-infos --no-fatal-warnings
+      - run: flutter test
+
+  android:
+    needs: [versao, analisar]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          repository: ${{ env.CODIGO }}
+          ssh-key: ${{ secrets.CODIGO_CHAVE }}
+          persist-credentials: false
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: bash ci/prepare.sh
+      # chave fixa para que as atualizacoes instalem por cima da versao anterior
+      - run: mkdir -p ~/.android && cp ci/debug.keystore ~/.android/debug.keystore
+      # so ARM (celulares de verdade); --obfuscate embaralha os nomes do codigo
+      # e os simbolos ficam fora do pacote (e nao sao publicados)
+      - run: >-
+          flutter build apk --release --target-platform android-arm,android-arm64
+          --obfuscate --split-debug-info=build/simbolos
+          --build-number=${{ needs.versao.outputs.numero }}
+      - run: mkdir -p dist && cp build/app/outputs/flutter-apk/app-release.apk dist/PAU-Android.apk
+      - uses: actions/upload-artifact@v7
+        with:
+          name: PAU-Android
+          path: dist/PAU-Android.apk
+
+  windows:
+    needs: [versao, analisar]
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          repository: ${{ env.CODIGO }}
+          ssh-key: ${{ secrets.CODIGO_CHAVE }}
+          persist-credentials: false
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: bash ci/prepare.sh
+        shell: bash
+      - run: flutter build windows --release --obfuscate --split-debug-info=build/simbolos --build-number=${{ needs.versao.outputs.numero }}
+      - name: Zip portatil
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force dist | Out-Null
+          Compress-Archive -Path build\windows\x64\runner\Release\* -DestinationPath dist\PAU-Windows-portatil.zip
+      - name: Instalador
+        shell: pwsh
+        continue-on-error: true
+        env:
+          APP_VERSION: 1.0.${{ needs.versao.outputs.numero }}
+        run: |
+          function Find-Iscc { Get-ChildItem "${env:ProgramFiles(x86)}\Inno Setup*\ISCC.exe", "$env:ProgramFiles\Inno Setup*\ISCC.exe" -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName }
+          $iscc = Find-Iscc
+          if (-not $iscc) { choco install innosetup -y --no-progress; $iscc = Find-Iscc }
+          & $iscc ci\installer.iss
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - uses: actions/upload-artifact@v7
+        with:
+          name: PAU-Windows
+          path: dist/*
+
+  publicar:
+    needs: [versao, android, windows]
+    runs-on: ubuntu-latest
+    env:
+      VERSAO: 1.0.${{ needs.versao.outputs.numero }}
+    steps:
+      # o código, com o histórico: o texto da release sai do README de lá
+      - uses: actions/checkout@v7
+        with:
+          repository: ${{ env.CODIGO }}
+          ssh-key: ${{ secrets.CODIGO_CHAVE }}
+          persist-credentials: false
+          fetch-depth: 0
+          path: codigo
+      - uses: actions/checkout@v7
+        with:
+          path: publico
+      - run: bash ci/notas.sh ../notas.md "$VERSAO"
+        working-directory: codigo
+      # o README (o log do app) e o kit de mods ficam iguais aos do código
+      - id: vitrine
+        working-directory: publico
+        run: |
+          cp ../codigo/README.md README.md
+          rm -rf mods && cp -r ../codigo/mods mods
+          git add -A README.md mods
+          if ! git diff --cached --quiet; then
+            git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -m "README e mods da v$VERSAO"
+            git push
+          fi
+          echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - uses: actions/download-artifact@v8
+        with:
+          path: dist
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v3
+        with:
+          tag_name: v${{ env.VERSAO }}
+          target_commitish: ${{ steps.vitrine.outputs.commit }}
+          name: P.A.U v${{ env.VERSAO }}
+          body_path: notas.md
+          files: dist/*

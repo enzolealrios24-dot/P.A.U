@@ -1,0 +1,108 @@
+{
+  "formato": "pau-mod",
+  "versaoFormato": 1,
+  "id": "exemplo-arquivo-morto",
+  "nome": "Arquivo Morto (exemplo)",
+  "sigla": "Arquivo Morto",
+  "autor": "Equipe do P.A.U",
+  "versao": "1.0",
+  "descricao": "Mod de exemplo: uma origem, dois poderes, um ritual, dois itens, uma condição e uma ameaça, todos inventados para mostrar o formato.",
+  "origens": [
+    {
+      "id": "arquivista",
+      "nome": "Arquivista",
+      "pericias": ["Investigação", "Intuição"],
+      "poder": {
+        "nome": "Memória de Fichário",
+        "resumo": "Uma vez por cena, lembra de um documento que já leu e recebe +5 num teste de Investigação ligado a ele."
+      }
+    }
+  ],
+  "poderes": [
+    {
+      "id": "olhar_de_carimbo",
+      "nome": "Olhar de Carimbo",
+      "tipo": "geral",
+      "resumo": "Sabe na hora se um documento é falso. Gaste 1 PE para saber também quem o falsificou, se essa pessoa estiver na cena.",
+      "custo": "1 PE"
+    },
+    {
+      "id": "pele_de_papel",
+      "nome": "Pele de Papel",
+      "tipo": "paranormal",
+      "elemento": "Conhecimento",
+      "prereq": "Conhecimento 1",
+      "resumo": "Palavras aparecem na sua pele quando algo paranormal está perto, e ela endurece como papelão molhado que secou: você recebe +2 na Defesa.",
+      "efeitos": [{ "alvo": "defesa", "valor": 2 }]
+    }
+  ],
+  "rituais": [
+    {
+      "id": "nota_de_rodape",
+      "nome": "Nota de Rodapé",
+      "elemento": "Conhecimento",
+      "circulo": 1,
+      "execucao": "Padrão",
+      "alcance": "Toque",
+      "alvo": "1 documento",
+      "duracao": "Cena",
+      "resumo": "Escreve num documento uma nota que só quem você escolher consegue ler."
+    }
+  ],
+  "itens": [
+    {
+      "id": "grampeador_pesado",
+      "nome": "Grampeador Pesado",
+      "tipo": "arma",
+      "categoria": 0,
+      "espacos": 1,
+      "proficiencia": "simples",
+      "empunhadura": "leve",
+      "ataque": "corpo",
+      "dano": "1d4",
+      "critico": "x2",
+      "tipoDano": "Impacto",
+      "resumo": "Melhor do que nada."
+    },
+    {
+      "id": "lupa_de_bolso",
+      "nome": "Lupa de Bolso",
+      "tipo": "acessorio",
+      "categoria": 0,
+      "espacos": 0.5,
+      "resumo": "+2 em Investigação para ler detalhes pequenos."
+    }
+  ],
+  "condicoes": [
+    {
+      "id": "soterrado_de_papel",
+      "nome": "Soterrado de Papel",
+      "categoria": "paralisia",
+      "resumo": "Não consegue se deslocar até gastar uma ação para sair da pilha."
+    }
+  ],
+  "ameacas": [
+    {
+      "id": "pasta_faminta",
+      "nome": "Pasta Faminta",
+      "elemento": "Conhecimento",
+      "vd": 20,
+      "tipo": "Criatura Pequena",
+      "percepcao": "1d20+5",
+      "iniciativa": "2d20",
+      "defesa": 16,
+      "fortitude": "1d20",
+      "reflexos": "2d20+5",
+      "vontade": "1d20+5",
+      "pv": 18,
+      "deslocamento": "6m",
+      "atributos": { "agi": 2, "for": 0, "int": 1, "pre": 1, "vig": 1 },
+      "ataques": [
+        { "nome": "Mordida de folhas", "alcance": "Corpo a corpo", "teste": "2d20+5", "dano": "1d6+2 corte" }
+      ],
+      "habilidades": [
+        { "nome": "Engolir Nomes", "resumo": "Quem ela morde esquece o próprio nome até o fim da cena." }
+      ]
+    }
+  ]
+}
