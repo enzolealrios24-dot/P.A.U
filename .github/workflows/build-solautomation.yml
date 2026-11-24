@@ -34,10 +34,10 @@ jobs:
 
           Invoke-WebRequest "https://github.com/Echo5Dev/MDRG-ModSettingsMenu/releases/download/v1.1.1/ModSettingsMenu.zip" -OutFile msm.zip
           Expand-Archive msm.zip -DestinationPath SolAutomation/deps/msm -Force
-          $msm = Get-ChildItem SolAutomation/deps/msm -Recurse -Filter ModSettingsMenu.dll | Select-Object -First 1
-          if (-not $msm) { throw "ModSettingsMenu.dll not found" }
-          $dest = (Resolve-Path "SolAutomation/deps/msm").Path + "\\ModSettingsMenu.dll"
-          if ($msm.FullName -ne $dest) {
+          $dest = Join-Path (Resolve-Path "SolAutomation/deps/msm").Path "ModSettingsMenu.dll"
+          if (-not (Test-Path $dest)) {
+            $msm = Get-ChildItem SolAutomation/deps/msm -Recurse -Filter ModSettingsMenu.dll | Select-Object -First 1
+            if (-not $msm) { throw "ModSettingsMenu.dll not found" }
             Copy-Item $msm.FullName $dest -Force
           }
 
