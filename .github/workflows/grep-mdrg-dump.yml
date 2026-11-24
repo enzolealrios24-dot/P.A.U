@@ -1,0 +1,57 @@
+name: Grep MDRG 0.97.12 dump
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "sol-mdg-mod-build" ]
+    paths:
+      - ".github/workflows/grep-mdrg-dump.yml"
+
+jobs:
+  grep:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clone verified 0.97.12 dump
+        run: git clone --depth 1 https://github.com/Victor-Viicell/mdrg-cheats.git /tmp/mdrg-cheats
+
+      - name: Extract relevant declarations and contexts
+        shell: bash
+        run: |
+          set -euo pipefail
+          DUMP=/tmp/mdrg-cheats/mdrg_re/out/dump.cs
+          mkdir -p analysis/native
+          : > analysis/native/grep-context.txt
+
+          for term in Fishing fishing Fish fish Cocktwitch cocktwitch Stream stream CurrentCum MaxCum GameVariables ModelBrain ModUtilities MoonSharp LuaScript Lua Options KeyCode Input Button Satiation Stamina satiation stamina; do
+            echo "" >> analysis/native/grep-context.txt
+            echo "================ TERM: $term ================" >> analysis/native/grep-context.txt
+            grep -n -i -m 120 -C 8 "$term" "$DUMP" >> analysis/native/grep-context.txt || true
+          done
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          dump=Path("/tmp/mdrg-cheats/mdrg_re/out/dump.cs").read_text(errors="ignore")
+          keys=re.compile(r'fish|fishing|cocktwitch|stream|currentcum|maxcum|gamevariables|modelbrain|modutilities|moonsharp|lua|satiation|stamina',re.I)
+          # split rough class blocks by public/internal class/struct
+          starts=[m.start() for m in re.finditer(r'(?m)^(?:public|internal|private|protected)?\s*(?:sealed\s+|static\s+|abstract\s+|partial\s+)*(?:class|struct|enum|interface)\s+', dump)]
+          starts.append(len(dump))
+          out=[]
+          for i in range(len(starts)-1):
+              block=dump[starts[i]:starts[i+1]]
+              head='\n'.join(block.splitlines()[:3])
+              if keys.search(head) or keys.search(block[:2500]):
+                  out.append(block[:20000])
+          Path("analysis/native/relevant-class-blocks.txt").write_text("\n\n"+"\n\n".join(out),encoding="utf-8")
+          PY
+
+      - name: Commit analysis
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add analysis/native/grep-context.txt analysis/native/relevant-class-blocks.txt
+          git commit -m "Extract MDRG 0.97.12 fishing streaming Lua dump contexts" || exit 0
+          git push
