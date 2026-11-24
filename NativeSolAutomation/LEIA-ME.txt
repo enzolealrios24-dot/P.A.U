@@ -1,0 +1,33 @@
+SOL AUTOMATION NATIVE 0.1.0
+MDRG 0.97.12
+
+ESTE MOD NAO USA MELONLOADER.
+Nao ha DLLs neste arquivo.
+
+INSTALACAO
+1. Remova/deixe fora da pasta do jogo qualquer MelonLoader/version.dll/winhttp.dll usado nos testes anteriores.
+2. Abra My Dystopian Robot Girlfriend normalmente.
+3. Entre em Mods.
+4. Use "Carregar mods" e selecione ESTE ZIP.
+   Alternativamente, coloque o ZIP na pasta Mods nativa indicada pelo proprio jogo.
+5. Reinicie o jogo se o menu pedir.
+
+RECURSOS ALVO
+- Streaming automatico com limite de 10% para Stamina e Satiation.
+- Para quando RemainingCum fica insuficiente.
+- Tenta criar "Sol Automation" dentro de Opcoes.
+- Pesca: tenta criar "AUTO PESCA [P]" dentro do minigame.
+- Tecla P quando Unity Input estiver exposto ao Lua.
+- Mantem a barra de captura alinhada ao peixe.
+- Modo pular tenta concluir o progresso do proprio minigame sem adicionar recompensas diretamente.
+
+IMPORTANTE
+O sandbox Lua do MDRG decide quais classes Unity ficam acessiveis.
+Esta versao detecta essas APIs em runtime e nao deve travar o jogo se alguma estiver escondida.
+
+SE ALGUMA FUNCAO NAO APARECER
+Use no jogo: Opcoes > Exportar registro
+e envie o registro gerado. Procure por linhas iniciadas com:
+[SolAutomation]
+
+O ZIP deve ter mod.json e SolAutomation.lua diretamente na raiz.
