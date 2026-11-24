@@ -1259,6 +1259,100 @@ public class FrickStaticGui
 
 
 ====================================================================================================
+TYPE: NewFrickState
+====================================================================================================
+public class NewFrickState
+{
+	// Fields
+	private static Live2DToolSelector+Live2DTool[] _blowjobTargetTools; // Offset: 0x0
+	private UnityEngine.UI.Slider _cumBar; // Offset: 0x30
+	private FrickSceneInitFlags _initFlags; // Offset: 0x38
+	private System.Int32 _frickStart; // Offset: 0x3C
+	private EquipmentSet _startingEquipmentSet; // Offset: 0x40
+	private GameStaticGui _gameStaticGui; // Offset: 0x48
+	private GenericLive2DStaticGui _genericLive2DStaticGui; // Offset: 0x50
+	private FrickStaticGui _frickStaticGui; // Offset: 0x58
+	private StreamManager _currentStreamManager; // Offset: 0x60
+	private UnityEngine.UI.Button _returnButton; // Offset: 0x68
+	private NewFrickState+FrickStateButtonSource _buttonSource; // Offset: 0x70
+
+	// Properties
+	public Live2DToolSelector TargetToolSelector { get; }
+	public System.String MusicSourceId { get; }
+	public System.Collections.Generic.IEnumerable_1<Live2DToolSelector+Live2DTool> TargetTools { get; }
+	public System.Boolean StreamOnFlagSet { get; }
+	public System.Boolean BotFullLeadFlagSet { get; }
+	public FrickSceneInitFlags InitFlags { get; }
+	public StreamManager CurrentStreamManager { get; }
+
+	// Methods
+	// RVA: 0x2C63870 Offset: 0x2C63870 VA: 0x2C64870 Token: 0x060032D3 Slot: 9
+	internal virtual ModelBrainState GetTargetBrainState() { }
+	// RVA: 0x2C63960 Offset: 0x2C63960 VA: 0x2C64960 Token: 0x060032D4 Slot: 10
+	internal virtual Live2DToolSelector get_TargetToolSelector() { }
+	// RVA: 0x2C63980 Offset: 0x2C63980 VA: 0x2C64980 Token: 0x060032D5 Slot: 13
+	public virtual System.String get_MusicSourceId() { }
+	// RVA: 0x2C639B0 Offset: 0x2C639B0 VA: 0x2C649B0 Token: 0x060032D6 Slot: 11
+	internal virtual System.Collections.Generic.IEnumerable_1<Live2DToolSelector+Live2DTool> get_TargetTools() { }
+	// RVA: 0x2C626B0 Offset: 0x2C626B0 VA: 0x2C636B0 Token: 0x060032D7 Slot: 65535
+	public System.Void .ctor(Live2DLewdSceneController controller, FrickSceneInitFlags initFlags) { }
+	// RVA: 0x2C63A40 Offset: 0x2C63A40 VA: 0x2C64A40 Token: 0x060032D8 Slot: 65535
+	private System.Boolean get_StreamOnFlagSet() { }
+	// RVA: 0x2C63A50 Offset: 0x2C63A50 VA: 0x2C64A50 Token: 0x060032D9 Slot: 65535
+	private System.Boolean get_BotFullLeadFlagSet() { }
+	// RVA: 0x2C63A60 Offset: 0x2C63A60 VA: 0x2C64A60 Token: 0x060032DA Slot: 65535
+	public FrickSceneInitFlags get_InitFlags() { }
+	// RVA: 0x2C63A70 Offset: 0x2C63A70 VA: 0x2C64A70 Token: 0x060032DB Slot: 65535
+	private System.Void AfterControllerChanged() { }
+	// RVA: 0x2C63BA0 Offset: 0x2C63BA0 VA: 0x2C64BA0 Token: 0x060032DC Slot: 12
+	public virtual System.Void ChangeLive2DController(Live2DLewdSceneController controller) { }
+	// RVA: 0x2C63C30 Offset: 0x2C63C30 VA: 0x2C64C30 Token: 0x060032DD Slot: 4
+	public virtual System.Void EnterState() { }
+	// RVA: 0x2C64A60 Offset: 0x2C64A60 VA: 0x2C65A60 Token: 0x060032DE Slot: 5
+	public virtual System.Void ExitState() { }
+	// RVA: 0x2C64CF0 Offset: 0x2C64CF0 VA: 0x2C65CF0 Token: 0x060032DF Slot: 65535
+	private System.Void RestoreEquipmentSet() { }
+	// RVA: 0x2C64D10 Offset: 0x2C64D10 VA: 0x2C65D10 Token: 0x060032E0 Slot: 65535
+	public StreamManager get_CurrentStreamManager() { }
+	// RVA: 0x2C64CE0 Offset: 0x2C64CE0 VA: 0x2C65CE0 Token: 0x060032E1 Slot: 65535
+	private System.Void EndStreamIfOn() { }
+	// RVA: 0x2C654B0 Offset: 0x2C654B0 VA: 0x2C664B0 Token: 0x060032E2 Slot: 6
+	public virtual System.Void UpdateState() { }
+	// RVA: 0x2C65570 Offset: 0x2C65570 VA: 0x2C66570 Token: 0x060032E3 Slot: 7
+	public virtual System.Void FixedUpdateState() { }
+	// RVA: 0x2C63AC0 Offset: 0x2C63AC0 VA: 0x2C64AC0 Token: 0x060032E4 Slot: 65535
+	private System.Void UpdateMainButtonList() { }
+	// RVA: 0x2C65BC0 Offset: 0x2C65BC0 VA: 0x2C66BC0 Token: 0x060032E5 Slot: 65535
+	private System.Void ClearAllButtonList() { }
+	// RVA: 0x2C65C00 Offset: 0x2C65C00 VA: 0x2C66C00 Token: 0x060032E6 Slot: 65535
+	public static System.Boolean CanSafelyEndSexScene(Live2DController controller) { }
+	// RVA: 0x2C65E60 Offset: 0x2C65E60 VA: 0x2C66E60 Token: 0x060032E7 Slot: 65535
+	public static System.Boolean CheckAndShowSafety(Live2DController controller) { }
+	// RVA: 0x2C65F40 Offset: 0x2C65F40 VA: 0x2C66F40 Token: 0x060032E8 Slot: 65535
+	private System.Void PositionButtonClicked() { }
+	// RVA: 0x2C66D10 Offset: 0x2C66D10 VA: 0x2C67D10 Token: 0x060032E9 Slot: 65535
+	private System.Void ReturnButtonClicked() { }
+	// RVA: 0x2C67350 Offset: 0x2C67350 VA: 0x2C68350 Token: 0x060032EA Slot: 65535
+	public System.Int32 GetFrickLength() { }
+	// RVA: 0x2C67400 Offset: 0x2C67400 VA: 0x2C68400 Token: 0x060032EB Slot: 65535
+	public System.Int32 GetStreamViewers() { }
+	// RVA: 0x2C67420 Offset: 0x2C67420 VA: 0x2C68420 Token: 0x060032EC Slot: 65535
+	private static System.Void .cctor() { }
+	// RVA: 0x2C67530 Offset: 0x2C67530 VA: 0x2C68530 Token: 0x060032ED Slot: 65535
+	private System.Void _PositionButtonClicked_g__GoToFrickScene_41_0(Fungus.View view) { }
+	// RVA: 0x2C67710 Offset: 0x2C67710 VA: 0x2C68710 Token: 0x060032EE Slot: 65535
+	private System.Void _ReturnButtonClicked_g__AskRestore_42_0(System.Action then) { }
+	// RVA: 0x2C678D0 Offset: 0x2C678D0 VA: 0x2C688D0 Token: 0x060032EF Slot: 65535
+	private System.Void _ReturnButtonClicked_b__42_1() { }
+	// RVA: 0x2C67BF0 Offset: 0x2C67BF0 VA: 0x2C68BF0 Token: 0x060032F0 Slot: 65535
+	private System.Void _ReturnButtonClicked_b__42_5() { }
+	// RVA: 0x2C67CB0 Offset: 0x2C67CB0 VA: 0x2C68CB0 Token: 0x060032F1 Slot: 65535
+	private System.Void _ReturnButtonClicked_b__42_2() { }
+}
+
+
+
+====================================================================================================
 FrickGameState: NOT FOUND
 
 
@@ -1910,6 +2004,46 @@ public class GameScript
 	private System.Void _GoOutside_b__39_3() { }
 	// RVA: 0x2C19F40 Offset: 0x2C19F40 VA: 0x2C1AF40 Token: 0x06002F04 Slot: 65535
 	private System.Void _ShowStatus_b__54_0(System.String chosen) { }
+}
+
+
+
+====================================================================================================
+TYPE: GameStaticGui
+====================================================================================================
+public class GameStaticGui
+{
+	// Fields
+	private System.Int32 _lastDayShown; // Offset: 0x28
+	private static System.Int32 _moneyMemory; // Offset: 0x0
+	private System.Action_1<System.Int32> OnMoneyChanged; // Offset: 0x30
+	private TMPro.TextMeshProUGUI A_MoneyTextTextMeshProUGUI; // Offset: 0x38
+	private TooltipDisplayArea A_MoneyTextTooltipDisplayArea; // Offset: 0x40
+	private TMPro.TextMeshProUGUI A_DayText; // Offset: 0x48
+	private TMPro.TextMeshProUGUI A_HourText; // Offset: 0x50
+	private UnityEngine.UI.Slider A_Stamina_Bar; // Offset: 0x58
+	private UnityEngine.UI.Slider A_Mental_Bar; // Offset: 0x60
+	private UnityEngine.UI.Slider A_Hunger_Bar; // Offset: 0x68
+
+	// Methods
+	// RVA: 0x2F26DF0 Offset: 0x2F26DF0 VA: 0x2F27DF0 Token: 0x0600559C Slot: 65535
+	private System.Void Awake() { }
+	// RVA: 0x2F26FF0 Offset: 0x2F26FF0 VA: 0x2F27FF0 Token: 0x0600559D Slot: 65535
+	private System.Void OnDisable() { }
+	// RVA: 0x2F27000 Offset: 0x2F27000 VA: 0x2F28000 Token: 0x0600559E Slot: 65535
+	public System.Void SyncGui(GameVariables gv) { }
+	// RVA: 0x2F272B0 Offset: 0x2F272B0 VA: 0x2F282B0 Token: 0x0600559F Slot: 65535
+	public System.Void add_OnMoneyChanged(System.Action_1<System.Int32> value) { }
+	// RVA: 0x2F27350 Offset: 0x2F27350 VA: 0x2F28350 Token: 0x060055A0 Slot: 65535
+	public System.Void remove_OnMoneyChanged(System.Action_1<System.Int32> value) { }
+	// RVA: 0x2F273F0 Offset: 0x2F273F0 VA: 0x2F283F0 Token: 0x060055A1 Slot: 65535
+	public System.Void UpdateRentStatusText(GameVariables gv) { }
+	// RVA: 0x2F276A0 Offset: 0x2F276A0 VA: 0x2F286A0 Token: 0x060055A2 Slot: 65535
+	public System.Void SyncMoney(GameVariables gv) { }
+	// RVA: 0x2F27410 Offset: 0x2F27410 VA: 0x2F28410 Token: 0x060055A3 Slot: 65535
+	private System.Void SetMoneyAndRentStatusText(System.String status) { }
+	// RVA: 0x2F278E0 Offset: 0x2F278E0 VA: 0x2F288E0 Token: 0x060055A4 Slot: 65535
+	public System.Void .ctor() { }
 }
 
 
