@@ -27,42 +27,16 @@ jobs:
           $ErrorActionPreference = "Stop"
           New-Item -ItemType Directory -Force SolAutomation/deps/melon | Out-Null
           New-Item -ItemType Directory -Force SolAutomation/deps/msm | Out-Null
-          New-Item -ItemType Directory -Force SolAutomation/deps/unity | Out-Null
 
           Invoke-WebRequest "https://github.com/LavaGang/MelonLoader/releases/download/v0.7.3/MelonLoader.x64.zip" -OutFile melon.zip
           Expand-Archive melon.zip -DestinationPath SolAutomation/deps/melon -Force
 
           Invoke-WebRequest "https://github.com/Echo5Dev/MDRG-ModSettingsMenu/releases/download/v1.1.1/ModSettingsMenu.zip" -OutFile msm.zip
           Expand-Archive msm.zip -DestinationPath SolAutomation/deps/msm -Force
-          $dest = Join-Path (Resolve-Path "SolAutomation/deps/msm").Path "ModSettingsMenu.dll"
-          if (-not (Test-Path $dest)) {
-            $msm = Get-ChildItem SolAutomation/deps/msm -Recurse -Filter ModSettingsMenu.dll | Select-Object -First 1
-            if (-not $msm) { throw "ModSettingsMenu.dll not found" }
-            Copy-Item $msm.FullName $dest -Force
-          }
 
-          $base = "https://raw.githubusercontent.com/Victor-Viicell/mdrg-cheats/master/mdrg_re/out/DummyDll"
-          $dlls = @(
-            "UnityEngine.dll",
-            "UnityEngine.CoreModule.dll",
-            "UnityEngine.IMGUIModule.dll",
-            "UnityEngine.InputLegacyModule.dll",
-            "UnityEngine.TextRenderingModule.dll",
-            "UnityEngine.UI.dll",
-            "UnityEngine.UIModule.dll",
-            "mscorlib.dll"
-          )
-
-          foreach ($dll in $dlls) {
-            Invoke-WebRequest "$base/$dll" -OutFile "SolAutomation/deps/unity/$dll"
-          }
-
-          Write-Host "MelonLoader refs:"
-          Get-ChildItem SolAutomation/deps/melon/MelonLoader/net6 | Select-Object Name
-          Write-Host "MSM:"
-          Get-ChildItem SolAutomation/deps/msm | Select-Object Name
-          Write-Host "Unity refs:"
-          Get-ChildItem SolAutomation/deps/unity | Select-Object Name
+          $msm = Get-ChildItem SolAutomation/deps/msm -Recurse -Filter ModSettingsMenu.dll | Select-Object -First 1
+          if (-not $msm) { throw "ModSettingsMenu.dll not found" }
+          Copy-Item $msm.FullName SolAutomation/deps/ModSettingsMenu.dll -Force
 
       - name: Build
         shell: pwsh
@@ -71,25 +45,46 @@ jobs:
       - name: Package
         shell: pwsh
         run: |
-          New-Item -ItemType Directory -Force package | Out-Null
-          Copy-Item SolAutomation/bin/Release/SolAutomation.dll package/SolAutomation.dll
-          @"
-          Sol Automation 0.2.0
+          New-Item -ItemType Directory -Force package/Mods | Out-Null
+          New-Item -ItemType Directory -Force package/THIRD_PARTY_LICENSES | Out-Null
 
-          Requisitos:
+          Copy-Item SolAutomation/bin/Release/SolAutomation.dll package/Mods/SolAutomation.dll
+          Copy-Item SolAutomation/deps/ModSettingsMenu.dll package/Mods/ModSettingsMenu.dll
+
+          Invoke-WebRequest "https://raw.githubusercontent.com/Echo5Dev/MDRG-ModSettingsMenu/main/LICENSE" -OutFile package/THIRD_PARTY_LICENSES/ModSettingsMenu-MIT.txt
+
+          @"
+          SOL AUTOMATION 0.3.0
+
+          Compatibilidade alvo:
           - My Dystopian Robot Girlfriend 0.97.x
           - MelonLoader 0.7.3
-          - ModSettingsMenu 1.1.1
 
-          Instalação:
-          1. Coloque SolAutomation.dll na pasta Mods do jogo.
-          2. Coloque ModSettingsMenu.dll na mesma pasta Mods.
-          3. Abra o jogo.
-          4. Streaming: Options > Mod Settings Menu > Sol Automation.
-          5. Pesca: no minigame, clique no botão AUTO PESCA ou aperte P.
+          INSTALAÇÃO
+          1. Instale o MelonLoader 0.7.3 no jogo.
+          2. Execute o jogo uma vez e feche.
+          3. Copie os dois arquivos da pasta Mods deste ZIP para a pasta Mods do jogo:
+             - SolAutomation.dll
+             - ModSettingsMenu.dll
+          4. Abra o jogo.
+
+          STREAMING
+          Options > Mod Settings Menu > Sol Automation
+          Ative "Pular streaming automaticamente".
+
+          PESCA
+          Durante o minigame de pesca:
+          - clique no botão AUTO PESCA; ou
+          - pressione P.
+
+          IMPORTANTE
+          Esta DLL foi compilada automaticamente no GitHub Actions.
+          A compilação é verificada, mas o comportamento dentro da sua cópia do jogo
+          ainda precisa ser validado em runtime. Se algum controle não for detectado,
+          envie o MelonLoader/Latest.log depois de testar.
           "@ | Set-Content package/LEIA-ME.txt -Encoding UTF8
 
       - uses: actions/upload-artifact@v4
         with:
-          name: SolAutomation-0.2.0
+          name: SolAutomation-0.3.0
           path: package/
