@@ -2049,6 +2049,71 @@ public class GameStaticGui
 
 
 ====================================================================================================
+TYPE: ButtonList
+====================================================================================================
+public class ButtonList
+{
+	// Fields
+	private static BetterObjectPool_1<ButtonListWrapper> buttonWrapperPool; // Offset: 0x0
+	private System.Collections.Generic.List_1<ButtonListButtonSource> _buttonSources; // Offset: 0x20
+	private System.Collections.Generic.List_1<ButtonListWrapper> _buttons; // Offset: 0x28
+	private PooledPrefabReference_1<CommonButtonHandler> overrideButtonContainer; // Offset: 0x30
+
+	// Properties
+	public System.Collections.Generic.IEnumerable_1<ButtonListWrapper> Buttons { get; }
+
+	// Methods
+	// RVA: 0x2B26E90 Offset: 0x2B26E90 VA: 0x2B27E90 Token: 0x06000340 Slot: 65535
+	public System.Void AddButtonSource(ButtonListButtonSource buttonSource) { }
+	// RVA: 0x2B26E10 Offset: 0x2B26E10 VA: 0x2B27E10 Token: 0x06000341 Slot: 65535
+	public System.Void RemoveButtonSource(ButtonListButtonSource buttonSource) { }
+	// RVA: 0x2B26FD0 Offset: 0x2B26FD0 VA: 0x2B27FD0 Token: 0x06000342 Slot: 65535
+	public System.Void RemoveAllButtonSources() { }
+	// RVA: 0x2B27170 Offset: 0x2B27170 VA: 0x2B28170 Token: 0x06000343 Slot: 65535
+	private CommonButtonHandler GetButton(UnityEngine.Transform t, CommonButtonColorType ct) { }
+	// RVA: 0x2B274E0 Offset: 0x2B274E0 VA: 0x2B284E0 Token: 0x06000344 Slot: 65535
+	public System.Collections.Generic.IEnumerable_1<ButtonListWrapper> get_Buttons() { }
+	// RVA: 0x2B274F0 Offset: 0x2B274F0 VA: 0x2B284F0 Token: 0x06000345 Slot: 65535
+	public System.Void OnDestroy() { }
+	// RVA: 0x2B27780 Offset: 0x2B27780 VA: 0x2B28780 Token: 0x06000346 Slot: 65535
+	private ButtonListWrapper AddButtonInner(CommonButtonHandler createdButton, System.Int32 order, CommonButtonHandler+CommonButtonSizeEnum size) { }
+	// RVA: 0x2B278D0 Offset: 0x2B278D0 VA: 0x2B288D0 Token: 0x06000347 Slot: 4
+	private virtual ButtonListWrapper IModificationPeriodButtonList_AddButton(System.Int32 order, CommonButtonColorType buttonColorType) { }
+	// RVA: 0x2B27910 Offset: 0x2B27910 VA: 0x2B28910 Token: 0x06000348 Slot: 5
+	private virtual ButtonListWrapper IModificationPeriodButtonList_AddCommonSmall(System.Int32 order, CommonButtonColorType buttonColorType) { }
+	// RVA: 0x2B27950 Offset: 0x2B27950 VA: 0x2B28950 Token: 0x06000349 Slot: 65535
+	private System.Single DetermineMaxWidth() { }
+	// RVA: 0x2B27A00 Offset: 0x2B27A00 VA: 0x2B28A00 Token: 0x0600034A Slot: 6
+	public virtual System.Void UpdateButtonSingle(ButtonListWrapper buttonListWrapper) { }
+	// RVA: 0x2B27BC0 Offset: 0x2B27BC0 VA: 0x2B28BC0 Token: 0x0600034B Slot: 65535
+	public ButtonList+ButtonListInitialization DoInitialization(IModificationPeriodButtonList modificationPeriod) { }
+	// RVA: 0x2B27540 Offset: 0x2B27540 VA: 0x2B28540 Token: 0x0600034C Slot: 65535
+	private System.Void ResetButtons_Inner() { }
+	// RVA: 0x2B27C50 Offset: 0x2B27C50 VA: 0x2B28C50 Token: 0x0600034D Slot: 65535
+	public System.Void ResetButtons() { }
+	// RVA: 0x2B27C60 Offset: 0x2B27C60 VA: 0x2B28C60 Token: 0x0600034E Slot: 65535
+	private System.Void FinishUpdatingEverything() { }
+	// RVA: 0x2B26D00 Offset: 0x2B26D00 VA: 0x2B27D00 Token: 0x0600034F Slot: 65535
+	public System.Void ResetAndUpdateEverything() { }
+	// RVA: 0x2B27DC0 Offset: 0x2B27DC0 VA: 0x2B28DC0 Token: 0x06000350 Slot: 65535
+	public System.Void UpdateCurrentButtonState() { }
+	// RVA: 0x2B27FB0 Offset: 0x2B27FB0 VA: 0x2B28FB0 Token: 0x06000351 Slot: 65535
+	public System.Void ShowAsContextMenu() { }
+	// RVA: 0x2B28210 Offset: 0x2B28210 VA: 0x2B29210 Token: 0x06000352 Slot: 65535
+	public System.Void InitializeFromPopupChoices(System.Collections.Generic.List_1<PopupChoice> choices, System.Action after) { }
+	// RVA: 0x2B28620 Offset: 0x2B28620 VA: 0x2B29620 Token: 0x06000353 Slot: 65535
+	public System.Void .ctor() { }
+	// RVA: 0x2B286D0 Offset: 0x2B286D0 VA: 0x2B296D0 Token: 0x06000354 Slot: 65535
+	private static System.Void .cctor() { }
+}
+
+
+
+====================================================================================================
+ButtonList+ButtonData: NOT FOUND
+
+
+====================================================================================================
 StaticGuiStateMachine: NOT FOUND
 
 
