@@ -1,0 +1,1953 @@
+
+====================================================================================================
+TYPE: GameVariables
+====================================================================================================
+public class GameVariables
+{
+	// Fields
+	private System.Collections.Generic.List_1<Email> emails; // Offset: 0x10
+	private System.Collections.Generic.List_1<System.String> serializedEmails; // Offset: 0x18
+	private System.Collections.Generic.List_1<NewEmail> _allEmails; // Offset: 0x20
+	private GameStats _gameStats; // Offset: 0x28
+	private System.Boolean _areGameStatsValid; // Offset: 0x30
+	public System.String gameVersion; // Offset: 0x38
+	public StockManager stockManager; // Offset: 0x40
+	public Item+ItemManager itemManager; // Offset: 0x48
+	public EventManager eventManager; // Offset: 0x50
+	public CockTwitchManager cockTwitchManager; // Offset: 0x58
+	public CocktractManager cocktractManager; // Offset: 0x60
+	public DeliveryManager deliveryManager; // Offset: 0x68
+	public CookingMinigameManager cookingMinigameManager; // Offset: 0x70
+	public FishingMinigameManager fishingMinigameManager; // Offset: 0x78
+	public BotStatusAppManager botStatusAppManager; // Offset: 0x80
+	public JoinUsBlogManager joinUsBlogManager; // Offset: 0x88
+	public SpecialVariablesHolder customData; // Offset: 0x90
+	public System.Int32 timesWentToChurch; // Offset: 0x98
+	public System.Int32 streamCount; // Offset: 0x9C
+	public System.Int32 streamedFor; // Offset: 0xA0
+	public System.Int32 moneyEarnedFromDonations; // Offset: 0xA4
+	public System.Int32 longestStream; // Offset: 0xA8
+	public System.Int32 timesCameInside; // Offset: 0xAC
+	public System.Int32 timesCameInsideAnal; // Offset: 0xB0
+	public System.Int32 timesCameThighjob; // Offset: 0xB4
+	public System.Int32 timesCameOutside; // Offset: 0xB8
+	public System.Int32 timesCameInMouth; // Offset: 0xBC
+	public System.Single mlCameInMouth; // Offset: 0xC0
+	public System.Single mlCameInVagina; // Offset: 0xC4
+	public System.Single mlCameInAss; // Offset: 0xC8
+	public System.Single mlCameFromThighjob; // Offset: 0xCC
+	public System.Single mlCameOutside; // Offset: 0xD0
+	public System.Single mlOfCumWasted; // Offset: 0xD4
+	public System.Int32 timesLostChess; // Offset: 0xD8
+	public System.Int32 timesWonChess; // Offset: 0xDC
+	public System.Int32 timesLostOldMaid; // Offset: 0xE0
+	public System.Int32 timesWonOldMaid; // Offset: 0xE4
+	public System.Int32 timesRanAwayOldMaid; // Offset: 0xE8
+	public System.Int32 timesLostWordChain; // Offset: 0xEC
+	public System.Int32 timesWonWordChain; // Offset: 0xF0
+	private System.Collections.Generic.List_1<UnityEngine.Color> presetColors; // Offset: 0xF8
+	public System.Boolean lightSwitchOn; // Offset: 0x100
+	public System.Boolean bathroomLightOn; // Offset: 0x101
+	public NewsDataManager newsDataManager; // Offset: 0x108
+	public GameVariables+SerializableDictStringDialogueChainMemory dialogueChainData; // Offset: 0x110
+	public System.String statusText; // Offset: 0x118
+	public static System.Int32 FollowersNeededForSlowMode; // Offset: 0x0
+	private const System.Int32 RiotsLength; // Offset: 0x0
+	private System.Collections.Generic.List_1<GameVariables+Flag> flags; // Offset: 0x120
+	private System.Collections.Generic.Dictionary_2<System.String, GameVariables+Flag> _flagsDictionary; // Offset: 0x128
+	public System.Single search; // Offset: 0x130
+	public System.Int32 priestBotPoints; // Offset: 0x134
+	public System.Int32 nunPoints; // Offset: 0x138
+	public System.Int32 money; // Offset: 0x13C
+	public const System.Int32 maxMoney; // Offset: 0x0
+	public System.Int32 casinoTokens; // Offset: 0x140
+	private System.Single _maxCum; // Offset: 0x144
+	private System.Single _remainingCum; // Offset: 0x148
+	private System.Single _stamina; // Offset: 0x14C
+	private System.Single _mentalHealth; // Offset: 0x150
+	private System.Single _mentalHealthTemporary; // Offset: 0x154
+	private System.Single _satiation; // Offset: 0x158
+	private System.Single _health; // Offset: 0x15C
+	public System.Int32 vinegaraEffectEnd; // Offset: 0x160
+	public System.Int32 deathGripEffectEnd; // Offset: 0x164
+	public const System.Single MaxCumSafeAmount; // Offset: 0x0
+	public const System.Single MaxCumAliveAmount; // Offset: 0x0
+	private System.Int32 _lust; // Offset: 0x168
+	private System.Single _longing; // Offset: 0x16C
+	private System.Single _currentHorniness; // Offset: 0x170
+	private System.Int32 _sympathy; // Offset: 0x174
+	private System.Single _mood; // Offset: 0x178
+	private System.Int32 inteligence; // Offset: 0x17C
+	public Live2DControllerCommonState botLive2DCommonState; // Offset: 0x180
+	public System.String playerName; // Offset: 0x188
+	public System.String botName; // Offset: 0x190
+	public static System.Collections.Generic.List_1<System.Int32> StageInteligenceLimit; // Offset: 0x8
+	public System.Int32 stage; // Offset: 0x198
+	private System.Int32 _uniqueConversationsLeft; // Offset: 0x19C
+	public System.Int32 time; // Offset: 0x1A0
+	public System.Int32 lastWorkedAtDay; // Offset: 0x1A4
+	public System.Int32 lastWentToChurchAt; // Offset: 0x1A8
+	public System.Int32 lastCuddledAt; // Offset: 0x1AC
+	public System.Boolean lastSleptWithBot; // Offset: 0x1B0
+	public System.Int32 lastWokeUpAt; // Offset: 0x1B4
+	public System.Int32 lastFuckedAt; // Offset: 0x1B8
+	public System.Int32 lastBotCameAt; // Offset: 0x1BC
+	public System.Int32 lastInteractAt; // Offset: 0x1C0
+	public System.Int32 lastEquipmentAt; // Offset: 0x1C4
+	public System.Int32 lastOutsideWithBotAt; // Offset: 0x1C8
+	public System.Int32 lastStreamedAt; // Offset: 0x1CC
+	public System.Int32 lastTalkedAt; // Offset: 0x1D0
+	public System.Int32 lastBotStartedTalkAt; // Offset: 0x1D4
+	public System.Int32 lastHeadpatedAt; // Offset: 0x1D8
+	public System.Int32 lastAnonsShowerAt; // Offset: 0x1DC
+	public System.Int32 leastBotCleanAt; // Offset: 0x1E0
+	public System.Int32 lastHungerInfoAt; // Offset: 0x1E4
+	public System.Int32 lastMentalHealthInfoAt; // Offset: 0x1E8
+	public System.Int32 subs; // Offset: 0x1EC
+	public System.Int32 followers; // Offset: 0x1F0
+
+	// Properties
+	public System.Collections.Generic.IEnumerable_1<NewEmail> VisibleEmails { get; }
+	public System.Boolean AreGameStatsValid { get; }
+	public System.String CurrentGameVersion { get; }
+	public ShopManager ShopManager { get; }
+	public System.Int32 TimesCameAll { get; }
+	public System.String JournalPath { get; }
+	public System.Boolean BotKnowsAboutStreaming { get; }
+	public System.Boolean BotSaidSheCanTasteOnlyCum { get; }
+	public System.Boolean StartedStreamingAfterPrologue { get; }
+	public GameId BotJealousOfNunDialogueId { get; }
+	public System.Boolean BotWasJealousOfNun { get; }
+	public System.Boolean ZombieApocalypseDialogueHappened { get; }
+	public System.Boolean FirstHorrorStoryDialogueHappened { get; }
+	public System.Boolean SecondHorrorStoryHappened { get; }
+	public System.Boolean HasAnySoap { get; }
+	public System.Int32 TimesShoweredTogether { get; }
+	public System.Int32 TimesAnonShower { get; }
+	public System.Int32 TimesBotShower { get; }
+	public System.Int32 CookedDishesCount { get; }
+	public System.Int32 DishesPassedAtLeastBCount { get; }
+	public System.Boolean CanTakeFisherToShow { get; }
+	public System.Boolean HasGoodChurchEnding { get; }
+	public System.Boolean CanTakeShaniceToShow { get; }
+	public System.Int32 TimesAnonCameDuringLastSexScene { get; }
+	public System.Boolean MadeNoiseLastSexScene { get; }
+	public System.Boolean IsThereCumOnHer { get; }
+	public System.Boolean IsBotAwake { get; }
+	public System.Boolean IsBotSmart { get; }
+	public System.Int32 TimeDay { get; }
+	public System.Int32 Day { get; }
+	public System.Int32 Hour { get; }
+	public System.Int32 Minute { get; }
+	public System.DateTime GameDateTime { get; }
+	public System.Int32 DayOfTheWeek { get; }
+	public System.Int32 FishesCaught { get; }
+	public System.Int32 DifferentFishesCaught { get; }
+	public System.Boolean HasAtLeastOneLeg { get; }
+	public System.Boolean HasBothLegs { get; }
+	public System.Boolean HasAtLeastOneArm { get; }
+	public System.Boolean HasBothArms { get; }
+	public System.Boolean HasAtLeast5UnhealthyFoods { get; }
+	public System.Boolean IsWearingPanties { get; }
+	public System.Int32 AfterSexCleanedCount { get; }
+	public System.Int32 AfterSexLeftCount { get; }
+	public System.Boolean UsuallyCleansCumAfterSex { get; }
+	public System.Boolean UsuallyLeavesCumAfterSex { get; }
+	public System.Boolean HasBothLegsAndAtLeastOneArm { get; }
+	public System.Boolean HasAllLimbs { get; }
+	public System.Boolean CanDoDoggy { get; }
+	public System.Boolean CanDoBlowjob { get; }
+	public System.Boolean CanDoCowgirl { get; }
+	public System.Boolean ReadyForNextStage { get; }
+	public System.Boolean IsWearingCatEars { get; }
+	public System.Boolean CanStand { get; }
+	public System.Boolean IsWearingAnyClothes { get; }
+	public System.Boolean CanEnableSlowMode { get; }
+	public System.Boolean IsRentDue { get; }
+	public System.Boolean IsAboveADayLateOnRent { get; }
+	public System.Boolean IsNaked { get; }
+	public System.Boolean IsAnnalieOnIslandEnding { get; }
+	public System.Boolean IsFisherOnIslandEnding { get; }
+	public System.Boolean IsLandlordOnIslandEnding { get; }
+	public System.Boolean IsBritanniaOnIslandEnding { get; }
+	public System.Boolean IsShaniceAndPriestbotOnIslandEnding { get; }
+	public System.Boolean IsEveryoneOnTheIsland { get; }
+	public System.Boolean HasTheOptionToGoOutsideWithBot { get; }
+	public System.Boolean CanGoOutsideWithBot { get; }
+	public System.Boolean IsItSafeToStartLongActivity { get; }
+	public System.Boolean EnoughStaminaForLongActivity { get; }
+	public System.Boolean HasMetAnnalie { get; }
+	public System.Boolean CanCook { get; }
+	public System.Boolean HasAnnalieHairstyle { get; }
+	public System.Boolean BathroomDoorInstalled { get; }
+	public System.Boolean FirstShowerHappened { get; }
+	public System.Single sus { get; }
+	public System.Single FishJointStatBoost { get; }
+	public System.Int32 BotDiscoveryRentIncreaseValue { get; }
+	public System.Int32 WeeklyRent { get; }
+	public System.Single susandsearch { get; }
+	public System.Int32 MoneySpentOnClothes { get; }
+	public System.Single Random01 { get; }
+	public System.Boolean CanHalloweenStart { get; }
+	public System.Boolean HalloweenActive { get; }
+	public System.Boolean HalloweenStarted { get; }
+	public System.Boolean HalloweenHappened { get; }
+	public System.Boolean MajorOutsideEventActive { get; }
+	public System.Boolean AnyChurchEndingDone { get; }
+	public System.Boolean WorkedTodayAlready { get; }
+	public System.Boolean EnoughStaminaToWork { get; }
+	public System.Boolean LandlordDecorationsUp { get; }
+	public System.Boolean EverCameInBot { get; }
+	public System.Boolean SpiderPlushUp { get; }
+	public System.Boolean HasWitchHat { get; }
+	public System.Boolean BotMetAnnalie { get; }
+	public System.Boolean HasPointyEars { get; }
+	public System.Boolean IsLateGame { get; }
+	public System.Boolean RiotsActive { get; }
+	public System.Boolean RiotsEndingSoon { get; }
+	public System.Boolean RiotsAfter { get; }
+	public System.Boolean HasHalloweenCostume { get; }
+	public System.Single MedicineDiscount { get; }
+	public System.Int32 DispenserLevel { get; }
+	public System.Int32 ClothierItemsBought { get; }
+	public System.Boolean EverStartedStream { get; }
+	public System.Boolean NeverStartedStream { get; }
+	public System.Boolean CanStartStream { get; }
+	public GameVariables Current { get; }
+	public GameVariablesClassDescription ClassDescription { get; }
+	public System.Collections.Generic.IEnumerable_1<System.String> AllFlags { get; }
+	public System.Boolean VinegaraActive { get; }
+	public System.Boolean DeathGripActive { get; }
+	public System.Single RemainingCum { get; set; }
+	public System.Single MaxCum { get; set; }
+	public System.Single Stamina { get; set; }
+	public System.Boolean IsOutOfStamina { get; }
+	public System.Single Satiation { get; set; }
+	public System.Single RealMentalHealth { get; }
+	public System.Single MentalHealth { get; set; }
+	public System.Single MentalHealthTemporary { get; set; }
+	public System.Single InverseMentalHealth { get; }
+	public System.Single Health { get; set; }
+	public System.Single CurrentHorniness { get; set; }
+	public System.Int32 lust { get; set; }
+	public System.Int32 sympathy { get; set; }
+	public System.Single PotentialHorniness { get; }
+	public System.Single Longing { get; set; }
+	public System.Single Mood { get; set; }
+	public System.Int32 Inteligence { get; set; }
+	public System.Single CumInside { get; }
+	public System.Single CumInsideAnal { get; set; }
+	public System.Single CumInsideStomach { get; set; }
+	public System.Int32 UniqueConversationsLeft { get; set; }
+	public System.Int32 TimeSinceLastWentToChurch { get; }
+	public System.Int32 TimeSinceLastCuddle { get; }
+	public System.Int32 AwakeFor { get; }
+	public System.Boolean EverFuckedBot { get; }
+	public System.Int32 TimeSinceLastFuck { get; }
+	public System.Int32 TimeSinceBotCame { get; }
+	public System.Int32 TimeSinceLastInteract { get; }
+	public System.Int32 TimeSinceLastEquipment { get; }
+	public System.Int32 TimeSinceLastWentOutsideWithBot { get; }
+	public System.Int32 TimeSinceLastSawBot { get; }
+	public System.Int32 TimeSinceLastStream { get; }
+	public System.Int32 TimeSinceLastTalk { get; }
+	public System.Int32 TimeSinceBotLastStartedTalk { get; }
+	public System.Int32 TimeSinceLastHeadpat { get; }
+	public System.Int32 TimeSinceLastAnonsShower { get; }
+	public System.Int32 DaysSinceLastAnonsShower { get; }
+	public System.Int32 TimeSinceLastBotClean { get; }
+	public System.Int32 DaysSinceLastBotClean { get; }
+	public System.Int32 TimeSinceLastHungerInfo { get; }
+	public System.Boolean TimeForNextMentalHealthInfo { get; }
+	public System.Int32 TimeSinceLastMentalHealthInfo { get; }
+
+	// Methods
+	// RVA: 0x2CCC7A0 Offset: 0x2CCC7A0 VA: 0x2CCD7A0 Token: 0x060037D9 Slot: 65535
+	public System.Collections.Generic.IEnumerable_1<NewEmail> get_VisibleEmails() { }
+	// RVA: 0x2CCC830 Offset: 0x2CCC830 VA: 0x2CCD830 Token: 0x060037DA Slot: 65535
+	public System.Void RemoveAllEmailsWithId(System.String id) { }
+	// RVA: 0x2CCC900 Offset: 0x2CCC900 VA: 0x2CCD900 Token: 0x060037DB Slot: 65535
+	public System.Void RemoveEmail(NewEmail email) { }
+	// RVA: 0x2CCC950 Offset: 0x2CCC950 VA: 0x2CCD950 Token: 0x060037DC Slot: 65535
+	public System.Void RemoveOpenedSpamEmails() { }
+	// RVA: 0x2CAB740 Offset: 0x2CAB740 VA: 0x2CAC740 Token: 0x060037DD Slot: 65535
+	public System.Void AddEmail(NewEmail email) { }
+	// RVA: 0x2CAD9F0 Offset: 0x2CAD9F0 VA: 0x2CAE9F0 Token: 0x060037DE Slot: 65535
+	public System.Void PlanEmail(NewEmail email, EventManager+PlanningData planningData) { }
+	// RVA: 0x2CCCA70 Offset: 0x2CCCA70 VA: 0x2CCDA70 Token: 0x060037DF Slot: 65535
+	public System.Void OnBeforeSerializeEmail() { }
+	// RVA: 0x2CCCA80 Offset: 0x2CCCA80 VA: 0x2CCDA80 Token: 0x060037E0 Slot: 65535
+	public System.Void OnAfterDeserializeEmail() { }
+	// RVA: 0x2CCDDE0 Offset: 0x2CCDDE0 VA: 0x2CCEDE0 Token: 0x060037E1 Slot: 65535
+	public System.Boolean get_AreGameStatsValid() { }
+	// RVA: 0x2CCDDF0 Offset: 0x2CCDDF0 VA: 0x2CCEDF0 Token: 0x060037E2 Slot: 65535
+	public System.Void InvalidateGameStats() { }
+	// RVA: 0x2CCDE00 Offset: 0x2CCDE00 VA: 0x2CCEE00 Token: 0x060037E3 Slot: 65535
+	public GameStats GetGameStats() { }
+	// RVA: 0x2CCE510 Offset: 0x2CCE510 VA: 0x2CCF510 Token: 0x060037E4 Slot: 65535
+	public PersonalityGameStats GetPersonalityGameStats() { }
+	// RVA: 0x2CCE530 Offset: 0x2CCE530 VA: 0x2CCF530 Token: 0x060037E5 Slot: 65535
+	private System.Void .ctor() { }
+	// RVA: 0x2CCE5F0 Offset: 0x2CCE5F0 VA: 0x2CCF5F0 Token: 0x060037E6 Slot: 65535
+	private System.Void .ctor(System.Int32 time, System.Int32 money) { }
+	// RVA: 0x2CCEF40 Offset: 0x2CCEF40 VA: 0x2CCFF40 Token: 0x060037E7 Slot: 65535
+	public static GameVariables CreateStartOfTheGame(System.Int32 time, System.Int32 money) { }
+	// RVA: 0x2CCEF90 Offset: 0x2CCEF90 VA: 0x2CCFF90 Token: 0x060037E8 Slot: 65535
+	public System.Void NewGameInitialization() { }
+	// RVA: 0x2CCED70 Offset: 0x2CCED70 VA: 0x2CCFD70 Token: 0x060037E9 Slot: 65535
+	private System.Void FillAllSubClasses() { }
+	// RVA: 0x2CCEFF0 Offset: 0x2CCEFF0 VA: 0x2CCFFF0 Token: 0x060037EA Slot: 65535
+	public System.Boolean IsAValidSaveAfter075Update() { }
+	// RVA: 0x2CCED10 Offset: 0x2CCED10 VA: 0x2CCFD10 Token: 0x060037EB Slot: 65535
+	public static System.String get_CurrentGameVersion() { }
+	// RVA: 0x2CCF080 Offset: 0x2CCF080 VA: 0x2CD0080 Token: 0x060037EC Slot: 65535
+	public Result TransitionGameVersion(System.String infoText) { }
+	// RVA: 0x2CCFAB0 Offset: 0x2CCFAB0 VA: 0x2CD0AB0 Token: 0x060037ED Slot: 65535
+	public ShopManager get_ShopManager() { }
+	// RVA: 0x2CCFAD0 Offset: 0x2CCFAD0 VA: 0x2CD0AD0 Token: 0x060037EE Slot: 65535
+	public System.Int32 get_TimesCameAll() { }
+	// RVA: 0x2CCFB00 Offset: 0x2CCFB00 VA: 0x2CD0B00 Token: 0x060037EF Slot: 65535
+	public System.Void SetPresetColors(System.Collections.Generic.IEnumerable_1<UnityEngine.Color> colors) { }
+	// RVA: 0x2CCFB70 Offset: 0x2CCFB70 VA: 0x2CD0B70 Token: 0x060037F0 Slot: 65535
+	public System.Collections.Generic.IReadOnlyList_1<UnityEngine.Color> GetPresetColors() { }
+	// RVA: 0x2CCFB80 Offset: 0x2CCFB80 VA: 0x2CD0B80 Token: 0x060037F1 Slot: 65535
+	public DialogueChainMemory GetDialogueChainMemory(System.String source) { }
+	// RVA: 0x2CCFC50 Offset: 0x2CCFC50 VA: 0x2CD0C50 Token: 0x060037F2 Slot: 65535
+	public System.Void OnAfterDeserializeDialogueChain() { }
+	// RVA: 0x2CD0350 Offset: 0x2CD0350 VA: 0x2CD1350 Token: 0x060037F3 Slot: 65535
+	public System.Void BeforeUnload() { }
+	// RVA: 0x2CD0370 Offset: 0x2CD0370 VA: 0x2CD1370 Token: 0x060037F4 Slot: 65535
+	public System.Void AfterLoad() { }
+	// RVA: 0x2CD0560 Offset: 0x2CD0560 VA: 0x2CD1560 Token: 0x060037F5 Slot: 65535
+	public System.Void GetRentData(System.Int32 daysTillRent, System.Boolean paidToday) { }
+	// RVA: 0x2CD03A0 Offset: 0x2CD03A0 VA: 0x2CD13A0 Token: 0x060037F6 Slot: 65535
+	public System.Void UpdateRentStatus() { }
+	// RVA: 0x2CD07B0 Offset: 0x2CD07B0 VA: 0x2CD17B0 Token: 0x060037F7 Slot: 65535
+	private System.Void DayPassedUpdateVariables() { }
+	// RVA: 0x2CD0830 Offset: 0x2CD0830 VA: 0x2CD1830 Token: 0x060037F8 Slot: 65535
+	private System.Void HourPassedUpdateVariables() { }
+	// RVA: 0x2CD0A10 Offset: 0x2CD0A10 VA: 0x2CD1A10 Token: 0x060037F9 Slot: 65535
+	private System.Void MinutePassedUpdateVariables(GameVariables+StaminaSyncType type) { }
+	// RVA: 0x2CD0F90 Offset: 0x2CD0F90 VA: 0x2CD1F90 Token: 0x060037FA Slot: 65535
+	private System.Void DayPassed() { }
+	// RVA: 0x2CD1030 Offset: 0x2CD1030 VA: 0x2CD2030 Token: 0x060037FB Slot: 65535
+	private System.Void HalfADayPassed() { }
+	// RVA: 0x2CD11D0 Offset: 0x2CD11D0 VA: 0x2CD21D0 Token: 0x060037FC Slot: 65535
+	private System.Void FourHoursPassed() { }
+	// RVA: 0x2CD1220 Offset: 0x2CD1220 VA: 0x2CD2220 Token: 0x060037FD Slot: 65535
+	private System.Void HourPassed() { }
+	// RVA: 0x2CD12E0 Offset: 0x2CD12E0 VA: 0x2CD22E0 Token: 0x060037FE Slot: 65535
+	public System.Void MinutePassed(GameVariables+StaminaSyncType type, System.Boolean suppressEvents) { }
+	// RVA: 0x2CD1480 Offset: 0x2CD1480 VA: 0x2CD2480 Token: 0x060037FF Slot: 65535
+	public System.Void Eat(Item item) { }
+	// RVA: 0x2CD1A10 Offset: 0x2CD1A10 VA: 0x2CD2A10 Token: 0x06003800 Slot: 65535
+	public System.Single ExtractCumFromBalls() { }
+	// RVA: 0x2CD1DA0 Offset: 0x2CD1DA0 VA: 0x2CD2DA0 Token: 0x06003801 Slot: 65535
+	public System.Single GetCumPercent() { }
+	// RVA: 0x2CD1DC0 Offset: 0x2CD1DC0 VA: 0x2CD2DC0 Token: 0x06003802 Slot: 65535
+	public System.String CumStatus() { }
+	// RVA: 0x2CD1F60 Offset: 0x2CD1F60 VA: 0x2CD2F60 Token: 0x06003803 Slot: 65535
+	public System.String SatiationStatus() { }
+	// RVA: 0x2CD2040 Offset: 0x2CD2040 VA: 0x2CD3040 Token: 0x06003804 Slot: 65535
+	public System.String HealthStatus() { }
+	// RVA: 0x2CD2160 Offset: 0x2CD2160 VA: 0x2CD3160 Token: 0x06003805 Slot: 65535
+	public System.String AnonShowerStatus() { }
+	// RVA: 0x2CD22F0 Offset: 0x2CD22F0 VA: 0x2CD32F0 Token: 0x06003806 Slot: 65535
+	public System.String BotShowerStatus() { }
+	// RVA: 0x2CD23C0 Offset: 0x2CD23C0 VA: 0x2CD33C0 Token: 0x06003807 Slot: 65535
+	public System.String FullStatusText() { }
+	// RVA: 0x2CD26B0 Offset: 0x2CD26B0 VA: 0x2CD36B0 Token: 0x06003808 Slot: 65535
+	public System.Void AnonShowerEffect() { }
+	// RVA: 0x2CD27C0 Offset: 0x2CD27C0 VA: 0x2CD37C0 Token: 0x06003809 Slot: 65535
+	public System.Void BotShowerEffect() { }
+	// RVA: 0x2CD2A40 Offset: 0x2CD2A40 VA: 0x2CD3A40 Token: 0x0600380A Slot: 65535
+	public System.Void BotCleanWithRagEffect() { }
+	// RVA: 0x2CD28E0 Offset: 0x2CD28E0 VA: 0x2CD38E0 Token: 0x0600380B Slot: 65535
+	public System.Void CleanCumOutside() { }
+	// RVA: 0x2CD2A60 Offset: 0x2CD2A60 VA: 0x2CD3A60 Token: 0x0600380C Slot: 65535
+	public System.Void ManifestHorninessAndResetFrickData() { }
+	// RVA: 0x2CD2C40 Offset: 0x2CD2C40 VA: 0x2CD3C40 Token: 0x0600380D Slot: 65535
+	public System.Void EndSex() { }
+	// RVA: 0x2CD2C50 Offset: 0x2CD2C50 VA: 0x2CD3C50 Token: 0x0600380E Slot: 65535
+	public System.Void ClearMood() { }
+	// RVA: 0x2CD2C60 Offset: 0x2CD2C60 VA: 0x2CD3C60 Token: 0x0600380F Slot: 65535
+	public System.Void MarkAsCheater() { }
+	// RVA: 0x2CD2E50 Offset: 0x2CD2E50 VA: 0x2CD3E50 Token: 0x06003810 Slot: 65535
+	public System.String get_JournalPath() { }
+	// RVA: 0x2CD2E80 Offset: 0x2CD2E80 VA: 0x2CD3E80 Token: 0x06003811 Slot: 65535
+	public System.Boolean get_BotKnowsAboutStreaming() { }
+	// RVA: 0x2CD2F90 Offset: 0x2CD2F90 VA: 0x2CD3F90 Token: 0x06003812 Slot: 65535
+	public System.Boolean get_BotSaidSheCanTasteOnlyCum() { }
+	// RVA: 0x2CD30A0 Offset: 0x2CD30A0 VA: 0x2CD40A0 Token: 0x06003813 Slot: 65535
+	public System.Boolean get_StartedStreamingAfterPrologue() { }
+	// RVA: 0x2CD3130 Offset: 0x2CD3130 VA: 0x2CD4130 Token: 0x06003814 Slot: 65535
+	private GameId get_BotJealousOfNunDialogueId() { }
+	// RVA: 0x2CD31A0 Offset: 0x2CD31A0 VA: 0x2CD41A0 Token: 0x06003815 Slot: 65535
+	public System.Boolean get_BotWasJealousOfNun() { }
+	// RVA: 0x2CD32D0 Offset: 0x2CD32D0 VA: 0x2CD42D0 Token: 0x06003816 Slot: 65535
+	public System.Boolean get_ZombieApocalypseDialogueHappened() { }
+	// RVA: 0x2CD33E0 Offset: 0x2CD33E0 VA: 0x2CD43E0 Token: 0x06003817 Slot: 65535
+	public System.Boolean get_FirstHorrorStoryDialogueHappened() { }
+	// RVA: 0x2CD34F0 Offset: 0x2CD34F0 VA: 0x2CD44F0 Token: 0x06003818 Slot: 65535
+	public System.Boolean get_SecondHorrorStoryHappened() { }
+	// RVA: 0x2CD3600 Offset: 0x2CD3600 VA: 0x2CD4600 Token: 0x06003819 Slot: 65535
+	public System.Boolean get_HasAnySoap() { }
+	// RVA: 0x2CD3710 Offset: 0x2CD3710 VA: 0x2CD4710 Token: 0x0600381A Slot: 65535
+	public System.Int32 get_TimesShoweredTogether() { }
+	// RVA: 0x2CD3820 Offset: 0x2CD3820 VA: 0x2CD4820 Token: 0x0600381B Slot: 65535
+	public System.Int32 get_TimesAnonShower() { }
+	// RVA: 0x2CD38C0 Offset: 0x2CD38C0 VA: 0x2CD48C0 Token: 0x0600381C Slot: 65535
+	public System.Int32 get_TimesBotShower() { }
+	// RVA: 0x2CD3960 Offset: 0x2CD3960 VA: 0x2CD4960 Token: 0x0600381D Slot: 65535
+	public System.Int32 get_CookedDishesCount() { }
+	// RVA: 0x2CD3980 Offset: 0x2CD3980 VA: 0x2CD4980 Token: 0x0600381E Slot: 65535
+	public System.Int32 get_DishesPassedAtLeastBCount() { }
+	// RVA: 0x2CD39A0 Offset: 0x2CD39A0 VA: 0x2CD49A0 Token: 0x0600381F Slot: 65535
+	public System.Boolean get_CanTakeFisherToShow() { }
+	// RVA: 0x2CD3A50 Offset: 0x2CD3A50 VA: 0x2CD4A50 Token: 0x06003820 Slot: 65535
+	public System.Boolean get_HasGoodChurchEnding() { }
+	// RVA: 0x2CD3AE0 Offset: 0x2CD3AE0 VA: 0x2CD4AE0 Token: 0x06003821 Slot: 65535
+	public System.Boolean get_CanTakeShaniceToShow() { }
+	// RVA: 0x2CD3B70 Offset: 0x2CD3B70 VA: 0x2CD4B70 Token: 0x06003822 Slot: 65535
+	public System.Int32 get_TimesAnonCameDuringLastSexScene() { }
+	// RVA: 0x2CD3B90 Offset: 0x2CD3B90 VA: 0x2CD4B90 Token: 0x06003823 Slot: 65535
+	public System.Boolean get_MadeNoiseLastSexScene() { }
+	// RVA: 0x2CD3BC0 Offset: 0x2CD3BC0 VA: 0x2CD4BC0 Token: 0x06003824 Slot: 65535
+	public System.Boolean get_IsThereCumOnHer() { }
+	// RVA: 0x2CD3BE0 Offset: 0x2CD3BE0 VA: 0x2CD4BE0 Token: 0x06003825 Slot: 65535
+	public System.Boolean get_IsBotAwake() { }
+	// RVA: 0x2CD3BF0 Offset: 0x2CD3BF0 VA: 0x2CD4BF0 Token: 0x06003826 Slot: 65535
+	public System.Boolean get_IsBotSmart() { }
+	// RVA: 0x2CBF1D0 Offset: 0x2CBF1D0 VA: 0x2CC01D0 Token: 0x06003827 Slot: 65535
+	public System.Int32 get_TimeDay() { }
+	// RVA: 0x2CCF910 Offset: 0x2CCF910 VA: 0x2CD0910 Token: 0x06003828 Slot: 65535
+	public System.Int32 get_Day() { }
+	// RVA: 0x2CCEC00 Offset: 0x2CCEC00 VA: 0x2CCFC00 Token: 0x06003829 Slot: 65535
+	public System.Int32 get_Hour() { }
+	// RVA: 0x2CCEC80 Offset: 0x2CCEC80 VA: 0x2CCFC80 Token: 0x0600382A Slot: 65535
+	public System.Int32 get_Minute() { }
+	// RVA: 0x2CD3C40 Offset: 0x2CD3C40 VA: 0x2CD4C40 Token: 0x0600382B Slot: 65535
+	public System.DateTime get_GameDateTime() { }
+	// RVA: 0x2CD3E40 Offset: 0x2CD3E40 VA: 0x2CD4E40 Token: 0x0600382C Slot: 65535
+	public System.Int32 get_DayOfTheWeek() { }
+	// RVA: 0x2CD3F70 Offset: 0x2CD3F70 VA: 0x2CD4F70 Token: 0x0600382D Slot: 65535
+	public System.Int32 get_FishesCaught() { }
+	// RVA: 0x2CD3F90 Offset: 0x2CD3F90 VA: 0x2CD4F90 Token: 0x0600382E Slot: 65535
+	public System.Int32 get_DifferentFishesCaught() { }
+	// RVA: 0x2CD3FB0 Offset: 0x2CD3FB0 VA: 0x2CD4FB0 Token: 0x0600382F Slot: 65535
+	public System.Boolean get_HasAtLeastOneLeg() { }
+	// RVA: 0x2CD4080 Offset: 0x2CD4080 VA: 0x2CD5080 Token: 0x06003830 Slot: 65535
+	public System.Boolean get_HasBothLegs() { }
+	// RVA: 0x2CD4150 Offset: 0x2CD4150 VA: 0x2CD5150 Token: 0x06003831 Slot: 65535
+	public System.Boolean get_HasAtLeastOneArm() { }
+	// RVA: 0x2CBD450 Offset: 0x2CBD450 VA: 0x2CBE450 Token: 0x06003832 Slot: 65535
+	public System.Boolean get_HasBothArms() { }
+	// RVA: 0x2CD4220 Offset: 0x2CD4220 VA: 0x2CD5220 Token: 0x06003833 Slot: 65535
+	public System.Boolean get_HasAtLeast5UnhealthyFoods() { }
+	// RVA: 0x2CD42E0 Offset: 0x2CD42E0 VA: 0x2CD52E0 Token: 0x06003834 Slot: 65535
+	public System.Boolean get_IsWearingPanties() { }
+	// RVA: 0x2CD4360 Offset: 0x2CD4360 VA: 0x2CD5360 Token: 0x06003835 Slot: 65535
+	public System.Int32 get_AfterSexCleanedCount() { }
+	// RVA: 0x2CD44F0 Offset: 0x2CD44F0 VA: 0x2CD54F0 Token: 0x06003836 Slot: 65535
+	public System.Int32 get_AfterSexLeftCount() { }
+	// RVA: 0x2CD4590 Offset: 0x2CD4590 VA: 0x2CD5590 Token: 0x06003837 Slot: 65535
+	private System.Void CumCleaningStats(System.Single cleanedRatio, System.Int32 sum) { }
+	// RVA: 0x2CD4660 Offset: 0x2CD4660 VA: 0x2CD5660 Token: 0x06003838 Slot: 65535
+	public System.Boolean get_UsuallyCleansCumAfterSex() { }
+	// RVA: 0x2CD46A0 Offset: 0x2CD46A0 VA: 0x2CD56A0 Token: 0x06003839 Slot: 65535
+	public System.Boolean get_UsuallyLeavesCumAfterSex() { }
+	// RVA: 0x2CD46E0 Offset: 0x2CD46E0 VA: 0x2CD56E0 Token: 0x0600383A Slot: 65535
+	public System.Boolean get_HasBothLegsAndAtLeastOneArm() { }
+	// RVA: 0x2CD4700 Offset: 0x2CD4700 VA: 0x2CD5700 Token: 0x0600383B Slot: 65535
+	public System.Boolean get_HasAllLimbs() { }
+	// RVA: 0x2CBFA70 Offset: 0x2CBFA70 VA: 0x2CC0A70 Token: 0x0600383C Slot: 65535
+	public System.Boolean get_CanDoDoggy() { }
+	// RVA: 0x2CBFA80 Offset: 0x2CBFA80 VA: 0x2CC0A80 Token: 0x0600383D Slot: 65535
+	public System.Boolean get_CanDoBlowjob() { }
+	// RVA: 0x2CBFA90 Offset: 0x2CBFA90 VA: 0x2CC0A90 Token: 0x0600383E Slot: 65535
+	public System.Boolean get_CanDoCowgirl() { }
+	// RVA: 0x2CD4720 Offset: 0x2CD4720 VA: 0x2CD5720 Token: 0x0600383F Slot: 65535
+	public System.Boolean get_ReadyForNextStage() { }
+	// RVA: 0x2CD4880 Offset: 0x2CD4880 VA: 0x2CD5880 Token: 0x06003840 Slot: 65535
+	public System.Boolean get_IsWearingCatEars() { }
+	// RVA: 0x2CD4910 Offset: 0x2CD4910 VA: 0x2CD5910 Token: 0x06003841 Slot: 65535
+	public System.Boolean get_CanStand() { }
+	// RVA: 0x2CD4930 Offset: 0x2CD4930 VA: 0x2CD5930 Token: 0x06003842 Slot: 65535
+	public System.Boolean get_IsWearingAnyClothes() { }
+	// RVA: 0x2CD4A50 Offset: 0x2CD4A50 VA: 0x2CD5A50 Token: 0x06003843 Slot: 65535
+	public System.Boolean get_CanEnableSlowMode() { }
+	// RVA: 0x2CD4B30 Offset: 0x2CD4B30 VA: 0x2CD5B30 Token: 0x06003844 Slot: 65535
+	public System.Boolean get_IsRentDue() { }
+	// RVA: 0x2CD4B60 Offset: 0x2CD4B60 VA: 0x2CD5B60 Token: 0x06003845 Slot: 65535
+	public System.Boolean get_IsAboveADayLateOnRent() { }
+	// RVA: 0x2CD4B90 Offset: 0x2CD4B90 VA: 0x2CD5B90 Token: 0x06003846 Slot: 65535
+	public System.Boolean get_IsNaked() { }
+	// RVA: 0x2CD4BC0 Offset: 0x2CD4BC0 VA: 0x2CD5BC0 Token: 0x06003847 Slot: 65535
+	public System.Boolean get_IsAnnalieOnIslandEnding() { }
+	// RVA: 0x2CD4CC0 Offset: 0x2CD4CC0 VA: 0x2CD5CC0 Token: 0x06003848 Slot: 65535
+	public System.Boolean get_IsFisherOnIslandEnding() { }
+	// RVA: 0x2CD4D60 Offset: 0x2CD4D60 VA: 0x2CD5D60 Token: 0x06003849 Slot: 65535
+	public System.Boolean get_IsLandlordOnIslandEnding() { }
+	// RVA: 0x2CD4DF0 Offset: 0x2CD4DF0 VA: 0x2CD5DF0 Token: 0x0600384A Slot: 65535
+	public System.Boolean get_IsBritanniaOnIslandEnding() { }
+	// RVA: 0x2CD4E80 Offset: 0x2CD4E80 VA: 0x2CD5E80 Token: 0x0600384B Slot: 65535
+	public System.Boolean get_IsShaniceAndPriestbotOnIslandEnding() { }
+	// RVA: 0x2CD4F10 Offset: 0x2CD4F10 VA: 0x2CD5F10 Token: 0x0600384C Slot: 65535
+	public System.Boolean get_IsEveryoneOnTheIsland() { }
+	// RVA: 0x2CD5130 Offset: 0x2CD5130 VA: 0x2CD6130 Token: 0x0600384D Slot: 65535
+	public System.Boolean get_HasTheOptionToGoOutsideWithBot() { }
+	// RVA: 0x2CD51D0 Offset: 0x2CD51D0 VA: 0x2CD61D0 Token: 0x0600384E Slot: 65535
+	public System.Boolean get_CanGoOutsideWithBot() { }
+	// RVA: 0x2CD5430 Offset: 0x2CD5430 VA: 0x2CD6430 Token: 0x0600384F Slot: 65535
+	public System.Boolean get_IsItSafeToStartLongActivity() { }
+	// RVA: 0x2CD5470 Offset: 0x2CD5470 VA: 0x2CD6470 Token: 0x06003850 Slot: 65535
+	public System.Boolean get_EnoughStaminaForLongActivity() { }
+	// RVA: 0x2CD5490 Offset: 0x2CD5490 VA: 0x2CD6490 Token: 0x06003851 Slot: 65535
+	public System.Boolean get_HasMetAnnalie() { }
+	// RVA: 0x2CD5520 Offset: 0x2CD5520 VA: 0x2CD6520 Token: 0x06003852 Slot: 65535
+	public System.Boolean get_CanCook() { }
+	// RVA: 0x2CD55B0 Offset: 0x2CD55B0 VA: 0x2CD65B0 Token: 0x06003853 Slot: 65535
+	public System.Boolean get_HasAnnalieHairstyle() { }
+	// RVA: 0x2CD2620 Offset: 0x2CD2620 VA: 0x2CD3620 Token: 0x06003854 Slot: 65535
+	public System.Boolean get_BathroomDoorInstalled() { }
+	// RVA: 0x2CD5720 Offset: 0x2CD5720 VA: 0x2CD6720 Token: 0x06003855 Slot: 65535
+	public System.Boolean get_FirstShowerHappened() { }
+	// RVA: 0x2CD57B0 Offset: 0x2CD57B0 VA: 0x2CD67B0 Token: 0x06003856 Slot: 65535
+	public System.Single get_sus() { }
+	// RVA: 0x2CD57D0 Offset: 0x2CD57D0 VA: 0x2CD67D0 Token: 0x06003857 Slot: 65535
+	public System.Single get_FishJointStatBoost() { }
+	// RVA: 0x2CD5A10 Offset: 0x2CD5A10 VA: 0x2CD6A10 Token: 0x06003858 Slot: 65535
+	public System.Int32 get_BotDiscoveryRentIncreaseValue() { }
+	// RVA: 0x2CD5AB0 Offset: 0x2CD5AB0 VA: 0x2CD6AB0 Token: 0x06003859 Slot: 65535
+	public System.Int32 get_WeeklyRent() { }
+	// RVA: 0x2CD5D50 Offset: 0x2CD5D50 VA: 0x2CD6D50 Token: 0x0600385A Slot: 65535
+	public System.Single get_susandsearch() { }
+	// RVA: 0x2CD5D90 Offset: 0x2CD5D90 VA: 0x2CD6D90 Token: 0x0600385B Slot: 65535
+	public System.Int32 get_MoneySpentOnClothes() { }
+	// RVA: 0x2CD5E10 Offset: 0x2CD5E10 VA: 0x2CD6E10 Token: 0x0600385C Slot: 65535
+	public System.Single get_Random01() { }
+	// RVA: 0x2CD5E20 Offset: 0x2CD5E20 VA: 0x2CD6E20 Token: 0x0600385D Slot: 65535
+	public System.Boolean get_CanHalloweenStart() { }
+	// RVA: 0x2CD5F40 Offset: 0x2CD5F40 VA: 0x2CD6F40 Token: 0x0600385E Slot: 65535
+	public System.Boolean get_HalloweenActive() { }
+	// RVA: 0x2CD5FA0 Offset: 0x2CD5FA0 VA: 0x2CD6FA0 Token: 0x0600385F Slot: 65535
+	public System.Boolean get_HalloweenStarted() { }
+	// RVA: 0x2CD6030 Offset: 0x2CD6030 VA: 0x2CD7030 Token: 0x06003860 Slot: 65535
+	public System.Boolean get_HalloweenHappened() { }
+	// RVA: 0x2CD6100 Offset: 0x2CD6100 VA: 0x2CD7100 Token: 0x06003861 Slot: 65535
+	public System.Boolean get_MajorOutsideEventActive() { }
+	// RVA: 0x2CD6190 Offset: 0x2CD6190 VA: 0x2CD7190 Token: 0x06003862 Slot: 65535
+	public System.Boolean get_AnyChurchEndingDone() { }
+	// RVA: 0x2CD6330 Offset: 0x2CD6330 VA: 0x2CD7330 Token: 0x06003863 Slot: 65535
+	public System.Boolean get_WorkedTodayAlready() { }
+	// RVA: 0x2CD63A0 Offset: 0x2CD63A0 VA: 0x2CD73A0 Token: 0x06003864 Slot: 65535
+	public System.Boolean get_EnoughStaminaToWork() { }
+	// RVA: 0x2CD63C0 Offset: 0x2CD63C0 VA: 0x2CD73C0 Token: 0x06003865 Slot: 65535
+	public System.Boolean get_LandlordDecorationsUp() { }
+	// RVA: 0x2CD6400 Offset: 0x2CD6400 VA: 0x2CD7400 Token: 0x06003866 Slot: 65535
+	public System.Boolean get_EverCameInBot() { }
+	// RVA: 0x2CD6420 Offset: 0x2CD6420 VA: 0x2CD7420 Token: 0x06003867 Slot: 65535
+	public System.Boolean get_SpiderPlushUp() { }
+	// RVA: 0x2CD6440 Offset: 0x2CD6440 VA: 0x2CD7440 Token: 0x06003868 Slot: 65535
+	public System.Boolean get_HasWitchHat() { }
+	// RVA: 0x2CD6460 Offset: 0x2CD6460 VA: 0x2CD7460 Token: 0x06003869 Slot: 65535
+	public System.Boolean get_BotMetAnnalie() { }
+	// RVA: 0x2CD64F0 Offset: 0x2CD64F0 VA: 0x2CD74F0 Token: 0x0600386A Slot: 65535
+	public System.Boolean get_HasPointyEars() { }
+	// RVA: 0x2CD6530 Offset: 0x2CD6530 VA: 0x2CD7530 Token: 0x0600386B Slot: 65535
+	public System.Boolean get_IsLateGame() { }
+	// RVA: 0x2CD53F0 Offset: 0x2CD53F0 VA: 0x2CD63F0 Token: 0x0600386C Slot: 65535
+	public System.Boolean get_RiotsActive() { }
+	// RVA: 0x2CD65B0 Offset: 0x2CD65B0 VA: 0x2CD75B0 Token: 0x0600386D Slot: 65535
+	public System.Boolean get_RiotsEndingSoon() { }
+	// RVA: 0x2CD6640 Offset: 0x2CD6640 VA: 0x2CD7640 Token: 0x0600386E Slot: 65535
+	public System.Boolean get_RiotsAfter() { }
+	// RVA: 0x2CD6710 Offset: 0x2CD6710 VA: 0x2CD7710 Token: 0x0600386F Slot: 65535
+	public System.Boolean get_HasHalloweenCostume() { }
+	// RVA: 0x2CD6770 Offset: 0x2CD6770 VA: 0x2CD7770 Token: 0x06003870 Slot: 65535
+	public System.Single get_MedicineDiscount() { }
+	// RVA: 0x2CD6840 Offset: 0x2CD6840 VA: 0x2CD7840 Token: 0x06003871 Slot: 65535
+	public System.Int32 get_DispenserLevel() { }
+	// RVA: 0x2CD68F0 Offset: 0x2CD68F0 VA: 0x2CD78F0 Token: 0x06003872 Slot: 65535
+	public System.Int32 get_ClothierItemsBought() { }
+	// RVA: 0x2CD6950 Offset: 0x2CD6950 VA: 0x2CD7950 Token: 0x06003873 Slot: 65535
+	public System.Boolean get_EverStartedStream() { }
+	// RVA: 0x2CD69E0 Offset: 0x2CD69E0 VA: 0x2CD79E0 Token: 0x06003874 Slot: 65535
+	public System.Boolean get_NeverStartedStream() { }
+	// RVA: 0x2CD6A70 Offset: 0x2CD6A70 VA: 0x2CD7A70 Token: 0x06003875 Slot: 65535
+	public System.Boolean get_CanStartStream() { }
+	// RVA: 0x2CD6B00 Offset: 0x2CD6B00 VA: 0x2CD7B00 Token: 0x06003876 Slot: 4
+	public virtual System.Void OnBeforeSerialize() { }
+	// RVA: 0x2CD6B10 Offset: 0x2CD6B10 VA: 0x2CD7B10 Token: 0x06003877 Slot: 5
+	public virtual System.Void OnAfterDeserialize() { }
+	// RVA: 0x2CAADB0 Offset: 0x2CAADB0 VA: 0x2CABDB0 Token: 0x06003878 Slot: 65535
+	public static GameVariables get_Current() { }
+	// RVA: 0x2CD6D50 Offset: 0x2CD6D50 VA: 0x2CD7D50 Token: 0x06003879 Slot: 65535
+	public static GameVariablesClassDescription get_ClassDescription() { }
+	// RVA: 0x2CD6DC0 Offset: 0x2CD6DC0 VA: 0x2CD7DC0 Token: 0x0600387A Slot: 65535
+	public System.Collections.Generic.IEnumerable_1<System.String> get_AllFlags() { }
+	// RVA: 0x2CD0710 Offset: 0x2CD0710 VA: 0x2CD1710 Token: 0x0600387B Slot: 65535
+	public System.Int32 GetFlagLastTimeOrDefault(System.String flag, System.Int32 defaultValue) { }
+	// RVA: 0x2CD6E10 Offset: 0x2CD6E10 VA: 0x2CD7E10 Token: 0x0600387C Slot: 65535
+	public System.Boolean TryGetFlag(System.String flagString, GameVariables+Flag flag) { }
+	// RVA: 0x2CC3390 Offset: 0x2CC3390 VA: 0x2CC4390 Token: 0x0600387D Slot: 65535
+	public System.Void AddFlag(System.String flag) { }
+	// RVA: 0x2CD6E70 Offset: 0x2CD6E70 VA: 0x2CD7E70 Token: 0x0600387E Slot: 65535
+	public System.Void RemoveFlag(System.String flag) { }
+	// RVA: 0x2CD19A0 Offset: 0x2CD19A0 VA: 0x2CD29A0 Token: 0x0600387F Slot: 65535
+	public System.Boolean CheckFlag(System.String flag) { }
+	// RVA: 0x2CD37B0 Offset: 0x2CD37B0 VA: 0x2CD47B0 Token: 0x06003880 Slot: 65535
+	public System.Int32 GetFlagSetCount(System.String flag) { }
+	// RVA: 0x2CD5D30 Offset: 0x2CD5D30 VA: 0x2CD6D30 Token: 0x06003881 Slot: 65535
+	public System.Boolean CheckFlagBeforeRelative(System.String flag, System.Int32 t) { }
+	// RVA: 0x2CD5F80 Offset: 0x2CD5F80 VA: 0x2CD6F80 Token: 0x06003882 Slot: 65535
+	public System.Boolean CheckFlagAfterRelative(System.String flag, System.Int32 t) { }
+	// RVA: 0x2CD6FE0 Offset: 0x2CD6FE0 VA: 0x2CD7FE0 Token: 0x06003883 Slot: 65535
+	public System.Boolean CheckFlagWithTime(System.String flag, System.Int32 timePeriod, GameVariables+TimeCheckType timeCheck) { }
+	// RVA: 0x2CD61D0 Offset: 0x2CD61D0 VA: 0x2CD71D0 Token: 0x06003884 Slot: 65535
+	public System.Boolean CheckFlagSpecial(System.String flag, GameVariables+CheckType type) { }
+	// RVA: 0x2CD7470 Offset: 0x2CD7470 VA: 0x2CD8470 Token: 0x06003885 Slot: 65535
+	private System.Boolean CheckFlagTime(GameVariables+Flag f, System.Int32 timePeriod, GameVariables+TimeCheckType timeCheck) { }
+	// RVA: 0x2CD6FF0 Offset: 0x2CD6FF0 VA: 0x2CD7FF0 Token: 0x06003886 Slot: 65535
+	public System.Boolean CheckFlagSpecialWithTime(System.String flag, GameVariables+CheckType type, System.Int32 timePeriod, GameVariables+TimeCheckType timeCheck) { }
+	// RVA: 0x2CD74E0 Offset: 0x2CD74E0 VA: 0x2CD84E0 Token: 0x06003887 Slot: 65535
+	public static System.String TimeCheckTypeString(GameVariables+TimeCheckType timeCheckType, System.String value) { }
+	// RVA: 0x2CD75A0 Offset: 0x2CD75A0 VA: 0x2CD85A0 Token: 0x06003888 Slot: 65535
+	public System.Void ResetChurchStoryline() { }
+	// RVA: 0x2CD7980 Offset: 0x2CD7980 VA: 0x2CD8980 Token: 0x06003889 Slot: 65535
+	public System.Boolean TryTakeMoney(System.Int32 amount) { }
+	// RVA: 0x2CD79A0 Offset: 0x2CD79A0 VA: 0x2CD89A0 Token: 0x0600388A Slot: 65535
+	public System.Boolean ForceTakeMoney(System.Int32 amount) { }
+	// RVA: 0x2CC2320 Offset: 0x2CC2320 VA: 0x2CC3320 Token: 0x0600388B Slot: 65535
+	public System.Void AddMoney(System.Int32 amount) { }
+	// RVA: 0x2CD79C0 Offset: 0x2CD79C0 VA: 0x2CD89C0 Token: 0x0600388C Slot: 65535
+	public System.Void GetADollar() { }
+	// RVA: 0x2CD79D0 Offset: 0x2CD79D0 VA: 0x2CD89D0 Token: 0x0600388D Slot: 65535
+	public System.Boolean get_VinegaraActive() { }
+	// RVA: 0x2CD79E0 Offset: 0x2CD79E0 VA: 0x2CD89E0 Token: 0x0600388E Slot: 65535
+	public System.Boolean get_DeathGripActive() { }
+	// RVA: 0x2CD79F0 Offset: 0x2CD79F0 VA: 0x2CD89F0 Token: 0x0600388F Slot: 65535
+	public System.Single get_RemainingCum() { }
+	// RVA: 0x2CCEBD0 Offset: 0x2CCEBD0 VA: 0x2CCFBD0 Token: 0x06003890 Slot: 65535
+	public System.Void set_RemainingCum(System.Single value) { }
+	// RVA: 0x2CD7A00 Offset: 0x2CD7A00 VA: 0x2CD8A00 Token: 0x06003891 Slot: 65535
+	public System.Single get_MaxCum() { }
+	// RVA: 0x2CCEBB0 Offset: 0x2CCEBB0 VA: 0x2CCFBB0 Token: 0x06003892 Slot: 65535
+	public System.Void set_MaxCum(System.Single value) { }
+	// RVA: 0x2CD7A10 Offset: 0x2CD7A10 VA: 0x2CD8A10 Token: 0x06003893 Slot: 65535
+	public System.Single get_Stamina() { }
+	// RVA: 0x2CCECB0 Offset: 0x2CCECB0 VA: 0x2CCFCB0 Token: 0x06003894 Slot: 65535
+	public System.Void set_Stamina(System.Single value) { }
+	// RVA: 0x2CD7A20 Offset: 0x2CD7A20 VA: 0x2CD8A20 Token: 0x06003895 Slot: 65535
+	public System.Boolean get_IsOutOfStamina() { }
+	// RVA: 0x2CD7A30 Offset: 0x2CD7A30 VA: 0x2CD8A30 Token: 0x06003896 Slot: 65535
+	public System.Single get_Satiation() { }
+	// RVA: 0x2CCECD0 Offset: 0x2CCECD0 VA: 0x2CCFCD0 Token: 0x06003897 Slot: 65535
+	public System.Void set_Satiation(System.Single value) { }
+	// RVA: 0x2CD7A40 Offset: 0x2CD7A40 VA: 0x2CD8A40 Token: 0x06003898 Slot: 65535
+	public System.Single get_RealMentalHealth() { }
+	// RVA: 0x2CD0EE0 Offset: 0x2CD0EE0 VA: 0x2CD1EE0 Token: 0x06003899 Slot: 65535
+	public System.Single get_MentalHealth() { }
+	// RVA: 0x2CD0F00 Offset: 0x2CD0F00 VA: 0x2CD1F00 Token: 0x0600389A Slot: 65535
+	public System.Void set_MentalHealth(System.Single value) { }
+	// RVA: 0x2CD7A50 Offset: 0x2CD7A50 VA: 0x2CD8A50 Token: 0x0600389B Slot: 65535
+	public System.Single get_MentalHealthTemporary() { }
+	// RVA: 0x2CD0EC0 Offset: 0x2CD0EC0 VA: 0x2CD1EC0 Token: 0x0600389C Slot: 65535
+	public System.Void set_MentalHealthTemporary(System.Single value) { }
+	// RVA: 0x2CD7A60 Offset: 0x2CD7A60 VA: 0x2CD8A60 Token: 0x0600389D Slot: 65535
+	public System.Single get_InverseMentalHealth() { }
+	// RVA: 0x2CD7A80 Offset: 0x2CD7A80 VA: 0x2CD8A80 Token: 0x0600389E Slot: 65535
+	public System.Single get_Health() { }
+	// RVA: 0x2CD0F70 Offset: 0x2CD0F70 VA: 0x2CD1F70 Token: 0x0600389F Slot: 65535
+	public System.Void set_Health(System.Single value) { }
+	// RVA: 0x2CD2C00 Offset: 0x2CD2C00 VA: 0x2CD3C00 Token: 0x060038A0 Slot: 65535
+	private System.Void ManifestHorninessFromLonging() { }
+	// RVA: 0x2CD7A90 Offset: 0x2CD7A90 VA: 0x2CD8A90 Token: 0x060038A1 Slot: 65535
+	public System.Single get_CurrentHorniness() { }
+	// RVA: 0x2CD0E90 Offset: 0x2CD0E90 VA: 0x2CD1E90 Token: 0x060038A2 Slot: 65535
+	public System.Void set_CurrentHorniness(System.Single value) { }
+	// RVA: 0x2CD7AA0 Offset: 0x2CD7AA0 VA: 0x2CD8AA0 Token: 0x060038A3 Slot: 65535
+	public System.Int32 get_lust() { }
+	// RVA: 0x2CD1D50 Offset: 0x2CD1D50 VA: 0x2CD2D50 Token: 0x060038A4 Slot: 65535
+	public System.Void set_lust(System.Int32 value) { }
+	// RVA: 0x2CD7AB0 Offset: 0x2CD7AB0 VA: 0x2CD8AB0 Token: 0x060038A5 Slot: 65535
+	public System.Int32 get_sympathy() { }
+	// RVA: 0x2CD7AC0 Offset: 0x2CD7AC0 VA: 0x2CD8AC0 Token: 0x060038A6 Slot: 65535
+	public System.Void set_sympathy(System.Int32 value) { }
+	// RVA: 0x2CD7BB0 Offset: 0x2CD7BB0 VA: 0x2CD8BB0 Token: 0x060038A7 Slot: 65535
+	public System.Single get_PotentialHorniness() { }
+	// RVA: 0x2CD7BD0 Offset: 0x2CD7BD0 VA: 0x2CD8BD0 Token: 0x060038A8 Slot: 65535
+	public System.Single get_Longing() { }
+	// RVA: 0x2CD0E60 Offset: 0x2CD0E60 VA: 0x2CD1E60 Token: 0x060038A9 Slot: 65535
+	public System.Void set_Longing(System.Single value) { }
+	// RVA: 0x2CD7BE0 Offset: 0x2CD7BE0 VA: 0x2CD8BE0 Token: 0x060038AA Slot: 65535
+	public System.Single get_Mood() { }
+	// RVA: 0x2CD09D0 Offset: 0x2CD09D0 VA: 0x2CD19D0 Token: 0x060038AB Slot: 65535
+	public System.Void set_Mood(System.Single value) { }
+	// RVA: 0x2CD7BF0 Offset: 0x2CD7BF0 VA: 0x2CD8BF0 Token: 0x060038AC Slot: 65535
+	public System.Int32 get_Inteligence() { }
+	// RVA: 0x2CD10A0 Offset: 0x2CD10A0 VA: 0x2CD20A0 Token: 0x060038AD Slot: 65535
+	public System.Void set_Inteligence(System.Int32 value) { }
+	// RVA: 0x2CD7C00 Offset: 0x2CD7C00 VA: 0x2CD8C00 Token: 0x060038AE Slot: 65535
+	public System.Single get_CumInside() { }
+	// RVA: 0x2CD7C20 Offset: 0x2CD7C20 VA: 0x2CD8C20 Token: 0x060038AF Slot: 65535
+	public System.Single get_CumInsideAnal() { }
+	// RVA: 0x2CD7C40 Offset: 0x2CD7C40 VA: 0x2CD8C40 Token: 0x060038B0 Slot: 65535
+	public System.Void set_CumInsideAnal(System.Single value) { }
+	// RVA: 0x2CD7C60 Offset: 0x2CD7C60 VA: 0x2CD8C60 Token: 0x060038B1 Slot: 65535
+	public System.Void SwallowCum(System.Single ml) { }
+	// RVA: 0x2CD7CB0 Offset: 0x2CD7CB0 VA: 0x2CD8CB0 Token: 0x060038B2 Slot: 65535
+	public System.Single get_CumInsideStomach() { }
+	// RVA: 0x2CD7CD0 Offset: 0x2CD7CD0 VA: 0x2CD8CD0 Token: 0x060038B3 Slot: 65535
+	public System.Void set_CumInsideStomach(System.Single value) { }
+	// RVA: 0x2CD7CF0 Offset: 0x2CD7CF0 VA: 0x2CD8CF0 Token: 0x060038B4 Slot: 65535
+	public System.Void SetPlayerName(System.String name) { }
+	// RVA: 0x2CD7DD0 Offset: 0x2CD7DD0 VA: 0x2CD8DD0 Token: 0x060038B5 Slot: 65535
+	public System.Void SetBotName(System.String name) { }
+	// RVA: 0x2CD7EB0 Offset: 0x2CD7EB0 VA: 0x2CD8EB0 Token: 0x060038B6 Slot: 65535
+	public System.Int32 get_UniqueConversationsLeft() { }
+	// RVA: 0x2CCECF0 Offset: 0x2CCECF0 VA: 0x2CCFCF0 Token: 0x060038B7 Slot: 65535
+	public System.Void set_UniqueConversationsLeft(System.Int32 value) { }
+	// RVA: 0x2CD7EC0 Offset: 0x2CD7EC0 VA: 0x2CD8EC0 Token: 0x060038B8 Slot: 65535
+	public System.Int32 get_TimeSinceLastWentToChurch() { }
+	// RVA: 0x2CD7ED0 Offset: 0x2CD7ED0 VA: 0x2CD8ED0 Token: 0x060038B9 Slot: 65535
+	public System.Int32 get_TimeSinceLastCuddle() { }
+	// RVA: 0x2CD7EE0 Offset: 0x2CD7EE0 VA: 0x2CD8EE0 Token: 0x060038BA Slot: 65535
+	public System.Void ReportSleepEnd(System.Boolean withBot) { }
+	// RVA: 0x2CD7F00 Offset: 0x2CD7F00 VA: 0x2CD8F00 Token: 0x060038BB Slot: 65535
+	public System.Int32 get_AwakeFor() { }
+	// RVA: 0x2CD7F10 Offset: 0x2CD7F10 VA: 0x2CD8F10 Token: 0x060038BC Slot: 65535
+	public System.Boolean get_EverFuckedBot() { }
+	// RVA: 0x2CD7F20 Offset: 0x2CD7F20 VA: 0x2CD8F20 Token: 0x060038BD Slot: 65535
+	public System.Int32 get_TimeSinceLastFuck() { }
+	// RVA: 0x2CD7F30 Offset: 0x2CD7F30 VA: 0x2CD8F30 Token: 0x060038BE Slot: 65535
+	public System.Int32 get_TimeSinceBotCame() { }
+	// RVA: 0x2CD7F40 Offset: 0x2CD7F40 VA: 0x2CD8F40 Token: 0x060038BF Slot: 65535
+	public System.Int32 get_TimeSinceLastInteract() { }
+	// RVA: 0x2CD7F50 Offset: 0x2CD7F50 VA: 0x2CD8F50 Token: 0x060038C0 Slot: 65535
+	public System.Int32 get_TimeSinceLastEquipment() { }
+	// RVA: 0x2CD7F60 Offset: 0x2CD7F60 VA: 0x2CD8F60 Token: 0x060038C1 Slot: 65535
+	public System.Int32 get_TimeSinceLastWentOutsideWithBot() { }
+	// RVA: 0x2CD7F70 Offset: 0x2CD7F70 VA: 0x2CD8F70 Token: 0x060038C2 Slot: 65535
+	public System.Int32 get_TimeSinceLastSawBot() { }
+	// RVA: 0x2CD81D0 Offset: 0x2CD81D0 VA: 0x2CD91D0 Token: 0x060038C3 Slot: 65535
+	public System.Int32 get_TimeSinceLastStream() { }
+	// RVA: 0x2CD09B0 Offset: 0x2CD09B0 VA: 0x2CD19B0 Token: 0x060038C4 Slot: 65535
+	public System.Int32 get_TimeSinceLastTalk() { }
+	// RVA: 0x2CD81E0 Offset: 0x2CD81E0 VA: 0x2CD91E0 Token: 0x060038C5 Slot: 65535
+	public System.Int32 get_TimeSinceBotLastStartedTalk() { }
+	// RVA: 0x2CD09C0 Offset: 0x2CD09C0 VA: 0x2CD19C0 Token: 0x060038C6 Slot: 65535
+	public System.Int32 get_TimeSinceLastHeadpat() { }
+	// RVA: 0x2CD81F0 Offset: 0x2CD81F0 VA: 0x2CD91F0 Token: 0x060038C7 Slot: 65535
+	public System.Int32 get_TimeSinceLastAnonsShower() { }
+	// RVA: 0x2CD2260 Offset: 0x2CD2260 VA: 0x2CD3260 Token: 0x060038C8 Slot: 65535
+	public System.Int32 get_DaysSinceLastAnonsShower() { }
+	// RVA: 0x2CD8200 Offset: 0x2CD8200 VA: 0x2CD9200 Token: 0x060038C9 Slot: 65535
+	public System.Int32 get_TimeSinceLastBotClean() { }
+	// RVA: 0x2CD8210 Offset: 0x2CD8210 VA: 0x2CD9210 Token: 0x060038CA Slot: 65535
+	public System.Int32 get_DaysSinceLastBotClean() { }
+	// RVA: 0x2CD82A0 Offset: 0x2CD82A0 VA: 0x2CD92A0 Token: 0x060038CB Slot: 65535
+	public System.Int32 get_TimeSinceLastHungerInfo() { }
+	// RVA: 0x2CD82B0 Offset: 0x2CD82B0 VA: 0x2CD92B0 Token: 0x060038CC Slot: 65535
+	public System.Boolean get_TimeForNextMentalHealthInfo() { }
+	// RVA: 0x2CD82D0 Offset: 0x2CD82D0 VA: 0x2CD92D0 Token: 0x060038CD Slot: 65535
+	public System.Int32 get_TimeSinceLastMentalHealthInfo() { }
+	// RVA: 0x2CD3C90 Offset: 0x2CD3C90 VA: 0x2CD4C90 Token: 0x060038CE Slot: 65535
+	public static System.DateTime RawGameTimeToGameDateTime(System.Int32 time) { }
+	// RVA: 0x2CD3F00 Offset: 0x2CD3F00 VA: 0x2CD4F00 Token: 0x060038CF Slot: 65535
+	public static System.Int32 TimeToDayOfTheWeek(System.Int32 time) { }
+	// RVA: 0x2CD82E0 Offset: 0x2CD82E0 VA: 0x2CD92E0 Token: 0x060038D0 Slot: 65535
+	public static System.Int32 DayToDayOfTheWeek(System.Int32 day) { }
+	// RVA: 0x2CD0790 Offset: 0x2CD0790 VA: 0x2CD1790 Token: 0x060038D1 Slot: 65535
+	public static System.Int32 TimeToDay(System.Int32 time) { }
+	// RVA: 0x2CD8310 Offset: 0x2CD8310 VA: 0x2CD9310 Token: 0x060038D2 Slot: 65535
+	public static System.Int32 TimeFromDate(System.Int32 day, System.Int32 hour, System.Int32 minute) { }
+	// RVA: 0x2CD8320 Offset: 0x2CD8320 VA: 0x2CD9320 Token: 0x060038D3 Slot: 65535
+	public static System.Int32 TimeInDay(System.Int32 hour, System.Int32 minute) { }
+	// RVA: 0x2CBF570 Offset: 0x2CBF570 VA: 0x2CC0570 Token: 0x060038D4 Slot: 65535
+	public static System.String TimeToHourString(System.Int32 time) { }
+	// RVA: 0x2CC53A0 Offset: 0x2CC53A0 VA: 0x2CC63A0 Token: 0x060038D5 Slot: 65535
+	public static System.String TimeToDateString(System.Int32 time) { }
+	// RVA: 0x2CD8330 Offset: 0x2CD8330 VA: 0x2CD9330 Token: 0x060038D6 Slot: 65535
+	public static System.Int32 LastMultiple(System.Int32 time, System.Int32 number) { }
+	// RVA: 0x2CD8340 Offset: 0x2CD8340 VA: 0x2CD9340 Token: 0x060038D7 Slot: 65535
+	public static System.Boolean HappenedRecently(System.Int32 occuredTime, System.Int32 currentTime, System.Int32 recentTimeMinutes) { }
+	// RVA: 0x2CD3C00 Offset: 0x2CD3C00 VA: 0x2CD4C00 Token: 0x060038D8 Slot: 65535
+	public static System.Int32 TimeToHour(System.Int32 time) { }
+	// RVA: 0x2CD8350 Offset: 0x2CD8350 VA: 0x2CD9350 Token: 0x060038D9 Slot: 65535
+	private static System.Void .cctor() { }
+	// RVA: 0x2CD8520 Offset: 0x2CD8520 VA: 0x2CD9520 Token: 0x060038DA Slot: 65535
+	private System.Boolean _get_VisibleEmails_b__4_0(NewEmail x) { }
+	// RVA: 0x2CCF970 Offset: 0x2CCF970 VA: 0x2CD0970 Token: 0x060038DB Slot: 65535
+	private System.Void _TransitionGameVersion_g__SetVersion_28_0(ParsedVersion newVersion, GameVariables+<>c__DisplayClass28_0 _unnamed) { }
+	// RVA: 0x2CD8540 Offset: 0x2CD8540 VA: 0x2CD9540 Token: 0x060038DC Slot: 65535
+	private System.Int32 _get_HasAtLeast5UnhealthyFoods_b__180_0(GameId x) { }
+}
+
+
+
+====================================================================================================
+TYPE: SpecialVariablesHolder
+====================================================================================================
+public class SpecialVariablesHolder
+{
+	// Fields
+	private const System.StringComparison KeyStringComparison; // Offset: 0x0
+	internal SpecialVariablesHolder+SerializableKeyValue_1<System.Int32>[] I; // Offset: 0x10
+	internal SpecialVariablesHolder+SerializableKeyValue_1<System.Single>[] F; // Offset: 0x18
+	internal SpecialVariablesHolder+SerializableKeyValue_1<System.String>[] S; // Offset: 0x20
+
+	// Methods
+	// RVA: 0x34F72B0 Offset: 0x34F72B0 VA: 0x34F82B0 Token: 0x0600395E Slot: 65535
+	internal static System.Int32 GetSpecialVariableIndex(System.String key, SpecialVariablesHolder+SerializableKeyValue_1<TVal>[] array) { }
+	// RVA: 0x34F7FA0 Offset: 0x34F7FA0 VA: 0x34F8FA0 Token: 0x0600395F Slot: 65535
+	internal static System.Boolean TryGetSpecialVariableValue(System.String key, SpecialVariablesHolder+SerializableKeyValue_1<TVal>[] array, TVal value) { }
+	// RVA: 0x34F75A0 Offset: 0x34F75A0 VA: 0x34F85A0 Token: 0x06003960 Slot: 65535
+	internal static System.Void SetSpecialVariable(System.String key, SpecialVariablesHolder+SerializableKeyValue_1<TVal>[] array, TVal value) { }
+	// RVA: 0x34F6BC0 Offset: 0x34F6BC0 VA: 0x34F7BC0 Token: 0x06003961 Slot: 65535
+	internal static System.Void EnsureArrayExistsAndIsSorted(SpecialVariablesHolder+SerializableKeyValue_1<TVal>[] array) { }
+	// RVA: 0x34F6980 Offset: 0x34F6980 VA: 0x34F7980 Token: 0x06003962 Slot: 65535
+	internal static System.Void CopyArrayContentToTarget(SpecialVariablesHolder+SerializableKeyValue_1<TVal>[] source, SpecialVariablesHolder+SerializableKeyValue_1<TVal>[] target) { }
+	// RVA: 0x2CE7730 Offset: 0x2CE7730 VA: 0x2CE8730 Token: 0x06003963 Slot: 65535
+	public System.Void SetIntSpecialVariable(System.String key, System.Int32 value) { }
+	// RVA: 0x2CE7780 Offset: 0x2CE7780 VA: 0x2CE8780 Token: 0x06003964 Slot: 65535
+	public System.Boolean TryGetIntSpecialVariable(System.String key, System.Int32 value) { }
+	// RVA: 0x2CE77D0 Offset: 0x2CE77D0 VA: 0x2CE87D0 Token: 0x06003965 Slot: 65535
+	public System.Int32 GetIntSpecialVariableOrDefault(System.String key, System.Int32 defaultValue) { }
+	// RVA: 0x2CE7840 Offset: 0x2CE7840 VA: 0x2CE8840 Token: 0x06003966 Slot: 65535
+	public System.Void SetIntSpecialVariableCastBool(System.String key, System.Boolean value) { }
+	// RVA: 0x2CE7890 Offset: 0x2CE7890 VA: 0x2CE8890 Token: 0x06003967 Slot: 65535
+	public System.Boolean TryGetIntSpecialVariableCastBool(System.String key, System.Boolean value) { }
+	// RVA: 0x2CE7900 Offset: 0x2CE7900 VA: 0x2CE8900 Token: 0x06003968 Slot: 65535
+	public System.Boolean GetIntSpecialVariableOrDefaultCastBool(System.String key, System.Boolean defaultValue) { }
+	// RVA: 0x2CE7970 Offset: 0x2CE7970 VA: 0x2CE8970 Token: 0x06003969 Slot: 65535
+	public System.Void SetFloatSpecialVariable(System.String key, System.Single value) { }
+	// RVA: 0x2CE79D0 Offset: 0x2CE79D0 VA: 0x2CE89D0 Token: 0x0600396A Slot: 65535
+	public System.Boolean TryGetFloatSpecialVariable(System.String key, System.Single value) { }
+	// RVA: 0x2CE7A20 Offset: 0x2CE7A20 VA: 0x2CE8A20 Token: 0x0600396B Slot: 65535
+	public System.Single GetFloatSpecialVariableOrDefault(System.String key, System.Single defaultValue) { }
+	// RVA: 0x2CE7A90 Offset: 0x2CE7A90 VA: 0x2CE8A90 Token: 0x0600396C Slot: 65535
+	public System.Void SetStringSpecialVariable(System.String key, System.String value) { }
+	// RVA: 0x2CE7AE0 Offset: 0x2CE7AE0 VA: 0x2CE8AE0 Token: 0x0600396D Slot: 65535
+	public System.Boolean TryGetStringSpecialVariable(System.String key, System.String value) { }
+	// RVA: 0x2CE7B30 Offset: 0x2CE7B30 VA: 0x2CE8B30 Token: 0x0600396E Slot: 65535
+	public System.String GetStringSpecialVariableOrDefault(System.String key, System.String defaultValue) { }
+	// RVA: 0x2CE7BA0 Offset: 0x2CE7BA0 VA: 0x2CE8BA0 Token: 0x0600396F Slot: 65535
+	public System.Boolean TryGetAnySpecialVariable(System.String key, System.Object value) { }
+	// RVA: 0x2CE7CC0 Offset: 0x2CE7CC0 VA: 0x2CE8CC0 Token: 0x06003970 Slot: 65535
+	internal System.Void CloneSpecialVariables(SpecialVariablesHolder clone) { }
+	// RVA: 0x2CE7D60 Offset: 0x2CE7D60 VA: 0x2CE8D60 Token: 0x06003971 Slot: 65535
+	public System.Void OnAfterDeserializeSpecialVariableHolder() { }
+	// RVA: 0x2CE7DE0 Offset: 0x2CE7DE0 VA: 0x2CE8DE0 Token: 0x06003972 Slot: 65535
+	public System.Void .ctor() { }
+}
+
+
+
+====================================================================================================
+TYPE: FishingMinigameManager
+====================================================================================================
+public class FishingMinigameManager
+{
+	// Fields
+	private System.Collections.Generic.List_1<FishSave> _serializedSaves; // Offset: 0x10
+	private System.Int32 _fishingTipSeed; // Offset: 0x18
+	private System.Collections.Generic.Dictionary_2<GameId, FishSave> _saveDictionary; // Offset: 0x20
+
+	// Properties
+	public System.Int32 FishingTipSeed { get; }
+	public System.Int32 FishCaughtCount { get; }
+	public System.Int32 DifferentFishesCaughtCount { get; }
+	public System.Int32 BigFishesCaughtCount { get; }
+	public System.Double MaxCaughtFishSize { get; }
+
+	// Methods
+	// RVA: 0x2C4E6C0 Offset: 0x2C4E6C0 VA: 0x2C4F6C0 Token: 0x060031A8 Slot: 65535
+	public System.Int32 get_FishingTipSeed() { }
+	// RVA: 0x2C4E6D0 Offset: 0x2C4E6D0 VA: 0x2C4F6D0 Token: 0x060031A9 Slot: 65535
+	public System.Void UpdateDayPassed() { }
+	// RVA: 0x2C41DA0 Offset: 0x2C41DA0 VA: 0x2C42DA0 Token: 0x060031AA Slot: 65535
+	public System.Int32 get_FishCaughtCount() { }
+	// RVA: 0x2C4E6F0 Offset: 0x2C4E6F0 VA: 0x2C4F6F0 Token: 0x060031AB Slot: 65535
+	public System.Int32 get_DifferentFishesCaughtCount() { }
+	// RVA: 0x2C4E800 Offset: 0x2C4E800 VA: 0x2C4F800 Token: 0x060031AC Slot: 65535
+	public System.Int32 get_BigFishesCaughtCount() { }
+	// RVA: 0x2C4E910 Offset: 0x2C4E910 VA: 0x2C4F910 Token: 0x060031AD Slot: 65535
+	public System.Double get_MaxCaughtFishSize() { }
+	// RVA: 0x2C4EA20 Offset: 0x2C4EA20 VA: 0x2C4FA20 Token: 0x060031AE Slot: 4
+	public virtual System.Void OnBeforeSerialize() { }
+	// RVA: 0x2C4EAD0 Offset: 0x2C4EAD0 VA: 0x2C4FAD0 Token: 0x060031AF Slot: 5
+	public virtual System.Void OnAfterDeserialize() { }
+	// RVA: 0x2C43730 Offset: 0x2C43730 VA: 0x2C44730 Token: 0x060031B0 Slot: 65535
+	public FishRegisteringFlagsEnum RegisterCaughtFish(FishingLocationData fishingLocationData, Item item) { }
+	// RVA: 0x2C4ED40 Offset: 0x2C4ED40 VA: 0x2C4FD40 Token: 0x060031B1 Slot: 65535
+	public FishSave GetSave(GameId key) { }
+	// RVA: 0x2C4F0B0 Offset: 0x2C4F0B0 VA: 0x2C500B0 Token: 0x060031B2 Slot: 65535
+	public System.Void .ctor() { }
+}
+
+
+
+====================================================================================================
+TYPE: FishingGameplayStaticGui
+====================================================================================================
+public class FishingGameplayStaticGui
+{
+	// Fields
+	private IC.AutomaticReference.SpriteSerializableAutomaticReference floatNormalSprite; // Offset: 0x28
+	private IC.AutomaticReference.SpriteSerializableAutomaticReference floatSubmergedSprite; // Offset: 0x30
+	private IC.AutomaticReference.SpriteSerializableAutomaticReference fishOnTightSprite; // Offset: 0x38
+	private IC.AutomaticReference.SpriteSerializableAutomaticReference fishOnLooseSprite; // Offset: 0x40
+	private System.Threading.CancellationTokenSource _fishingMinigameCancellation; // Offset: 0x48
+	private FishingResults _fishingResults; // Offset: 0x50
+	private System.Action_1<FishingResults> _onFinishedAction; // Offset: 0x58
+	private const System.Single FishingLengthSecondsRealPerInGameHour; // Offset: 0x0
+	public const System.Single TryGetBiteMinLength; // Offset: 0x0
+	public const System.Single TryGetBiteMaxLength; // Offset: 0x0
+	private UnityEngine.RectTransform A_Fishing_Info_Window; // Offset: 0x60
+	private TMPro.TextMeshProUGUI A_Fishing_Progress_Up_Info; // Offset: 0x68
+	private UnityEngine.UI.Scrollbar A_Fishing_Progress; // Offset: 0x70
+	private TMPro.TextMeshProUGUI A_Fishing_Progress_Down_Info; // Offset: 0x78
+	private TMPro.TextMeshProUGUI A_Fishing_Gauge_Up_Info; // Offset: 0x80
+	private UnityEngine.RectTransform A_Fishing_Gauge; // Offset: 0x88
+	private UnityEngine.RectTransform A_Fishing_Gauge_Rod; // Offset: 0x90
+	private UnityEngine.RectTransform A_Fishing_Gauge_Fish; // Offset: 0x98
+	private TMPro.TextMeshProUGUI A_Fishing_Gauge_Down_Info; // Offset: 0xA0
+	private UnityEngine.RectTransform A_Fishing_Time_Window; // Offset: 0xA8
+	private TMPro.TextMeshProUGUI A_Time_Text; // Offset: 0xB0
+	private UnityEngine.UI.Slider A_Time_Slider; // Offset: 0xB8
+	private UnityEngine.RectTransform A_Fishing_Display_Window; // Offset: 0xC0
+	private UnityEngine.UI.Image A_Water_Image; // Offset: 0xC8
+	private UnityEngine.UI.Image A_Float_Image; // Offset: 0xD0
+	private TMPro.TextMeshProUGUI A_Fishing_Info_Text; // Offset: 0xD8
+	private UnityEngine.RectTransform A_Floating_Text_Source; // Offset: 0xE0
+	private UnityEngine.RectTransform A_Fishing_Duel_Window; // Offset: 0xE8
+	private TMPro.TextMeshProUGUI A_Duel_Your_Score_Text; // Offset: 0xF0
+	private TMPro.TextMeshProUGUI A_Duel_Current_Winner_Text; // Offset: 0xF8
+	private TMPro.TextMeshProUGUI A_Duel_Enemy_Score_Text; // Offset: 0x100
+	private UnityEngine.RectTransform A_Duel_BarArea; // Offset: 0x108
+	private UnityEngine.UI.Image A_Duel_BarCenter; // Offset: 0x110
+	private UnityEngine.UI.Image A_Duel_EnemyBar; // Offset: 0x118
+	private UnityEngine.UI.Image A_Duel_YourBar; // Offset: 0x120
+	private UnityEngine.UI.Slider A_Fishing_Throw; // Offset: 0x128
+	private UnityEngine.RectTransform A_Throw_Slide_Area; // Offset: 0x130
+	private UnityEngine.RectTransform A_Okay; // Offset: 0x138
+	private UnityEngine.RectTransform A_Good; // Offset: 0x140
+	private UnityEngine.RectTransform A_Perfect; // Offset: 0x148
+
+	// Methods
+	// RVA: 0x2C3ADA0 Offset: 0x2C3ADA0 VA: 0x2C3BDA0 Token: 0x060030EB Slot: 65535
+	private System.Void SetFloatState(FishingGameplayStaticGui+FloatState floatState) { }
+	// RVA: 0x2C3AE90 Offset: 0x2C3AE90 VA: 0x2C3BE90 Token: 0x060030EC Slot: 65535
+	private Cysharp.Threading.Tasks.UniTask_1<System.Single> ThrowFloatMinigame(Cysharp.Threading.Tasks.UniTask timerTask, FishingGameStats fishingGameStats, System.Threading.CancellationToken cancellationToken) { }
+	// RVA: 0x2C3AF70 Offset: 0x2C3AF70 VA: 0x2C3BF70 Token: 0x060030ED Slot: 65535
+	private Cysharp.Threading.Tasks.UniTask_1<System.Boolean> NothingHappening(Cysharp.Threading.Tasks.UniTask timerTask, FishingGameStats fishingGameStats, System.Threading.CancellationToken cancellationToken) { }
+	// RVA: 0x2C3B050 Offset: 0x2C3B050 VA: 0x2C3C050 Token: 0x060030EE Slot: 65535
+	private Cysharp.Threading.Tasks.UniTask_1<FishingBite> WaitingForBites(Cysharp.Threading.Tasks.UniTask timerTask, System.Single value, FishingGameStats fishingGameStats, System.Threading.CancellationToken cancellationToken) { }
+	// RVA: 0x2C3B180 Offset: 0x2C3B180 VA: 0x2C3C180 Token: 0x060030EF Slot: 65535
+	private Cysharp.Threading.Tasks.UniTask FishBiteFishLogic(System.Threading.CancellationToken cancellationToken) { }
+	// RVA: 0x2C3B210 Offset: 0x2C3B210 VA: 0x2C3C210 Token: 0x060030F0 Slot: 65535
+	private Cysharp.Threading.Tasks.UniTask_1<System.Boolean> FishBite(FishingBite fishOnHook, FishingGameStats fishingGameStats, System.Threading.CancellationToken cancellationToken) { }
+	// RVA: 0x2C3B2D0 Offset: 0x2C3B2D0 VA: 0x2C3C2D0 Token: 0x060030F1 Slot: 65535
+	private Cysharp.Threading.Tasks.UniTask_1<System.Boolean> FishReelingIn(FishingBite fishInfo, FishingGameStats fishingGameStats, System.Threading.CancellationToken cancellationToken) { }
+	// RVA: 0x2C3B3D0 Offset: 0x2C3B3D0 VA: 0x2C3C3D0 Token: 0x060030F2 Slot: 65535
+	private Cysharp.Threading.Tasks.UniTask Timer(System.Threading.CancellationToken timerCancellation) { }
+	// RVA: 0x2C3B460 Offset: 0x2C3B460 VA: 0x2C3C460 Token: 0x060030F3 Slot: 65535
+	private System.Void PrepareFishingUi(System.Boolean showDuelWindow) { }
+	// RVA: 0x2C3B5A0 Offset: 0x2C3B5A0 VA: 0x2C3C5A0 Token: 0x060030F4 Slot: 65535
+	private Cysharp.Threading.Tasks.UniTask_1<FishingBite> FishingFullIteration(FishingStartInfo fishingStartInfo, FishingGameStats fishingGameStats, Cysharp.Threading.Tasks.UniTask timerTask, System.Threading.CancellationToken cancellationToken) { }
+	// RVA: 0x2C3B6F0 Offset: 0x2C3B6F0 VA: 0x2C3C6F0 Token: 0x060030F5 Slot: 65535
+	private FishingGameStats GetFishingGameStats(FishingStartInfo fishingStartInfo) { }
+	// RVA: 0x2C3B830 Offset: 0x2C3B830 VA: 0x2C3C830 Token: 0x060030F6 Slot: 65535
+	private Cysharp.Threading.Tasks.UniTask FishingMinigameNormal(FishingStartInfo fishingStartInfo, System.Threading.CancellationToken cancellationToken) { }
+	// RVA: 0x2C3B8D0 Offset: 0x2C3B8D0 VA: 0x2C3C8D0 Token: 0x060030F7 Slot: 65535
+	private Cysharp.Threading.Tasks.UniTask DuelScoreTask(FishingResults fishingResults, System.Threading.CancellationToken cancellationToken) { }
+	// RVA: 0x2C3B980 Offset: 0x2C3B980 VA: 0x2C3C980 Token: 0x060030F8 Slot: 65535
+	private System.Void SetDuelCharacterEmote(System.Boolean hasCharacter, SimpleCharacter character, FungusEnumerators+FishingJointDuelId fishingJointDuelId, FishingGameplayStaticGui+DuelCharacterEmoteEnum emote) { }
+	// RVA: 0x2C3BE70 Offset: 0x2C3BE70 VA: 0x2C3CE70 Token: 0x060030F9 Slot: 65535
+	private Cysharp.Threading.Tasks.UniTask DuelEnemyTask(FishingResults fishingResults, Cysharp.Threading.Tasks.UniTask timerTask, FishingGameStats fishingGameStats, System.Threading.CancellationToken cancellationToken) { }
+	// RVA: 0x2C3BF60 Offset: 0x2C3BF60 VA: 0x2C3CF60 Token: 0x060030FA Slot: 65535
+	private System.Void TweenBars(System.Single ratio) { }
+	// RVA: 0x2C3C070 Offset: 0x2C3C070 VA: 0x2C3D070 Token: 0x060030FB Slot: 65535
+	private System.Void SetBarAnchorsImmediate(System.Single ratio) { }
+	// RVA: 0x2C3C110 Offset: 0x2C3C110 VA: 0x2C3D110 Token: 0x060030FC Slot: 65535
+	private Cysharp.Threading.Tasks.UniTask FishingMinigameDuel(FishingStartInfo fishingStartInfo, System.Threading.CancellationToken cancellationToken) { }
+	// RVA: 0x2C39D60 Offset: 0x2C39D60 VA: 0x2C3AD60 Token: 0x060030FD Slot: 65535
+	public System.Void StartFishingMinigame(FishingStartInfo fishingStartInfo, System.Action_1<FishingResults> OnFinished) { }
+	// RVA: 0x2C3C1C0 Offset: 0x2C3C1C0 VA: 0x2C3D1C0 Token: 0x060030FE Slot: 65535
+	private System.Void OnFinishedFishing(FishingResults results) { }
+	// RVA: 0x2C3A110 Offset: 0x2C3A110 VA: 0x2C3B110 Token: 0x060030FF Slot: 65535
+	public System.Void KillMinigameTask() { }
+	// RVA: 0x2C3C320 Offset: 0x2C3C320 VA: 0x2C3D320 Token: 0x06003100 Slot: 65535
+	public System.Void OnDestroy() { }
+	// RVA: 0x2C3C360 Offset: 0x2C3C360 VA: 0x2C3D360 Token: 0x06003101 Slot: 65535
+	public System.Void .ctor() { }
+	// RVA: 0x2C3C3C0 Offset: 0x2C3C3C0 VA: 0x2C3D3C0 Token: 0x06003102 Slot: 65535
+	private System.Void _DuelScoreTask_g__UpdateTexts_23_0(System.Int32 playerScore, System.Int32 enemyScore, FishingGameplayStaticGui+<>c__DisplayClass23_0 _unnamed) { }
+	// RVA: 0x2C3C460 Offset: 0x2C3C460 VA: 0x2C3D460 Token: 0x06003103 Slot: 65535
+	private System.Void _DuelEnemyTask_g__SetEmote_26_0(FishingGameplayStaticGui+DuelCharacterEmoteEnum emote, FishingGameplayStaticGui+<>c__DisplayClass26_0 _unnamed) { }
+	// RVA: 0x2C3C4A0 Offset: 0x2C3C4A0 VA: 0x2C3D4A0 Token: 0x06003104 Slot: 65535
+	private System.Void _DuelEnemyTask_g__SetEmoteAuto_26_1(FishingGameplayStaticGui+<>c__DisplayClass26_0 _unnamed) { }
+	// RVA: 0x2C3C530 Offset: 0x2C3C530 VA: 0x2C3D530 Token: 0x06003105 Slot: 65535
+	private Cysharp.Threading.Tasks.UniTask _DuelEnemyTask_g__DelayForFishes_26_2(FishingGameplayStaticGui+<>c__DisplayClass26_0 _unnamed) { }
+}
+
+
+
+====================================================================================================
+TYPE: FishingStartInfo
+====================================================================================================
+public class FishingStartInfo
+{
+	// Fields
+	public FishingLocationData FishingLocation; // Offset: 0x10
+	public System.Int32 FishingLengthMinutes; // Offset: 0x18
+	public FungusEnumerators+FishingJointDuelId FishingJointDuelId; // Offset: 0x1C
+
+	// Methods
+	// RVA: 0x2C52AD0 Offset: 0x2C52AD0 VA: 0x2C53AD0 Token: 0x060031D3 Slot: 65535
+	public System.Boolean IsFishingJointDuel() { }
+	// RVA: 0x2C52AE0 Offset: 0x2C52AE0 VA: 0x2C53AE0 Token: 0x060031D4 Slot: 65535
+	public System.Boolean IsValid() { }
+	// RVA: 0x2C52AF0 Offset: 0x2C52AF0 VA: 0x2C53AF0 Token: 0x060031D5 Slot: 65535
+	public System.Void .ctor() { }
+}
+
+
+
+====================================================================================================
+TYPE: FishingBite
+====================================================================================================
+public class FishingBite
+{
+	// Fields
+	public System.Single FishStrengthApparentWeightKg; // Offset: 0x10
+	public FishingCatchBehaviourType BehaviourType; // Offset: 0x14
+	public FishingCatchEntry RelatedEntry; // Offset: 0x18
+	private System.Collections.Generic.IReadOnlyCollection_1<Item> _items; // Offset: 0x20
+
+	// Methods
+	// RVA: 0x2C47FF0 Offset: 0x2C47FF0 VA: 0x2C48FF0 Token: 0x0600311E Slot: 65535
+	public System.Void .ctor(System.Single fishStrengthApparentWeightKg, FishingCatchBehaviourType behaviourType, FishingCatchEntry relatedEntry, System.Collections.Generic.IReadOnlyCollection_1<Item> items) { }
+	// RVA: 0x2C48030 Offset: 0x2C48030 VA: 0x2C49030 Token: 0x0600311F Slot: 3
+	public virtual System.String ToString() { }
+	// RVA: 0x2C3E2C0 Offset: 0x2C3E2C0 VA: 0x2C3F2C0 Token: 0x06003120 Slot: 65535
+	public System.Single GetFishDifficulty01(System.Single fishTiredness, System.Single gameplayStatsFishingRodMaxEffectiveWeightKg) { }
+	// RVA: 0x2C3E400 Offset: 0x2C3E400 VA: 0x2C3F400 Token: 0x06003121 Slot: 65535
+	public System.Collections.Generic.IReadOnlyCollection_1<Item> GetItems() { }
+}
+
+
+
+====================================================================================================
+TYPE: FishingGameplayState
+====================================================================================================
+public class FishingGameplayState
+{
+	// Fields
+	private FishingStartInfo _fishingStartInfo; // Offset: 0x28
+	private FishingGameplayStaticGui _gui; // Offset: 0x30
+	private const System.String MusicId; // Offset: 0x0
+
+	// Methods
+	// RVA: 0x2C39A80 Offset: 0x2C39A80 VA: 0x2C3AA80 Token: 0x060030BB Slot: 65535
+	public System.Void .ctor(FishingStartInfo fishingStartInfo) { }
+	// RVA: 0x2C39AD0 Offset: 0x2C39AD0 VA: 0x2C3AAD0 Token: 0x060030BC Slot: 4
+	public virtual System.Void EnterState() { }
+	// RVA: 0x2C39F60 Offset: 0x2C39F60 VA: 0x2C3AF60 Token: 0x060030BD Slot: 8
+	internal virtual System.Void DefaultOnResult(FishingResults result) { }
+	// RVA: 0x2C3A010 Offset: 0x2C3A010 VA: 0x2C3B010 Token: 0x060030BE Slot: 5
+	public virtual System.Void ExitState() { }
+	// RVA: 0x2C3A150 Offset: 0x2C3A150 VA: 0x2C3B150 Token: 0x060030BF Slot: 6
+	public virtual System.Void UpdateState() { }
+	// RVA: 0x2C3A160 Offset: 0x2C3A160 VA: 0x2C3B160 Token: 0x060030C0 Slot: 7
+	public virtual System.Void FixedUpdateState() { }
+}
+
+
+
+====================================================================================================
+TYPE: FishingGameStats
+====================================================================================================
+public class FishingGameStats
+{
+	// Fields
+	public GameStatPercentBoost FishingRodSizeBoost; // Offset: 0x20
+	public GameStatPercentBoost FishingRodAccelerationBoost; // Offset: 0x28
+	public GameStatPercentBoost FishingRodFishReelingSpeedBoost; // Offset: 0x30
+	public GameStatDirectedPercentBoost_1<GameId> FishDirectedCatchOddsBoost; // Offset: 0x38
+	public const System.Single MinReelingSpeed; // Offset: 0x0
+	public const System.Single MaxReelingSpeed; // Offset: 0x0
+	private Item _FishingRodItem_k__BackingField; // Offset: 0x40
+	private Item _BaitItem_k__BackingField; // Offset: 0x48
+	private FishingBaitItemPrefabData _BaitItemPrefabData_k__BackingField; // Offset: 0x50
+
+	// Properties
+	public System.Single FishingRodSize01 { get; }
+	public System.Single FishingRodAcceleration01 { get; }
+	public System.Single FishingRodFishReelingSpeed01 { get; }
+	public System.Single FishingRodMaxEffectiveWeight { get; }
+	public Item FishingRodItem { get; set; }
+	public Item BaitItem { get; set; }
+	public FishingBaitItemPrefabData BaitItemPrefabData { get; set; }
+	public System.Boolean HasBait { get; }
+
+	// Methods
+	// RVA: 0x2C3A800 Offset: 0x2C3A800 VA: 0x2C3B800 Token: 0x060030D9 Slot: 6
+	public virtual System.Void ResetAllStats() { }
+	// RVA: 0x2C3A820 Offset: 0x2C3A820 VA: 0x2C3B820 Token: 0x060030DA Slot: 65535
+	public System.Void Recalculate(GameVariables gameVariables) { }
+	// RVA: 0x2C3A9A0 Offset: 0x2C3A9A0 VA: 0x2C3B9A0 Token: 0x060030DB Slot: 65535
+	public System.Single get_FishingRodSize01() { }
+	// RVA: 0x2C3A9E0 Offset: 0x2C3A9E0 VA: 0x2C3B9E0 Token: 0x060030DC Slot: 65535
+	public System.Single get_FishingRodAcceleration01() { }
+	// RVA: 0x2C3AA20 Offset: 0x2C3AA20 VA: 0x2C3BA20 Token: 0x060030DD Slot: 65535
+	public System.Single get_FishingRodFishReelingSpeed01() { }
+	// RVA: 0x2C3AA60 Offset: 0x2C3AA60 VA: 0x2C3BA60 Token: 0x060030DE Slot: 65535
+	public System.Single get_FishingRodMaxEffectiveWeight() { }
+	// RVA: 0x2C3AA80 Offset: 0x2C3AA80 VA: 0x2C3BA80 Token: 0x060030DF Slot: 65535
+	public FishingGameStats+BasicFishingGameplayStats GetBasicGameplayStats() { }
+	// RVA: 0x2C3ABE0 Offset: 0x2C3ABE0 VA: 0x2C3BBE0 Token: 0x060030E0 Slot: 65535
+	public Item get_FishingRodItem() { }
+	// RVA: 0x2C3ABF0 Offset: 0x2C3ABF0 VA: 0x2C3BBF0 Token: 0x060030E1 Slot: 65535
+	private System.Void set_FishingRodItem(Item value) { }
+	// RVA: 0x2C3A980 Offset: 0x2C3A980 VA: 0x2C3B980 Token: 0x060030E2 Slot: 65535
+	public System.Void SetFishingRod(Item fishingRod) { }
+	// RVA: 0x2C3AC00 Offset: 0x2C3AC00 VA: 0x2C3BC00 Token: 0x060030E3 Slot: 65535
+	public Item get_BaitItem() { }
+	// RVA: 0x2C3AC10 Offset: 0x2C3AC10 VA: 0x2C3BC10 Token: 0x060030E4 Slot: 65535
+	private System.Void set_BaitItem(Item value) { }
+	// RVA: 0x2C3AC20 Offset: 0x2C3AC20 VA: 0x2C3BC20 Token: 0x060030E5 Slot: 65535
+	public FishingBaitItemPrefabData get_BaitItemPrefabData() { }
+	// RVA: 0x2C3AC30 Offset: 0x2C3AC30 VA: 0x2C3BC30 Token: 0x060030E6 Slot: 65535
+	private System.Void set_BaitItemPrefabData(FishingBaitItemPrefabData value) { }
+	// RVA: 0x2C3AC40 Offset: 0x2C3AC40 VA: 0x2C3BC40 Token: 0x060030E7 Slot: 65535
+	public System.Boolean get_HasBait() { }
+	// RVA: 0x2C3A990 Offset: 0x2C3A990 VA: 0x2C3B990 Token: 0x060030E8 Slot: 65535
+	public System.Void SetBait(Item fishingBaitItem, FishingBaitItemPrefabData baitItemPrefabData) { }
+	// RVA: 0x2C3AC50 Offset: 0x2C3AC50 VA: 0x2C3BC50 Token: 0x060030E9 Slot: 65535
+	public System.Void .ctor() { }
+}
+
+
+
+====================================================================================================
+TYPE: FrickStaticGui
+====================================================================================================
+public class FrickStaticGui
+{
+	// Fields
+	private UnityEngine.GameObject commentPrefab; // Offset: 0x28
+	private UnityEngine.RectTransform rightGui; // Offset: 0x30
+	private UnityEngine.UI.Slider cumBar; // Offset: 0x38
+	private UnityEngine.UI.Button mainReturnButton; // Offset: 0x40
+	private ButtonList buttonList; // Offset: 0x48
+	private UnityEngine.RectTransform newChat; // Offset: 0x50
+	private UnityEngine.UI.Button chatCloseButton; // Offset: 0x58
+	private UnityEngine.RectTransform commentHolder; // Offset: 0x60
+	private System.Action_1<FrickStaticGui+RightGuiState> OnRightGuiStateChanged; // Offset: 0x68
+	private FrickStaticGui+RightGuiState _rightGuiState; // Offset: 0x70
+	private System.Single _newChatWidth; // Offset: 0x74
+	private UnityEngine.Transform streamInfoWindow; // Offset: 0x78
+	private TMPro.TextMeshProUGUI viewersInfo; // Offset: 0x80
+	private TMPro.TextMeshProUGUI followersInfo; // Offset: 0x88
+	private TMPro.TextMeshProUGUI subsInfo; // Offset: 0x90
+	private UnityEngine.RectTransform donationTransform; // Offset: 0x98
+	private TMPro.TextMeshProUGUI donationMessageText; // Offset: 0xA0
+	private TMPro.TextMeshProUGUI donationValueText; // Offset: 0xA8
+	private UnityEngine.UI.Button xrayToggle; // Offset: 0xB0
+	private UnityEngine.UI.Image xrayOnImage; // Offset: 0xB8
+	private UnityEngine.UI.Image xrayOffImage; // Offset: 0xC0
+	private UnityEngine.UI.Image cumImage; // Offset: 0xC8
+	private ButtonList leftButtonList; // Offset: 0xD0
+	private UnityEngine.UI.Image A_Flashbang_Image; // Offset: 0xD8
+
+	// Properties
+	public UnityEngine.GameObject CommentPrefab { get; }
+	public UnityEngine.UI.Slider CumBar { get; }
+	public UnityEngine.UI.Button MainReturnButton { get; }
+	public ButtonList RightButtonList { get; }
+	public UnityEngine.RectTransform CommentHolder { get; }
+	public UnityEngine.Transform StreamInfoWindow { get; }
+	public TMPro.TextMeshProUGUI ViewersInfo { get; }
+	public TMPro.TextMeshProUGUI FollowersInfo { get; }
+	public TMPro.TextMeshProUGUI SubsInfo { get; }
+	public UnityEngine.RectTransform DonationTransform { get; }
+	public TMPro.TextMeshProUGUI DonationMessageText { get; }
+	public TMPro.TextMeshProUGUI DonationValueText { get; }
+	public UnityEngine.UI.Button XrayToggle { get; }
+	public UnityEngine.UI.Image XrayOnImage { get; }
+	public UnityEngine.UI.Image XrayOffImage { get; }
+	public UnityEngine.UI.Image CumImage { get; }
+	public UnityEngine.UI.Image FlashBangImage { get; }
+	public ButtonList LeftButtonList { get; }
+	public System.Boolean IsDefaultUIActive { get; }
+
+	// Methods
+	// RVA: 0x2C62940 Offset: 0x2C62940 VA: 0x2C63940 Token: 0x060032B0 Slot: 65535
+	public UnityEngine.GameObject get_CommentPrefab() { }
+	// RVA: 0x2C62950 Offset: 0x2C62950 VA: 0x2C63950 Token: 0x060032B1 Slot: 65535
+	public UnityEngine.UI.Slider get_CumBar() { }
+	// RVA: 0x2C62960 Offset: 0x2C62960 VA: 0x2C63960 Token: 0x060032B2 Slot: 65535
+	public System.Void SetCumBarActive(System.Boolean active) { }
+	// RVA: 0x2C62990 Offset: 0x2C62990 VA: 0x2C63990 Token: 0x060032B3 Slot: 65535
+	public UnityEngine.UI.Button get_MainReturnButton() { }
+	// RVA: 0x2C629A0 Offset: 0x2C629A0 VA: 0x2C639A0 Token: 0x060032B4 Slot: 65535
+	public ButtonList get_RightButtonList() { }
+	// RVA: 0x2C629B0 Offset: 0x2C629B0 VA: 0x2C639B0 Token: 0x060032B5 Slot: 65535
+	public UnityEngine.RectTransform get_CommentHolder() { }
+	// RVA: 0x2C629C0 Offset: 0x2C629C0 VA: 0x2C639C0 Token: 0x060032B6 Slot: 65535
+	private System.Void PrepareStreamGui(System.Boolean streamOn) { }
+	// RVA: 0x2C62CF0 Offset: 0x2C62CF0 VA: 0x2C63CF0 Token: 0x060032B7 Slot: 65535
+	public System.Void add_OnRightGuiStateChanged(System.Action_1<FrickStaticGui+RightGuiState> value) { }
+	// RVA: 0x2C62D90 Offset: 0x2C62D90 VA: 0x2C63D90 Token: 0x060032B8 Slot: 65535
+	public System.Void remove_OnRightGuiStateChanged(System.Action_1<FrickStaticGui+RightGuiState> value) { }
+	// RVA: 0x2C62C40 Offset: 0x2C62C40 VA: 0x2C63C40 Token: 0x060032B9 Slot: 65535
+	public System.Void SetRightGuiState(FrickStaticGui+RightGuiState state) { }
+	// RVA: 0x2C62E30 Offset: 0x2C62E30 VA: 0x2C63E30 Token: 0x060032BA Slot: 65535
+	public System.Boolean IsChatVisible() { }
+	// RVA: 0x2C62E40 Offset: 0x2C62E40 VA: 0x2C63E40 Token: 0x060032BB Slot: 65535
+	public UnityEngine.Transform get_StreamInfoWindow() { }
+	// RVA: 0x2C62E50 Offset: 0x2C62E50 VA: 0x2C63E50 Token: 0x060032BC Slot: 65535
+	public TMPro.TextMeshProUGUI get_ViewersInfo() { }
+	// RVA: 0x2C62E60 Offset: 0x2C62E60 VA: 0x2C63E60 Token: 0x060032BD Slot: 65535
+	public TMPro.TextMeshProUGUI get_FollowersInfo() { }
+	// RVA: 0x2C62E70 Offset: 0x2C62E70 VA: 0x2C63E70 Token: 0x060032BE Slot: 65535
+	public TMPro.TextMeshProUGUI get_SubsInfo() { }
+	// RVA: 0x2C62E80 Offset: 0x2C62E80 VA: 0x2C63E80 Token: 0x060032BF Slot: 65535
+	public UnityEngine.RectTransform get_DonationTransform() { }
+	// RVA: 0x2C62E90 Offset: 0x2C62E90 VA: 0x2C63E90 Token: 0x060032C0 Slot: 65535
+	public TMPro.TextMeshProUGUI get_DonationMessageText() { }
+	// RVA: 0x2C62EA0 Offset: 0x2C62EA0 VA: 0x2C63EA0 Token: 0x060032C1 Slot: 65535
+	public TMPro.TextMeshProUGUI get_DonationValueText() { }
+	// RVA: 0x2C62EB0 Offset: 0x2C62EB0 VA: 0x2C63EB0 Token: 0x060032C2 Slot: 65535
+	public UnityEngine.UI.Button get_XrayToggle() { }
+	// RVA: 0x2C62EC0 Offset: 0x2C62EC0 VA: 0x2C63EC0 Token: 0x060032C3 Slot: 65535
+	public UnityEngine.UI.Image get_XrayOnImage() { }
+	// RVA: 0x2C62ED0 Offset: 0x2C62ED0 VA: 0x2C63ED0 Token: 0x060032C4 Slot: 65535
+	public UnityEngine.UI.Image get_XrayOffImage() { }
+	// RVA: 0x2C62EE0 Offset: 0x2C62EE0 VA: 0x2C63EE0 Token: 0x060032C5 Slot: 65535
+	public System.Void SetXrayButtonActive(System.Boolean active) { }
+	// RVA: 0x2C62F10 Offset: 0x2C62F10 VA: 0x2C63F10 Token: 0x060032C6 Slot: 65535
+	public UnityEngine.UI.Image get_CumImage() { }
+	// RVA: 0x2C62F20 Offset: 0x2C62F20 VA: 0x2C63F20 Token: 0x060032C7 Slot: 65535
+	public UnityEngine.UI.Image get_FlashBangImage() { }
+	// RVA: 0x2C62F30 Offset: 0x2C62F30 VA: 0x2C63F30 Token: 0x060032C8 Slot: 65535
+	public ButtonList get_LeftButtonList() { }
+	// RVA: 0x2C62F40 Offset: 0x2C62F40 VA: 0x2C63F40 Token: 0x060032C9 Slot: 65535
+	public System.Void SetLeftButtonsActive(System.Boolean active) { }
+	// RVA: 0x2C62F70 Offset: 0x2C62F70 VA: 0x2C63F70 Token: 0x060032CA Slot: 65535
+	public System.Void SyncCumbar(System.Single newValue) { }
+	// RVA: 0x2C63100 Offset: 0x2C63100 VA: 0x2C64100 Token: 0x060032CB Slot: 65535
+	public System.Void SetDefaultUIActive(System.Boolean active, System.Boolean noXray) { }
+	// RVA: 0x2C63190 Offset: 0x2C63190 VA: 0x2C64190 Token: 0x060032CC Slot: 65535
+	public System.Boolean get_IsDefaultUIActive() { }
+	// RVA: 0x2C63210 Offset: 0x2C63210 VA: 0x2C64210 Token: 0x060032CD Slot: 65535
+	public System.Void InitGui(UnityEngine.Events.UnityAction onReturnButtonClicked, System.Boolean streamOn, System.Boolean defaultUiActive) { }
+	// RVA: 0x2C63260 Offset: 0x2C63260 VA: 0x2C64260 Token: 0x060032CE Slot: 65535
+	public System.Void FixedUpdate() { }
+	// RVA: 0x2C632D0 Offset: 0x2C632D0 VA: 0x2C642D0 Token: 0x060032CF Slot: 65535
+	public System.Void EndGui() { }
+	// RVA: 0x2C63300 Offset: 0x2C63300 VA: 0x2C64300 Token: 0x060032D0 Slot: 6
+	internal virtual System.Void FillReferencesInherited() { }
+	// RVA: 0x2C63810 Offset: 0x2C63810 VA: 0x2C64810 Token: 0x060032D1 Slot: 65535
+	public System.Void .ctor() { }
+	// RVA: 0x2C63820 Offset: 0x2C63820 VA: 0x2C64820 Token: 0x060032D2 Slot: 65535
+	private System.Void _PrepareStreamGui_b__19_0() { }
+}
+
+
+
+====================================================================================================
+FrickGameState: NOT FOUND
+
+
+====================================================================================================
+TYPE: CockTwitchManager
+====================================================================================================
+public class CockTwitchManager
+{
+	// Fields
+	private System.Collections.Generic.List_1<Streamer> _streamers; // Offset: 0x18
+	private System.Single[] _viewerShipByHour; // Offset: 0x20
+	private static System.Int32 MemorySize; // Offset: 0x0
+	private System.Collections.Generic.LinkedList_1<System.Int32> _followerMemory; // Offset: 0x28
+	private System.Collections.Generic.List_1<System.Int32> followerMemorySerialize; // Offset: 0x30
+
+	// Properties
+	public System.Collections.Generic.LinkedList_1<System.Int32> FollowerMemory { get; set; }
+
+	// Methods
+	// RVA: 0x2D460B0 Offset: 0x2D460B0 VA: 0x2D470B0 Token: 0x06003EAF Slot: 65535
+	public System.Void .ctor() { }
+	// RVA: 0x2D46120 Offset: 0x2D46120 VA: 0x2D47120 Token: 0x06003EB0 Slot: 65535
+	public static CockTwitchManager CreateInstance() { }
+	// RVA: 0x2D463B0 Offset: 0x2D463B0 VA: 0x2D473B0 Token: 0x06003EB1 Slot: 65535
+	public static System.String FormatViewers(System.Int32 num) { }
+	// RVA: 0x2D46510 Offset: 0x2D46510 VA: 0x2D47510 Token: 0x06003EB2 Slot: 65535
+	public System.Void InitializeNewGame() { }
+	// RVA: 0x2D471F0 Offset: 0x2D471F0 VA: 0x2D481F0 Token: 0x06003EB3 Slot: 65535
+	public System.Collections.Generic.List_1<CockTwitchManager+StreamInfo> GetActiveStreamers(System.Int32 count) { }
+	// RVA: 0x2D47670 Offset: 0x2D47670 VA: 0x2D48670 Token: 0x06003EB4 Slot: 65535
+	public System.Collections.Generic.List_1<Streamer> GetTopStreamers(System.Int32 count) { }
+	// RVA: 0x2D47940 Offset: 0x2D47940 VA: 0x2D48940 Token: 0x06003EB5 Slot: 65535
+	public System.Void MinutePassed() { }
+	// RVA: 0x2D47BB0 Offset: 0x2D47BB0 VA: 0x2D48BB0 Token: 0x06003EB6 Slot: 65535
+	public System.Void EndOfDay() { }
+	// RVA: 0x2D48320 Offset: 0x2D48320 VA: 0x2D49320 Token: 0x06003EB7 Slot: 65535
+	private System.Single CalculatePeak(System.Int32 hour, System.Int32 peak, System.Single area, System.Single strength) { }
+	// RVA: 0x2D483D0 Offset: 0x2D483D0 VA: 0x2D493D0 Token: 0x06003EB8 Slot: 65535
+	public System.Single CalculateViewerShipTimeMultiplier(System.Int32 dayOfTheWeek, System.Int32 hour) { }
+	// RVA: 0x2D46330 Offset: 0x2D46330 VA: 0x2D47330 Token: 0x06003EB9 Slot: 65535
+	public System.Collections.Generic.LinkedList_1<System.Int32> get_FollowerMemory() { }
+	// RVA: 0x2D48700 Offset: 0x2D48700 VA: 0x2D49700 Token: 0x06003EBA Slot: 65535
+	private System.Void set_FollowerMemory(System.Collections.Generic.LinkedList_1<System.Int32> value) { }
+	// RVA: 0x2D48710 Offset: 0x2D48710 VA: 0x2D49710 Token: 0x06003EBB Slot: 4
+	public virtual System.Void OnBeforeSerialize() { }
+	// RVA: 0x2D48820 Offset: 0x2D48820 VA: 0x2D49820 Token: 0x06003EBC Slot: 5
+	public virtual System.Void OnAfterDeserialize() { }
+	// RVA: 0x2D480F0 Offset: 0x2D480F0 VA: 0x2D490F0 Token: 0x06003EBD Slot: 65535
+	private System.Void AddFollowerMemory(System.Int32 value) { }
+	// RVA: 0x2D48890 Offset: 0x2D48890 VA: 0x2D49890 Token: 0x06003EBE Slot: 65535
+	private static System.Void .cctor() { }
+}
+
+
+
+====================================================================================================
+TYPE: ModUtilities
+====================================================================================================
+internal class ModUtilities
+{
+	// Methods
+	// RVA: 0x2E193B0 Offset: 0x2E193B0 VA: 0x2E1A3B0 Token: 0x06004E0E Slot: 65535
+	private System.Void CheckIfInInitialization() { }
+	// RVA: 0x2E194A0 Offset: 0x2E194A0 VA: 0x2E1A4A0 Token: 0x06004E0F Slot: 65535
+	public ModCustomStringReference CreateLocalizableString(System.Guid modGuid, System.String key, System.String text, System.Boolean smartString) { }
+	// RVA: 0x2E19690 Offset: 0x2E19690 VA: 0x2E1A690 Token: 0x06004E10 Slot: 65535
+	public ModCustomStringReference GetLocalizableString(System.Guid modGuid, System.String key) { }
+	// RVA: 0x2E19880 Offset: 0x2E19880 VA: 0x2E1A880 Token: 0x06004E11 Slot: 65535
+	public System.String GetLocalizableStringRaw(System.Guid modGuid, System.String key) { }
+	// RVA: 0x2E199E0 Offset: 0x2E199E0 VA: 0x2E1A9E0 Token: 0x06004E12 Slot: 65535
+	public ItemPrefab CreateItemPrefab() { }
+	// RVA: 0x2E19A70 Offset: 0x2E19A70 VA: 0x2E1AA70 Token: 0x06004E13 Slot: 65535
+	public ItemPrefab CreateItemPrefab(System.String name, System.String description, System.Int32 price) { }
+	// RVA: 0x2E19AE0 Offset: 0x2E19AE0 VA: 0x2E1AAE0 Token: 0x06004E14 Slot: 65535
+	public GameId CreateNewItemAutoAssignId(System.Guid modGuid, ItemPrefab itemPrefab) { }
+	// RVA: 0x2E19B70 Offset: 0x2E19B70 VA: 0x2E1AB70 Token: 0x06004E15 Slot: 65535
+	public GameId CreateNewItem(System.Guid modGuid, ItemPrefab itemPrefab) { }
+	// RVA: 0x2E19C00 Offset: 0x2E19C00 VA: 0x2E1AC00 Token: 0x06004E16 Slot: 65535
+	public GameId CreateNewItem(System.Int32 id, System.Guid modGuid, ItemPrefab itemPrefab) { }
+	// RVA: 0x2E19C90 Offset: 0x2E19C90 VA: 0x2E1AC90 Token: 0x06004E17 Slot: 65535
+	public System.Void AddGenericItemToShop(System.String shopId, GameId gameId, System.Func_1<System.Boolean> availabilityFunc, System.Single occurenceRate) { }
+	// RVA: 0x2E19DF0 Offset: 0x2E19DF0 VA: 0x2E1ADF0 Token: 0x06004E18 Slot: 65535
+	public System.Void AddSingleBuyItemToShop(System.String shopId, GameId gameId, System.Func_1<System.Boolean> availabilityFunc, System.Single occurenceRate) { }
+	// RVA: 0x2E19F50 Offset: 0x2E19F50 VA: 0x2E1AF50 Token: 0x06004E19 Slot: 65535
+	public ModFileBase GetModFile(System.Guid modGuid, System.String path) { }
+	// RVA: 0x2E1A0B0 Offset: 0x2E1A0B0 VA: 0x2E1B0B0 Token: 0x06004E1A Slot: 65535
+	public PackedTexturesContainer GetPackedTexture(System.Guid modGuid, System.String formatPath) { }
+	// RVA: 0x2E1A1B0 Offset: 0x2E1A1B0 VA: 0x2E1B1B0 Token: 0x06004E1B Slot: 65535
+	public UnityEngine.Texture2D GetTexture(System.Guid modGuid, System.String path) { }
+	// RVA: 0x2E1A260 Offset: 0x2E1A260 VA: 0x2E1B260 Token: 0x06004E1C Slot: 65535
+	public Texture2DModFileAutomaticReference GetTextureReference(System.Guid modGuid, System.String path) { }
+	// RVA: 0x2E1A2F0 Offset: 0x2E1A2F0 VA: 0x2E1B2F0 Token: 0x06004E1D Slot: 65535
+	public IC.AutomaticReference.IReference_1<Melanchall.DryWetMidi.Core.MidiFile> GetMidiReference(System.Guid modGuid, System.String path) { }
+	// RVA: 0x2E1A430 Offset: 0x2E1A430 VA: 0x2E1B430 Token: 0x06004E1E Slot: 65535
+	public IC.AutomaticReference.IReference_1<IMusicWithInfo> GetAsMusicWithInfo(System.Guid modGuid, System.String path, System.String songName, System.String songAuthor) { }
+	// RVA: 0x2E1A550 Offset: 0x2E1A550 VA: 0x2E1B550 Token: 0x06004E1F Slot: 65535
+	public IC.AutomaticReference.IReference_1<UnityEngine.AudioClip> GetAsAudioClipReference(System.Guid modGuid, System.String path) { }
+	// RVA: 0x2E1A690 Offset: 0x2E1A690 VA: 0x2E1B690 Token: 0x06004E20 Slot: 65535
+	public System.Void AddSong(CookingSong cookingSong) { }
+	// RVA: 0x2E1A700 Offset: 0x2E1A700 VA: 0x2E1B700 Token: 0x06004E21 Slot: 65535
+	public UnityEngine.Sprite GetSprite(System.Guid modGuid, System.String path, System.Single ppu) { }
+	// RVA: 0x2E1A7D0 Offset: 0x2E1A7D0 VA: 0x2E1B7D0 Token: 0x06004E22 Slot: 65535
+	public IC.AutomaticReference.IReference_1<UnityEngine.Sprite> GetSpriteReference(System.Guid modGuid, System.String path, System.Single ppu) { }
+	// RVA: 0x2E1A920 Offset: 0x2E1A920 VA: 0x2E1B920 Token: 0x06004E23 Slot: 65535
+	public IC.AutomaticReference.IReference_1<UnityEngine.Sprite> GetAsSprite(System.Guid modGuid, System.String path, System.Single ppu) { }
+	// RVA: 0x2E1A930 Offset: 0x2E1A930 VA: 0x2E1B930 Token: 0x06004E24 Slot: 65535
+	public System.Guid GetNewGuid() { }
+	// RVA: 0x2E1A940 Offset: 0x2E1A940 VA: 0x2E1B940 Token: 0x06004E25 Slot: 65535
+	public StorySingleton+LuaPersonalityModuleDefinition PrepareNewPersonalityDefinition() { }
+	// RVA: 0x2E1A980 Offset: 0x2E1A980 VA: 0x2E1B980 Token: 0x06004E26 Slot: 65535
+	public ManagedCoroutineWithTarget StartCoroutine(MoonSharp.Interpreter.Closure closure, System.Action onFinished) { }
+	// RVA: 0x2E1AAB0 Offset: 0x2E1AAB0 VA: 0x2E1BAB0 Token: 0x06004E27 Slot: 65535
+	public UnityEngine.WaitForSeconds WaitForSeconds(System.Single seconds) { }
+	// RVA: 0x2E1AB60 Offset: 0x2E1AB60 VA: 0x2E1BB60 Token: 0x06004E28 Slot: 65535
+	public System.Void StopCoroutine(ManagedCoroutineWithTarget coroutine) { }
+	// RVA: 0x2E1AB70 Offset: 0x2E1AB70 VA: 0x2E1BB70 Token: 0x06004E29 Slot: 65535
+	public GameVariables GetGameVariables() { }
+	// RVA: 0x2E1AC80 Offset: 0x2E1AC80 VA: 0x2E1BC80 Token: 0x06004E2A Slot: 65535
+	public ControllerEnum GetMissionaryController() { }
+	// RVA: 0x2E1AC90 Offset: 0x2E1AC90 VA: 0x2E1BC90 Token: 0x06004E2B Slot: 65535
+	public ControllerEnum GetDoggyController() { }
+	// RVA: 0x2E1ACA0 Offset: 0x2E1ACA0 VA: 0x2E1BCA0 Token: 0x06004E2C Slot: 65535
+	public ControllerEnum GetInteractController() { }
+	// RVA: 0x2E1ACB0 Offset: 0x2E1ACB0 VA: 0x2E1BCB0 Token: 0x06004E2D Slot: 65535
+	public ControllerEnum GetController(System.String id) { }
+	// RVA: 0x2E1ACC0 Offset: 0x2E1ACC0 VA: 0x2E1BCC0 Token: 0x06004E2E Slot: 65535
+	public System.Void .ctor() { }
+}
+
+
+
+====================================================================================================
+TYPE: ScriptHelper
+====================================================================================================
+public abstract class ScriptHelper
+{
+	// Methods
+	// RVA: 0x34E9200 Offset: 0x34E9200 VA: 0x34EA200 Token: 0x06004E4E Slot: 65535
+	public static System.Void RegisterSimpleFunc() { }
+	// RVA: 0x34EE600 Offset: 0x34EE600 VA: 0x34EF600 Token: 0x06004E4F Slot: 65535
+	public static System.Void RegisterSimpleFunc() { }
+	// RVA: 0x34EA1C0 Offset: 0x34EA1C0 VA: 0x34EB1C0 Token: 0x06004E50 Slot: 65535
+	public static System.Void RegisterSimpleFunc() { }
+	// RVA: 0x34E8780 Offset: 0x34E8780 VA: 0x34E9780 Token: 0x06004E51 Slot: 65535
+	public static System.Void RegisterSimpleAction() { }
+	// RVA: 0x34E77C0 Offset: 0x34E77C0 VA: 0x34E87C0 Token: 0x06004E52 Slot: 65535
+	public static System.Void RegisterSimpleAction() { }
+	// RVA: 0x2E1C150 Offset: 0x2E1C150 VA: 0x2E1D150 Token: 0x06004E53 Slot: 65535
+	public static System.Void RegisterSimpleAction() { }
+	// RVA: 0x2E1C360 Offset: 0x2E1C360 VA: 0x2E1D360 Token: 0x06004E54 Slot: 65535
+	public static System.Boolean RegisterTypeWithSafety(System.Type type) { }
+	// RVA: 0x2E1C420 Offset: 0x2E1C420 VA: 0x2E1D420 Token: 0x06004E55 Slot: 65535
+	public static System.Void RegisterWithFieldsAndPropertiesAndMethods(System.Type type) { }
+	// RVA: 0x34EEB40 Offset: 0x34EEB40 VA: 0x34EFB40 Token: 0x06004E56 Slot: 65535
+	public static System.Void RegisterTypeAndAddTypeToGlobalTable(Fungus.LuaEnvironment luaEnvironment, System.String name) { }
+	// RVA: 0x34EF180 Offset: 0x34EF180 VA: 0x34F0180 Token: 0x06004E57 Slot: 65535
+	public static System.Void RegisterTypeAndAddValueToGlobalTable(Fungus.LuaEnvironment luaEnvironment, T value, System.String name) { }
+	// RVA: 0x2E1C8A0 Offset: 0x2E1C8A0 VA: 0x2E1D8A0 Token: 0x06004E58 Slot: 65535
+	public static System.Void GenerateCode(System.Collections.Generic.List_1<System.Type> types) { }
+	// RVA: 0x2E10850 Offset: 0x2E10850 VA: 0x2E11850 Token: 0x06004E59 Slot: 65535
+	public static System.Void RegisterAll() { }
+}
+
+
+
+====================================================================================================
+TYPE: OptionsPopup
+====================================================================================================
+public class OptionsPopup
+{
+	// Fields
+	private System.Boolean _restartRequired; // Offset: 0x40
+	private UnityEngine.UI.Toggle skipUnseenTextToggle; // Offset: 0x48
+	private UnityEngine.UI.Toggle greyOutSeenTextToggle; // Offset: 0x50
+	private UnityEngine.UI.Toggle cumFlashBangToggle; // Offset: 0x58
+	private UnityEngine.UI.Scrollbar sensitivityScrollbar; // Offset: 0x60
+	private System.Collections.Generic.List_1<System.ValueTuple_3<System.Int32, UnityEngine.Localization.Locale, LocaleName>> _languageDropdownData; // Offset: 0x68
+	private TMPro.TMP_Dropdown languageDropdown; // Offset: 0x70
+	private TMPro.TextMeshProUGUI translationProgressLabel; // Offset: 0x78
+	private System.Collections.Generic.List_1<OptionsStatic+ResolutionData> _currentResolutions; // Offset: 0x80
+	private TMPro.TMP_Dropdown resultionDropdown; // Offset: 0x88
+	private UnityEngine.UI.Toggle fullscreenToggle; // Offset: 0x90
+	private UnityEngine.UI.Toggle keepRunningWhenMinimized; // Offset: 0x98
+	private UnityEngine.UI.Toggle LowMemoryToggle; // Offset: 0xA0
+	private UnityEngine.RectTransform AllLowMemorySettings; // Offset: 0xA8
+	private UnityEngine.UI.Scrollbar LowMemoryScaleScrollbar; // Offset: 0xB0
+	private TMPro.TextMeshProUGUI LowMemoryScaleInfo; // Offset: 0xB8
+	private UnityEngine.UI.Scrollbar masterVolumeScrollbar; // Offset: 0xC0
+	private UnityEngine.UI.Scrollbar musicVolumeScrollbar; // Offset: 0xC8
+	private UnityEngine.UI.Scrollbar sfxVolumeScrollbar; // Offset: 0xD0
+	private UnityEngine.UI.Toggle showMusicPopupToggle; // Offset: 0xD8
+	private UnityEngine.UI.Button ToySettingsButton; // Offset: 0xE0
+	private UnityEngine.UI.Button resetGameDataButton; // Offset: 0xE8
+	private UnityEngine.UI.Button DisableCheatsButton; // Offset: 0xF0
+	private UnityEngine.UI.Button ExportLogButton; // Offset: 0xF8
+	private UnityEngine.UI.Button ClearVerificationButton; // Offset: 0x100
+	private static OptionsPopup _CurrentInstance_k__BackingField; // Offset: 0x0
+
+	// Properties
+	public OptionsPopup CurrentInstance { get; set; }
+
+	// Methods
+	// RVA: 0x2FB9940 Offset: 0x2FB9940 VA: 0x2FBA940 Token: 0x06000864 Slot: 65535
+	private System.Void InitGameplay() { }
+	// RVA: 0x2FB9C30 Offset: 0x2FB9C30 VA: 0x2FBAC30 Token: 0x06000865 Slot: 65535
+	private System.Void SensitivityChanged(System.Single value) { }
+	// RVA: 0x2FB9D10 Offset: 0x2FB9D10 VA: 0x2FBAD10 Token: 0x06000866 Slot: 65535
+	private System.Void InitLocalization() { }
+	// RVA: 0x2FBA540 Offset: 0x2FBA540 VA: 0x2FBB540 Token: 0x06000867 Slot: 65535
+	private System.Void LanguageChanged(System.Int32 index) { }
+	// RVA: 0x2FBA350 Offset: 0x2FBA350 VA: 0x2FBB350 Token: 0x06000868 Slot: 65535
+	private System.Void UpdateTranslationProgressLabel(UnityEngine.Localization.Locale currentLocale) { }
+	// RVA: 0x2FBA680 Offset: 0x2FBA680 VA: 0x2FBB680 Token: 0x06000869 Slot: 65535
+	public System.Void SyncFullscreenDisplay() { }
+	// RVA: 0x2FBAA10 Offset: 0x2FBAA10 VA: 0x2FBBA10 Token: 0x0600086A Slot: 65535
+	private System.Void ShowDisplaySettingsTimeoutPopup(OptionsStatic+DisplaySettings previousDisplaySettings) { }
+	// RVA: 0x2FBADD0 Offset: 0x2FBADD0 VA: 0x2FBBDD0 Token: 0x0600086B Slot: 65535
+	public System.Void FullscreenChanged(System.Boolean value) { }
+	// RVA: 0x2FBAE60 Offset: 0x2FBAE60 VA: 0x2FBBE60 Token: 0x0600086C Slot: 65535
+	private System.Void ResolutionChanged(System.Int32 value) { }
+	// RVA: 0x2FBA710 Offset: 0x2FBA710 VA: 0x2FBB710 Token: 0x0600086D Slot: 65535
+	public System.Void UpdateResolutionDropdown() { }
+	// RVA: 0x2FBAFC0 Offset: 0x2FBAFC0 VA: 0x2FBBFC0 Token: 0x0600086E Slot: 65535
+	private System.Void InitResolution() { }
+	// RVA: 0x2FBB130 Offset: 0x2FBB130 VA: 0x2FBC130 Token: 0x0600086F Slot: 65535
+	private System.Void LowMemoryToggleClicked(System.Boolean value) { }
+	// RVA: 0x2FBB440 Offset: 0x2FBB440 VA: 0x2FBC440 Token: 0x06000870 Slot: 65535
+	private System.Void LowMemoryScaleChanged(System.Single v) { }
+	// RVA: 0x2FBB210 Offset: 0x2FBB210 VA: 0x2FBC210 Token: 0x06000871 Slot: 65535
+	private System.Void UpdateLowMemory() { }
+	// RVA: 0x2FBB2B0 Offset: 0x2FBB2B0 VA: 0x2FBC2B0 Token: 0x06000872 Slot: 65535
+	private System.Void UpdateLowMemoryScaleInfo() { }
+	// RVA: 0x2FBB520 Offset: 0x2FBB520 VA: 0x2FBC520 Token: 0x06000873 Slot: 65535
+	private System.Void InitLowMemory() { }
+	// RVA: 0x2FBB720 Offset: 0x2FBB720 VA: 0x2FBC720 Token: 0x06000874 Slot: 65535
+	private System.Void MasterVolumeChanged(System.Single value) { }
+	// RVA: 0x2FBB7D0 Offset: 0x2FBB7D0 VA: 0x2FBC7D0 Token: 0x06000875 Slot: 65535
+	private System.Void MusicVolumeChanged(System.Single value) { }
+	// RVA: 0x2FBB860 Offset: 0x2FBB860 VA: 0x2FBC860 Token: 0x06000876 Slot: 65535
+	private System.Void SfxVolumeChanged(System.Single value) { }
+	// RVA: 0x2FBB8F0 Offset: 0x2FBB8F0 VA: 0x2FBC8F0 Token: 0x06000877 Slot: 65535
+	private System.Void InitSound() { }
+	// RVA: 0x2FBC000 Offset: 0x2FBC000 VA: 0x2FBD000 Token: 0x06000878 Slot: 65535
+	private System.Void InitRemaining() { }
+	// RVA: 0x2FBC640 Offset: 0x2FBC640 VA: 0x2FBD640 Token: 0x06000879 Slot: 65535
+	private System.Void ResetGameDataButtonClicked() { }
+	// RVA: 0x2FBC4C0 Offset: 0x2FBC4C0 VA: 0x2FBD4C0 Token: 0x0600087A Slot: 65535
+	public System.Void UpdateCheatsButton() { }
+	// RVA: 0x2FBC7C0 Offset: 0x2FBC7C0 VA: 0x2FBD7C0 Token: 0x0600087B Slot: 65535
+	private System.Void ExportLogButtonClicked() { }
+	// RVA: 0x2FBCA20 Offset: 0x2FBCA20 VA: 0x2FBDA20 Token: 0x0600087C Slot: 65535
+	private System.Void ClearVerificationButtonClicked() { }
+	// RVA: 0x2FBCB40 Offset: 0x2FBCB40 VA: 0x2FBDB40 Token: 0x0600087D Slot: 9
+	public virtual System.Void Open() { }
+	// RVA: 0x2FBCC00 Offset: 0x2FBCC00 VA: 0x2FBDC00 Token: 0x0600087E Slot: 12
+	public virtual System.Void OnLocaleChanged(UnityEngine.Localization.Locale newLocale) { }
+	// RVA: 0x2FBCC10 Offset: 0x2FBCC10 VA: 0x2FBDC10 Token: 0x0600087F Slot: 65535
+	public static OptionsPopup get_CurrentInstance() { }
+	// RVA: 0x2FBCC50 Offset: 0x2FBCC50 VA: 0x2FBDC50 Token: 0x06000880 Slot: 65535
+	private static System.Void set_CurrentInstance(OptionsPopup value) { }
+	// RVA: 0x2FBCC90 Offset: 0x2FBCC90 VA: 0x2FBDC90 Token: 0x06000881 Slot: 65535
+	public System.Void OnDisable() { }
+	// RVA: 0x2FBCE30 Offset: 0x2FBCE30 VA: 0x2FBDE30 Token: 0x06000882 Slot: 11
+	public virtual System.Boolean CanClose() { }
+	// RVA: 0x2FBCE40 Offset: 0x2FBCE40 VA: 0x2FBDE40 Token: 0x06000883 Slot: 65535
+	public System.Void .ctor() { }
+	// RVA: 0x2FBCEC0 Offset: 0x2FBCEC0 VA: 0x2FBDEC0 Token: 0x06000884 Slot: 65535
+	private System.Void _UpdateCheatsButton_b__43_0() { }
+	// RVA: 0x2FBCFB0 Offset: 0x2FBCFB0 VA: 0x2FBDFB0 Token: 0x06000885 Slot: 65535
+	private System.Void _UpdateCheatsButton_b__43_1() { }
+	// RVA: 0x2FBD060 Offset: 0x2FBD060 VA: 0x2FBE060 Token: 0x06000886 Slot: 65535
+	private System.Void _ClearVerificationButtonClicked_b__45_0() { }
+}
+
+
+
+====================================================================================================
+TYPE: OptionsStatic
+====================================================================================================
+public abstract class OptionsStatic
+{
+	// Fields
+	private static UnityEngine.Vector2Int MinResolution; // Offset: 0x0
+	private static UnityEngine.Vector2Int MaxResolution; // Offset: 0x8
+	private static UnityEngine.Vector2Int MainSmallResolution; // Offset: 0x10
+	private static UnityEngine.Vector2Int MainBigResolution; // Offset: 0x18
+	private static UnityEngine.Resolution[] DefaultResolutions; // Offset: 0x20
+	public static PlayerPrefsBooleanKey FullScreenPref; // Offset: 0x28
+	public static PlayerPrefsVector2IntKey ResolutionPref; // Offset: 0x30
+	private static System.Comparison_1<OptionsStatic+ResolutionData> SortComparison; // Offset: 0x38
+	private static System.Boolean _subscribed; // Offset: 0x40
+	private static System.Single _masterVolume; // Offset: 0x44
+	public static PlayerPrefsFloatKey MasterVolumePref; // Offset: 0x48
+	private static System.Single _musicAloneVolume; // Offset: 0x50
+	public static PlayerPrefsFloatKey MusicAloneVolumePref; // Offset: 0x58
+	private static System.Single _sfxAloneVolume; // Offset: 0x60
+	public static PlayerPrefsFloatKey SfxAloneVolumePref; // Offset: 0x68
+	private static OptionsStatic+VolumeChangedEvent VolumeChanged; // Offset: 0x70
+	public static PlayerPrefsFloatKey SensitivityPref; // Offset: 0x78
+	private static System.Single _SensitivityInstance_k__BackingField; // Offset: 0x80
+	public static PlayerPrefsStringKey CKeyPref; // Offset: 0x88
+	public static PlayerPrefsStringKey DProofPref; // Offset: 0x90
+	public static PlayerPrefsBooleanKey DebugEnabledPref; // Offset: 0x98
+	public static PlayerPrefsBooleanKey AcceptedModsDangerWarning; // Offset: 0xA0
+	public static PlayerPrefsBooleanKey LastLoadingSucceded; // Offset: 0xA8
+	public static PlayerPrefsBooleanKey ShowWebGLSaveWarning; // Offset: 0xB0
+	public static PlayerPrefsBooleanKey ShowWebGLMobileWarning; // Offset: 0xB8
+	public static PlayerPrefsBooleanKey ShowMusicPopupPref; // Offset: 0xC0
+	public static PlayerPrefsBooleanKey KeepRunningWhenMinimizedPref; // Offset: 0xC8
+	public static PlayerPrefsBooleanKey CumFlashBangEnabledPref; // Offset: 0xD0
+	public static PlayerPrefsBooleanKey SkipUnseenTextPref; // Offset: 0xD8
+	public static PlayerPrefsBooleanKey GreyOutSeenTextPref; // Offset: 0xE0
+	public const System.Int32 AGUISensorCount; // Offset: 0x0
+	public static PlayerPrefsBooleanKey AGUIUseDriverDepth; // Offset: 0xE8
+	public static PlayerPrefsFloatArrayKey AGUIDefaultMinCalibration; // Offset: 0xF0
+	public static PlayerPrefsFloatArrayKey AGUIDefaultMaxCalibration; // Offset: 0xF8
+	public const System.Int32 LowMemoryMaxScale; // Offset: 0x0
+	public static PlayerPrefsBooleanKey LowMemoryModeEnabled; // Offset: 0x100
+	public static PlayerPrefsIntegerKey LowMemoryDivisionLevel; // Offset: 0x108
+	public static PlayerPrefsGuidKey IId; // Offset: 0x110
+	public static PlayerPrefsGuidKey FhId; // Offset: 0x118
+	public static PlayerPrefsStringKey VerData; // Offset: 0x120
+	public static PlayerPrefsLongKey MillisSpentPlaying; // Offset: 0x128
+	public static PlayerPrefsLongKey LastShillingInfoAt; // Offset: 0x130
+	public static PlayerPrefsLongKey LastShillingRatingInfoAt; // Offset: 0x138
+	private static System.Nullable_1<System.DateTime> LastCheckpointTime; // Offset: 0x140
+	private static PlayerPrefsBooleanKey DisableShillingPopups; // Offset: 0x150
+	private static System.String localePlayerprefs; // Offset: 0x158
+
+	// Properties
+	public OptionsStatic+DisplaySettings CurrentDisplaySettings { get; set; }
+	public System.Single MasterVolumeSession { get; set; }
+	public System.Single MusicAloneVolumeSession { get; set; }
+	public System.Single SfxAloneVolumeSession { get; set; }
+	public System.Single SfxVolume { get; }
+	public System.Single MusicVolume { get; }
+	public System.Single SensitivityInstanceScaled { get; set; }
+	public System.Single SensitivityInstance { get; set; }
+	public System.Boolean DebugEnabled { get; }
+	public System.Boolean AnyCheatsEnabled { get; }
+	public System.Boolean LowMemoryDefault { get; }
+	public System.Int32 LowMemoryDivisionLevelPow { get; }
+	public System.Int32 MinutesSpentPlaying { get; }
+	public System.Boolean ShouldShowShillingInfo { get; }
+	public System.Boolean ShouldShowShillingRatingInfo { get; }
+
+	// Methods
+	// RVA: 0x2EF78F0 Offset: 0x2EF78F0 VA: 0x2EF88F0 Token: 0x06005245 Slot: 65535
+	private static System.Void ClampResolutionToValid(UnityEngine.Vector2Int resolution) { }
+	// RVA: 0x2EF7980 Offset: 0x2EF7980 VA: 0x2EF8980 Token: 0x06005246 Slot: 65535
+	private static UnityEngine.Resolution VectorToResolution(UnityEngine.Vector2Int vector, System.UInt32 refreshRate) { }
+	// RVA: 0x2EF79F0 Offset: 0x2EF79F0 VA: 0x2EF89F0 Token: 0x06005247 Slot: 65535
+	private static System.Boolean Is16By9(System.Int32 width, System.Int32 height) { }
+	// RVA: 0x2EF7A00 Offset: 0x2EF7A00 VA: 0x2EF8A00 Token: 0x06005248 Slot: 65535
+	public static OptionsStatic+DisplaySettings get_CurrentDisplaySettings() { }
+	// RVA: 0x2EF7B00 Offset: 0x2EF7B00 VA: 0x2EF8B00 Token: 0x06005249 Slot: 65535
+	public static System.Void set_CurrentDisplaySettings(OptionsStatic+DisplaySettings value) { }
+	// RVA: 0x2EF7BF0 Offset: 0x2EF7BF0 VA: 0x2EF8BF0 Token: 0x0600524A Slot: 65535
+	public static System.Void FillResolutions(System.Collections.Generic.List_1<OptionsStatic+ResolutionData> data, System.Int32 currentIndex) { }
+	// RVA: 0x2EF8DA0 Offset: 0x2EF8DA0 VA: 0x2EF9DA0 Token: 0x0600524B Slot: 65535
+	public static System.Void SyncResolution() { }
+	// RVA: 0x2EF8EE0 Offset: 0x2EF8EE0 VA: 0x2EF9EE0 Token: 0x0600524C Slot: 65535
+	public static System.Void SyncLetterbox() { }
+	// RVA: 0x2EF90C0 Offset: 0x2EF90C0 VA: 0x2EFA0C0 Token: 0x0600524D Slot: 65535
+	public static UnityEngine.Vector2Int DetermineBestFullScreenResolution(System.Collections.Generic.List_1<OptionsStatic+ResolutionData> data) { }
+	// RVA: 0x2EF92E0 Offset: 0x2EF92E0 VA: 0x2EFA2E0 Token: 0x0600524E Slot: 65535
+	public static System.Void ChangeFullscreen(System.Boolean value) { }
+	// RVA: 0x2EF94E0 Offset: 0x2EF94E0 VA: 0x2EFA4E0 Token: 0x0600524F Slot: 65535
+	private static System.Void LoadVolumeSettings() { }
+	// RVA: 0x2EF9C50 Offset: 0x2EF9C50 VA: 0x2EFAC50 Token: 0x06005250 Slot: 65535
+	public static System.Single get_MasterVolumeSession() { }
+	// RVA: 0x2EF98F0 Offset: 0x2EF98F0 VA: 0x2EFA8F0 Token: 0x06005251 Slot: 65535
+	public static System.Void set_MasterVolumeSession(System.Single value) { }
+	// RVA: 0x2EF9CC0 Offset: 0x2EF9CC0 VA: 0x2EFACC0 Token: 0x06005252 Slot: 65535
+	public static System.Single get_MusicAloneVolumeSession() { }
+	// RVA: 0x2EF9960 Offset: 0x2EF9960 VA: 0x2EFA960 Token: 0x06005253 Slot: 65535
+	public static System.Void set_MusicAloneVolumeSession(System.Single value) { }
+	// RVA: 0x2EF9D30 Offset: 0x2EF9D30 VA: 0x2EFAD30 Token: 0x06005254 Slot: 65535
+	public static System.Single get_SfxAloneVolumeSession() { }
+	// RVA: 0x2EF99D0 Offset: 0x2EF99D0 VA: 0x2EFA9D0 Token: 0x06005255 Slot: 65535
+	public static System.Void set_SfxAloneVolumeSession(System.Single value) { }
+	// RVA: 0x2EF9DA0 Offset: 0x2EF9DA0 VA: 0x2EFADA0 Token: 0x06005256 Slot: 65535
+	public static System.Single get_SfxVolume() { }
+	// RVA: 0x2EF9ED0 Offset: 0x2EF9ED0 VA: 0x2EFAED0 Token: 0x06005257 Slot: 65535
+	public static System.Single get_MusicVolume() { }
+	// RVA: 0x2EF9AC0 Offset: 0x2EF9AC0 VA: 0x2EFAAC0 Token: 0x06005258 Slot: 65535
+	public static System.Void add_VolumeChanged(OptionsStatic+VolumeChangedEvent value) { }
+	// RVA: 0x2EFA000 Offset: 0x2EFA000 VA: 0x2EFB000 Token: 0x06005259 Slot: 65535
+	public static System.Void remove_VolumeChanged(OptionsStatic+VolumeChangedEvent value) { }
+	// RVA: 0x2EF9BA0 Offset: 0x2EF9BA0 VA: 0x2EFABA0 Token: 0x0600525A Slot: 65535
+	private static System.Void InvokeVolumeChanged() { }
+	// RVA: 0x2EFA0E0 Offset: 0x2EFA0E0 VA: 0x2EFB0E0 Token: 0x0600525B Slot: 65535
+	public static System.Void LoadSensitivitySettings() { }
+	// RVA: 0x2EFA1B0 Offset: 0x2EFA1B0 VA: 0x2EFB1B0 Token: 0x0600525C Slot: 65535
+	public static System.Single get_SensitivityInstanceScaled() { }
+	// RVA: 0x2EFA260 Offset: 0x2EFA260 VA: 0x2EFB260 Token: 0x0600525D Slot: 65535
+	public static System.Void set_SensitivityInstanceScaled(System.Single value) { }
+	// RVA: 0x2EFA330 Offset: 0x2EFA330 VA: 0x2EFB330 Token: 0x0600525E Slot: 65535
+	public static System.Single get_SensitivityInstance() { }
+	// RVA: 0x2EFA3A0 Offset: 0x2EFA3A0 VA: 0x2EFB3A0 Token: 0x0600525F Slot: 65535
+	public static System.Void set_SensitivityInstance(System.Single value) { }
+	// RVA: 0x2EFA410 Offset: 0x2EFA410 VA: 0x2EFB410 Token: 0x06005260 Slot: 65535
+	public static CheatTierEnum GetCheatTier() { }
+	// RVA: 0x2EFA5D0 Offset: 0x2EFA5D0 VA: 0x2EFB5D0 Token: 0x06005261 Slot: 65535
+	public static System.Boolean get_DebugEnabled() { }
+	// RVA: 0x2EFA620 Offset: 0x2EFA620 VA: 0x2EFB620 Token: 0x06005262 Slot: 65535
+	public static System.Boolean get_AnyCheatsEnabled() { }
+	// RVA: 0x2EFA670 Offset: 0x2EFA670 VA: 0x2EFB670 Token: 0x06005263 Slot: 65535
+	public static System.Void ClearCheatCode() { }
+	// RVA: 0x2EFA710 Offset: 0x2EFA710 VA: 0x2EFB710 Token: 0x06005264 Slot: 65535
+	private static System.Boolean get_LowMemoryDefault() { }
+	// RVA: 0x2EFA7A0 Offset: 0x2EFA7A0 VA: 0x2EFB7A0 Token: 0x06005265 Slot: 65535
+	public static System.Int32 get_LowMemoryDivisionLevelPow() { }
+	// RVA: 0x2EFA850 Offset: 0x2EFA850 VA: 0x2EFB850 Token: 0x06005266 Slot: 65535
+	public static System.Void ClearVerification() { }
+	// RVA: 0x2EFA900 Offset: 0x2EFA900 VA: 0x2EFB900 Token: 0x06005267 Slot: 65535
+	public static System.Int32 get_MinutesSpentPlaying() { }
+	// RVA: 0x2EFAA80 Offset: 0x2EFAA80 VA: 0x2EFBA80 Token: 0x06005268 Slot: 65535
+	private static System.Boolean get_ShouldShowShillingInfo() { }
+	// RVA: 0x2EFAB20 Offset: 0x2EFAB20 VA: 0x2EFBB20 Token: 0x06005269 Slot: 65535
+	private static System.Boolean get_ShouldShowShillingRatingInfo() { }
+	// RVA: 0x2EFABC0 Offset: 0x2EFABC0 VA: 0x2EFBBC0 Token: 0x0600526A Slot: 65535
+	public static System.Void ShowShillingInfo() { }
+	// RVA: 0x2EFBB20 Offset: 0x2EFBB20 VA: 0x2EFCB20 Token: 0x0600526B Slot: 65535
+	public static System.Void TimeStartCheckPoint() { }
+	// RVA: 0x2EFBBD0 Offset: 0x2EFBBD0 VA: 0x2EFCBD0 Token: 0x0600526C Slot: 65535
+	public static System.Void TimeCheckPoint() { }
+	// RVA: 0x2EFBE50 Offset: 0x2EFBE50 VA: 0x2EFCE50 Token: 0x0600526D Slot: 65535
+	public static System.Void LoadSettings() { }
+	// RVA: 0x2EFBF30 Offset: 0x2EFBF30 VA: 0x2EFCF30 Token: 0x0600526E Slot: 65535
+	public static Cysharp.Threading.Tasks.UniTask InnerLocalizationEnumerator(IProgressManager manager) { }
+	// RVA: 0x2EFBFB0 Offset: 0x2EFBFB0 VA: 0x2EFCFB0 Token: 0x0600526F Slot: 65535
+	private static Cysharp.Threading.Tasks.UniTask LocalizationEnumerator(IProgressManager manager) { }
+	// RVA: 0x2EFC030 Offset: 0x2EFC030 VA: 0x2EFD030 Token: 0x06005270 Slot: 65535
+	public static System.Void SetLocale(UnityEngine.Localization.Locale locale) { }
+	// RVA: 0x2EFC1C0 Offset: 0x2EFC1C0 VA: 0x2EFD1C0 Token: 0x06005271 Slot: 65535
+	private static System.Void .cctor() { }
+	// RVA: 0x2EF88C0 Offset: 0x2EF88C0 VA: 0x2EF98C0 Token: 0x06005272 Slot: 65535
+	private static UnityEngine.Vector2Int _FillResolutions_g__Normalize_16_0(UnityEngine.Vector2Int res) { }
+	// RVA: 0x2EF8990 Offset: 0x2EF8990 VA: 0x2EF9990 Token: 0x06005273 Slot: 65535
+	private static System.Boolean _FillResolutions_g__TryGetScaled_16_1(UnityEngine.Vector2Int resolution, System.Int32 scalingFactor, UnityEngine.Vector2Int scaledResolution) { }
+	// RVA: 0x2EF88E0 Offset: 0x2EF88E0 VA: 0x2EF98E0 Token: 0x06005274 Slot: 65535
+	private static System.Void _FillResolutions_g__AddToMap_16_2(UnityEngine.Vector2Int key, System.Double rate, OptionsStatic+<>c__DisplayClass16_0 _unnamed) { }
+}
+
+
+
+====================================================================================================
+TYPE: GameScript
+====================================================================================================
+public class GameScript
+{
+	// Fields
+	private Fungus.Flowchart _flowchart; // Offset: 0x28
+	private GameVariables _gameVariables; // Offset: 0x30
+	private System.Action OnMinutePassed; // Offset: 0x38
+	private System.Single _minuteInSeconds; // Offset: 0x40
+	private static System.Boolean _HasGameStarted_k__BackingField; // Offset: 0x0
+	private System.Action_1<GameState> OnChangeState; // Offset: 0x48
+	private GameStateMachine _gameStateMachine; // Offset: 0x50
+	private System.Single _timer; // Offset: 0x58
+	private GameStaticGui _gameStaticGui; // Offset: 0x60
+
+	// Properties
+	public Fungus.Flowchart Flowchart { get; }
+	public GameVariables GameVariables { get; }
+	public System.Boolean HasGameStarted { get; set; }
+	public GameState GameState { get; }
+	public GameStaticGui GameStaticGui { get; }
+
+	// Methods
+	// RVA: 0x2C14880 Offset: 0x2C14880 VA: 0x2C15880 Token: 0x06002EAB Slot: 65535
+	public Fungus.Flowchart get_Flowchart() { }
+	// RVA: 0x2C14890 Offset: 0x2C14890 VA: 0x2C15890 Token: 0x06002EAC Slot: 65535
+	public System.Void add_OnMinutePassed(System.Action value) { }
+	// RVA: 0x2C14920 Offset: 0x2C14920 VA: 0x2C15920 Token: 0x06002EAD Slot: 65535
+	public System.Void remove_OnMinutePassed(System.Action value) { }
+	// RVA: 0x2C149B0 Offset: 0x2C149B0 VA: 0x2C159B0 Token: 0x06002EAE Slot: 65535
+	public GameVariables get_GameVariables() { }
+	// RVA: 0x3385B00 Offset: 0x3385B00 VA: 0x3386B00 Token: 0x06002EAF Slot: 65535
+	public T GetGameVariableValue(System.String name) { }
+	// RVA: 0x3386330 Offset: 0x3386330 VA: 0x3387330 Token: 0x06002EB0 Slot: 65535
+	public System.Void SetGameVariableValue(System.String name, T value) { }
+	// RVA: 0x2C149C0 Offset: 0x2C149C0 VA: 0x2C159C0 Token: 0x06002EB1 Slot: 65535
+	public static System.Boolean get_HasGameStarted() { }
+	// RVA: 0x2C14A00 Offset: 0x2C14A00 VA: 0x2C15A00 Token: 0x06002EB2 Slot: 65535
+	private static System.Void set_HasGameStarted(System.Boolean value) { }
+	// RVA: 0x2C14A40 Offset: 0x2C14A40 VA: 0x2C15A40 Token: 0x06002EB3 Slot: 65535
+	public System.Void StartPrologue() { }
+	// RVA: 0x2C14BE0 Offset: 0x2C14BE0 VA: 0x2C15BE0 Token: 0x06002EB4 Slot: 65535
+	public System.Void StartNewGame() { }
+	// RVA: 0x2C14C50 Offset: 0x2C14C50 VA: 0x2C15C50 Token: 0x06002EB5 Slot: 65535
+	public System.Void StartNewGame(GameScript+LoadProcedureData lpd) { }
+	// RVA: 0x2C15240 Offset: 0x2C15240 VA: 0x2C16240 Token: 0x06002EB6 Slot: 65535
+	public System.Void LoadDebugSave(GameScript+LoadProcedureData lpd) { }
+	// RVA: 0x2C154B0 Offset: 0x2C154B0 VA: 0x2C164B0 Token: 0x06002EB7 Slot: 65535
+	private System.Void DefaultAfterLoaded() { }
+	// RVA: 0x2C14E20 Offset: 0x2C14E20 VA: 0x2C15E20 Token: 0x06002EB8 Slot: 65535
+	private GameScript+LoadProcedureData GenerateDefaultLPD() { }
+	// RVA: 0x2C14EC0 Offset: 0x2C14EC0 VA: 0x2C15EC0 Token: 0x06002EB9 Slot: 65535
+	public Result LoadGame(GameVariables save, GameScript+LoadProcedureData lpd) { }
+	// RVA: 0x2C15530 Offset: 0x2C15530 VA: 0x2C16530 Token: 0x06002EBA Slot: 65535
+	public System.Void EndGame() { }
+	// RVA: 0x2C15600 Offset: 0x2C15600 VA: 0x2C16600 Token: 0x06002EBB Slot: 65535
+	public System.Void ChangeToStoryState() { }
+	// RVA: 0x2C14AA0 Offset: 0x2C14AA0 VA: 0x2C15AA0 Token: 0x06002EBC Slot: 65535
+	public System.Void ChangeToStoryStateBlockReference(FungusBlocks+FungusBlockReference fungusBlockReference, System.Action onTargetBlockComplete) { }
+	// RVA: 0x2C156F0 Offset: 0x2C156F0 VA: 0x2C166F0 Token: 0x06002EBD Slot: 65535
+	public System.Void FungusStartBlock(System.String blockName, System.Action onComplete) { }
+	// RVA: 0x2C15800 Offset: 0x2C15800 VA: 0x2C16800 Token: 0x06002EBE Slot: 65535
+	public Fungus.MenuDialog FungusStartMenu(System.Collections.Generic.List_1<Fungus.MenuOption> options, System.Boolean automaticUIOverlay) { }
+	// RVA: 0x2C15D50 Offset: 0x2C15D50 VA: 0x2C16D50 Token: 0x06002EBF Slot: 65535
+	public System.Void FungusSetCustomText(System.String text) { }
+	// RVA: 0x2C15DA0 Offset: 0x2C15DA0 VA: 0x2C16DA0 Token: 0x06002EC0 Slot: 65535
+	public System.Void ShowText(System.String text) { }
+	// RVA: 0x2C15F40 Offset: 0x2C15F40 VA: 0x2C16F40 Token: 0x06002EC1 Slot: 65535
+	public System.Void RollCredits() { }
+	// RVA: 0x2C16050 Offset: 0x2C16050 VA: 0x2C17050 Token: 0x06002EC2 Slot: 65535
+	public System.Void GoOutside() { }
+	// RVA: 0x2C16610 Offset: 0x2C16610 VA: 0x2C17610 Token: 0x06002EC3 Slot: 65535
+	public System.Void PrepareFricking() { }
+	// RVA: 0x2C16670 Offset: 0x2C16670 VA: 0x2C17670 Token: 0x06002EC4 Slot: 65535
+	public System.Void EndFricking() { }
+	// RVA: 0x2C16730 Offset: 0x2C16730 VA: 0x2C17730 Token: 0x06002EC5 Slot: 65535
+	public System.Void EndInteracting() { }
+	// RVA: 0x2C16990 Offset: 0x2C16990 VA: 0x2C17990 Token: 0x06002EC6 Slot: 65535
+	public System.Void StartInteract() { }
+	// RVA: 0x2C169A0 Offset: 0x2C169A0 VA: 0x2C179A0 Token: 0x06002EC7 Slot: 65535
+	public System.Void StartInteract(System.Action_1<InteractState> OnStarted, System.Boolean isZoom) { }
+	// RVA: 0x2C16B50 Offset: 0x2C16B50 VA: 0x2C17B50 Token: 0x06002EC8 Slot: 65535
+	public System.Void StartEquipment() { }
+	// RVA: 0x2C16D70 Offset: 0x2C16D70 VA: 0x2C17D70 Token: 0x06002EC9 Slot: 65535
+	public System.Void StartEquipmentClothes() { }
+	// RVA: 0x2C16B60 Offset: 0x2C16B60 VA: 0x2C17B60 Token: 0x06002ECA Slot: 65535
+	public System.Void StartEquipment(EquipmentStaticGuiStateEnum targetState) { }
+	// RVA: 0x2C16D90 Offset: 0x2C16D90 VA: 0x2C17D90 Token: 0x06002ECB Slot: 65535
+	public System.Void StartCooking() { }
+	// RVA: 0x2C16EB0 Offset: 0x2C16EB0 VA: 0x2C17EB0 Token: 0x06002ECC Slot: 65535
+	public System.Void StartBathroom() { }
+	// RVA: 0x2C16F10 Offset: 0x2C16F10 VA: 0x2C17F10 Token: 0x06002ECD Slot: 65535
+	public System.Void StartFishing() { }
+	// RVA: 0x2C17030 Offset: 0x2C17030 VA: 0x2C18030 Token: 0x06002ECE Slot: 65535
+	public System.Void StartFishingGameplay(FishingStartInfo fishingStartInfo) { }
+	// RVA: 0x2C17160 Offset: 0x2C17160 VA: 0x2C18160 Token: 0x06002ECF Slot: 65535
+	public System.Void GoHome() { }
+	// RVA: 0x2C171C0 Offset: 0x2C171C0 VA: 0x2C181C0 Token: 0x06002ED0 Slot: 65535
+	public System.Void GoToSleep() { }
+	// RVA: 0x2C17220 Offset: 0x2C17220 VA: 0x2C18220 Token: 0x06002ED1 Slot: 65535
+	public System.Void ShowStatus() { }
+	// RVA: 0x2C173C0 Offset: 0x2C173C0 VA: 0x2C183C0 Token: 0x06002ED2 Slot: 65535
+	public System.Void StartPc() { }
+	// RVA: 0x2C17420 Offset: 0x2C17420 VA: 0x2C18420 Token: 0x06002ED3 Slot: 65535
+	public System.Void ChangeToPcState() { }
+	// RVA: 0x2C174B0 Offset: 0x2C174B0 VA: 0x2C184B0 Token: 0x06002ED4 Slot: 65535
+	public System.Void ChangeToRoomState() { }
+	// RVA: 0x2C177B0 Offset: 0x2C177B0 VA: 0x2C187B0 Token: 0x06002ED5 Slot: 65535
+	public System.Void ChangeToMainMenu() { }
+	// RVA: 0x2C17860 Offset: 0x2C17860 VA: 0x2C18860 Token: 0x06002ED6 Slot: 65535
+	public System.Void ReturnToMainMenuPrompt() { }
+	// RVA: 0x2C17A00 Offset: 0x2C17A00 VA: 0x2C18A00 Token: 0x06002ED7 Slot: 65535
+	public System.Void OpenNarrativeLog() { }
+	// RVA: 0x2C17A70 Offset: 0x2C17A70 VA: 0x2C18A70 Token: 0x06002ED8 Slot: 65535
+	public System.Void add_OnChangeState(System.Action_1<GameState> value) { }
+	// RVA: 0x2C17B10 Offset: 0x2C17B10 VA: 0x2C18B10 Token: 0x06002ED9 Slot: 65535
+	public System.Void remove_OnChangeState(System.Action_1<GameState> value) { }
+	// RVA: 0x2C156B0 Offset: 0x2C156B0 VA: 0x2C166B0 Token: 0x06002EDA Slot: 65535
+	public System.Void ChangeState(GameState newState) { }
+	// RVA: 0x2C17BB0 Offset: 0x2C17BB0 VA: 0x2C18BB0 Token: 0x06002EDB Slot: 65535
+	public Cysharp.Threading.Tasks.UniTask ChangeStateWaitTillEndUniTask(GameState newState) { }
+	// RVA: 0x3386BF0 Offset: 0x3386BF0 VA: 0x3387BF0 Token: 0x06002EDC Slot: 65535
+	public Cysharp.Threading.Tasks.UniTask_1<T> WaitTillStatesResultOverrideDefault(ResultGameState_1<T> newState) { }
+	// RVA: 0x2C17C40 Offset: 0x2C17C40 VA: 0x2C18C40 Token: 0x06002EDD Slot: 65535
+	public GameState get_GameState() { }
+	// RVA: 0x2C17C60 Offset: 0x2C17C60 VA: 0x2C18C60 Token: 0x06002EDE Slot: 65535
+	private System.Void InitStateMachine() { }
+	// RVA: 0x2C17650 Offset: 0x2C17650 VA: 0x2C18650 Token: 0x06002EDF Slot: 65535
+	public System.Void PassMinute(System.Boolean suppressEvents, GameVariables+StaminaSyncType syncStamina, System.Boolean sound) { }
+	// RVA: 0x2C17CE0 Offset: 0x2C17CE0 VA: 0x2C18CE0 Token: 0x06002EE0 Slot: 65535
+	public System.Void SyncTime(System.Boolean suppressEvents, GameVariables+StaminaSyncType syncStamina) { }
+	// RVA: 0x2C17D40 Offset: 0x2C17D40 VA: 0x2C18D40 Token: 0x06002EE1 Slot: 65535
+	private Cysharp.Threading.Tasks.UniTask TimePassing(System.Int32 minutes, System.Action finishAction, System.Boolean suppressEvents, GameVariables+StaminaSyncType syncStamina) { }
+	// RVA: 0x2C17DF0 Offset: 0x2C17DF0 VA: 0x2C18DF0 Token: 0x06002EE2 Slot: 65535
+	public System.Void StartPassTime(System.Int32 minutes, System.Action finishAction, System.Boolean suppressEvents, GameVariables+StaminaSyncType syncStamina) { }
+	// RVA: 0x2C17EB0 Offset: 0x2C17EB0 VA: 0x2C18EB0 Token: 0x06002EE3 Slot: 65535
+	public System.Void PassTimeInstantly(System.Int32 minutes, GameVariables+StaminaSyncType syncStamina) { }
+	// RVA: 0x2C17EE0 Offset: 0x2C17EE0 VA: 0x2C18EE0 Token: 0x06002EE4 Slot: 65535
+	private Cysharp.Threading.Tasks.UniTask SleepTimePassing(System.Int32 minutes, System.Action finishAction, System.Boolean suppressEvents, GameVariables+StaminaSyncType syncStamina) { }
+	// RVA: 0x2C17F90 Offset: 0x2C17F90 VA: 0x2C18F90 Token: 0x06002EE5 Slot: 65535
+	public System.Void AddTime(System.Int32 time) { }
+	// RVA: 0x2C17FC0 Offset: 0x2C17FC0 VA: 0x2C18FC0 Token: 0x06002EE6 Slot: 65535
+	public System.Void SetTime(System.Int32 time) { }
+	// RVA: 0x2C17FF0 Offset: 0x2C17FF0 VA: 0x2C18FF0 Token: 0x06002EE7 Slot: 65535
+	public System.Void Sleep(System.Int32 minutes, System.Action finishAction, System.Boolean suppressEvents, GameVariables+StaminaSyncType syncStamina) { }
+	// RVA: 0x2C180B0 Offset: 0x2C180B0 VA: 0x2C190B0 Token: 0x06002EE8 Slot: 65535
+	public Cysharp.Threading.Tasks.UniTask SleepUniTask(System.Int32 minutes, System.Action finishAction, System.Boolean suppressEvents, GameVariables+StaminaSyncType syncStamina) { }
+	// RVA: 0x2C18160 Offset: 0x2C18160 VA: 0x2C19160 Token: 0x06002EE9 Slot: 65535
+	public GameStaticGui get_GameStaticGui() { }
+	// RVA: 0x2C18170 Offset: 0x2C18170 VA: 0x2C19170 Token: 0x06002EEA Slot: 65535
+	private System.Void OpenUtmLinkInner(System.String link, System.String utm_source) { }
+	// RVA: 0x2C18280 Offset: 0x2C18280 VA: 0x2C19280 Token: 0x06002EEB Slot: 65535
+	public System.Void OpenPatreon(System.String utm_source) { }
+	// RVA: 0x2C182C0 Offset: 0x2C182C0 VA: 0x2C192C0 Token: 0x06002EEC Slot: 65535
+	public System.Void OpenDirectSubscribePatreon(System.String utm_source) { }
+	// RVA: 0x2C18300 Offset: 0x2C18300 VA: 0x2C19300 Token: 0x06002EED Slot: 65535
+	public System.Void OpenItchIORating(System.String utm_source) { }
+	// RVA: 0x2C183D0 Offset: 0x2C183D0 VA: 0x2C193D0 Token: 0x06002EEE Slot: 65535
+	public System.Void OpenSubscribeStar(System.String utm_source) { }
+	// RVA: 0x2C18410 Offset: 0x2C18410 VA: 0x2C19410 Token: 0x06002EEF Slot: 65535
+	public System.Void OpenItchIO(System.String utm_source) { }
+	// RVA: 0x2C184C0 Offset: 0x2C184C0 VA: 0x2C194C0 Token: 0x06002EF0 Slot: 65535
+	public System.Void OpenBluesky(System.String utm_source) { }
+	// RVA: 0x2C18500 Offset: 0x2C18500 VA: 0x2C19500 Token: 0x06002EF1 Slot: 65535
+	public System.Void OpenTwitter(System.String utm_source) { }
+	// RVA: 0x2C18540 Offset: 0x2C18540 VA: 0x2C19540 Token: 0x06002EF2 Slot: 65535
+	public System.Void OpenDiscord(System.String utm_source) { }
+	// RVA: 0x2C18600 Offset: 0x2C18600 VA: 0x2C19600 Token: 0x06002EF3 Slot: 65535
+	public System.Int32 GetStreamLength() { }
+	// RVA: 0x2C18670 Offset: 0x2C18670 VA: 0x2C19670 Token: 0x06002EF4 Slot: 65535
+	public System.Int32 GetStreamViewers() { }
+	// RVA: 0x3386B80 Offset: 0x3386B80 VA: 0x3387B80 Token: 0x06002EF5 Slot: 65535
+	public System.Boolean TryGetStateAs(T state) { }
+	// RVA: 0x2C186E0 Offset: 0x2C186E0 VA: 0x2C196E0 Token: 0x06002EF6 Slot: 4
+	public virtual System.Type[] GetDependenciesArray() { }
+	// RVA: 0x2C18AE0 Offset: 0x2C18AE0 VA: 0x2C19AE0 Token: 0x06002EF7 Slot: 65535
+	public System.Void StartupAfterLoad() { }
+	// RVA: 0x2C18C30 Offset: 0x2C18C30 VA: 0x2C19C30 Token: 0x06002EF8 Slot: 5
+	internal virtual Cysharp.Threading.Tasks.UniTask LoadInner(IProgressManager progressManager) { }
+	// RVA: 0x2C18D90 Offset: 0x2C18D90 VA: 0x2C19D90 Token: 0x06002EF9 Slot: 65535
+	private System.Void Awake() { }
+	// RVA: 0x2C18DD0 Offset: 0x2C18DD0 VA: 0x2C19DD0 Token: 0x06002EFA Slot: 65535
+	private System.Void Start() { }
+	// RVA: 0x2C19380 Offset: 0x2C19380 VA: 0x2C1A380 Token: 0x06002EFB Slot: 65535
+	public System.Void TakeScreenshot() { }
+	// RVA: 0x2C198D0 Offset: 0x2C198D0 VA: 0x2C1A8D0 Token: 0x06002EFC Slot: 65535
+	private System.Void Update() { }
+	// RVA: 0x2C19D30 Offset: 0x2C19D30 VA: 0x2C1AD30 Token: 0x06002EFD Slot: 65535
+	private System.Void FixedUpdate() { }
+	// RVA: 0x2C19D70 Offset: 0x2C19D70 VA: 0x2C1AD70 Token: 0x06002EFE Slot: 65535
+	public System.Void CloseGame() { }
+	// RVA: 0x2C19D80 Offset: 0x2C19D80 VA: 0x2C1AD80 Token: 0x06002EFF Slot: 65535
+	public System.Void .ctor() { }
+	// RVA: 0x2C19DC0 Offset: 0x2C19DC0 VA: 0x2C1ADC0 Token: 0x06002F00 Slot: 65535
+	private System.Void _GoOutside_b__39_0() { }
+	// RVA: 0x2C19E20 Offset: 0x2C19E20 VA: 0x2C1AE20 Token: 0x06002F01 Slot: 65535
+	private System.Void _GoOutside_b__39_1() { }
+	// RVA: 0x2C19E80 Offset: 0x2C19E80 VA: 0x2C1AE80 Token: 0x06002F02 Slot: 65535
+	private System.Void _GoOutside_b__39_2() { }
+	// RVA: 0x2C19EE0 Offset: 0x2C19EE0 VA: 0x2C1AEE0 Token: 0x06002F03 Slot: 65535
+	private System.Void _GoOutside_b__39_3() { }
+	// RVA: 0x2C19F40 Offset: 0x2C19F40 VA: 0x2C1AF40 Token: 0x06002F04 Slot: 65535
+	private System.Void _ShowStatus_b__54_0(System.String chosen) { }
+}
+
+
+
+====================================================================================================
+StaticGuiStateMachine: NOT FOUND
+
+
+====================================================================================================
+TYPE: GameStateMachine
+====================================================================================================
+public class GameStateMachine
+{
+	// Fields
+	private System.Collections.Generic.List_1<StaticGuiBase> _currentClaimedStaticGui; // Offset: 0x10
+	private GameState _currentState; // Offset: 0x18
+
+	// Properties
+	public GameState CurrentState { get; }
+
+	// Methods
+	// RVA: 0x2BE8210 Offset: 0x2BE8210 VA: 0x2BE9210 Token: 0x06002C8A Slot: 65535
+	public System.Void AddClaimedStaticGui(StaticGuiBase _staticGuiBase) { }
+	// RVA: 0x2BE82C0 Offset: 0x2BE82C0 VA: 0x2BE92C0 Token: 0x06002C8B Slot: 65535
+	public System.Void RemoveClaimedStaticGui(StaticGuiBase _staticGuiBase) { }
+	// RVA: 0x2BE7F20 Offset: 0x2BE7F20 VA: 0x2BE8F20 Token: 0x06002C8C Slot: 65535
+	public System.Void DisableAllClaimedStaticGui() { }
+	// RVA: 0x2BE8330 Offset: 0x2BE8330 VA: 0x2BE9330 Token: 0x06002C8D Slot: 65535
+	public System.Void .ctor(GameState currentState) { }
+	// RVA: 0x2BE83D0 Offset: 0x2BE83D0 VA: 0x2BE93D0 Token: 0x06002C8E Slot: 65535
+	private System.Void EnterState(GameState currentState) { }
+	// RVA: 0x2BE8400 Offset: 0x2BE8400 VA: 0x2BE9400 Token: 0x06002C8F Slot: 65535
+	public System.Void ChangeState(GameState newstate) { }
+	// RVA: 0x2BE84D0 Offset: 0x2BE84D0 VA: 0x2BE94D0 Token: 0x06002C90 Slot: 65535
+	public GameState get_CurrentState() { }
+	// RVA: 0x2BE84E0 Offset: 0x2BE84E0 VA: 0x2BE94E0 Token: 0x06002C91 Slot: 65535
+	public System.Void Update() { }
+	// RVA: 0x2BE8510 Offset: 0x2BE8510 VA: 0x2BE9510 Token: 0x06002C92 Slot: 65535
+	public System.Void FixedUpdate() { }
+}
+
