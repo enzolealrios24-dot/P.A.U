@@ -25,7 +25,7 @@ jobs:
             "GameVariables","SpecialVariablesHolder","FishingMinigameManager","FishingGameplayStaticGui",
             "FishingStartInfo","FishingBite","FishingGameplayState","FishingGameStats",
             "FrickStaticGui","NewFrickState","FrickGameState","CockTwitchManager","ModUtilities","ScriptHelper",
-            "OptionsPopup","OptionsStatic","GameScript","GameStaticGui","StaticGuiStateMachine","GameStateMachine"
+            "OptionsPopup","OptionsStatic","GameScript","GameStaticGui","ButtonList","ButtonList+ButtonData","StaticGuiStateMachine","GameStateMachine"
           ]
           out=[]
           for target in targets:
