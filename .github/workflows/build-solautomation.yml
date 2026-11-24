@@ -51,9 +51,7 @@ jobs:
           Copy-Item SolAutomation/bin/Release/SolAutomation.dll package/Mods/SolAutomation.dll
           Copy-Item SolAutomation/deps/ModSettingsMenu.dll package/Mods/ModSettingsMenu.dll
 
-          Copy-Item SolAutomation/deps/melon/MelonLoader package/MelonLoader -Recurse -Force
-          Copy-Item SolAutomation/deps/melon/version.dll package/version.dll -Force
-          Copy-Item SolAutomation/deps/melon/dobby.dll package/dobby.dll -Force
+          Copy-Item SolAutomation/deps/melon/* package -Recurse -Force
 
           Invoke-WebRequest "https://raw.githubusercontent.com/Echo5Dev/MDRG-ModSettingsMenu/main/LICENSE" -OutFile package/THIRD_PARTY_LICENSES/ModSettingsMenu-MIT.txt
           Invoke-WebRequest "https://raw.githubusercontent.com/LavaGang/MelonLoader/master/LICENSE.md" -OutFile package/THIRD_PARTY_LICENSES/MelonLoader-Apache-2.0.txt
@@ -72,7 +70,6 @@ jobs:
           4. Quando o Windows perguntar sobre mesclar/substituir pastas, aceite a mesclagem.
           5. Confirme que ficaram ao lado do .exe:
              - version.dll
-             - dobby.dll
              - pasta MelonLoader
              - pasta Mods
           6. Abra o jogo normalmente.
