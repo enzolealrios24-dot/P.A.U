@@ -36,7 +36,10 @@ jobs:
           Expand-Archive msm.zip -DestinationPath SolAutomation/deps/msm -Force
           $msm = Get-ChildItem SolAutomation/deps/msm -Recurse -Filter ModSettingsMenu.dll | Select-Object -First 1
           if (-not $msm) { throw "ModSettingsMenu.dll not found" }
-          Copy-Item $msm.FullName SolAutomation/deps/msm/ModSettingsMenu.dll -Force
+          $dest = (Resolve-Path "SolAutomation/deps/msm").Path + "\\ModSettingsMenu.dll"
+          if ($msm.FullName -ne $dest) {
+            Copy-Item $msm.FullName $dest -Force
+          }
 
           $base = "https://raw.githubusercontent.com/Victor-Viicell/mdrg-cheats/master/mdrg_re/out/DummyDll"
           $dlls = @(
