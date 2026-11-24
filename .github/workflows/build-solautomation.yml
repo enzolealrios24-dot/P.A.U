@@ -44,6 +44,8 @@ jobs:
 
       - name: Package
         shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           New-Item -ItemType Directory -Force package/Mods | Out-Null
           New-Item -ItemType Directory -Force package/THIRD_PARTY_LICENSES | Out-Null
@@ -51,17 +53,27 @@ jobs:
           Copy-Item SolAutomation/bin/Release/SolAutomation.dll package/Mods/SolAutomation.dll
           Copy-Item SolAutomation/deps/ModSettingsMenu.dll package/Mods/ModSettingsMenu.dll
 
-          Copy-Item SolAutomation/deps/melon/* package -Recurse -Force
+          # Use MelonLoader CI build that contains the UnityPlayer/proxy load-order race fix.
+          $headers = @{
+            "Authorization" = "Bearer $env:GITHUB_TOKEN"
+            "Accept" = "application/vnd.github+json"
+            "X-GitHub-Api-Version" = "2022-11-28"
+          }
+          Invoke-WebRequest -Headers $headers -Uri "https://api.github.com/repos/LavaGang/MelonLoader/actions/artifacts/11128818214/zip" -OutFile patched-melon.zip
+          Expand-Archive patched-melon.zip -DestinationPath patched-melon -Force
+          Write-Host "Patched MelonLoader artifact contents:"
+          Get-ChildItem patched-melon -Recurse | Select-Object FullName
+          Copy-Item patched-melon/* package -Recurse -Force
 
           Invoke-WebRequest "https://raw.githubusercontent.com/Echo5Dev/MDRG-ModSettingsMenu/main/LICENSE" -OutFile package/THIRD_PARTY_LICENSES/ModSettingsMenu-MIT.txt
           Invoke-WebRequest "https://raw.githubusercontent.com/LavaGang/MelonLoader/master/LICENSE.md" -OutFile package/THIRD_PARTY_LICENSES/MelonLoader-Apache-2.0.txt
 
           @"
-          SOL AUTOMATION 0.3.0
+          SOL AUTOMATION 0.3.1
 
           Compatibilidade alvo:
           - My Dystopian Robot Girlfriend 0.97.x
-          - MelonLoader 0.7.3
+          - MelonLoader 0.7.4-ci.2601 (patch do carregamento UnityPlayer)
 
           INSTALAÇÃO MANUAL
           1. Feche o jogo completamente.
@@ -74,6 +86,10 @@ jobs:
              - pasta Mods
           6. Abra o jogo normalmente.
           7. Na primeira abertura, o MelonLoader pode demorar para preparar os assemblies IL2CPP.
+          8. A janela do MelonLoader deve mostrar 0.7.4-ci.2601 ou uma identificação equivalente dessa build.
+          
+          Esta build específica inclui o commit b983882e468bcfbaab7959f1a1e98cc841ed579c,
+          que corrige a corrida de carregamento entre Bootstrap/Proxy e UnityPlayer.
 
           STREAMING
           Options > Mod Settings Menu > Sol Automation
@@ -93,5 +109,5 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: SolAutomation-0.3.0-Manual
+          name: SolAutomation-0.3.1-PatchedLoader
           path: package/
