@@ -24,8 +24,8 @@ jobs:
           targets=[
             "GameVariables","SpecialVariablesHolder","FishingMinigameManager","FishingGameplayStaticGui",
             "FishingStartInfo","FishingBite","FishingGameplayState","FishingGameStats",
-            "FrickStaticGui","FrickGameState","CockTwitchManager","ModUtilities","ScriptHelper",
-            "OptionsPopup","OptionsStatic","GameScript","StaticGuiStateMachine","GameStateMachine"
+            "FrickStaticGui","NewFrickState","FrickGameState","CockTwitchManager","ModUtilities","ScriptHelper",
+            "OptionsPopup","OptionsStatic","GameScript","GameStaticGui","StaticGuiStateMachine","GameStateMachine"
           ]
           out=[]
           for target in targets:
