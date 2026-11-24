@@ -1,0 +1,92 @@
+name: Build SolAutomation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "sol-mdg-mod-build" ]
+    paths:
+      - "SolAutomation/**"
+      - ".github/workflows/build-solautomation.yml"
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Prepare dependencies
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          New-Item -ItemType Directory -Force SolAutomation/deps/melon | Out-Null
+          New-Item -ItemType Directory -Force SolAutomation/deps/msm | Out-Null
+          New-Item -ItemType Directory -Force SolAutomation/deps/unity | Out-Null
+
+          Invoke-WebRequest "https://github.com/LavaGang/MelonLoader/releases/download/v0.7.3/MelonLoader.x64.zip" -OutFile melon.zip
+          Expand-Archive melon.zip -DestinationPath SolAutomation/deps/melon -Force
+
+          Invoke-WebRequest "https://github.com/Echo5Dev/MDRG-ModSettingsMenu/releases/download/v1.1.1/ModSettingsMenu.zip" -OutFile msm.zip
+          Expand-Archive msm.zip -DestinationPath SolAutomation/deps/msm -Force
+          $msm = Get-ChildItem SolAutomation/deps/msm -Recurse -Filter ModSettingsMenu.dll | Select-Object -First 1
+          if (-not $msm) { throw "ModSettingsMenu.dll not found" }
+          Copy-Item $msm.FullName SolAutomation/deps/msm/ModSettingsMenu.dll -Force
+
+          $base = "https://raw.githubusercontent.com/Victor-Viicell/mdrg-cheats/master/mdrg_re/out/DummyDll"
+          $dlls = @(
+            "UnityEngine.dll",
+            "UnityEngine.CoreModule.dll",
+            "UnityEngine.IMGUIModule.dll",
+            "UnityEngine.InputLegacyModule.dll",
+            "UnityEngine.TextRenderingModule.dll",
+            "UnityEngine.UI.dll",
+            "UnityEngine.UIModule.dll",
+            "mscorlib.dll"
+          )
+
+          foreach ($dll in $dlls) {
+            Invoke-WebRequest "$base/$dll" -OutFile "SolAutomation/deps/unity/$dll"
+          }
+
+          Write-Host "MelonLoader refs:"
+          Get-ChildItem SolAutomation/deps/melon/MelonLoader/net6 | Select-Object Name
+          Write-Host "MSM:"
+          Get-ChildItem SolAutomation/deps/msm | Select-Object Name
+          Write-Host "Unity refs:"
+          Get-ChildItem SolAutomation/deps/unity | Select-Object Name
+
+      - name: Build
+        shell: pwsh
+        run: dotnet build SolAutomation/SolAutomation.csproj -c Release
+
+      - name: Package
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force package | Out-Null
+          Copy-Item SolAutomation/bin/Release/SolAutomation.dll package/SolAutomation.dll
+          @"
+          Sol Automation 0.2.0
+
+          Requisitos:
+          - My Dystopian Robot Girlfriend 0.97.x
+          - MelonLoader 0.7.3
+          - ModSettingsMenu 1.1.1
+
+          Instalação:
+          1. Coloque SolAutomation.dll na pasta Mods do jogo.
+          2. Coloque ModSettingsMenu.dll na mesma pasta Mods.
+          3. Abra o jogo.
+          4. Streaming: Options > Mod Settings Menu > Sol Automation.
+          5. Pesca: no minigame, clique no botão AUTO PESCA ou aperte P.
+          "@ | Set-Content package/LEIA-ME.txt -Encoding UTF8
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SolAutomation-0.2.0
+          path: package/
