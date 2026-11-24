@@ -1,0 +1,18 @@
+{
+  "name": "Sol Automation Native",
+  "description": "Automacao nativa de streaming e pesca para MDRG 0.97.12. Sem loader externo.",
+  "modVersion": "0.1.0",
+  "OnGameStart": {
+    "luaFiles": [
+      "SolAutomation.lua"
+    ]
+  },
+  "targetVersion": "0.97.12",
+  "languageCode": "pt-BR",
+  "doNotChangeVariablesBelowThis": {
+    "timeCreated": 639311780000000000,
+    "guid": {
+      "serializedGuid": "6e694f36-6f05-4fa4-90de-63e6ab677b8f"
+    }
+  }
+}
