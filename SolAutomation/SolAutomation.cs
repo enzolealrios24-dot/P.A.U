@@ -346,7 +346,7 @@ internal static class ReflectionUtil
 {
     private const BindingFlags Flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
 
-    public static IEnumerable<MemberInfo> GetReadableMembers(Type type)
+    public static IEnumerable<MemberInfo> GetReadableMembers(System.Type type)
     {
         foreach (var f in type.GetFields(Flags)) yield return f;
         foreach (var p in type.GetProperties(Flags))
@@ -474,7 +474,7 @@ internal static class ReflectionUtil
         return false;
     }
 
-    private static object ConvertNumber(float value, Type type)
+    private static object ConvertNumber(float value, System.Type type)
     {
         if (type == typeof(float)) return value;
         if (type == typeof(double)) return (double)value;
