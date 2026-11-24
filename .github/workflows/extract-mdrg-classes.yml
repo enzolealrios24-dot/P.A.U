@@ -1,0 +1,52 @@
+name: Extract MDRG Native Class Blocks
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "sol-mdg-mod-build" ]
+    paths:
+      - ".github/workflows/extract-mdrg-classes.yml"
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: git clone --depth 1 https://github.com/Victor-Viicell/mdrg-cheats.git /tmp/mdrg
+      - name: Extract exact blocks
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          text=Path("/tmp/mdrg/mdrg_re/out/dump.cs").read_text(errors="ignore")
+          targets=[
+            "GameVariables","SpecialVariablesHolder","FishingMinigameManager","FishingGameplayStaticGui",
+            "FishingStartInfo","FishingBite","FishingGameplayState","FishingGameStats",
+            "FrickStaticGui","FrickGameState","CockTwitchManager","ModUtilities","ScriptHelper",
+            "OptionsPopup","OptionsStatic","GameScript","StaticGuiStateMachine","GameStateMachine"
+          ]
+          out=[]
+          for target in targets:
+              # Locate exact public/internal class/struct declaration
+              pat=re.compile(r'(?m)^(?:public|internal|private|protected)?\s*(?:sealed\s+|static\s+|abstract\s+|partial\s+)*(?:class|struct)\s+'+re.escape(target)+r'(?:\s|\{|:)')
+              m=pat.search(text)
+              if not m:
+                  out.append(f"\n{'='*100}\n{target}: NOT FOUND\n")
+                  continue
+              start=m.start()
+              # Find next TypeDefIndex marker after declaration
+              nxt=text.find("// TypeDefIndex:", m.end())
+              if nxt < 0: nxt=min(len(text), start+60000)
+              block=text[start:nxt]
+              out.append(f"\n{'='*100}\nTYPE: {target}\n{'='*100}\n{block}")
+          Path("analysis/native/exact-classes.txt").write_text("\n".join(out),encoding="utf-8")
+          PY
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add analysis/native/exact-classes.txt
+          git commit -m "Extract exact MDRG 0.97.12 native classes" || exit 0
+          git push
