@@ -1,0 +1,73 @@
+name: Analyze MDRG 0.97.12 Native API
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "sol-mdg-mod-build" ]
+    paths:
+      - ".github/workflows/analyze-mdrg-native.yml"
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Install ILSpy
+        run: dotnet tool install --global ilspycmd
+
+      - name: Clone verified 0.97.12 reverse-engineering repo
+        run: git clone --depth 1 https://github.com/Victor-Viicell/mdrg-cheats.git /tmp/mdrg-cheats
+
+      - name: Inspect types
+        shell: bash
+        run: |
+          set -euo pipefail
+          DLL="/tmp/mdrg-cheats/mdrg_re/out/DummyDll/Assembly-CSharp.dll"
+          mkdir -p analysis/native
+          ilspycmd -l c "$DLL" > analysis/native/all-types.txt
+
+          grep -Ei "fish|stream|cocktwitch|lua|modutil|game.?script|gamevariables|modelbrain|options|input|button|coroutine" analysis/native/all-types.txt             > analysis/native/relevant-types.txt || true
+
+          python3 - <<'PY'
+          import re, subprocess, pathlib
+          dll="/tmp/mdrg-cheats/mdrg_re/out/DummyDll/Assembly-CSharp.dll"
+          lines=pathlib.Path("analysis/native/relevant-types.txt").read_text(errors="ignore").splitlines()
+          names=[]
+          for line in lines:
+              m=re.search(r'Class\s+(.+)$', line)
+              if m:
+                  names.append(m.group(1).strip())
+          keep=[]
+          rx=re.compile(r'(fish|stream|cocktwitch|lua|modutil|gamescript|gamevariables|modelbrain|option|input|button)', re.I)
+          for n in names:
+              if rx.search(n) and n not in keep:
+                  keep.append(n)
+          keep=keep[:120]
+          out=pathlib.Path("analysis/native/decompiled-selected.txt")
+          with out.open("w", encoding="utf-8") as f:
+              for n in keep:
+                  f.write("\n\n"+"="*100+"\nTYPE: "+n+"\n"+"="*100+"\n")
+                  p=subprocess.run(["ilspycmd","-t",n,dll],text=True,capture_output=True)
+                  f.write(p.stdout)
+                  if p.stderr:
+                      f.write("\n[stderr]\n"+p.stderr)
+          PY
+
+          grep -Ein "fish|fishing|catch|reel|stream|cocktwitch|CurrentCum|MaxCum|stamina|satiation|GameVariables|ModelBrain|ModUtilities|lua|Input|KeyCode|Button|Options"             analysis/native/decompiled-selected.txt > analysis/native/hits.txt || true
+
+      - name: Commit analysis
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add analysis/native
+          git commit -m "Analyze MDRG 0.97.12 native mod API" || exit 0
+          git push
