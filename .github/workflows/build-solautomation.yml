@@ -51,7 +51,12 @@ jobs:
           Copy-Item SolAutomation/bin/Release/SolAutomation.dll package/Mods/SolAutomation.dll
           Copy-Item SolAutomation/deps/ModSettingsMenu.dll package/Mods/ModSettingsMenu.dll
 
+          Copy-Item SolAutomation/deps/melon/MelonLoader package/MelonLoader -Recurse -Force
+          Copy-Item SolAutomation/deps/melon/version.dll package/version.dll -Force
+          Copy-Item SolAutomation/deps/melon/dobby.dll package/dobby.dll -Force
+
           Invoke-WebRequest "https://raw.githubusercontent.com/Echo5Dev/MDRG-ModSettingsMenu/main/LICENSE" -OutFile package/THIRD_PARTY_LICENSES/ModSettingsMenu-MIT.txt
+          Invoke-WebRequest "https://raw.githubusercontent.com/LavaGang/MelonLoader/master/LICENSE.md" -OutFile package/THIRD_PARTY_LICENSES/MelonLoader-Apache-2.0.txt
 
           @"
           SOL AUTOMATION 0.3.0
@@ -60,13 +65,18 @@ jobs:
           - My Dystopian Robot Girlfriend 0.97.x
           - MelonLoader 0.7.3
 
-          INSTALAÇÃO
-          1. Instale o MelonLoader 0.7.3 no jogo.
-          2. Execute o jogo uma vez e feche.
-          3. Copie os dois arquivos da pasta Mods deste ZIP para a pasta Mods do jogo:
-             - SolAutomation.dll
-             - ModSettingsMenu.dll
-          4. Abra o jogo.
+          INSTALAÇÃO MANUAL
+          1. Feche o jogo completamente.
+          2. Abra a pasta onde está "My Dystopian Robot Girlfriend.exe".
+          3. Extraia TODO o conteúdo deste ZIP diretamente nessa pasta.
+          4. Quando o Windows perguntar sobre mesclar/substituir pastas, aceite a mesclagem.
+          5. Confirme que ficaram ao lado do .exe:
+             - version.dll
+             - dobby.dll
+             - pasta MelonLoader
+             - pasta Mods
+          6. Abra o jogo normalmente.
+          7. Na primeira abertura, o MelonLoader pode demorar para preparar os assemblies IL2CPP.
 
           STREAMING
           Options > Mod Settings Menu > Sol Automation
@@ -86,5 +96,5 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: SolAutomation-0.3.0
+          name: SolAutomation-0.3.0-Manual
           path: package/
